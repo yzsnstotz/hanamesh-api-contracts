@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "@hanamesh/api-contracts/contracts/usage-local/schema.json",
   "title": "hanameshUsage local service contract (C-USAGE-LOCAL), record + health",
-  "description": "Data shapes of the Cordis service `hanameshUsage` as consumed by app-host. Methods are listed under x-hanamesh. Source of truth: hanamesh-usage src/host/contracts.d.ts and src/host/record.js (main 7517d76).",
+  "description": "Data shapes of the Cordis service `hanameshUsage` as consumed by app-host. Methods are listed under x-hanamesh. Source of truth: hanamesh-usage src/host/contracts.d.ts and src/host/record.js (main 6f724fc, J1S4-USAGE-02 / Q-18).",
   "x-hanamesh": {
     "service": "hanameshUsage",
     "methods": {
@@ -60,6 +60,7 @@
       "required": [
         "hanaRef",
         "action",
+        "occurredAt",
         "idempotencyKey",
         "sourcePlugin"
       ],
@@ -75,14 +76,14 @@
         },
         "occurredAt": {
           "type": "string",
-          "description": "ISO-8601 as produced by Date#toISOString; within 90 days before and 5 minutes after now; default now"
+          "description": "Required (Q-18). Original time of the real source fact, ISO-8601 exactly as produced by Date#toISOString (UTC milliseconds); within 90 days before and 5 minutes after now. Never defaulted to now; missing or not a string returns INVALID_RECORD_INPUT. Every delivery of the same fact must resend the same value."
         },
         "idempotencyKey": {
           "type": "string",
           "minLength": 1,
           "maxLength": 160,
           "pattern": "^[A-Za-z0-9][A-Za-z0-9._:@/+\\-]*$",
-          "description": "also rejected when secret-like (sk-, ghp_, github_pat_, xox?-, eyJ, bearer, private key, password, secret, api key)"
+          "description": "Stable key of the real source fact (e.g. command:<commandId>:succeeded); every client delivering the same fact sends the same key, independent facts send different keys. also rejected when secret-like (sk-, ghp_, github_pat_, xox?-, eyJ, bearer, private key, password, secret, api key)"
         },
         "sourcePlugin": {
           "$ref": "#/$defs/HanaRef"

@@ -3,7 +3,8 @@ export interface UsageReceipt { readonly providerId: string; readonly model: str
 export interface RecordInput {
     readonly hanaRef: string;
     readonly action: UsageAction;
-    readonly occurredAt?: string;
+    /** Required (Q-18): original time of the source fact, Date#toISOString form; never defaulted to now. */
+    readonly occurredAt: string;
     readonly idempotencyKey: string;
     readonly sourcePlugin: string;
     readonly sourceHanaRef?: string | null;
@@ -44,7 +45,18 @@ export interface UsageLocalMethodDefinition {
     readonly implementationErrors: readonly string[];
     readonly note: string;
     readonly identity?: string;
+    readonly delivery?: UsageLocalDeliveryRules;
 }
+export interface UsageLocalDeliveryRules {
+    readonly inputGuarantee: string;
+    readonly stableEvent: string;
+    readonly conflict: string;
+    readonly eventNonce: string;
+    readonly requestNonce: string;
+    readonly retention: string;
+    readonly evidence: string;
+}
+export declare const USAGE_LOCAL_DELIVERY_RULES: UsageLocalDeliveryRules;
 export declare const USAGE_LOCAL_CONTRACT_DEFINITION: Readonly<{
     readonly id: 'C-USAGE-LOCAL';
     readonly service: 'hanameshUsage';
@@ -53,3 +65,5 @@ export declare const USAGE_LOCAL_CONTRACT_DEFINITION: Readonly<{
 }>;
 /** Event identity of a record() call, identical to the provider's eventIdForSeat. */
 export declare function usageRecordEventId(deviceId: string, sourcePlugin: string, idempotencyKey: string): string;
+/** Event-level nonce of a record() event, identical to the provider's eventNonceForSeat (Q-18). Not the HTTP request nonce. */
+export declare function usageRecordEventNonce(eventId: string): string;

@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.10.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.12.0"
 ```
 
 ## 合约
@@ -16,7 +16,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；[字段、错误、示例和夹具](contracts/points/README.md) |
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
 | C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md) |
-| C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js` |
+| C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js`；Q-18 跟随 J1S4-USAGE-02 main `6f724fc`：`occurredAt` 必填、稳定事件 nonce、跨客户端同事实规则；[说明与示例](contracts/usage-local/README.md) |
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
 | C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
 | C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
@@ -191,7 +191,7 @@ npm ci && npm test
 ```
 
 `node --test` 校验：定义与基线的调用/错误码一致、示例数据通过 schema、每个声明的错误码都有示例、
-C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；
+C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态及 Q-18 跨客户端示例与提供方 eventId/nonce 向量、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；
 C-CHAIN 声明/schema 来源哈希、合成 DTO 与缺失事实读口；C-HANASWAP 完整 ABI/hash、swap/add/remove 编解码与固定模拟错误；
 C-CATALOG 提供方来源哈希、schema/示例/错误覆盖、稳定身份/分页、授权拒绝、owner 注入拒绝、宿主事务提交/回滚和重复认领拒绝；
 C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 context/executor 错误、SQL 故障边界和 pool.query 非固定连接；
@@ -255,3 +255,11 @@ HanaLauncher、LaunchFee、HanaToken、Distributor、ReservedDistributor 与原 
 CTR-09 的前三件 immutable 编号/文件 SHA 已刷新；Chain 使用新五件集合时须整套切换，
 不能混合 v0.7.0 三件旧 SHA。既有 v0.7.0 路径、类型和文件字节全部保留。
 SOURCE_BUILD 继承提供方；本包只验证 PACKAGE/FIXTURE，真实领取 producer 留给 CHAIN-02。
+
+## C-USAGE-LOCAL Q-18 跨客户端同事实投递（v0.12.0）
+
+跟随 J1S4-USAGE-02 main `6f724fc`。`RecordInput.occurredAt` 由可选（缺省 now）改为**必填**原事实时间，缺省返回既有
+`INVALID_RECORD_INPUT`；这是收窄，消费方升级前须让来源提供原始时间。UUIDv5 公式与冲突语义不变。
+新增 `USAGE_LOCAL_DELIVERY_RULES`、`usageRecordEventNonce`、夹具 `uploadEvents()` 与 `createUsageLocalCrossClientExamples`
+（重复事实、不同操作、不同设备、时间不一致冲突、缺时间）。事件级 nonce 与 HTTP 请求 nonce 的区别及证据范围见
+[C-USAGE-LOCAL 说明](contracts/usage-local/README.md)。均为 FIXTURE，不是双客户端或服务端验收。
