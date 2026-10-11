@@ -1,4 +1,6 @@
-import { usageRecordEventId } from './definition.js';
+import { createHash } from 'node:crypto';
+import { usageRecordEventId, usageRecordEventNonce } from './definition.js';
+import { eventDigest } from '../usage/events.js';
 /** Every fixture carries this label so no screen, log or report can mistake it for the product provider. */
 export const USAGE_LOCAL_FIXTURE_LABEL = 'FIXTURE · hanamesh-usage local contract (not the product provider)';
 const hana = /^(?:@[a-z0-9][a-z0-9._-]*\/)?[a-z0-9][a-z0-9._-]*$/i;
@@ -19,6 +21,7 @@ export function createUsageLocalProviderFixture(options = {}) {
     const maxEvents = options.maxEvents ?? 1000;
     const now = options.now ?? Date.now;
     const events = new Map();
+    const wire = [];
     const failures = {};
     const reject = code => { failures[code] = (failures[code] ?? 0) + 1; return { disposition: 'rejected', code }; };
     const service = Object.freeze({
@@ -34,8 +37,11 @@ export function createUsageLocalProviderFixture(options = {}) {
                 return reject('INVALID_RECORD_INPUT');
             if (deviceId === null)
                 return reject('DEVICE_UNAVAILABLE');
+            // Q-18: the source supplies the original fact time; never default to now.
+            if (typeof input.occurredAt !== 'string')
+                return reject('INVALID_RECORD_INPUT');
             const current = now();
-            const occurredAt = input.occurredAt ?? new Date(current).toISOString();
+            const occurredAt = input.occurredAt;
             const time = Date.parse(occurredAt);
             if (!Number.isFinite(time) || new Date(time).toISOString() !== occurredAt || time < current - 90 * 24 * 60 * 60 * 1000 || time > current + 5 * 60 * 1000)
                 return reject('INVALID_RECORD_INPUT');
@@ -47,6 +53,9 @@ export function createUsageLocalProviderFixture(options = {}) {
             if (events.size >= maxEvents)
                 return reject('EVENTS_CAPACITY_REACHED');
             events.set(eventId, identity);
+            wire.push(Object.freeze({ deviceId, hanaRef, action, occurredAt, eventId, nonce: usageRecordEventNonce(eventId),
+                ...(sourceHanaRef === null ? {} : { sourceHanaRef }), ...(targetRef === null ? {} : { targetRef }),
+                ...(receipt === null ? {} : { receipt: Object.freeze({ providerId: receipt.providerId, model: receipt.model, count: receipt.count }) }) }));
             return { disposition: 'recorded', eventId };
         },
         health() {
@@ -65,6 +74,8 @@ export function createUsageLocalProviderFixture(options = {}) {
         service,
         setConsent(state) { consent = state; },
         setCore(status) { core = status; },
+        /** Unsigned upload projection of recorded events (provider wireEvent without signature), in record order. */
+        uploadEvents() { return [...wire]; },
     };
 }
 /** Sample data for every documented outcome, produced by the fixture provider. */
@@ -89,5 +100,37 @@ export async function createUsageLocalContractExamples() {
         health,
         healthCoreAbsent: service.health(),
         http: { USAGE_UNAVAILABLE: { status: 503, body: { error: 'USAGE_UNAVAILABLE' } } },
+    };
+}
+/** Synthetic 43-char base64url device id standing for one C-CORE shared identity; not a registered device. */
+export const USAGE_LOCAL_SHARED_DEVICE_FIXTURE = createHash('sha256').update('hanamesh-api-contracts:usage-local:shared-device-fixture').digest('base64url');
+const OTHER_DEVICE_FIXTURE = createHash('sha256').update('hanamesh-api-contracts:usage-local:other-device-fixture').digest('base64url');
+/** Q-18 examples: two independent buffers (clients) on the same shared device delivering source facts.
+ * `server` is the C-USAGE outcome implied by its precedence (same id + same digest => duplicate; same id + different digest => USAGE_EVENT_CONFLICT). */
+export async function createUsageLocalCrossClientExamples() {
+    const at = Date.parse('2026-10-11T00:00:05.000Z');
+    const client = deviceId => createUsageLocalProviderFixture({ now: () => at, deviceId });
+    const fact = { hanaRef: '@hanamesh/example-app', action: 'use', occurredAt: '2026-10-11T00:00:00.000Z', idempotencyKey: 'command:source-operation-1:succeeded', sourcePlugin: '@hanamesh/example-app', targetRef: 'source-operation-1', receipt: { providerId: 'fixture', model: null, count: 1 } };
+    const pair = async (inputA, inputB, deviceB = USAGE_LOCAL_SHARED_DEVICE_FIXTURE) => {
+        const a = client(USAGE_LOCAL_SHARED_DEVICE_FIXTURE), b = client(deviceB);
+        const resultA = await a.service.record(inputA), resultB = await b.service.record(inputB);
+        const [eventA] = a.uploadEvents(), [eventB] = b.uploadEvents();
+        const sameId = eventA.eventId === eventB.eventId && eventA.deviceId === eventB.deviceId;
+        const server = !sameId ? ['accepted', 'accepted'] : eventDigest(eventA) === eventDigest(eventB) ? ['accepted', 'duplicate'] : ['accepted', 'USAGE_EVENT_CONFLICT'];
+        return { inputs: [inputA, inputB], results: [resultA, resultB], events: [eventA, eventB], digests: [eventDigest(eventA), eventDigest(eventB)], server };
+    };
+    const sameBuffer = client(USAGE_LOCAL_SHARED_DEVICE_FIXTURE);
+    const retry = [await sameBuffer.service.record(fact), await sameBuffer.service.record(structuredClone(fact))];
+    const localTimeConflict = await sameBuffer.service.record({ ...fact, occurredAt: '2026-10-11T00:00:05.000Z' });
+    const { occurredAt, ...missing } = fact;
+    return {
+        label: USAGE_LOCAL_FIXTURE_LABEL,
+        fact,
+        duplicateFact: await pair(fact, structuredClone(fact)),
+        differentOperation: await pair(fact, { ...fact, idempotencyKey: 'command:source-operation-2:succeeded', targetRef: 'source-operation-2' }),
+        differentDevice: await pair(fact, structuredClone(fact), OTHER_DEVICE_FIXTURE),
+        timeMismatchConflict: await pair(fact, { ...fact, occurredAt: '2026-10-11T00:00:05.000Z' }),
+        sameBuffer: { retry, timeMismatchConflict: localTimeConflict },
+        missingOccurredAt: { input: missing, result: await client(USAGE_LOCAL_SHARED_DEVICE_FIXTURE).service.record(missing) },
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
