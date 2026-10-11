@@ -60,3 +60,5 @@ export interface UsageContractExamples {
   readonly wire:{readonly UsageEventBatch:readonly (readonly UsageEventInput[])[];readonly IngestBatchResult:readonly IngestBatchResult[];readonly EligibilityContribution:readonly EligibilityContribution[];readonly WithdrawResult:readonly WithdrawResult[];readonly ErrorResponse:readonly UsageErrorResponse[]};
 }
 export declare function createUsageContractExamples():Promise<UsageContractExamples>;
+// Q-33 (J2S3-APIC-16): host maintenance port, module configuration/injection types and an independent maintenance FIXTURE.
+export * from './maintenance.js';

@@ -106,3 +106,74 @@ const examples = await createUsageContractExamples();
 模拟不启动 HTTP server、不执行 SQL、不模拟日汇总/保留清理或 host 事务，不验证 Origin/Content-Type/限流。
 fixture 不接受 WriteContext；产品服务端口保留提供方 optional context，写入结果可能为 pending-host-commit，
 此时宿主仍需 commit，不能发送成功 HTTP 收据。这里的测试仅是合约/模拟一致性证据，非 REAL_DB/REAL_HOST/REAL_UI 或 owner ACCEPTED。
+
+## 宿主维护作业端口 · J2S3-APIC-16 / Q-33（v0.14.0，只加不改）
+
+提供方是 server-usage J2S3-SUSAGE-02 的 main `5ff545afd9d4da7cbb589d37492e7446f65c73eb`（PR #4 合并提交；提供方未为此打 tag）。
+提供方只为既有行为命名了类型：`src/service.ts`、`src/database/events-repository.ts`、schema 与 70c480e 逐字节相同，
+运行时规则没有变化。上文三个 HTTP 调用、`UsageEventService`、夹具和 nonce/摘要/冲突/撤回语义均不变。
+
+```json
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.14.0"
+```
+
+仍从 `@hanamesh/api-contracts/usage` 引入。新增：
+
+| 名称 | 种类 | 说明 |
+|---|---|---|
+| `UsageMaintenancePort` | 类型 | `rollupAndPurge(now: Date, context?: WriteContext): Promise<RollupAndPurgeResult>`；提供方写作 `Pick<UsageService,'rollupAndPurge'>` |
+| `RollupAndPurgeResult` | 类型 | `{rolled, purged, durability:'committed'\|'pending-host-commit'}`，与 schema `$defs.RollupAndPurgeResult` 相同 |
+| `UsageHostServices` | 类型 | `UsageEventService & UsageMaintenancePort`：宿主经合约使用的 `UsageModule.services` 子集（本包命名） |
+| `UsageServiceOptions` / `UsageModuleOptions` | 类型 | 模块配置与注入：identity、pool、deploymentId、policy、allowedOrigins，可选 now、retentionDays、isAdmin、onEventsAccepted、devPage、rateLimit |
+| `UsagePolicy` / `UsagePolicyContext` / `UsageAction` | 类型 | 宿主策略函数；`summary` 是旧摘要接口的 `UsageSummary`，本包未发布该类型，写作 `unknown` |
+| `OnEventsAccepted` / `AcceptedUsageEvent` | 类型 | 上报钩子；抛错一律转为 503 `USAGE_EVENT_HOOK_FAILED`，不附原异常 |
+| `EligibilityReader` / `EligibilityReaderOptions` / `EligibilityRule` | 类型 | 读取器的 `retentionDays` 必须与服务端同值 |
+| `UsageMaintenanceErrorCode` | 类型 | 三个维护错误码 |
+| `USAGE_MAINTENANCE_DEFINITION` | 运行时 | 截止规则、retention、事务、锁、权限/RLS、错误触发条件、关闭顺序、注入面 |
+| `createUsageMaintenanceFixture` / `createUsageMaintenanceExamples` / `USAGE_MAINTENANCE_FIXTURE_LABEL` | 运行时 FIXTURE | 见下 |
+
+`createUsageModule`、`UsageModule`（`plugin` 类型依赖 fastify）、完整 `UsageService`（含旧摘要端口）、
+`createEligibilityReader`、`getUsageMigrations` 仍只由实现包提供；本包不实现产品工厂。
+
+### 行为（来自提供方源码）
+
+- `now` 必须是 Date 且 `valueOf()` 有限，否则 400 `USAGE_INPUT_INVALID`，且不取连接。作业不读 `options.now`。
+- `cutoff = now − retentionDays × 86400000`，按 **`received_at < cutoff`**（不是 occurredAt）选本 deployment 的原始事件，
+  按 `(principal, device, hanaRef, action, occurredAt 的 UTC 日)` 累加进 daily_rollups 后删除。`rolled`=选出条数，`purged`=删除条数；无到期时重跑为 0/0。
+- `retentionDays`：整数 0..90，缺省 90；不合法时构造期 `USAGE_CONFIG_INVALID`。`EligibilityReaderOptions.retentionDays` 是独立选项，宿主必须传同值。
+- 不传 context：模块 `pool.connect()` → BEGIN → 本地 GUC（principal 全零 UUID、deployment、`maintenance='on'`）→
+  `LOCK TABLE usage.events IN SHARE UPDATE EXCLUSIVE MODE` → 单条 rollup+delete → COMMIT → release；失败 ROLLBACK 后 release。结果 `committed`。
+- 传 C-UOW context：只在 `context.executor` 上执行同样语句，不 BEGIN/COMMIT/ROLLBACK/release，结果 `pending-host-commit`，宿主 COMMIT 后才持久，
+  在此之前不能报成功。executor 必须已在宿主事务内（PG 在事务块外拒绝 LOCK → `USAGE_STORAGE_UNAVAILABLE`；这是提供方依 PG 语义的推断，未在真实库复现）。锁持有到宿主提交。
+- 错误：`USAGE_INPUT_INVALID`(400)；`USAGE_CONFIG_INVALID`(503，context 为 null/无 `executor.query`，或构造期配置)；
+  `USAGE_STORAGE_UNAVAILABLE`(503，连接/权限/锁/SQL，原错误不外泄)。
+- 权限：作业不做身份鉴权，调用即授权，只能由宿主进程内的调度调用，没有 HTTP 维护入口。没有独立维护角色，使用 HTTP 同一运行角色；
+  跨主体可见只靠本地 GUC `hanamesh_usage.maintenance='on'`，RLS 仍按 deployment_id 隔离。迁移与授权由部署执行。
+- 并发：维护作业互相串行，不阻塞上报和撤回。
+- 关闭：停调度 → 等在跑的作业 → `usage.close()`（空操作）→ 宿主 `pool.end()`。
+
+### 调用示例
+
+```js
+import {createUsageMaintenanceFixture} from '@hanamesh/api-contracts/usage';
+const f = createUsageMaintenanceFixture({retentionDays: 30}); // FIXTURE；产品里 port 是 usage.services
+f.seed([{deviceId:'A'.repeat(43), principalId:'11111111-1111-4111-8111-111111111111', hanaRef:'fixture.hana', action:'use',
+  occurredAt:'2026-09-01T00:00:00.000Z', receivedAt:'2026-09-01T00:00:00.000Z'}]);
+const now = new Date('2026-10-11T00:00:00.000Z');
+// 模式 A：Usage 自己开事务
+await f.port.rollupAndPurge(now);            // {rolled:1, purged:1, durability:'committed'}
+await f.port.rollupAndPurge(now);            // {rolled:0, purged:0, durability:'committed'}
+// 模式 B：宿主 C-UOW 事务（executor 已 BEGIN），由宿主提交/回滚
+const tx = await f.beginHostTransaction();
+const r = await f.port.rollupAndPurge(now, tx.context); // durability:'pending-host-commit'
+await tx.commit();                           // 此后才算持久
+```
+
+`createUsageMaintenanceExamples()` 给出可执行的同类结果：committed、重跑、宿主提交、宿主回滚和四个错误。
+
+### FIXTURE 边界
+
+`createUsageMaintenanceFixture` 是**独立**的维护夹具：逐段移植提供方 `rollupAndPurge`、`withExecutor` 和保留天数校验，
+跑在内存 SQL 模拟上（记录语句、BEGIN/ROLLBACK 快照、事务外 LOCK 报错、按本地 GUC 模拟 RLS 可见性）。
+它不是 PostgreSQL，没有真实锁、并发、RLS 或宿主调度，不证明 REAL_DB/REAL_HOST，也不是 owner ACCEPTED。
+原 `createUsageProviderFixture` 不变：仍不模拟日汇总/保留清理/宿主事务，`USAGE_FIXTURE_LABEL` 原文保留。
