@@ -46,10 +46,10 @@ test('Q81 fixed provider provenance checks every published source byte', () => {
 test('host FIXTURE uses exhausted C-CATALOG IDs as denominator and current facts intersection', async () => {
   const {createCatalogContractExamples} = await import('@hanamesh/api-contracts/catalog');
   const c = await load(), examples = c.createSemanticEmbeddingFactsExamples();
-  const catalog = await createCatalogContractExamples();
+  const catalogExamples = await createCatalogContractExamples();
   const ids = ['00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000003'];
-  const catalogPages = [{items:[{...catalog.profile,hanaId:ids[0]}],next:'FIXTURE-cursor'},{items:[{...catalog.profile,hanaId:ids[1]}],next:null}];
-  const registry = new Set(catalogPages.flatMap(page => page.items.map(item => item.hanaId)));
+  const catalogPages = [{items:[{...catalogExamples.profile,hanaId:ids[0]}],next:'FIXTURE-cursor'},{items:[{...catalogExamples.profile,hanaId:ids[1]}],next:null}];
+  const registryIds = new Set(catalogPages.flatMap(page => page.items.map(item => item.hanaId)));
   const f = c.createSemanticEmbeddingFactsFixture({...examples,all:[...examples.all,{hanaId:'00000000-0000-4000-8000-000000000004',hasCurrentEmbedding:true,oldestCurrentEmbeddedAt:'2026-01-03T00:00:00.000001Z'}]});
   const facts = []; let afterHanaId = null;
   for (;;) {
@@ -59,10 +59,10 @@ test('host FIXTURE uses exhausted C-CATALOG IDs as denominator and current facts
     afterHanaId = rows[0].hanaId;
   }
   assert.equal(facts.length,3);
-  const intersection = facts.filter(item => item.hasCurrentEmbedding && registry.has(item.hanaId));
+  const intersection = facts.filter(item => item.hasCurrentEmbedding && registryIds.has(item.hanaId));
   assert.equal(intersection.length,1);
-  assert.equal(registry.size,2); // Registry-only Hana stays uncovered; Semantic-only Hana excluded
-  assert.equal(intersection.length / registry.size,0.5);
+  assert.equal(registryIds.size,2); // Registry-only Hana stays uncovered; Semantic-only Hana excluded
+  assert.equal(intersection.length / registryIds.size,0.5);
   assert.equal(intersection[0].oldestCurrentEmbeddedAt.slice(0,10),'2026-01-01');
   const emptyRegistry = new Set();
   assert.equal(emptyRegistry.size === 0 ? null : 0 / emptyRegistry.size,null);
