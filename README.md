@@ -245,3 +245,13 @@ https://github.com/OpenZeppelin/openzeppelin-contracts · 提供方冻结构建�
 [C-CLAIM](contracts/claim/README.md) 记录 Q-21：start 单次 claimed、同账号 claiming 复用/claimed 幂等、onClaimed只一次、跨账号409、none403/不可用503、保留verify与失败/重试/回滚例子。
 [C-INDEXER-CATALOG](contracts/indexer-catalog/README.md) 记录 Q-22：实际wire/基线映射、分页、错误通道、去重/来源回链与独立运行器供给/关闭。两者复用已发布 C-CATALOG/C-UOW；服务端 Fastify 类型使用可选peer，JS示例无需导入 Fastify。
 提供方未提供独立JSON Schema；本卡发布其实际DTO声明与类型/语义自检，不添加未实现校验规则。所有夹具明确为FIXTURE，不证明真实Registry组合、SQL/GitHub/并发或产品验收。
+
+## C-CONTRACTS-ABI 完整发行与领取冻结集合（v0.11.0）
+
+Q-28 提供 [CTR-09 完整五件入口](contracts/contracts-abi/frozen/oz-ctr09/README.md)：
+`@hanamesh/api-contracts/contracts-abi/frozen/oz-ctr09`，包含同一固定提交的
+HanaLauncher、LaunchFee、HanaToken、Distributor、ReservedDistributor 与原 manifest/provenance。
+新增 `/contracts-abi/Distributor.json`、`/contracts-abi/ReservedDistributor.json` 完整 ABI 入口。
+CTR-09 的前三件 immutable 编号/文件 SHA 已刷新；Chain 使用新五件集合时须整套切换，
+不能混合 v0.7.0 三件旧 SHA。既有 v0.7.0 路径、类型和文件字节全部保留。
+SOURCE_BUILD 继承提供方；本包只验证 PACKAGE/FIXTURE，真实领取 producer 留给 CHAIN-02。

@@ -1,0 +1,54 @@
+{
+  "contract": "C-CONTRACTS-ABI",
+  "providerCard": "J4S3-CTR-09",
+  "providerRepository": "https://github.com/yzsnstotz/hanamesh-contracts",
+  "providerCommit": "2ca2fb07b8b94804ac5c8b336d26dfb9f195253a",
+  "evidence": "SOURCE_BUILD",
+  "publicationEvidence": "PACKAGE",
+  "files": {
+    "abi/frozen/HanaLauncher.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/HanaLauncher.json",
+      "sha256": "1d184c0f55cea280f34eb98292931d124582d34042ae115048091b6ebdf1d633"
+    },
+    "abi/frozen/LaunchFee.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/LaunchFee.json",
+      "sha256": "b81d944b0d5587271b5ed2d2e4c7b10457e9b9f17f973f54d9c33108c1387d29"
+    },
+    "abi/frozen/HanaToken.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/HanaToken.json",
+      "sha256": "c7f68ce16d7e3792d93d8a765e9625ca77ba0358c08099276f2b0d689f83ecde"
+    },
+    "abi/frozen/Distributor.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/Distributor.json",
+      "sha256": "fb2651d1222485f60b165236a9010320b991581b64348fb3ff52ac836a1487b3"
+    },
+    "abi/frozen/ReservedDistributor.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/ReservedDistributor.json",
+      "sha256": "7ce2b78d7a69090b1f083ed852a572dc3f8b21f8e50ccccc5d987c5f9f9ec951"
+    },
+    "abi/frozen/manifest.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/manifest.json",
+      "sha256": "286e4acbcc2135b41e697332ad58264a616f88c77de2b49061199f05b330d938"
+    },
+    "abi/Distributor.json": {
+      "path": "contracts/contracts-abi/Distributor.json",
+      "sha256": "a8c0572ba7c4ea654555c1ac2f62b3a38c4f3c45675cd855fcc9e2ef4321d030"
+    },
+    "abi/ReservedDistributor.json": {
+      "path": "contracts/contracts-abi/ReservedDistributor.json",
+      "sha256": "a43d80538d0b7ca85461e8c1acba6ef2d58969476043667828af21905e9ca302"
+    },
+    "abi/distributor-manifest.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/distributor-manifest.json",
+      "sha256": "209af33ef791286445bc98e602076e437bc78418df9a417493b712da1d4b2951"
+    },
+    "abi/distributor-example.json": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/distributor-example.json",
+      "sha256": "8cffa44967d876936b6d8e5b7bcf04c5718ffd3c96dee6f3b205c8d4d1e86bd6"
+    },
+    "abi/mock_distributor.py": {
+      "path": "contracts/contracts-abi/frozen/oz-ctr09/mock_distributor.py",
+      "sha256": "f537e40135898d3ce6d78b8f1138f0630b97c4f037d4bd7c4f15e0061e68e572"
+    }
+  }
+}
