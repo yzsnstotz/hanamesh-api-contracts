@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.dev/contracts/server-registry/v1.schema.json",
+  "title": "Registry profile protocol v1",
+  "x-hanamesh": {
+    "package": "@hanamesh/server-registry",
+    "protocolVersion": "1",
+    "methods": [
+      "upsertHanaProfile",
+      "listHanaProfiles",
+      "getHanaProfile"
+    ],
+    "writeContext": "Server-only opaque WriteContext.executor. It is not serializable JSON and is never substituted by this schema. pending-host-commit is not committed.",
+    "scope": "Profile DTOs only; no aggregate/version admission requirement is added."
+  },
+  "$defs": {
+    "UpsertHanaProfileInput": {
+      "type": "object",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "enum": [
+            "awesome",
+            "1024store",
+            "hanamesh"
+          ]
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "interface",
+            "compute"
+          ]
+        },
+        "githubRepo": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 255,
+              "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "homepage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "indexedAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "description": "Input accepts a finite JavaScript Date string; public output is normalized ISO. Runtime NFC/trim/control-character rules remain authoritative."
+        }
+      },
+      "required": [
+        "sourceId",
+        "sourceRef",
+        "displayName",
+        "kind",
+        "githubRepo",
+        "homepage",
+        "indexedAt"
+      ],
+      "additionalProperties": false
+    },
+    "HanaProfileDTO": {
+      "type": "object",
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "enum": [
+            "awesome",
+            "1024store",
+            "hanamesh"
+          ]
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "interface",
+            "compute"
+          ]
+        },
+        "githubRepo": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 255,
+              "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "homepage": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "indexedAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 35,
+          "description": "Input accepts a finite JavaScript Date string; public output is normalized ISO. Runtime NFC/trim/control-character rules remain authoritative."
+        },
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "ownerPrincipalId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceId",
+        "sourceRef",
+        "displayName",
+        "kind",
+        "githubRepo",
+        "homepage",
+        "indexedAt",
+        "hanaId",
+        "ownerPrincipalId"
+      ],
+      "additionalProperties": false
+    },
+    "HanaProfileQuery": {
+      "type": "object",
+      "properties": {
+        "search": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "sourceId": {
+          "type": "string",
+          "enum": [
+            "awesome",
+            "1024store",
+            "hanamesh"
+          ]
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "interface",
+            "compute"
+          ]
+        },
+        "claimed": {
+          "type": "boolean"
+        },
+        "after": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "HanaProfilePage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HanaProfileDTO"
+          }
+        },
+        "next": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next"
+      ],
+      "additionalProperties": false
+    },
+    "UpsertHanaProfileResult": {
+      "type": "object",
+      "properties": {
+        "disposition": {
+          "type": "string",
+          "enum": [
+            "created",
+            "updated"
+          ]
+        },
+        "durability": {
+          "type": "string",
+          "enum": [
+            "committed",
+            "pending-host-commit"
+          ]
+        },
+        "profile": {
+          "$ref": "#/$defs/HanaProfileDTO"
+        }
+      },
+      "required": [
+        "disposition",
+        "durability",
+        "profile"
+      ],
+      "additionalProperties": false
+    },
+    "RegistryErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
