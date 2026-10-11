@@ -4,8 +4,10 @@ import { IDENTITY_CONTRACT_DEFINITION } from './contracts/identity/definition.js
 import { CHAIN_CONTRACT_DEFINITION } from './contracts/chain/definition.js';
 import { HANASWAP_CONTRACT_DEFINITION } from './contracts/hanaswap/index.js';
 import { CATALOG_CONTRACT_DEFINITION } from './contracts/catalog/definition.js';
+import { UOW_CONTRACT_DEFINITION } from './contracts/uow/definition.js';
 /** Contracts published in this version, keyed by baseline id. Each entry has its own subpath export. */
 export const CONTRACTS = Object.freeze({
+    'C-UOW': Object.freeze({ provider: 'server-host', consumers: Object.freeze(['server-usage', 'server-custody', 'server-claim', 'server-identity', 'server-registry']), entry: '@hanamesh/api-contracts/uow', definition: UOW_CONTRACT_DEFINITION }),
     'C-CORE': Object.freeze({ provider: 'core', consumers: Object.freeze(['usage', 'desktop']), entry: '@hanamesh/api-contracts/core', definition: CORE_CONTRACT_DEFINITION }),
     'C-USAGE-LOCAL': Object.freeze({ provider: 'usage', consumers: Object.freeze(['app-host']), entry: '@hanamesh/api-contracts/usage-local', definition: USAGE_LOCAL_CONTRACT_DEFINITION }),
     'C-IDENTITY': Object.freeze({ provider: 'server-identity', consumers: Object.freeze(['core', 'web-market', 'server-usage', 'server-custody', 'server-claim', 'server-registry', 'server-host']), entry: '@hanamesh/api-contracts/identity', definition: IDENTITY_CONTRACT_DEFINITION }),

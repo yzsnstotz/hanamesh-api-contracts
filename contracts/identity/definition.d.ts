@@ -97,6 +97,10 @@ export interface SocialSignInInput { readonly provider: 'github'; readonly callb
 export type CommitState = 'committed' | 'pending-host-commit';
 export interface SqlResult { rows: Record<string, unknown>[]; rowCount: number | null }
 export interface SqlExecutor { query(text: string, values?: unknown[]): Promise<SqlResult> }
+/** Shared provider connection; use the same database and pinned connection for a transaction. */
+export interface SqlConnection extends SqlExecutor { release(): void }
+/** query alone does not pin a connection. connect acquires the connection the transaction owner releases. */
+export interface SqlPool extends SqlExecutor { connect(): Promise<SqlConnection> }
 /** Must be an already-BEGIN'd, pinned connection from the SAME database. The host owns COMMIT/ROLLBACK/release. Not a client-supplied field. */
 export interface WriteContext { readonly executor: SqlExecutor }
 export interface SessionCredentials { readonly cookie?: string }
