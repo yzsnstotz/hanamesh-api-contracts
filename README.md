@@ -6,14 +6,14 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.5.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.6.0"
 ```
 
 ## 合约
 
 | 合约 | 入口 | 提供方 → 使用方 | 来源 |
 |---|---|---|---|
-| C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`） | core → usage, desktop | hanamesh-core main `0fa85ef`：`lib/contract.js`、`lib/contract-fixtures.js`、`contract/hanamesh-core.v1.schema.json` 原样搬入（仅改相对路径） |
+| C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
 | C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js` |
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
 | C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
@@ -24,6 +24,14 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、
 类型、JSON Schema 或 ABI、`create*ProviderFixture`（带 `FIXTURE` 标签的内存模拟提供方，不是产品实现）和 `create*ContractExamples`（示例数据）。
 `errors` 是基线声明的错误码；`implementationErrors` 是当前提供方实际还会返回的码；两者不一致的地方写在 `note` 里。
+
+## C-CORE 共享身份细化（v0.6.0）
+
+同一 OS 用户且解析到同一共享根的 DSH 与 HanaMesh 客户端使用同一签名身份。
+新增语义、创建/采用/冲突、失败关闭、refresh 与替换边界见
+[共享身份合约说明](contracts/core/SHARED_IDENTITY.md)。既有 wire v1、类型形状和错误码集合不变。
+新增 `createCoreSharedIdentityFixture` / `createCoreSharedIdentityExamples` 是明确标为 **FIXTURE** 的内存示例；
+覆盖两个独立服务对象共享身份、验签和 `CORE_NOT_READY`，不代表真实客户端或文件系统验收。
 
 ## C-IDENTITY 要点（按提供方现状，不是基线原文）
 

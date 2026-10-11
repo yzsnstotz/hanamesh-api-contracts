@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -21,6 +21,7 @@
       "default": "./contracts/core/index.js"
     },
     "./core/schema.json": "./contracts/core/schema.json",
+    "./core/provenance.json": "./contracts/core/provenance.json",
     "./usage-local": {
       "types": "./contracts/usage-local/index.d.ts",
       "default": "./contracts/usage-local/index.js"
