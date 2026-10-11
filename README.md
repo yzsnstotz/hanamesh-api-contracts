@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.4.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.5.0"
 ```
 
 ## 合约
@@ -18,6 +18,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
 | C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
 | C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
+| C-UOW | `@hanamesh/api-contracts/uow`（来源：`/uow/provenance.json`） | server-host → server-usage, server-custody, server-claim, server-identity, server-registry | J3S1-HOST-01 既有事务行为：host origin/main `b63fb8c` 的 `src/unit-of-work.ts`；共享 SQL 类型按 identity origin/main `9378af2` 的 `src/server-contracts.ts` 增补 |
 | C-CATALOG | `@hanamesh/api-contracts/catalog`（schema：`/catalog/schema.json`；来源：`/catalog/provenance.json`） | server-registry → core, web-market, server-indexer, server-claim, server-host | J3S4-REG-01 origin/main `5dcb5ee`：profile DTO/四个服务端口声明提取、profile schema 原样搬入；错误码、HTTP 语义和夹具按提供方源码同步 |
 
 每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、
@@ -41,6 +42,80 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 **示例数据全部是 FIXTURE**（`IDENTITY_FIXTURE_LABEL` 以 `FIXTURE ·` 开头）：`createIdentityServicesFixture()` 是内存合成提供方，不是产品实现；
 GitHub 证明恒为 `GITHUB_TOKEN_INVALID`；钱包 challenge/bind 需要可选 peer 依赖 `viem`（不装时 `createIdentityContractExamples({wallets:false})`，`getBinding` 等其余端口不需要 viem）。
 未移植提供方的 Pick/port 一致性套件（`/contract/ports`、`/contract/suite`）。
+
+## C-UOW 与共享 SQL 连接（v0.5.0）
+
+`@hanamesh/api-contracts/uow` 导出服务端 `UnitOfWork`、`UnitOfWorkFactory` 类型，
+并重导出 C-IDENTITY 的 `SqlResult`、`SqlExecutor`、`WriteContext` 及新增 `SqlConnection`、`SqlPool`。
+`/identity` 同时增加后两种类型；原 v0.2.0 已发布类型、字段和路径保留。
+本包不导出产品用 `createUnitOfWork` 实现；工厂类型映射现有 host 的 `Pick<pg.Pool, 'connect'>`。
+
+```ts
+import type {UnitOfWork, SqlPool, SqlExecutor, WriteContext} from '@hanamesh/api-contracts/uow';
+// 原有 /identity 路径可继续使用；SqlConnection/SqlPool 在该路径也可用。
+import type {SqlConnection, SqlResult} from '@hanamesh/api-contracts/identity';
+
+// 生产 host 注入现有 createUnitOfWork(pool)，模块只消费已发布的类型。
+async function compose(unitOfWork: UnitOfWork) {
+  return unitOfWork(async context => {
+    await context.executor.query('SELECT $1::int AS example', [1]);
+    // identity/usage/custody/claim/registry 写入均须使用同一个 context.executor。
+    return {ok: true}; // unitOfWork 在 COMMIT 成功后才返回该结果。
+  });
+}
+// 模块已经收到 host context：仅使用 executor，事务生命周期仍由 host 控制。
+async function withHostContext<T>(context: WriteContext, work: (sql: SqlExecutor) => Promise<T>) {
+  return work(context.executor);
+}
+```
+
+- `UnitOfWork = <T>(work: (context: WriteContext) => Promise<T>) => Promise<T>`。
+  host `pool.connect()` 一次，然后同连接 BEGIN → 回调 `{executor: connection}` → COMMIT → release。
+  回调或 COMMIT 抛错时，在同连接尝试 ROLLBACK，finally 总会调用 release。
+  connect 失败没有已取得的连接；BEGIN 失败按现有代码只 release、不 ROLLBACK；
+  ROLLBACK/release 自身失败可能覆盖原错误，不额外承诺错误保留或成功回滚。
+- `WriteContext` 只供可信服务端传递，executor 必须来自**同一数据库、已经 BEGIN 的固定连接**。
+  多模块事务必须共用同一个 executor；host 传入 context 时，只有 host 执行 COMMIT/ROLLBACK/release。
+  模块不应另开连接、改用 pool.query 或自行提交 host 事务。它是进程内端口，没有新增 HTTP DTO/schema。
+- `SqlConnection extends SqlExecutor {release(): void}`；`SqlPool extends SqlExecutor {connect(): Promise<SqlConnection>}`。
+  保留 `query(text:string, values?:unknown[]):Promise<SqlResult>`，结果仍是
+  `{rows:Record<string,unknown>[], rowCount:number|null}`。`pool.query` 不保证固定连接；类型也不能验证
+  当前事务状态、数据库身份或事务所有权，不能用 pool 自身冒充事务 executor。
+- 模块**自己开启**事务时由模块获取连接并负责 BEGIN/COMMIT/ROLLBACK/release。
+  identity 的现有 `runWrite` 在有 host executor 时直接调用 work；无 executor 时自行管理连接。
+  它在 ROLLBACK 失败时保留原错误；这一点与当前 host 实现不同，替身分别保留两者的行为。
+- Custody 的必需 host 写入上下文缺失、executor 缺失或 executor.query 不是函数时，
+  抛 `CUSTODY_HOST_TRANSACTION_REQUIRED`，`statusCode:500`。按 `code` 识别；
+  该码来自 custody 服务/存储的检查，不是 UnitOfWork 新增的本地错误。
+  `UowErrorCode`、`UowErrorResponse` 和 `UOW_ERROR_CODES` 提供此既有错误子集，不穷举 SQL/回调异常。
+
+可执行的最小示例使用明确标记的 `createUnitOfWorkProviderFixture()`：
+
+```js
+import {createUnitOfWorkProviderFixture, createUnitOfWorkContractExamples} from '@hanamesh/api-contracts/uow';
+const fixture = createUnitOfWorkProviderFixture();
+await fixture.unitOfWork(async context => {
+  await fixture.moduleWrite(sql => sql.query('identity write'), context);
+  await fixture.custodyExecutor(context).query('custody write');
+});
+// fixture.connections[0].queries: BEGIN, identity write, custody write, COMMIT
+// fixture.connections[0].releaseCount: 1；两次写入使用同一个 connection。
+try {
+  await fixture.unitOfWork(async context => {
+    await context.executor.query('write');
+    throw new Error('example failure');
+  });
+} catch (error) { if (error.message !== 'example failure') throw error; }
+// 第二个连接: BEGIN, write, ROLLBACK；releaseCount: 1。
+await fixture.moduleWrite(sql => sql.query('module-owned write'));
+// 没有 context：模块获取自己的第三个连接并 COMMIT/release。
+const examples = createUnitOfWorkContractExamples(); // 成功/失败命令序列与错误 DTO。
+```
+
+替身只记录 pool/connection 调用及 release 次数，不执行 SQL、不模拟真实数据持久化、
+数据库身份检查或并发事务；可注入 `query(call)` 模拟 SQL 结果/错误。
+C-UOW 和共享连接的正式发布渠道是同一个 git tag `v0.5.0`，供 server-usage/custody 使用。
+Host API 的后续发布属于 J3S1-APIC-11，本卡未增加该 API。
 
 ## C-CATALOG profile 接口
 
@@ -107,7 +182,8 @@ npm ci && npm test
 C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；
 C-CHAIN 声明/schema 来源哈希、合成 DTO 与缺失事实读口；C-HANASWAP 完整 ABI/hash、swap/add/remove 编解码与固定模拟错误；
 C-CATALOG 提供方来源哈希、schema/示例/错误覆盖、稳定身份/分页、授权拒绝、owner 注入拒绝、宿主事务提交/回滚和重复认领拒绝；
-`tsc` 校验五个工厂类型、readonly 发行事实、用户钱包 signer 排除、ABI 参数及四个 catalog 服务签名。
+C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 context/executor 错误、SQL 故障边界和 pool.query 非固定连接；
+`tsc` 校验共享 SQL 类型、UnitOfWork 泛型回调及旧 C-IDENTITY 类型兼容、五个工厂类型、readonly 发行事实、用户钱包 signer 排除、ABI 参数及四个 catalog 服务签名。
 
 ## 发布
 
@@ -120,6 +196,9 @@ C-CATALOG 提供方来源哈希、schema/示例/错误覆盖、稳定身份/分�
 | ajv | ^8.20.0 | MIT | https://github.com/ajv-validator/ajv | 开发依赖：测试里按 JSON Schema 2020-12 校验示例数据 |
 | typescript | ^5.9.3 | Apache-2.0 | https://github.com/microsoft/TypeScript | 开发依赖：校验 `.d.ts` |
 | viem | 2.54.2（peer `^2.54.2`，可选） | MIT | https://github.com/wevm/viem | C-IDENTITY 夹具的钱包 challenge/bind：SIWE 消息（`viem/siwe`）与 EIP-191 验签；版本同提供方锁定 |
+| hanamesh-server | 0.3.1 / `b63fb8c` | 未声明（同项目提供方） | https://github.com/yzsnstotz/hanamesh-server | C-UOW 已有事务端口及固定 pg 连接用法来源；不引入运行时依赖 |
+| @hanamesh/server-identity | 0.3.2 / `9378af2` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-identity | 共享 SqlConnection/SqlPool 与模块事务所有权来源；不引入运行时依赖 |
+| @hanamesh/server-custody | 0.2.0 / `c91a0fc` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-custody | 必需 host context 检查和既有 500 错误码来源；不引入运行时依赖 |
 | @hanamesh/server-registry | 0.2.1 / `5dcb5ee` | UNLICENSED（提供方 package.json 声明） | https://github.com/yzsnstotz/hanamesh-server-registry | 同项目 C-CATALOG 提供方合约来源，按本卡同步 DTO、schema、错误码及 profile 夹具；不添加运行时依赖 |
 | Uniswap V2 periphery | ed24991304291297c3b4a52818d02f46a17aa9a2 | GPL-3.0-or-later | https://github.com/Uniswap/v2-periphery | contracts 提供的完整 Router02 ABI 与原始许可；不引入运行时依赖 |
 
