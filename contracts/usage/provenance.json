@@ -1,0 +1,42 @@
+{
+  "provider": "server-usage",
+  "repository": "https://github.com/yzsnstotz/hanamesh-server-usage",
+  "commit": "70c480e42d68d8ff338e40e888a239e887d3f1ed",
+  "card": "J2S3-SUSAGE-01",
+  "contractCard": "J2S3-APIC-04",
+  "decision": "Q-18",
+  "sourceFiles": {
+    "src/contracts.ts": "71dea6cc7e43a43ab6493285adead0e96ba54ecd736f20e990af6b53e6d6d206",
+    "src/events.ts": "b77c694f4b798616e2c5dd0701cd43cea7fce347d86238f722e3873775bc8f83",
+    "src/database/events-repository.ts": "5fa2ab78b359d092490aa41293e709b776b4ef9bdfe78137e869e5e218f070bb",
+    "src/service.ts": "fa93129f7f90e3031b0a4527c10c4de5a9f5241519eb804883622ef39ccb3ec1",
+    "src/errors.ts": "af994be01873056717052fecf887920d112d3fb6bce2e9b1970dd5046bc4fbb5",
+    "src/validation.ts": "bbc2ee79dd01792b186943c8462f6971ea8b4c2ceacc7f560f2e81b8af5b000e",
+    "src/http/plugin.js": "a0a9384c612a6fe4647fe16e51109e8b2333b05958d49feb326be91ff80f0c39",
+    "src/server-contracts.ts": "2a39162f14ab9f9173272eec94d072fef1b30f7990fdc9d62ca263ba77c835ec",
+    "contract/usage-contract.schema.json": "8055477927a45b7f2c1d5710172c5c4b6563496e06c8267969f2d8f4951434d6",
+    "package.json": "2bf6a6c5f96924a28c4d2cea260742f1697c520ccce30d09f04e420bbff2a33a"
+  },
+  "contractFiles": {
+    "README.md": "b2db55e285c831ca8fee687922f6381bb3eaa5ce94c703fb17ab6632f3859c68",
+    "contracts.d.ts": "9cdc1c2c1c89fb9cfc781f6df9fcfa051dfb51491bb5e79664a80641000697b6",
+    "contracts.js": "52d877dc70279967a0c876d7ea95dbdd42b59fe361a0875df02a11e005c94a86",
+    "definition.js": "3d9af5aac47d2e7d43278260874e46ea6b2f47ad81be348adc0d4b2ec7a433f0",
+    "errors.js": "ae4e3913be3462b89bcd7b9b490e336c00870beaea002115318a8ee5516db491",
+    "events.js": "930fa4db27b08c76b6320a0b5f9198632e75b4466bed9a8b2d0acec6609ccdc3",
+    "fixture-service.js": "8539f37f95744e27c70ee7c23a1423b75c994c89982ba4484cad9411d1be89b9",
+    "fixtures.js": "4a42556a312f5fcc151ef24d6afe264b732eb33127ddfef1961fe6bc3c928f0e",
+    "index.d.ts": "c8f317acb098000df11e1e6170009dc8ba617937ec0c7006f4679b2d0978190a",
+    "index.js": "0d311cbc11b2f2b0c7cbf7da5098cac0c4e2a9a117ed9a4542946855fca8aff2",
+    "schema.json": "8055477927a45b7f2c1d5710172c5c4b6563496e06c8267969f2d8f4951434d6",
+    "validation.js": "992fbc11977e50cd4df2f94357f23520c714504dde05a1c3e8a3886be2f3639a"
+  },
+  "notes": [
+    "Provider is owner-authored, package license UNLICENSED; no external open-source base was selected. Extracted declarations/runtime snippets are authorized by the provider-following card; no new third-party runtime dependency.",
+    "schema.json is an exact copy, including original historical annotations and wider surfaces. This card covers POST events, DELETE withdrawal and GET contributions only.",
+    "events.js/errors.js are TypeScript-erased provider sources. validation.js extracts token/deviceId/timestamp. fixture-service.js extracts deviceActor/subject and those three methods, acceptedEvent and availability; identical checks/order with synthetic repository/executor injection.",
+    "eventDigest includes event nonce, unsigned optional attribution/receipt, excludes signature. Repository id conflict precedes cross-event nonce reuse, scoped per deployment/device. No provider acceptance rule changes.",
+    "Identity request replay is IDENTITY_DEVICE_REPLAY in C-IDENTITY and 401 USAGE_AUTH_REQUIRED on Usage wire; requests are re-signed while original event nonce remains.",
+    "Fixture is synthetic, has actual Ed25519 verification but no SQL, HTTP transport/security hooks, rollups, purge or caller-managed transactions. No REAL_DB/REAL_HOST/REAL_UI or owner ACCEPTED claim."
+  ]
+}
