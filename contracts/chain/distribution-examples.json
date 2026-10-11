@@ -1,0 +1,955 @@
+{
+  "contract": "C-CHAIN",
+  "provider": "@hanamesh/server-chain",
+  "surface": "createDistributionAdapter",
+  "evidence": "FIXTURE",
+  "label": "TEST_ONLY reserved-validity fixture over the real adapter; synthetic transport, no RPC/sign/broadcast; not an on-chain receipt",
+  "generator": "scripts/p19-distribution/contract-examples.mjs",
+  "frozenInputs": {
+    "package": "@hanamesh/api-contracts",
+    "version": "0.11.0",
+    "tag": "v0.11.0",
+    "commit": "0fe5084fe66911b5184ed5c858d59d3de9e785fe",
+    "path": "contracts/contracts-abi/frozen/oz-ctr09",
+    "manifestSha256": "286e4acbcc2135b41e697332ad58264a616f88c77de2b49061199f05b330d938",
+    "providerCard": "J4S3-CTR-09",
+    "providerCommit": "2ca2fb07b8b94804ac5c8b336d26dfb9f195253a"
+  },
+  "encoding": "bigint values are JSON decimal strings here; in process they are bigint as declared in index.d.ts",
+  "call": {
+    "factory": "createDistributionAdapter(options): Promise<DistributionAdapter>",
+    "options": {
+      "expectedChainId": 31337,
+      "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+      "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+      "policyMode": "test-only",
+      "receiptPolicy": {
+        "confirmations": 1,
+        "timeout": 1,
+        "pollingInterval": 1
+      },
+      "publicClient": "viem PublicClient (HanaSwapPublicClientPort)",
+      "walletClient": "viem WalletClient; account = sole broadcaster",
+      "journal": "openIntentJournal(path) of this signer",
+      "rootSigners": {
+        "ordinary": {
+          "address": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+          "signTypedData": "function"
+        },
+        "reserved": {
+          "address": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+          "signTypedData": "function"
+        }
+      }
+    },
+    "methods": [
+      "verify(snapshot)",
+      "execute(snapshot)",
+      "result(intentId)",
+      "canonicalReadback(intentId)"
+    ],
+    "snapshot": {
+      "id": "TEST_ONLY-reserved-validity-snapshot",
+      "requestId": "0a11ed00-0000-4000-8000-000000000001",
+      "principalId": "0a11ed00-0000-4000-8000-000000000003",
+      "hanaId": "0a11ed00-0000-4000-8000-000000000002",
+      "outboxIntentId": "TEST_ONLY-reserved-validity-intent",
+      "acceptedAt": "2027-01-15T08:00:50.000Z",
+      "policy": {
+        "mode": "test-only"
+      },
+      "launch": {
+        "requestId": "0a11ed00-0000-4000-8000-000000000001",
+        "hanaId": "0a11ed00-0000-4000-8000-000000000002",
+        "principalId": "0a11ed00-0000-4000-8000-000000000003",
+        "chainId": 31337,
+        "hanaKey": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+        "requestKey": "0x92dcc2f1a2b47858f5b2c834d9859eb733b9d030a0d387a79030327fac7c7e4e",
+        "issuer": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+        "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+        "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+        "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "platformWallet": "0x3e9321aec1c0c0351caf891bd624b2cc8d0a9de1",
+        "ordinarySigner": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+        "reservedSigner": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+        "authorizationHash": "0x2e0f04f037597768321591b4589040617f8a565e93e6190225bafe8e7be4ec59",
+        "subject": "0xcd41e52e91569079bc4254555003684ca2dd685d08e41c1f5ef7eeefc25b466c",
+        "sourceCommitment": "0x4d52339efe16ff857634f57967901d0f8ed283395138fd40c3513f6d9b32d0fb",
+        "transactionHash": "0x2dfca254a630a0eab6714ab85be379c42496e3ae32c154c14cb15c862fb783a2",
+        "blockNumber": "100",
+        "paidToken": "0x46c5da1e067a9e4ed65b0ae7da678995b57f85a4",
+        "paidAmount": "25000000",
+        "initialPoolAmount": "50000000000000000000000000",
+        "tokenDecimals": 18,
+        "confirmedAt": "2027-01-15T08:00:00.000Z",
+        "claimWindowSeconds": "7776000"
+      },
+      "distribution": {
+        "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+        "platformDust": "0",
+        "reservedDust": "7",
+        "ordinary": {
+          "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+          "totalAmount": "50000000000000000000000000",
+          "digest": "0x10b0672a99f21760134ca17de411555ac0ac9de17b64fb98cb9a39ecfa046faf",
+          "payload": {
+            "domain": {
+              "name": "HanaDistributor",
+              "version": "1",
+              "chainId": 31337,
+              "verifyingContract": "0x234c4175be8be37a1054b168a905b383904469d6"
+            },
+            "primaryType": "RootAuthorization",
+            "types": {
+              "RootAuthorization": [
+                {
+                  "name": "hanaId",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "token",
+                  "type": "address"
+                },
+                {
+                  "name": "root",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "totalAmount",
+                  "type": "uint256"
+                },
+                {
+                  "name": "nonce",
+                  "type": "uint256"
+                },
+                {
+                  "name": "deadline",
+                  "type": "uint256"
+                }
+              ]
+            },
+            "message": {
+              "hanaId": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+              "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+              "deadline": "1800086400",
+              "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+              "totalAmount": "50000000000000000000000000",
+              "nonce": "1"
+            }
+          },
+          "leaves": [
+            {
+              "account": "0xedcde9cd8bfb4d9e0cbfe41a0db7f7586908fe5b",
+              "amount": "30000000000000000000000000",
+              "leaf": "0x3817cc40d3e320b37a3528353190cb8aa71ab56a1f907ca90b367b611e63d7a4",
+              "proof": [
+                "0xf6c290a85fd5c69c357e076095082cb77cde376d3596f2b5f67482585ca9106d",
+                "0x270921678e5032c38167eaacdd10f700bc2dd6b79412631e251a3f1f12964037"
+              ]
+            },
+            {
+              "account": "0xf2b9a06614dfe5aa128d2f28606e361d72be7d3c",
+              "amount": "15000000000000000000000000",
+              "leaf": "0xf6c290a85fd5c69c357e076095082cb77cde376d3596f2b5f67482585ca9106d",
+              "proof": [
+                "0x3817cc40d3e320b37a3528353190cb8aa71ab56a1f907ca90b367b611e63d7a4",
+                "0x270921678e5032c38167eaacdd10f700bc2dd6b79412631e251a3f1f12964037"
+              ]
+            },
+            {
+              "account": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+              "amount": "5000000000000000000000000",
+              "leaf": "0x270921678e5032c38167eaacdd10f700bc2dd6b79412631e251a3f1f12964037",
+              "proof": [
+                "0xa294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2"
+              ]
+            }
+          ]
+        },
+        "reserved": {
+          "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+          "totalAmount": "5000000000000000000000000",
+          "digest": "0x0dc40c248677e6ef26c97b93e3a2bcb467ed03baccb014c1e2b9a8365ca3dea7",
+          "payload": {
+            "domain": {
+              "name": "HanaReservedDistributor",
+              "version": "1",
+              "chainId": 31337,
+              "verifyingContract": "0x862e81920e037f700253db20c64ab645b19f0fc9"
+            },
+            "primaryType": "RootAuthorization",
+            "types": {
+              "RootAuthorization": [
+                {
+                  "name": "batchId",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "token",
+                  "type": "address"
+                },
+                {
+                  "name": "root",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "totalAmount",
+                  "type": "uint256"
+                },
+                {
+                  "name": "nonce",
+                  "type": "uint256"
+                },
+                {
+                  "name": "validUntil",
+                  "type": "uint256"
+                }
+              ]
+            },
+            "message": {
+              "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+              "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+              "validUntil": "1800086400",
+              "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+              "totalAmount": "5000000000000000000000000",
+              "nonce": "1"
+            }
+          },
+          "leaves": [
+            {
+              "entitlementId": "0x37de247996916ce4b57ccd615abc19817b491db80e724ab5f48d4fed677b6ba2",
+              "account": "0x0000000000000000000000000000000000000000",
+              "amount": "3000000000000000000000000",
+              "leaf": "0xe48c3d8bc80207938980cab32d6d9ea1d58d424feb2bdb06d4e506b520b4a374",
+              "proof": [
+                "0x4c8d3aec4cc483e9e11f757849a2a68478a71a69358cb430cc627c775c522630"
+              ]
+            },
+            {
+              "entitlementId": "0xafac4d7f648de7dbddef65c5bec4eb5148ce668e2a7499afc905d48bb81c7e01",
+              "account": "0xece26efa5137183820125f138da141c920e6663c",
+              "amount": "1999999999999999999999993",
+              "leaf": "0x4c8d3aec4cc483e9e11f757849a2a68478a71a69358cb430cc627c775c522630",
+              "proof": [
+                "0xe48c3d8bc80207938980cab32d6d9ea1d58d424feb2bdb06d4e506b520b4a374"
+              ]
+            }
+          ]
+        }
+      },
+      "opening": null,
+      "completion": null
+    }
+  },
+  "success": {
+    "verify": {
+      "intentId": "TEST_ONLY-reserved-validity-intent",
+      "digest": "0xe64e80f81d05d7910f6e538ea5dcf97495c83dcb13c5d9a0ef656cdb489db4ee",
+      "requiredSteps": [
+        "ordinary-root",
+        "reserved-funding",
+        "reserved-opening"
+      ],
+      "blockNumber": "104",
+      "blockHash": "0x5d9de9cc2f05c09af4ca18141ec88c69c56cf978b9bfa7844efcd1d085d79bbe"
+    },
+    "result": {
+      "kind": "p19-distribution",
+      "intentId": "TEST_ONLY-reserved-validity-intent",
+      "requestId": "0a11ed00-0000-4000-8000-000000000001",
+      "digest": "0xe64e80f81d05d7910f6e538ea5dcf97495c83dcb13c5d9a0ef656cdb489db4ee",
+      "resultId": "0x7694269866f24e319732640ac721112e830ae641c65d745421b97a9734770c5b",
+      "status": "complete",
+      "policyMode": "test-only",
+      "chainId": 31337,
+      "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+      "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+      "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+      "hanaKey": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+      "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+      "broadcaster": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+      "requiredSteps": [
+        "ordinary-root",
+        "reserved-funding",
+        "reserved-opening"
+      ],
+      "issuer": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+      "issuance": {
+        "transactionHash": "0x2dfca254a630a0eab6714ab85be379c42496e3ae32c154c14cb15c862fb783a2",
+        "blockHash": "0xb71fbdc4664091454dc102f88ac672701e10ff07988b89e013f5a87d4aeb266e",
+        "blockNumber": "100",
+        "blockTimestamp": "1800000000",
+        "to": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+        "amount": "50000000000000000000000000"
+      },
+      "authorizationHash": "0x2e0f04f037597768321591b4589040617f8a565e93e6190225bafe8e7be4ec59",
+      "requestKey": "0x92dcc2f1a2b47858f5b2c834d9859eb733b9d030a0d387a79030327fac7c7e4e",
+      "ordinary": {
+        "contract": "0x234c4175be8be37a1054b168a905b383904469d6",
+        "signer": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+        "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+        "totalAmount": "50000000000000000000000000",
+        "nonce": "1",
+        "digest": "0x10b0672a99f21760134ca17de411555ac0ac9de17b64fb98cb9a39ecfa046faf"
+      },
+      "reserved": {
+        "contract": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "signer": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+        "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+        "totalAmount": "5000000000000000000000000",
+        "nonce": "1",
+        "digest": "0x0dc40c248677e6ef26c97b93e3a2bcb467ed03baccb014c1e2b9a8365ca3dea7"
+      },
+      "steps": [
+        {
+          "step": "ordinary-root",
+          "nonce": 0,
+          "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "calldata": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "status": "confirmed",
+          "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+          "blockNumber": "101",
+          "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+          "timestamp": "1800000100",
+          "receipt": {
+            "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+            "blockNumber": "101",
+            "status": "success",
+            "logs": [
+              {
+                "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                "topics": [
+                  "0xe8e47108c8a21a8bf783b0bbb96e0c70423c954859d3bbe7007262b551416024",
+                  "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                  "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                  "0x000000000000000000000000462870725dc5224f9e3dbc901225deb52dcba63d"
+                ],
+                "data": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b2380"
+              }
+            ]
+          },
+          "transaction": {
+            "hash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+            "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "nonce": 0,
+            "input": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e"
+          },
+          "effect": {
+            "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+            "totalAmount": "50000000000000000000000000",
+            "nonce": "1"
+          }
+        },
+        {
+          "step": "reserved-funding",
+          "nonce": 1,
+          "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "calldata": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+          "status": "confirmed",
+          "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+          "blockNumber": "102",
+          "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+          "timestamp": "1800000200",
+          "receipt": {
+            "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+            "blockNumber": "102",
+            "status": "success",
+            "logs": [
+              {
+                "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                "topics": [
+                  "0x1401fcaa1d9473099f4561aa54401236879c71b2688474cc54ff15b3df98ede4",
+                  "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                  "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                  "0x000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc9"
+                ],
+                "data": "0x0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000beccb1d76a2d1f12f0b82d81d981f5b9772c002c"
+              }
+            ]
+          },
+          "transaction": {
+            "hash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+            "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "nonce": 1,
+            "input": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee"
+          },
+          "effect": {
+            "fundedAmount": "5000000000000000000000000"
+          }
+        },
+        {
+          "step": "reserved-opening",
+          "nonce": 2,
+          "target": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+          "calldata": "0x0aafacf0aa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da80000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "status": "confirmed",
+          "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+          "blockNumber": "103",
+          "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4",
+          "timestamp": "1800000300",
+          "receipt": {
+            "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+            "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4",
+            "blockNumber": "103",
+            "status": "success",
+            "logs": [
+              {
+                "address": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+                "topics": [
+                  "0xcdad51d1d27b433fdb6cbd1aefd9c7e059b11604ee1c1343b50bea6f6662cf84",
+                  "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8"
+                ],
+                "data": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000000000000000000000001"
+              }
+            ]
+          },
+          "transaction": {
+            "hash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+            "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+            "to": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+            "nonce": 2,
+            "input": "0x0aafacf0aa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da80000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4"
+          },
+          "effect": {
+            "openedAt": "1800000300",
+            "claimDeadline": "1807776300",
+            "reservedBalance": "5000000000000000000000000",
+            "reservedObligation": "5000000000000000000000000"
+          }
+        }
+      ],
+      "reservedOpening": {
+        "requestId": "0a11ed00-0000-4000-8000-000000000001",
+        "chainId": 31337,
+        "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+        "distributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+        "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+        "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+        "totalAmount": "5000000000000000000000000",
+        "nonce": "1",
+        "fundedAmount": "5000000000000000000000000",
+        "blockNumber": "103",
+        "openedAt": "1800000300",
+        "claimDeadline": "1807776300"
+      }
+    },
+    "canonicalReadback": {
+      "result": {
+        "kind": "p19-distribution",
+        "intentId": "TEST_ONLY-reserved-validity-intent",
+        "requestId": "0a11ed00-0000-4000-8000-000000000001",
+        "digest": "0xe64e80f81d05d7910f6e538ea5dcf97495c83dcb13c5d9a0ef656cdb489db4ee",
+        "resultId": "0x7694269866f24e319732640ac721112e830ae641c65d745421b97a9734770c5b",
+        "status": "complete",
+        "policyMode": "test-only",
+        "chainId": 31337,
+        "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+        "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+        "hanaKey": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+        "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+        "broadcaster": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+        "requiredSteps": [
+          "ordinary-root",
+          "reserved-funding",
+          "reserved-opening"
+        ],
+        "issuer": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+        "issuance": {
+          "transactionHash": "0x2dfca254a630a0eab6714ab85be379c42496e3ae32c154c14cb15c862fb783a2",
+          "blockHash": "0xb71fbdc4664091454dc102f88ac672701e10ff07988b89e013f5a87d4aeb266e",
+          "blockNumber": "100",
+          "blockTimestamp": "1800000000",
+          "to": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+          "amount": "50000000000000000000000000"
+        },
+        "authorizationHash": "0x2e0f04f037597768321591b4589040617f8a565e93e6190225bafe8e7be4ec59",
+        "requestKey": "0x92dcc2f1a2b47858f5b2c834d9859eb733b9d030a0d387a79030327fac7c7e4e",
+        "ordinary": {
+          "contract": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "signer": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+          "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+          "totalAmount": "50000000000000000000000000",
+          "nonce": "1",
+          "digest": "0x10b0672a99f21760134ca17de411555ac0ac9de17b64fb98cb9a39ecfa046faf"
+        },
+        "reserved": {
+          "contract": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+          "signer": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+          "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+          "totalAmount": "5000000000000000000000000",
+          "nonce": "1",
+          "digest": "0x0dc40c248677e6ef26c97b93e3a2bcb467ed03baccb014c1e2b9a8365ca3dea7"
+        },
+        "steps": [
+          {
+            "step": "ordinary-root",
+            "nonce": 0,
+            "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "calldata": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "status": "confirmed",
+            "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "blockNumber": "101",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+            "timestamp": "1800000100",
+            "receipt": {
+              "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+              "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+              "blockNumber": "101",
+              "status": "success",
+              "logs": [
+                {
+                  "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                  "topics": [
+                    "0xe8e47108c8a21a8bf783b0bbb96e0c70423c954859d3bbe7007262b551416024",
+                    "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                    "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                    "0x000000000000000000000000462870725dc5224f9e3dbc901225deb52dcba63d"
+                  ],
+                  "data": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b2380"
+                }
+              ]
+            },
+            "transaction": {
+              "hash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+              "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+              "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+              "nonce": 0,
+              "input": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e"
+            },
+            "effect": {
+              "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+              "totalAmount": "50000000000000000000000000",
+              "nonce": "1"
+            }
+          },
+          {
+            "step": "reserved-funding",
+            "nonce": 1,
+            "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "calldata": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+            "status": "confirmed",
+            "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "blockNumber": "102",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+            "timestamp": "1800000200",
+            "receipt": {
+              "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+              "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+              "blockNumber": "102",
+              "status": "success",
+              "logs": [
+                {
+                  "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                  "topics": [
+                    "0x1401fcaa1d9473099f4561aa54401236879c71b2688474cc54ff15b3df98ede4",
+                    "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                    "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                    "0x000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc9"
+                  ],
+                  "data": "0x0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000beccb1d76a2d1f12f0b82d81d981f5b9772c002c"
+                }
+              ]
+            },
+            "transaction": {
+              "hash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+              "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+              "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+              "nonce": 1,
+              "input": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+              "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee"
+            },
+            "effect": {
+              "fundedAmount": "5000000000000000000000000"
+            }
+          },
+          {
+            "step": "reserved-opening",
+            "nonce": 2,
+            "target": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+            "calldata": "0x0aafacf0aa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da80000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "status": "confirmed",
+            "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+            "blockNumber": "103",
+            "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4",
+            "timestamp": "1800000300",
+            "receipt": {
+              "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+              "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4",
+              "blockNumber": "103",
+              "status": "success",
+              "logs": [
+                {
+                  "address": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+                  "topics": [
+                    "0xcdad51d1d27b433fdb6cbd1aefd9c7e059b11604ee1c1343b50bea6f6662cf84",
+                    "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8"
+                  ],
+                  "data": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000000000000000000000001"
+                }
+              ]
+            },
+            "transaction": {
+              "hash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+              "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+              "to": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+              "nonce": 2,
+              "input": "0x0aafacf0aa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da80000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "blockHash": "0x45dd8f526ceac9d88c0b739c73b46df635886e72db6c6553c5745c5e2a2090e4"
+            },
+            "effect": {
+              "openedAt": "1800000300",
+              "claimDeadline": "1807776300",
+              "reservedBalance": "5000000000000000000000000",
+              "reservedObligation": "5000000000000000000000000"
+            }
+          }
+        ],
+        "reservedOpening": {
+          "requestId": "0a11ed00-0000-4000-8000-000000000001",
+          "chainId": 31337,
+          "transactionHash": "0xc207661575701733ec0819c179bbc166600ba764786420ab8a1c6dc109e87645",
+          "distributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+          "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+          "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+          "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+          "totalAmount": "5000000000000000000000000",
+          "nonce": "1",
+          "fundedAmount": "5000000000000000000000000",
+          "blockNumber": "103",
+          "openedAt": "1800000300",
+          "claimDeadline": "1807776300"
+        }
+      },
+      "readback": {
+        "blockNumber": "104",
+        "blockHash": "0x5d9de9cc2f05c09af4ca18141ec88c69c56cf978b9bfa7844efcd1d085d79bbe",
+        "timestamp": "1800000400",
+        "canonical": true,
+        "distributorBalance": "45000000000000000000000000",
+        "reservedDistributorBalance": "5000000000000000000000000",
+        "ordinaryTotalClaimed": "5000000000000000000000000",
+        "ordinaryReservedAmount": "45000000000000000000000000"
+      }
+    }
+  },
+  "partial": {
+    "execute": {
+      "name": "DistributionError",
+      "code": "AUTHORIZATION_EXPIRED",
+      "message": "reserved-opening root authorization validity has passed; nothing was signed or sent for this step.",
+      "need": "a new frozen reserved RootAuthorization with a future validity from the snapshot/root authority",
+      "result": {
+        "kind": "p19-distribution",
+        "intentId": "TEST_ONLY-reserved-validity-intent",
+        "requestId": "0a11ed00-0000-4000-8000-000000000001",
+        "digest": "0xe64e80f81d05d7910f6e538ea5dcf97495c83dcb13c5d9a0ef656cdb489db4ee",
+        "resultId": "0x2de62b5f59c33d2ca50c8eac6355131abc2601eac16fcfc7fb682218844884b6",
+        "status": "partial",
+        "policyMode": "test-only",
+        "chainId": 31337,
+        "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+        "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+        "hanaKey": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+        "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+        "broadcaster": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+        "requiredSteps": [
+          "ordinary-root",
+          "reserved-funding",
+          "reserved-opening"
+        ],
+        "issuer": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+        "issuance": {
+          "transactionHash": "0x2dfca254a630a0eab6714ab85be379c42496e3ae32c154c14cb15c862fb783a2",
+          "blockHash": "0xb71fbdc4664091454dc102f88ac672701e10ff07988b89e013f5a87d4aeb266e",
+          "blockNumber": "100",
+          "blockTimestamp": "1800000000",
+          "to": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+          "amount": "50000000000000000000000000"
+        },
+        "authorizationHash": "0x2e0f04f037597768321591b4589040617f8a565e93e6190225bafe8e7be4ec59",
+        "requestKey": "0x92dcc2f1a2b47858f5b2c834d9859eb733b9d030a0d387a79030327fac7c7e4e",
+        "ordinary": {
+          "contract": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "signer": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+          "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+          "totalAmount": "50000000000000000000000000",
+          "nonce": "1",
+          "digest": "0x10b0672a99f21760134ca17de411555ac0ac9de17b64fb98cb9a39ecfa046faf"
+        },
+        "reserved": {
+          "contract": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+          "signer": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+          "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+          "totalAmount": "5000000000000000000000000",
+          "nonce": "1",
+          "digest": "0x0dc40c248677e6ef26c97b93e3a2bcb467ed03baccb014c1e2b9a8365ca3dea7"
+        },
+        "steps": [
+          {
+            "step": "ordinary-root",
+            "nonce": 0,
+            "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "calldata": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "status": "confirmed",
+            "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "blockNumber": "101",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+            "timestamp": "1800000100",
+            "receipt": {
+              "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+              "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+              "blockNumber": "101",
+              "status": "success",
+              "logs": [
+                {
+                  "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                  "topics": [
+                    "0xe8e47108c8a21a8bf783b0bbb96e0c70423c954859d3bbe7007262b551416024",
+                    "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                    "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                    "0x000000000000000000000000462870725dc5224f9e3dbc901225deb52dcba63d"
+                  ],
+                  "data": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b2380"
+                }
+              ]
+            },
+            "transaction": {
+              "hash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+              "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+              "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+              "nonce": 0,
+              "input": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+              "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e"
+            },
+            "effect": {
+              "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+              "totalAmount": "50000000000000000000000000",
+              "nonce": "1"
+            }
+          },
+          {
+            "step": "reserved-funding",
+            "nonce": 1,
+            "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "calldata": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+            "status": "confirmed",
+            "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "blockNumber": "102",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+            "timestamp": "1800000200",
+            "receipt": {
+              "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+              "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+              "blockNumber": "102",
+              "status": "success",
+              "logs": [
+                {
+                  "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                  "topics": [
+                    "0x1401fcaa1d9473099f4561aa54401236879c71b2688474cc54ff15b3df98ede4",
+                    "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                    "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                    "0x000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc9"
+                  ],
+                  "data": "0x0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000beccb1d76a2d1f12f0b82d81d981f5b9772c002c"
+                }
+              ]
+            },
+            "transaction": {
+              "hash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+              "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+              "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+              "nonce": 1,
+              "input": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+              "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee"
+            },
+            "effect": {
+              "fundedAmount": "5000000000000000000000000"
+            }
+          },
+          {
+            "step": "reserved-opening",
+            "status": "not-sent"
+          }
+        ],
+        "reservedOpening": null
+      }
+    },
+    "result": {
+      "kind": "p19-distribution",
+      "intentId": "TEST_ONLY-reserved-validity-intent",
+      "requestId": "0a11ed00-0000-4000-8000-000000000001",
+      "digest": "0xe64e80f81d05d7910f6e538ea5dcf97495c83dcb13c5d9a0ef656cdb489db4ee",
+      "resultId": "0x2de62b5f59c33d2ca50c8eac6355131abc2601eac16fcfc7fb682218844884b6",
+      "status": "partial",
+      "policyMode": "test-only",
+      "chainId": 31337,
+      "distributor": "0x234c4175be8be37a1054b168a905b383904469d6",
+      "reservedDistributor": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+      "token": "0x8a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+      "hanaKey": "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+      "batchId": "0xaa20a174f28a965dca1cb68eb652239abcd013321877e9993259c28aa9f45da8",
+      "broadcaster": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+      "requiredSteps": [
+        "ordinary-root",
+        "reserved-funding",
+        "reserved-opening"
+      ],
+      "issuer": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+      "issuance": {
+        "transactionHash": "0x2dfca254a630a0eab6714ab85be379c42496e3ae32c154c14cb15c862fb783a2",
+        "blockHash": "0xb71fbdc4664091454dc102f88ac672701e10ff07988b89e013f5a87d4aeb266e",
+        "blockNumber": "100",
+        "blockTimestamp": "1800000000",
+        "to": "0x165182654b2a7b528f94fb331b1f3cc077faa734",
+        "amount": "50000000000000000000000000"
+      },
+      "authorizationHash": "0x2e0f04f037597768321591b4589040617f8a565e93e6190225bafe8e7be4ec59",
+      "requestKey": "0x92dcc2f1a2b47858f5b2c834d9859eb733b9d030a0d387a79030327fac7c7e4e",
+      "ordinary": {
+        "contract": "0x234c4175be8be37a1054b168a905b383904469d6",
+        "signer": "0x462870725dc5224f9e3dbc901225deb52dcba63d",
+        "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+        "totalAmount": "50000000000000000000000000",
+        "nonce": "1",
+        "digest": "0x10b0672a99f21760134ca17de411555ac0ac9de17b64fb98cb9a39ecfa046faf"
+      },
+      "reserved": {
+        "contract": "0x862e81920e037f700253db20c64ab645b19f0fc9",
+        "signer": "0xfa7424df40ab8608a82cf0035ca2e3087ade2638",
+        "root": "0xf62183e44a1f8855d30121d02c72fc38e1a0e3af4e384032395175ba42e7476b",
+        "totalAmount": "5000000000000000000000000",
+        "nonce": "1",
+        "digest": "0x0dc40c248677e6ef26c97b93e3a2bcb467ed03baccb014c1e2b9a8365ca3dea7"
+      },
+      "steps": [
+        {
+          "step": "ordinary-root",
+          "nonce": 0,
+          "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "calldata": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "status": "confirmed",
+          "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+          "blockNumber": "101",
+          "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+          "timestamp": "1800000100",
+          "receipt": {
+            "transactionHash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e",
+            "blockNumber": "101",
+            "status": "success",
+            "logs": [
+              {
+                "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                "topics": [
+                  "0xe8e47108c8a21a8bf783b0bbb96e0c70423c954859d3bbe7007262b551416024",
+                  "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                  "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                  "0x000000000000000000000000462870725dc5224f9e3dbc901225deb52dcba63d"
+                ],
+                "data": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b2380"
+              }
+            ]
+          },
+          "transaction": {
+            "hash": "0x5ad7d8e008b6402b558b9d5750dbb671d9b7db3287c640c79ee12c379f6ab1f9",
+            "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+            "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "nonce": 0,
+            "input": "0x0aafacf00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed650000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bbcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1000000000000000000000000000000000000000000295be96e640669720000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000006b4b238000000000000000000000000000000000000000000000000000000000000000e00000000000000000000000000000000000000000000000000000000000000041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+            "blockHash": "0x6d13f380b974939fbe11d9e3237a5ffc2740259567f8ad5d909148ce5072ef8e"
+          },
+          "effect": {
+            "root": "0xcb92a2a8c21e162b5e9364659aaaf40985a10cff755a5da57ac3dcbdb080f8a1",
+            "totalAmount": "50000000000000000000000000",
+            "nonce": "1"
+          }
+        },
+        {
+          "step": "reserved-funding",
+          "nonce": 1,
+          "target": "0x234c4175be8be37a1054b168a905b383904469d6",
+          "calldata": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+          "status": "confirmed",
+          "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+          "blockNumber": "102",
+          "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+          "timestamp": "1800000200",
+          "receipt": {
+            "transactionHash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee",
+            "blockNumber": "102",
+            "status": "success",
+            "logs": [
+              {
+                "address": "0x234c4175be8be37a1054b168a905b383904469d6",
+                "topics": [
+                  "0x1401fcaa1d9473099f4561aa54401236879c71b2688474cc54ff15b3df98ede4",
+                  "0x0d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65",
+                  "0x0000000000000000000000008a03ee192b0c5b2a6e0a3fe4119b92f662a0f9bb",
+                  "0x000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc9"
+                ],
+                "data": "0x0000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000422ca8b0a00a4250000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000beccb1d76a2d1f12f0b82d81d981f5b9772c002c"
+              }
+            ]
+          },
+          "transaction": {
+            "hash": "0x0fea1fd2f84b2f0904362fa0bf2ccdef30652cada8fb29f004cd51eac00c9ffc",
+            "from": "0xbeccb1d76a2d1f12f0b82d81d981f5b9772c002c",
+            "to": "0x234c4175be8be37a1054b168a905b383904469d6",
+            "nonce": 1,
+            "input": "0xa7ed1ea00d7f68fc6bf7db92aff1cbcadf1af7c905d2940706b6d80b88b2cc8d70b8ed65000000000000000000000000862e81920e037f700253db20c64ab645b19f0fc90000000000000000000000000000000000000000000422ca8b0a00a42500000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000000000000000000000000000001a294930625f8b98ffbf44feaeb4c8a4f60ba055defa620c9c7bca00d0d9104b2",
+            "blockHash": "0x4078ea064a38acd5898208d133fb248e9b463af9d760858aa7448680cac842ee"
+          },
+          "effect": {
+            "fundedAmount": "5000000000000000000000000"
+          }
+        },
+        {
+          "step": "reserved-opening",
+          "status": "not-sent"
+        }
+      ],
+      "reservedOpening": null
+    }
+  },
+  "failure": {
+    "rootFactMismatch": {
+      "name": "DistributionError",
+      "code": "ROOT_FACT_MISMATCH",
+      "message": "reserved authorization differs from launch hana/batch, token, root, total, first nonce or the ordinary validity."
+    },
+    "authorizationExpiredBeforeAnySend": {
+      "name": "DistributionError",
+      "code": "AUTHORIZATION_EXPIRED",
+      "message": "ordinary-root root authorization validity has passed; nothing was signed or sent for this step.",
+      "need": "a new frozen ordinary RootAuthorization with a future validity from the snapshot/root authority"
+    },
+    "intentNotFound": {
+      "name": "DistributionError",
+      "code": "INTENT_NOT_FOUND",
+      "message": "No Chain-owned distribution intent with this id."
+    },
+    "policyModeRequired": {
+      "name": "DistributionError",
+      "code": "POLICY_MODE_REQUIRED",
+      "message": "Declare policyMode test-only or production; there is no default."
+    },
+    "configurationInvalid": {
+      "name": "ChainAdapterConfigurationError",
+      "code": "CONFIG_INVALID",
+      "message": "Inject a public client and a positive safe integer expectedChainId; wallet client must expose getChainId."
+    }
+  }
+}

@@ -11,6 +11,7 @@
   "files": [
     "types.ts",
     "chain-hanaswap-types.ts",
+    "chain-distribution-types.ts",
     "catalog-types.ts",
     "uow-types.ts",
     "core-shared-identity-types.ts",
