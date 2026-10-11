@@ -1,0 +1,549 @@
+{
+  "label": "FIXTURE · C-POINTS · synthetic examples and programmable ports; no product authentication, SQL or chain execution",
+  "unboundZero": {
+    "bindingStatus": "UNBOUND",
+    "hanas": [],
+    "totalPoints": 0,
+    "subtotals": {
+      "userPoints": 0,
+      "pendingUserPoints": 0,
+      "creatorReward": 0,
+      "unclassified": 0
+    }
+  },
+  "boundZero": {
+    "bindingStatus": "BOUND",
+    "hanas": [],
+    "totalPoints": 0,
+    "subtotals": {
+      "userPoints": 0,
+      "pendingUserPoints": 0,
+      "creatorReward": 0,
+      "unclassified": 0
+    }
+  },
+  "ledger": {
+    "items": []
+  },
+  "balance": {
+    "balances": []
+  },
+  "summary": {
+    "status": "NOT_CONNECTED",
+    "hanaId": "22222222-2222-4222-8222-222222222222",
+    "assets": []
+  },
+  "usage": {
+    "input": {
+      "usageEventId": "example-install",
+      "hanaId": "22222222-2222-4222-8222-222222222222",
+      "deviceId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "action": "install",
+      "occurredAt": "2026-10-11T00:00:00Z"
+    },
+    "result": {
+      "accepted": true,
+      "duplicate": false,
+      "kind": "install",
+      "pointsMilli": 5000,
+      "holder": "pending",
+      "capped": false,
+      "mirrorMilli": 250,
+      "mirrorHolder": "pending"
+    }
+  },
+  "claim": {
+    "input": {
+      "principalId": "11111111-1111-4111-8111-111111111111",
+      "hanaId": "22222222-2222-4222-8222-222222222222",
+      "claimId": "33333333-3333-4333-8333-333333333333"
+    },
+    "result": {
+      "ledgerEntryId": "44444444-4444-4444-8444-444444444444",
+      "duplicate": false,
+      "claimBonusMilli": 100000,
+      "transferredMirrorMilli": 0
+    }
+  },
+  "bound": {
+    "input": {
+      "deviceId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "principalId": "11111111-1111-4111-8111-111111111111"
+    },
+    "result": {
+      "transferred": [
+        {
+          "hanaId": "22222222-2222-4222-8222-222222222222",
+          "pointsMilli": 5000
+        }
+      ]
+    }
+  },
+  "transaction": "Every local write example also requires a host-provided WriteContext.executor; never serialize it in a request body",
+  "snapshot": {
+    "input": {
+      "requestId": "00000000-0000-4000-8000-000000000301"
+    },
+    "result": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "requestId": "00000000-0000-4000-8000-000000000301",
+      "hanaId": "00000000-0000-4000-8000-000000000401",
+      "principalId": "00000000-0000-4000-8000-000000000101",
+      "acceptedAt": "2026-10-01T00:05:00.000Z",
+      "launch": {
+        "requestId": "00000000-0000-4000-8000-000000000301",
+        "hanaId": "00000000-0000-4000-8000-000000000401",
+        "principalId": "00000000-0000-4000-8000-000000000101",
+        "chainId": 11155111,
+        "hanaKey": "0x102b8d5e89bca6ed829a002a5e07c6618ae78447c0fba328567bace42303a697",
+        "requestKey": "0x3983627b5dc4a39074056bef385a8c5ae0fe933fb1b13bcc2832353b957f8fae",
+        "issuer": "0xa0de067e20908a1b80dcf2fb07936d3c35bb682d",
+        "token": "0x2df64f203f9c2cf521eee18d8ba86e8b1e01c68f",
+        "distributor": "0x231a0e3da899021a3ed5fff58730f0c2f16fb23f",
+        "reservedDistributor": "0x5115ff2282de6796183681240fefd0f345d177cb",
+        "platformWallet": "0x9d625f86efa59a922f83d8383361294e23622c6e",
+        "ordinarySigner": "0x506236ae3df53f0a519df61588bc26741262d0aa",
+        "reservedSigner": "0xc5cf1c5f4a556d82a221027641dd1bcafd9e95c3",
+        "authorizationHash": "0x4fd67aeba4118ffa99da8e7d0077d215a7cca6a95c5436d42f81bb3d77755b2b",
+        "subject": "0x6a932d737fffd3f76ceebdf80875212c6464df18f7278450a497bd95421ead0b",
+        "sourceCommitment": "0x0399539df63e9a9057100db81ad7479d125c444509e954b7a0afe9d438ddac9f",
+        "transactionHash": "0x25273db13e00a26fb89212d01f2d931d84c1e7f45abfd4adcf30c6219fd8ce69",
+        "blockNumber": "1000",
+        "paidToken": "0xb09f443dc90095df3b8124a1e81c1d1d9bf53d9e",
+        "paidAmount": "25000000",
+        "initialPoolAmount": "50000000000000000000000000",
+        "tokenDecimals": 18,
+        "confirmedAt": "2026-10-01T00:00:00.000Z",
+        "rootValidUntil": "1893456000",
+        "claimWindowSeconds": "7776000"
+      },
+      "pMilli": "4000",
+      "rMilli": "200",
+      "dMilli": "4200",
+      "holders": [
+        {
+          "entitlementId": "0x171b71ecd45318bc9968fce3e12bd3f904e2e27a99022a8a04a4811155a919e3",
+          "kind": "principal",
+          "holderRef": "00000000-0000-4000-8000-000000000101",
+          "principalId": "00000000-0000-4000-8000-000000000101",
+          "pointsMilli": "2000",
+          "account": "0xdcadaf6f190708b21fe1da28822a3decbaff0669",
+          "walletBindingId": "0xf5d6369938035e593e7617680296115e7414a2beadd745f6cd8085b4ef6fb95a",
+          "reserved": false
+        },
+        {
+          "entitlementId": "0xdd48343d74be000e3cb57a91fa324d866146ba5fc6b0a4967d7776012f3c936b",
+          "kind": "principal",
+          "holderRef": "00000000-0000-4000-8000-000000000102",
+          "principalId": "00000000-0000-4000-8000-000000000102",
+          "pointsMilli": "1000",
+          "account": "0x60c50597609ded36e23b3f9c0a8e02a492d24d87",
+          "walletBindingId": "0xf1179f4c24109b4431d5ffc845613c4410852599072a8c13175c00d069408422",
+          "reserved": false
+        },
+        {
+          "entitlementId": "0x09fb080b7ee6018f6ffc7cb96450c748616605c78d536ff5a7df2e2daececd40",
+          "kind": "principal",
+          "holderRef": "00000000-0000-4000-8000-000000000105",
+          "principalId": "00000000-0000-4000-8000-000000000105",
+          "pointsMilli": "1000",
+          "account": "0x0000000000000000000000000000000000000000",
+          "walletBindingId": null,
+          "reserved": true
+        },
+        {
+          "entitlementId": "0xbbe21907ad16251124b4e21167ee160b36867a18e9806999ec84c2feaf608089",
+          "kind": "initiator",
+          "holderRef": "00000000-0000-4000-8000-000000000101",
+          "principalId": "00000000-0000-4000-8000-000000000101",
+          "pointsMilli": "200",
+          "account": "0xdcadaf6f190708b21fe1da28822a3decbaff0669",
+          "walletBindingId": "0xf5d6369938035e593e7617680296115e7414a2beadd745f6cd8085b4ef6fb95a",
+          "reserved": false
+        }
+      ],
+      "policy": {
+        "source": "test-only:explicit-fixture-input",
+        "mode": "test-only"
+      },
+      "distribution": {
+        "batchId": "0xdf2bb9596acde381f215495b38da2b8b22bad2d2c5e925202921c1fbd36077dc",
+        "ordinary": {
+          "root": "0xbedb5270566d19f70fb82dfed1fa917ed014449696a19520d9bd8f2532c1b155",
+          "totalAmount": "50000000000000000000000000",
+          "payload": {
+            "domain": {
+              "name": "HanaDistributor",
+              "version": "1",
+              "chainId": 11155111,
+              "verifyingContract": "0x231a0e3da899021a3ed5fff58730f0c2f16fb23f"
+            },
+            "primaryType": "RootAuthorization",
+            "types": {
+              "RootAuthorization": [
+                {
+                  "name": "hanaId",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "token",
+                  "type": "address"
+                },
+                {
+                  "name": "root",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "totalAmount",
+                  "type": "uint256"
+                },
+                {
+                  "name": "nonce",
+                  "type": "uint256"
+                },
+                {
+                  "name": "deadline",
+                  "type": "uint256"
+                }
+              ]
+            },
+            "message": {
+              "hanaId": "0x102b8d5e89bca6ed829a002a5e07c6618ae78447c0fba328567bace42303a697",
+              "token": "0x2df64f203f9c2cf521eee18d8ba86e8b1e01c68f",
+              "root": "0xbedb5270566d19f70fb82dfed1fa917ed014449696a19520d9bd8f2532c1b155",
+              "totalAmount": "50000000000000000000000000",
+              "nonce": "1",
+              "deadline": "1893456000"
+            }
+          },
+          "digest": "0x907496bf6ab4788db61e361e909b498bcbbfbad04e9b378b5cff489150e4b5e8",
+          "leaves": [
+            {
+              "account": "0x5115ff2282de6796183681240fefd0f345d177cb",
+              "amount": "11904761904761904761904761",
+              "leaf": "0x5b5037749ff615136bcca41e42075724e0064c4da5c5afecbd65eeb4c3266bcd",
+              "proof": [
+                "0xbc540951ca2e6d1b3ef3219149caf5234cf20a8d632e2352f34de40d38e2b43d",
+                "0xafe9adb104f4c1a6a254ddd1c2bce445e93f753e766c7b27bb516068000d8065"
+              ]
+            },
+            {
+              "account": "0x60c50597609ded36e23b3f9c0a8e02a492d24d87",
+              "amount": "11904761904761904761904761",
+              "leaf": "0x21b97cf754aa1849fda838a248a2e2b04390c9a2db0188e1fc24cb8c709cfa10",
+              "proof": [
+                "0x17bd245fdc383e337f0c81843f49bd5ed5ef1ef406b91e0d12c7e9e73a720b39",
+                "0xb780b66d5d2a01b2faa9fc79a1be764ecfebe3dde8aa0da64691f1f811566bbc"
+              ]
+            },
+            {
+              "account": "0x9d625f86efa59a922f83d8383361294e23622c6e",
+              "amount": "3",
+              "leaf": "0xbc540951ca2e6d1b3ef3219149caf5234cf20a8d632e2352f34de40d38e2b43d",
+              "proof": [
+                "0x5b5037749ff615136bcca41e42075724e0064c4da5c5afecbd65eeb4c3266bcd",
+                "0xafe9adb104f4c1a6a254ddd1c2bce445e93f753e766c7b27bb516068000d8065"
+              ]
+            },
+            {
+              "account": "0xdcadaf6f190708b21fe1da28822a3decbaff0669",
+              "amount": "26190476190476190476190475",
+              "leaf": "0x17bd245fdc383e337f0c81843f49bd5ed5ef1ef406b91e0d12c7e9e73a720b39",
+              "proof": [
+                "0x21b97cf754aa1849fda838a248a2e2b04390c9a2db0188e1fc24cb8c709cfa10",
+                "0xb780b66d5d2a01b2faa9fc79a1be764ecfebe3dde8aa0da64691f1f811566bbc"
+              ]
+            }
+          ]
+        },
+        "reserved": {
+          "root": "0xdcd2f8101b832018f0c5eb361517763025639851dd8263b016ef254add7afc04",
+          "totalAmount": "11904761904761904761904761",
+          "payload": {
+            "domain": {
+              "name": "HanaReservedDistributor",
+              "version": "1",
+              "chainId": 11155111,
+              "verifyingContract": "0x5115ff2282de6796183681240fefd0f345d177cb"
+            },
+            "primaryType": "RootAuthorization",
+            "types": {
+              "RootAuthorization": [
+                {
+                  "name": "batchId",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "token",
+                  "type": "address"
+                },
+                {
+                  "name": "root",
+                  "type": "bytes32"
+                },
+                {
+                  "name": "totalAmount",
+                  "type": "uint256"
+                },
+                {
+                  "name": "nonce",
+                  "type": "uint256"
+                },
+                {
+                  "name": "validUntil",
+                  "type": "uint256"
+                }
+              ]
+            },
+            "message": {
+              "batchId": "0xdf2bb9596acde381f215495b38da2b8b22bad2d2c5e925202921c1fbd36077dc",
+              "token": "0x2df64f203f9c2cf521eee18d8ba86e8b1e01c68f",
+              "root": "0xdcd2f8101b832018f0c5eb361517763025639851dd8263b016ef254add7afc04",
+              "totalAmount": "11904761904761904761904761",
+              "nonce": "1",
+              "validUntil": "1893456000"
+            }
+          },
+          "digest": "0xb5d613a145f24922447530c7d0239360f1e6188066b3fdd837205e384842efda",
+          "leaves": [
+            {
+              "entitlementId": "0x09fb080b7ee6018f6ffc7cb96450c748616605c78d536ff5a7df2e2daececd40",
+              "account": "0x0000000000000000000000000000000000000000",
+              "amount": "11904761904761904761904761",
+              "leaf": "0xdcd2f8101b832018f0c5eb361517763025639851dd8263b016ef254add7afc04",
+              "proof": []
+            }
+          ]
+        },
+        "platformDust": "3",
+        "reservedDust": "0"
+      },
+      "opening": null,
+      "completion": null,
+      "outboxIntentId": "00000000-0000-4000-8000-000000000501",
+      "rootAuthorization": {
+        "setting": "rootAuthorizationValiditySeconds",
+        "validitySeconds": "102642900",
+        "validUntil": "1893456000"
+      }
+    }
+  },
+  "errors": {
+    "CUSTODY_AUTH_REQUIRED": {
+      "status": 401,
+      "body": {
+        "error": {
+          "code": "CUSTODY_AUTH_REQUIRED",
+          "message": "CUSTODY_AUTH_REQUIRED"
+        }
+      }
+    },
+    "CUSTODY_UNAVAILABLE": {
+      "status": 503,
+      "body": {
+        "error": {
+          "code": "CUSTODY_UNAVAILABLE",
+          "message": "CUSTODY_UNAVAILABLE"
+        }
+      }
+    },
+    "CUSTODY_INPUT_INVALID": {
+      "status": 400,
+      "body": {
+        "error": {
+          "code": "CUSTODY_INPUT_INVALID",
+          "message": "CUSTODY_INPUT_INVALID"
+        }
+      }
+    },
+    "CUSTODY_SUMMARY_INVALID": {
+      "status": 503,
+      "body": {
+        "error": {
+          "code": "CUSTODY_SUMMARY_INVALID",
+          "message": "CUSTODY_SUMMARY_INVALID"
+        }
+      }
+    },
+    "CUSTODY_HOST_TRANSACTION_REQUIRED": {
+      "status": 500,
+      "body": {
+        "error": {
+          "code": "CUSTODY_HOST_TRANSACTION_REQUIRED",
+          "message": "CUSTODY_HOST_TRANSACTION_REQUIRED"
+        }
+      }
+    },
+    "CUSTODY_FORBIDDEN": {
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "CUSTODY_FORBIDDEN",
+          "message": "CUSTODY_FORBIDDEN"
+        }
+      }
+    },
+    "CUSTODY_ORIGIN_REJECTED": {
+      "status": 403,
+      "body": {
+        "error": {
+          "code": "CUSTODY_ORIGIN_REJECTED",
+          "message": "CUSTODY_ORIGIN_REJECTED"
+        }
+      }
+    },
+    "CUSTODY_CONTENT_TYPE_REQUIRED": {
+      "status": 415,
+      "body": {
+        "error": {
+          "code": "CUSTODY_CONTENT_TYPE_REQUIRED",
+          "message": "CUSTODY_CONTENT_TYPE_REQUIRED"
+        }
+      }
+    },
+    "CUSTODY_PAYMENT_NOT_CONFIRMED": {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "CUSTODY_PAYMENT_NOT_CONFIRMED",
+          "message": "CUSTODY_PAYMENT_NOT_CONFIRMED"
+        }
+      }
+    },
+    "CUSTODY_SNAPSHOT_CONFLICT": {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "CUSTODY_SNAPSHOT_CONFLICT",
+          "message": "CUSTODY_SNAPSHOT_CONFLICT"
+        }
+      }
+    },
+    "CUSTODY_ALLOCATION_POLICY_REQUIRED": {
+      "status": 503,
+      "body": {
+        "error": {
+          "code": "CUSTODY_ALLOCATION_POLICY_REQUIRED",
+          "message": "CUSTODY_ALLOCATION_POLICY_REQUIRED"
+        }
+      }
+    },
+    "CUSTODY_ALLOCATION_INVALID": {
+      "status": 503,
+      "body": {
+        "error": {
+          "code": "CUSTODY_ALLOCATION_INVALID",
+          "message": "CUSTODY_ALLOCATION_INVALID"
+        }
+      }
+    },
+    "CUSTODY_WALLET_BINDING_CONFLICT": {
+      "status": 409,
+      "body": {
+        "error": {
+          "code": "CUSTODY_WALLET_BINDING_CONFLICT",
+          "message": "CUSTODY_WALLET_BINDING_CONFLICT"
+        }
+      }
+    },
+    "CUSTODY_SNAPSHOT_NOT_FOUND": {
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "CUSTODY_SNAPSHOT_NOT_FOUND",
+          "message": "CUSTODY_SNAPSHOT_NOT_FOUND"
+        }
+      }
+    }
+  },
+  "unboundPending": {
+    "bindingStatus": "UNBOUND",
+    "hanas": [
+      {
+        "hanaId": "22222222-2222-4222-8222-222222222222",
+        "points": 0,
+        "pending": 5,
+        "breakdown": {
+          "install": 0,
+          "open": 0,
+          "use": 0,
+          "claimBonus": 0,
+          "creatorMirror": 0,
+          "launchInitiator": 0
+        },
+        "userPoints": {
+          "install": 0,
+          "open": 0,
+          "use": 0,
+          "launchInitiator": 0,
+          "total": 0
+        },
+        "pendingUserPoints": {
+          "install": 5,
+          "open": 0,
+          "use": 0,
+          "launchInitiator": 0,
+          "total": 5
+        },
+        "creatorReward": {
+          "claimBonus": 0,
+          "creatorMirror": 0,
+          "total": 0
+        },
+        "unclassified": 0
+      }
+    ],
+    "totalPoints": 5,
+    "subtotals": {
+      "userPoints": 0,
+      "pendingUserPoints": 5,
+      "creatorReward": 0,
+      "unclassified": 0
+    }
+  },
+  "boundPoints": {
+    "bindingStatus": "BOUND",
+    "hanas": [
+      {
+        "hanaId": "22222222-2222-4222-8222-222222222222",
+        "points": 5,
+        "pending": 0,
+        "breakdown": {
+          "install": 5,
+          "open": 0,
+          "use": 0,
+          "claimBonus": 0,
+          "creatorMirror": 0,
+          "launchInitiator": 0
+        },
+        "userPoints": {
+          "install": 5,
+          "open": 0,
+          "use": 0,
+          "launchInitiator": 0,
+          "total": 5
+        },
+        "pendingUserPoints": {
+          "install": 0,
+          "open": 0,
+          "use": 0,
+          "launchInitiator": 0,
+          "total": 0
+        },
+        "creatorReward": {
+          "claimBonus": 0,
+          "creatorMirror": 0,
+          "total": 0
+        },
+        "unclassified": 0
+      }
+    ],
+    "totalPoints": 5,
+    "subtotals": {
+      "userPoints": 5,
+      "pendingUserPoints": 0,
+      "creatorReward": 0,
+      "unclassified": 0
+    }
+  }
+}

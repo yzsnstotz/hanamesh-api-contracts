@@ -16,6 +16,7 @@
     "core-shared-identity-types.ts",
     "contracts-abi-types.ts",
     "j3s3-types.ts",
-    "usage-types.ts"
+    "usage-types.ts",
+    "points-types.ts"
   ]
 }

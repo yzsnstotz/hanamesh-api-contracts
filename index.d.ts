@@ -1,4 +1,5 @@
 import type { USAGE_CONTRACT_DEFINITION } from './contracts/usage/index.js';
+import type { POINTS_CONTRACT_DEFINITION } from './contracts/points/definition.js';
 import type { CLAIM_CONTRACT_DEFINITION } from './contracts/claim/definition.js';
 import type { INDEXER_CONTRACT_DEFINITION } from './contracts/indexer-catalog/definition.js';
 import type { CONTRACTS_ABI_DEFINITION } from './contracts/contracts-abi/index.js';
@@ -19,4 +20,5 @@ export declare const CONTRACTS: Readonly<Record<'C-CORE' | 'C-USAGE-LOCAL', Publ
     & Record<'C-CLAIM', PublishedDefinitionContract<typeof CLAIM_CONTRACT_DEFINITION>>
     & Record<'C-INDEXER-CATALOG', PublishedDefinitionContract<typeof INDEXER_CONTRACT_DEFINITION>>
     & Record<'C-USAGE', PublishedDefinitionContract<typeof USAGE_CONTRACT_DEFINITION>>
+    & Record<'C-POINTS', PublishedDefinitionContract<typeof POINTS_CONTRACT_DEFINITION>>
     & Record<'C-UOW', PublishedDefinitionContract<typeof UOW_CONTRACT_DEFINITION>>>;
