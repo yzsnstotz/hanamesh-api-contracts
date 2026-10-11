@@ -34,6 +34,16 @@ export declare const INDEXER_CONTRACT_DEFINITION: Readonly<{
             difference: string;
         };
     };
+    contentHash: {
+        field: string;
+        requiredOnProviderSuccess: boolean;
+        origin: string;
+        format: string;
+        identity: string;
+        invalid: string;
+        compatibility: string;
+        pagination: string;
+    };
     composition: {
         configuration: string;
         export: string;
@@ -54,7 +64,7 @@ export declare const INDEXER_ERRORS: Readonly<{
     readonly INDEXER_SOURCE_DISABLED: readonly [404, "source adapter was not supplied"];
     readonly INDEXER_INVALID_REQUEST: readonly [400, "registry input error mapped for HTTP"];
     readonly INDEXER_INTERNAL: readonly [500, "unexpected HTTP error"];
-    readonly INDEXER_CONTENT_SOURCE_UNKNOWN: readonly [500, "stored content hash has unknown or damaged provenance; batch rolls back; run wire is 502"];
+    readonly INDEXER_CONTENT_SOURCE_UNKNOWN: readonly [500, "stored content hash is missing/null/non-string/unknown/damaged; list/get HTTP 500, batch rolls back, run wire 502"];
     readonly INDEXER_DEDUPE_COLLISION: readonly [409, "source and dedupe identify different Hanas"];
     readonly INDEXER_ACTOR_REQUIRED: readonly [500, "explicit actor required"];
     readonly INDEXER_BATCH_TOO_LARGE: readonly [400, "batch exceeds 100 items"];

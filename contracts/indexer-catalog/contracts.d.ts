@@ -44,6 +44,8 @@ export interface SourceLinkDTO {
     readonly lastSeenAt: string;
 }
 export interface IndexedHanaDTO extends HanaProfileDTO {
+    /** Stored winning catalog hash. Optional for legacy DTO constructors only. */
+    readonly contentHash?: string;
     readonly npmPackageName: string | null;
     readonly summary: {
         readonly en: string | null;
@@ -61,6 +63,10 @@ export interface IndexedHanaDTO extends HanaProfileDTO {
     readonly repoSubdirectory: string | null;
     readonly updatedAt: string;
     readonly sourceLinks: readonly SourceLinkDTO[];
+}
+/** Successful reads from this provider always contain a validated stored hash. */
+export interface IndexedHanaWithContentHashDTO extends IndexedHanaDTO {
+    readonly contentHash: string;
 }
 export interface IndexRunDTO {
     readonly runId: string;
@@ -105,3 +111,11 @@ export interface IndexerService {
     }>;
 }
 export type { RegistryProfilePort, WriteContext };
+/** Concrete provider guarantee; legacy IndexerService implementations remain compatible. */
+export interface IndexerReadService extends IndexerService {
+    listItems(query?: Parameters<IndexerService['listItems']>[0]): Promise<{
+        readonly items: readonly IndexedHanaWithContentHashDTO[];
+        readonly next: string | null;
+    }>;
+    getItem(hanaId: string): Promise<IndexedHanaWithContentHashDTO>;
+}
