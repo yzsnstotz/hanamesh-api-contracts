@@ -14,6 +14,7 @@
     "catalog-types.ts",
     "uow-types.ts",
     "core-shared-identity-types.ts",
-    "contracts-abi-types.ts"
+    "contracts-abi-types.ts",
+    "j3s3-types.ts"
   ]
 }

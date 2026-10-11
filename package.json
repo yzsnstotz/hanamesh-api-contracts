@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -71,7 +71,17 @@
     "./contracts-abi/frozen/LaunchFee.json": "./contracts/contracts-abi/frozen/LaunchFee.json",
     "./contracts-abi/frozen/HanaToken.json": "./contracts/contracts-abi/frozen/HanaToken.json",
     "./contracts-abi/frozen/manifest.json": "./contracts/contracts-abi/frozen/manifest.json",
-    "./contracts-abi/provenance.json": "./contracts/contracts-abi/provenance.json"
+    "./contracts-abi/provenance.json": "./contracts/contracts-abi/provenance.json",
+    "./claim": {
+      "types": "./contracts/claim/index.d.ts",
+      "default": "./contracts/claim/index.js"
+    },
+    "./claim/provenance.json": "./contracts/claim/provenance.json",
+    "./indexer-catalog": {
+      "types": "./contracts/indexer-catalog/index.d.ts",
+      "default": "./contracts/indexer-catalog/index.js"
+    },
+    "./indexer-catalog/provenance.json": "./contracts/indexer-catalog/provenance.json"
   },
   "files": [
     "index.js",
@@ -82,16 +92,22 @@
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
   },
   "peerDependencies": {
-    "viem": "^2.54.2"
+    "viem": "^2.54.2",
+    "fastify": "^5.12.3"
   },
   "peerDependenciesMeta": {
     "viem": {
+      "optional": true
+    },
+    "fastify": {
       "optional": true
     }
   },
   "devDependencies": {
     "ajv": "^8.20.0",
     "typescript": "^5.9.3",
-    "viem": "2.54.2"
+    "viem": "2.54.2",
+    "fastify": "5.12.3",
+    "@types/node": "24.3.0"
   }
 }

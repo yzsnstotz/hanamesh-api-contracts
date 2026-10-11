@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.7.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.8.0"
 ```
 
 ## 合约
@@ -19,6 +19,8 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
 | C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
 | C-UOW | `@hanamesh/api-contracts/uow`（来源：`/uow/provenance.json`） | server-host → server-usage, server-custody, server-claim, server-identity, server-registry | J3S1-HOST-01 既有事务行为：host origin/main `b63fb8c` 的 `src/unit-of-work.ts`；共享 SQL 类型按 identity origin/main `9378af2` 的 `src/server-contracts.ts` 增补 |
+| C-CLAIM | `@hanamesh/api-contracts/claim`（来源：`/claim/provenance.json`） | server-claim → web-market, server-host | J3S3-CLAIM-01 origin/main `21a8b6d`：单次 start claimed、幂等/复用、拒绝错误、verify 与事务夹具 |
+| C-INDEXER-CATALOG | `@hanamesh/api-contracts/indexer-catalog`（来源：`/indexer-catalog/provenance.json`） | server-indexer → web-market, server-host | J3S3-IDX-01 origin/main `a5b47da`：实际分页/items/hanas/runs、wire差异、注入端口与生命周期 |
 | C-CATALOG | `@hanamesh/api-contracts/catalog`（schema：`/catalog/schema.json`；来源：`/catalog/provenance.json`） | server-registry → core, web-market, server-indexer, server-claim, server-host | J3S4-REG-01 origin/main `5dcb5ee`：profile DTO/四个服务端口声明提取、profile schema 原样搬入；错误码、HTTP 语义和夹具按提供方源码同步 |
 
 每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、
@@ -235,3 +237,9 @@ ABI 自定义错误及事件完整保留，金额使用整数 base units。
 https://github.com/yzsnstotz/hanamesh-contracts · 发行 ABI/冻结工件；
 OpenZeppelin Contracts · v5.3.0 / e4f70216d759d8e6a64144a9e1f7bbeed78e7079 · MIT ·
 https://github.com/OpenZeppelin/openzeppelin-contracts · 提供方冻结构建底座；无新增运行时依赖。
+
+## J3.S3 提供方合约（v0.8.0）
+
+[C-CLAIM](contracts/claim/README.md) 记录 Q-21：start 单次 claimed、同账号 claiming 复用/claimed 幂等、onClaimed只一次、跨账号409、none403/不可用503、保留verify与失败/重试/回滚例子。
+[C-INDEXER-CATALOG](contracts/indexer-catalog/README.md) 记录 Q-22：实际wire/基线映射、分页、错误通道、去重/来源回链与独立运行器供给/关闭。两者复用已发布 C-CATALOG/C-UOW；服务端 Fastify 类型使用可选peer，JS示例无需导入 Fastify。
+提供方未提供独立JSON Schema；本卡发布其实际DTO声明与类型/语义自检，不添加未实现校验规则。所有夹具明确为FIXTURE，不证明真实Registry组合、SQL/GitHub/并发或产品验收。

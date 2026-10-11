@@ -1,3 +1,5 @@
+import type { CLAIM_CONTRACT_DEFINITION } from './contracts/claim/definition.js';
+import type { INDEXER_CONTRACT_DEFINITION } from './contracts/indexer-catalog/definition.js';
 import type { CONTRACTS_ABI_DEFINITION } from './contracts/contracts-abi/index.js';
 import type { IDENTITY_CONTRACT_DEFINITION } from './contracts/identity/definition.js';
 import type { CHAIN_CONTRACT_DEFINITION } from './contracts/chain/definition.js';
@@ -13,4 +15,6 @@ export declare const CONTRACTS: Readonly<Record<'C-CORE' | 'C-USAGE-LOCAL', Publ
     & Record<'C-HANASWAP', PublishedDefinitionContract<typeof HANASWAP_CONTRACT_DEFINITION>>
     & Record<'C-CATALOG', PublishedDefinitionContract<typeof CATALOG_CONTRACT_DEFINITION>>
     & Record<'C-CONTRACTS-ABI', PublishedDefinitionContract<typeof CONTRACTS_ABI_DEFINITION>>
+    & Record<'C-CLAIM', PublishedDefinitionContract<typeof CLAIM_CONTRACT_DEFINITION>>
+    & Record<'C-INDEXER-CATALOG', PublishedDefinitionContract<typeof INDEXER_CONTRACT_DEFINITION>>
     & Record<'C-UOW', PublishedDefinitionContract<typeof UOW_CONTRACT_DEFINITION>>>;
