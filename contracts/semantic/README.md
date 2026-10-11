@@ -16,7 +16,8 @@ configuration: `SemanticModuleOptions`, `SemanticModule`, `ServiceOptions`, `Plu
 `SemanticService` derives all five service methods from the unchanged provider signature.
 Factory/bridge/README-fetch signatures and provider classes are **type-only**; `CreateSemanticModule`,
 `CreateSemanticService`, `CreateSemanticPlugin`, `BridgeSemanticUnitOfWork`,
-`FetchCapabilityReadme` and `SemanticProviderExports` allow typed deployment loading.
+`FetchCapabilityReadme` and `SemanticProviderExports` allow typed deployment loading. Constructor ports preserve original argument tuples and every public
+instance member; private implementation fields do not become contract identity.
 The actual module and constructors come from the host deployment manifest's formal
 `@hanamesh/server-semantic` package, not api-contracts. There are no product runtime exports here.
 Fastify types require the existing optional peer `fastify`; no new dependency is added.

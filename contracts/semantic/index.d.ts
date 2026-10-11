@@ -14,14 +14,17 @@ export type CreateSemanticPlugin = typeof import('./http.js').createSemanticPlug
 export type BridgeSemanticUnitOfWork = typeof import('./contracts.js').bridgeSemanticUnitOfWork;
 export type FetchCapabilityReadme = typeof import('./provider.js').fetchCapabilityReadme;
 export type SemanticService = ReturnType<CreateSemanticService>;
+/** Same constructor arguments and public instance members; private implementation fields are not contract identity. */
+export type SemanticProviderConstructor<C extends abstract new (...args: any[]) => any> =
+  new (...args: ConstructorParameters<C>) => Pick<InstanceType<C>, keyof InstanceType<C>>;
 export interface SemanticProviderExports {
   createSemanticModule: CreateSemanticModule;
   createSemanticService: CreateSemanticService;
   bridgeSemanticUnitOfWork: BridgeSemanticUnitOfWork;
   fetchCapabilityReadme: FetchCapabilityReadme;
-  StubEmbeddingProvider: typeof import('./providers/embedding.js').StubEmbeddingProvider;
-  VoyageEmbeddingProvider: typeof import('./providers/embedding.js').VoyageEmbeddingProvider;
-  StubDecisionProvider: typeof import('./providers/decision.js').StubDecisionProvider;
-  JevDecisionProvider: typeof import('./providers/decision.js').JevDecisionProvider;
-  FallbackDecisionProvider: typeof import('./providers/decision.js').FallbackDecisionProvider;
+  StubEmbeddingProvider: SemanticProviderConstructor<typeof import('./providers/embedding.js').StubEmbeddingProvider>;
+  VoyageEmbeddingProvider: SemanticProviderConstructor<typeof import('./providers/embedding.js').VoyageEmbeddingProvider>;
+  StubDecisionProvider: SemanticProviderConstructor<typeof import('./providers/decision.js').StubDecisionProvider>;
+  JevDecisionProvider: SemanticProviderConstructor<typeof import('./providers/decision.js').JevDecisionProvider>;
+  FallbackDecisionProvider: SemanticProviderConstructor<typeof import('./providers/decision.js').FallbackDecisionProvider>;
 }
