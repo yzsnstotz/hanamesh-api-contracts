@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hanamesh:contract:server-usage:0.3.0-rc.1",
+  "title": "@hanamesh/server-usage contract (single source)",
+  "description": "Wire DTOs of the device-event HTTP surface and the package-side host surface, as implemented by the provider at this version. Adding this file changed no runtime behavior. Keywords used are a closed subset checked by @hanamesh/server-usage/conformance; x-* keys are annotations.",
+  "x-contract": {
+    "package": "@hanamesh/server-usage",
+    "version": "0.3.0-rc.1",
+    "protocolVersion": "1",
+    "baseline": "rc14 public factory and wire interface (4144a4d2)",
+    "change": "additive declaration and source-tag range consumption; runtime ABI, protocol token, wire schema, auth, signatures, migrations and error behavior unchanged",
+    "compatibility": {
+      "releaseVersionPolicy": "same-major additive; different major requires explicit adaptation",
+      "runtimeSemverHandshake": "none",
+      "identityProtocolVersion": "optional literal string 1; unsupported protocol tokens rejected",
+      "packageManagerBoundary": "^0.2.0-rc.11 is >=0.2.0-rc.11 <0.3.0-0, not all major-zero minors"
+    }
+  },
+  "x-history": [
+    {"id": "U1", "since": "0.2.0-rc.10", "kind": "breaking (historical)", "what": "deviceId changed from token(<=128)+secret-prefix denylist to exactly [A-Za-z0-9_-]{43} for POST /v1/usage/events and the :deviceId path of GET/DELETE /v1/usage/me/devices/:deviceId/events", "affects": "any caller sending ids that are not 43 chars (e.g. offline stand-ins such as device_P2_STANDIN); identity-issued ids are 43 chars and ids starting with - or _ became accepted"},
+    {"id": "U2", "since": "0.2.0-rc.10", "kind": "breaking (database, historical)", "what": "migration 0001_usage_events.sql edited in place (three device CHECKs follow U1); checksum 91c0b977… -> 7beb0314e6b40e2f851591173c4139fdb554f8396b3ffeee9632cc66b11c7058", "affects": "databases migrated with rc.4-rc.9; only fresh databases are supported, no migration or compatibility path"},
+    {"id": "U3", "since": "0.2.0-rc.11", "kind": "additive", "what": "createUsageModule({devPage?: boolean}) serves GET /dev/usage, /dev/usage/page.js, /dev/usage/page.css when true; non-boolean is USAGE_CONFIG_INVALID"},
+    {"id": "U4", "since": "0.2.0-rc.12", "kind": "output fix", "what": "occurredAt/receivedAt and the opaque nextAfter cursor of GET /v1/usage/me/devices/:deviceId/events keep milliseconds", "affects": "a cursor issued by rc.<=11 has .000 precision; a consumer paging across the upgrade may see a page repeated or skipped"},
+    {"id": "C1", "since": "0.2.0-rc.13", "kind": "additive", "what": "this schema, contract/fixtures.json and ./conformance"}
+  ],
+  "x-signing": {
+    "event": {
+      "algorithm": "ed25519",
+      "signatureEncoding": "base64url without padding (86 chars)",
+      "canonicalFields": ["deviceId", "hanaRef", "action", "occurredAt", "eventId", "nonce"],
+      "canonicalForm": "UTF-8 bytes of JSON.stringify of an object with exactly canonicalFields in this order",
+      "unsignedOptionalFields": ["sourceHanaRef", "targetRef", "receipt"],
+      "note": "optional fields are not signed but are part of the server content digest: the same eventId with different optional fields is USAGE_EVENT_CONFLICT"
+    },
+    "deviceRequest": {
+      "owner": "@hanamesh/server-identity authenticateDevice (usage passes method, route path and body hash)",
+      "headers": ["x-hm-device-id", "x-hm-timestamp", "x-hm-nonce", "x-hm-signature"],
+      "message": "METHOD|path|timestamp|nonce|sha256hex(raw body bytes)",
+      "path": "route path without query string, e.g. /v1/usage/me/devices/<deviceId>/events",
+      "emptyBody": "GET and the standard DELETE hash the empty byte string",
+      "timestamp": "decimal epoch milliseconds within 5 minutes of the server",
+      "nonce": "[A-Za-z0-9_-]{16,128}, single use per device"
+    }
+  },
+  "x-routes": [
+    {"id": "upload", "method": "POST", "path": "/v1/usage/events", "auth": "deviceRequest", "request": "UsageEventBatch", "response": {"200": "IngestBatchResult"}, "notes": "Origin must be an allowed origin; Content-Type application/json; body <= 65536 bytes. A non-array or empty/oversized batch is 400. Invalid items are listed in rejected[] with 200. Bad signature, revoked device or device mismatch fail the whole batch."},
+    {"id": "deviceEvents", "method": "GET", "path": "/v1/usage/me/devices/{deviceId}/events", "auth": "deviceRequest (same device) or cookie (account the device is bound to)", "query": "RawEventQuery", "response": {"200": "RawEventList"}},
+    {"id": "withdraw", "method": "DELETE", "path": "/v1/usage/me/devices/{deviceId}/events", "auth": "deviceRequest (same device) or cookie (bound account)", "request": "no body", "response": {"200": "WithdrawResult"}},
+    {"id": "contributions", "method": "GET", "path": "/v1/usage/me/contributions", "auth": "deviceRequest or cookie", "query": "ContributionWindow", "response": {"200": "EligibilityContribution"}},
+    {"id": "receipts", "method": "GET", "path": "/v1/usage/receipts", "auth": "cookie + host isAdmin", "response": {"200": "see docs/API.md"}, "coverage": "not in this suite (no current plugin consumer)"},
+    {"id": "summaries", "method": "GET|POST", "path": "/v1/usage/summaries[/{eventRef}], /v1/usage/aggregate", "auth": "cookie", "coverage": "historical execution-summary API; not in this suite"}
+  ],
+  "x-errorStatus": {
+    "USAGE_INPUT_INVALID": 400, "USAGE_AUTH_REQUIRED": 401, "USAGE_FORBIDDEN": 403, "USAGE_NOT_FOUND": 404,
+    "USAGE_EVENT_CONFLICT": 409, "USAGE_ORIGIN_REJECTED": 403, "USAGE_MEDIA_TYPE_REJECTED": 415, "USAGE_RATE_LIMITED": 429,
+    "USAGE_NONCE_REUSED": 409, "USAGE_SIGNATURE_INVALID": 401, "USAGE_DEVICE_MISMATCH": 403, "USAGE_CLOCK_SKEW": 400,
+    "USAGE_DEVICE_REVOKED": 401, "USAGE_EVENT_HOOK_FAILED": 503,
+    "USAGE_CONFIG_INVALID": 503, "USAGE_IDENTITY_REQUIRED": 503, "USAGE_IDENTITY_UNAVAILABLE": 503,
+    "USAGE_STORAGE_UNAVAILABLE": 503, "USAGE_SCHEMA_MISSING": 503, "USAGE_ROLE_UNSAFE": 503,
+    "x-special": "body too large is 413 with USAGE_INPUT_INVALID"
+  },
+  "x-package": {
+    "exports": {
+      ".": ["createUsageModule", "createEligibilityReader", "UsageError", "USAGE_PROTOCOL_VERSION"],
+      "./contracts": ["USAGE_PROTOCOL_VERSION", "USAGE_ERRORS", "USAGE_EVENT_ACTIONS"],
+      "./conformance": ["CONTRACT", "loadSchema", "loadFixtures", "validate", "assertValid", "createReferenceDevice", "checkConsumer", "createHookRecorder", "runHttpSuite", "runPackageSuite"]
+    },
+    "usageServiceMethods": ["ingest", "getOwn", "listOwn", "aggregateOwn", "ingestEvents", "getContributions", "listDeviceEvents", "rollupAndPurge", "withdrawEvents", "getReceipts"],
+    "hook": "onEventsAccepted(events: AcceptedUsageEvent[], context: {executor}) is called once per ingest batch inside the ingest transaction, after the accepted rows are written, with only the rows this batch inserted (never duplicates, conflicts or rejections). Throwing rolls the batch back and the HTTP answer is 503 USAGE_EVENT_HOOK_FAILED.",
+    "jobs": "services.rollupAndPurge(now: Date) moves raw events received before now-retentionDays into daily rollups and deletes them; result RollupAndPurgeResult; rerun with nothing expired is {rolled:0,purged:0}."
+  },
+  "$defs": {
+    "SecretPrefix": {"type": "string", "pattern": "^(?:[sS][kK][-_]|[bB][eE][aA][rR][eE][rR][.:-]|[gG][hH][pP]_|[gG][iI][tT][hH][uU][bB]_[pP][aA][tT]_|[xX][oO][xX][bBaApPrRsS]-)"},
+    "DeviceId": {"description": "identity device id = base64url(sha256(raw public key)); exactly 43 chars; may start with - or _; secret-like prefixes are legal here (U1).", "type": "string", "pattern": "^[A-Za-z0-9_-]{43}$"},
+    "Timestamp": {"description": "UTC ISO-8601 with exactly three fractional digits (milliseconds are significant, U4).", "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"},
+    "EventId": {"description": "lowercase UUID v1-v5; uppercase is rejected, not rewritten.", "type": "string", "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"},
+    "PrincipalId": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+    "Token": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$", "not": {"$ref": "#/$defs/SecretPrefix"}},
+    "TargetRef": {"type": "string", "minLength": 1, "maxLength": 160, "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$", "not": {"$ref": "#/$defs/SecretPrefix"}},
+    "HanaRef": {"description": "registry id or scoped/unscoped npm package name; secret-like names or basenames are rejected.", "type": "string", "minLength": 1, "maxLength": 160,
+      "pattern": "^(?:[A-Za-z0-9][A-Za-z0-9_.:-]*|@[a-z0-9][a-z0-9._-]*/[a-z0-9][a-z0-9._-]*)$",
+      "not": {"anyOf": [{"$ref": "#/$defs/SecretPrefix"}, {"type": "string", "pattern": "^@[^/]*/(?:[sS][kK][-_]|[bB][eE][aA][rR][eE][rR][.:-]|[gG][hH][pP]_|[gG][iI][tT][hH][uU][bB]_[pP][aA][tT]_|[xX][oO][xX][bBaApPrRsS]-)"}]}},
+    "Action": {"enum": ["install", "open", "use", "uninstall"]},
+    "Signature": {"description": "64-byte Ed25519 signature, canonical unpadded base64url.", "type": "string", "pattern": "^[A-Za-z0-9_-]{85}[AQgw]$"},
+    "Cursor": {"description": "opaque; pass back unchanged as after=, never build or parse it.", "type": "string", "pattern": "^[A-Za-z0-9_-]{1,256}$"},
+    "Count": {"type": "integer", "minimum": 0},
+    "Receipt": {"type": "object", "additionalProperties": false, "required": ["providerId", "model", "count"],
+      "properties": {
+        "providerId": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,63}$", "not": {"$ref": "#/$defs/SecretPrefix"}},
+        "model": {"anyOf": [{"type": "null"}, {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:/@+-]{0,127}$", "not": {"$ref": "#/$defs/SecretPrefix"}}]},
+        "count": {"type": "integer", "minimum": 1, "maximum": 2147483647}}},
+    "UsageEventInput": {"type": "object", "additionalProperties": false,
+      "required": ["deviceId", "hanaRef", "action", "occurredAt", "eventId", "nonce", "signature"],
+      "properties": {
+        "deviceId": {"$ref": "#/$defs/DeviceId"}, "hanaRef": {"$ref": "#/$defs/HanaRef"}, "action": {"$ref": "#/$defs/Action"},
+        "occurredAt": {"$ref": "#/$defs/Timestamp"}, "eventId": {"$ref": "#/$defs/EventId"}, "nonce": {"$ref": "#/$defs/Token"},
+        "signature": {"$ref": "#/$defs/Signature"}, "sourceHanaRef": {"$ref": "#/$defs/HanaRef"}, "targetRef": {"$ref": "#/$defs/TargetRef"},
+        "receipt": {"$ref": "#/$defs/Receipt"}},
+      "dependentSchemas": {"receipt": {"properties": {"action": {"const": "use"}}}},
+      "x-serverRules": "occurredAt must lie in [now-90d, now+5min] (else rejected[] USAGE_CLOCK_SKEW); nonce is single use per device (USAGE_NONCE_REUSED); same eventId with different content is USAGE_EVENT_CONFLICT"},
+    "UsageEventBatch": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/UsageEventInput"}},
+    "RejectionCode": {"enum": ["USAGE_EVENT_CONFLICT", "USAGE_NONCE_REUSED", "USAGE_CLOCK_SKEW", "USAGE_INPUT_INVALID"]},
+    "IngestBatchResult": {"type": "object", "additionalProperties": false, "required": ["accepted", "duplicates", "rejected", "durability"],
+      "properties": {
+        "accepted": {"$ref": "#/$defs/Count"}, "duplicates": {"$ref": "#/$defs/Count"},
+        "rejected": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["eventId", "code"],
+          "properties": {"eventId": {"description": "the submitted eventId echoed when it is a string of <= 64 chars, else the literal invalid", "type": "string", "maxLength": 64}, "code": {"$ref": "#/$defs/RejectionCode"}}}},
+        "durability": {"const": "committed"}}},
+    "StoredUsageEvent": {"type": "object", "additionalProperties": false,
+      "required": ["deviceId", "hanaRef", "action", "occurredAt", "eventId", "nonce", "signature", "principalId", "receivedAt"],
+      "properties": {
+        "deviceId": {"$ref": "#/$defs/DeviceId"}, "hanaRef": {"$ref": "#/$defs/HanaRef"}, "action": {"$ref": "#/$defs/Action"},
+        "occurredAt": {"$ref": "#/$defs/Timestamp"}, "eventId": {"$ref": "#/$defs/EventId"}, "nonce": {"$ref": "#/$defs/Token"},
+        "signature": {"$ref": "#/$defs/Signature"}, "sourceHanaRef": {"$ref": "#/$defs/HanaRef"}, "targetRef": {"$ref": "#/$defs/TargetRef"},
+        "receipt": {"$ref": "#/$defs/Receipt"}, "principalId": {"$ref": "#/$defs/PrincipalId"}, "receivedAt": {"$ref": "#/$defs/Timestamp"}}},
+    "ContributionWindow": {"description": "[from,to): to > from.", "type": "object", "additionalProperties": false, "required": ["from", "to"],
+      "properties": {"from": {"$ref": "#/$defs/Timestamp"}, "to": {"$ref": "#/$defs/Timestamp"}}},
+    "RawEventQuery": {"description": "query string of GET .../events; window <= 90 days; limit 1..200 (default 50).", "type": "object", "additionalProperties": false, "required": ["from", "to"],
+      "properties": {"from": {"$ref": "#/$defs/Timestamp"}, "to": {"$ref": "#/$defs/Timestamp"}, "limit": {"type": "string", "pattern": "^[1-9][0-9]{0,2}$"}, "after": {"$ref": "#/$defs/Cursor"}}},
+    "RawEventList": {"description": "items ordered by (occurredAt, eventId); nextAfter is null on the last page.", "type": "object", "additionalProperties": false, "required": ["items", "nextAfter", "window"],
+      "properties": {"items": {"type": "array", "maxItems": 200, "items": {"$ref": "#/$defs/StoredUsageEvent"}},
+        "nextAfter": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/Cursor"}]}, "window": {"$ref": "#/$defs/ContributionWindow"}}},
+    "ActionCounts": {"type": "object", "additionalProperties": false, "required": ["install", "open", "use", "uninstall"],
+      "properties": {"install": {"$ref": "#/$defs/Count"}, "open": {"$ref": "#/$defs/Count"}, "use": {"$ref": "#/$defs/Count"}, "uninstall": {"$ref": "#/$defs/Count"}}},
+    "EligibilityContribution": {"type": "object", "additionalProperties": false,
+      "required": ["window", "byHana", "sources", "availability", "canonicalPrincipalId", "bound", "deviceCount"],
+      "properties": {
+        "window": {"$ref": "#/$defs/ContributionWindow"},
+        "byHana": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["hanaRef", "actions", "devices"],
+          "properties": {"hanaRef": {"$ref": "#/$defs/HanaRef"}, "actions": {"$ref": "#/$defs/ActionCounts"}, "devices": {"$ref": "#/$defs/Count"}}}},
+        "sources": {"type": "object", "additionalProperties": false, "required": ["events", "rollups"], "properties": {"events": {"$ref": "#/$defs/Count"}, "rollups": {"$ref": "#/$defs/Count"}}},
+        "availability": {"enum": ["available", "unavailable"]},
+        "canonicalPrincipalId": {"$ref": "#/$defs/PrincipalId"}, "bound": {"type": "boolean"}, "deviceCount": {"$ref": "#/$defs/Count"},
+        "account": {"type": "object", "additionalProperties": false, "required": ["provider", "displayName"], "properties": {"provider": {"const": "github"}, "displayName": {"type": "string", "minLength": 1}}}},
+      "x-semantics": "unavailable is not 0; a window whose boundary UTC day was already rolled up is unavailable"},
+    "WithdrawResult": {"type": "object", "additionalProperties": false, "required": ["deletedEvents"], "properties": {"deletedEvents": {"$ref": "#/$defs/Count"}}},
+    "ErrorCode": {"enum": ["USAGE_INPUT_INVALID", "USAGE_CONFIG_INVALID", "USAGE_IDENTITY_REQUIRED", "USAGE_AUTH_REQUIRED", "USAGE_FORBIDDEN", "USAGE_IDENTITY_UNAVAILABLE", "USAGE_NOT_FOUND", "USAGE_EVENT_CONFLICT", "USAGE_STORAGE_UNAVAILABLE", "USAGE_SCHEMA_MISSING", "USAGE_ROLE_UNSAFE", "USAGE_ORIGIN_REJECTED", "USAGE_MEDIA_TYPE_REJECTED", "USAGE_RATE_LIMITED", "USAGE_NONCE_REUSED", "USAGE_SIGNATURE_INVALID", "USAGE_DEVICE_MISMATCH", "USAGE_CLOCK_SKEW", "USAGE_DEVICE_REVOKED", "USAGE_EVENT_HOOK_FAILED"]},
+    "ErrorResponse": {"type": "object", "additionalProperties": false, "required": ["error"],
+      "properties": {"error": {"type": "object", "additionalProperties": false, "required": ["code", "message"], "properties": {"code": {"$ref": "#/$defs/ErrorCode"}, "message": {"type": "string", "minLength": 1}}}}},
+    "AcceptedUsageEvent": {"description": "what onEventsAccepted receives: accepted rows only, no signature, no nonce; hanaId is the event hanaRef unchanged.", "type": "object", "additionalProperties": false,
+      "required": ["usageEventId", "hanaId", "deviceId", "principalId", "action", "occurredAt"],
+      "properties": {
+        "usageEventId": {"$ref": "#/$defs/EventId"}, "hanaId": {"$ref": "#/$defs/HanaRef"}, "deviceId": {"$ref": "#/$defs/DeviceId"},
+        "principalId": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/PrincipalId"}]}, "action": {"$ref": "#/$defs/Action"}, "occurredAt": {"$ref": "#/$defs/Timestamp"},
+        "sourceHanaRef": {"$ref": "#/$defs/HanaRef"}, "targetRef": {"$ref": "#/$defs/TargetRef"}, "receipt": {"$ref": "#/$defs/Receipt"}}},
+    "AcceptedUsageEventBatch": {"type": "array", "minItems": 1, "maxItems": 200, "items": {"$ref": "#/$defs/AcceptedUsageEvent"}},
+    "UsageModuleDataOptions": {"description": "data-valued createUsageModule options; identity, pool, policy, isAdmin, onEventsAccepted and now are host-supplied functions/objects.", "type": "object",
+      "required": ["deploymentId", "allowedOrigins"],
+      "properties": {
+        "deploymentId": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$", "not": {"$ref": "#/$defs/SecretPrefix"}},
+        "allowedOrigins": {"type": "array", "minItems": 1, "maxItems": 16, "items": {"type": "string", "pattern": "^https?://[^/?#@]+$"}},
+        "devPage": {"type": "boolean"}, "retentionDays": {"type": "integer", "minimum": 0, "maximum": 90}}},
+    "RollupAndPurgeResult": {"type": "object", "additionalProperties": false, "required": ["rolled", "purged", "durability"],
+      "properties": {"rolled": {"$ref": "#/$defs/Count"}, "purged": {"$ref": "#/$defs/Count"}, "durability": {"enum": ["committed", "pending-host-commit"]}}}
+  }
+}
