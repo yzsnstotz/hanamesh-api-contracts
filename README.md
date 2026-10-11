@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.13.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.14.0"
 ```
 
 ## 合约
@@ -15,7 +15,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 |---|---|---|---|
 | C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；[字段、错误、示例和夹具](contracts/points/README.md) |
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
-| C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md) |
+| C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md)。Q-33 宿主维护端口跟随 J2S3-SUSAGE-02 main `5ff545a`：`UsageMaintenancePort`/`RollupAndPurgeResult`、模块配置与注入类型、`USAGE_MAINTENANCE_DEFINITION`、独立维护 FIXTURE（[维护节](contracts/usage/README.md#宿主维护作业端口--j2s3-apic-16--q-33v0140只加不改)） |
 | C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js`；Q-18 跟随 J1S4-USAGE-02 main `6f724fc`：`occurredAt` 必填、稳定事件 nonce、跨客户端同事实规则；[说明与示例](contracts/usage-local/README.md) |
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
 | C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希。Q-33 分发面跟随 J4S2-CHAIN-07 tag `v0.3.0`（`dd0b142`）：`createDistributionAdapter` 及依赖声明逐字追加，`/chain/distribution-examples.json` 为提供方 FIXTURE 例子原字节 |
@@ -230,6 +230,7 @@ C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 con
 | hanamesh-server | 0.3.1 / `b63fb8c` | 未声明（同项目提供方） | https://github.com/yzsnstotz/hanamesh-server | C-UOW 已有事务端口及固定 pg 连接用法来源；不引入运行时依赖 |
 | @hanamesh/server-identity | 0.3.2 / `9378af2` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-identity | 共享 SqlConnection/SqlPool 与模块事务所有权来源；不引入运行时依赖 |
 | @hanamesh/server-custody | 0.2.0 / `c91a0fc` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-custody | 必需 host context 检查和既有 500 错误码来源；不引入运行时依赖 |
+| @hanamesh/server-usage | 0.3.1-rc.1 / `5ff545a` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-usage | C-USAGE 来源（J2S3-SUSAGE-01 `70c480e`；Q-33 维护端口 J2S3-SUSAGE-02 `5ff545a`）；声明逐字提取、维护作业逻辑移植到 FIXTURE；不引入运行时依赖 |
 | @hanamesh/server-registry | 0.2.1 / `5dcb5ee` | UNLICENSED（提供方 package.json 声明） | https://github.com/yzsnstotz/hanamesh-server-registry | 同项目 C-CATALOG 提供方合约来源，按本卡同步 DTO、schema、错误码及 profile 夹具；不添加运行时依赖 |
 | @hanamesh/server-chain | 0.3.0 / `dd0b142`（tag `v0.3.0`） | 未声明（提供方 package.json 无 license 字段） | https://github.com/yzsnstotz/hanamesh-server-chain/tree/v0.3.0 | C-CHAIN 分发面声明逐字来源与 FIXTURE 例子原字节；不引入运行时依赖 |
 | Uniswap V2 periphery | ed24991304291297c3b4a52818d02f46a17aa9a2 | GPL-3.0-or-later | https://github.com/Uniswap/v2-periphery | contracts 提供的完整 Router02 ABI 与原始许可；不引入运行时依赖 |
@@ -275,6 +276,15 @@ HanaLauncher、LaunchFee、HanaToken、Distributor、ReservedDistributor 与原 
 CTR-09 的前三件 immutable 编号/文件 SHA 已刷新；Chain 使用新五件集合时须整套切换，
 不能混合 v0.7.0 三件旧 SHA。既有 v0.7.0 路径、类型和文件字节全部保留。
 SOURCE_BUILD 继承提供方；本包只验证 PACKAGE/FIXTURE，真实领取 producer 留给 CHAIN-02。
+
+## C-USAGE 宿主维护作业端口 Q-33（v0.14.0）
+
+跟随 J2S3-SUSAGE-02 main `5ff545a`（提供方未打 tag；运行时源码与 schema 与 `70c480e` 逐字节相同，只命名了既有类型）。
+`@hanamesh/api-contracts/usage` 只加不改：`rollupAndPurge(now: Date, context?: WriteContext)` 端口、`RollupAndPurgeResult`、
+`UsageServiceOptions`/`UsageModuleOptions`/`OnEventsAccepted`/`EligibilityReaderOptions` 等配置注入类型，`USAGE_MAINTENANCE_DEFINITION`
+（received_at 截止、retentionDays 0..90 缺省 90、两种事务模式与 durability、锁、权限/RLS、错误触发条件、关闭顺序），
+以及独立的 `createUsageMaintenanceFixture`/`createUsageMaintenanceExamples`。原三个 HTTP 调用、`UsageEventService`、原夹具及其
+「无日汇总/无宿主事务」声明不变。产品工厂 `createUsageModule` 仍由实现包提供。均为 FIXTURE，不是真实库或宿主作业验收。
 
 ## C-USAGE-LOCAL Q-18 跨客户端同事实投递（v0.12.0）
 

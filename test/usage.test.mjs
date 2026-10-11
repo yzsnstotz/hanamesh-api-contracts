@@ -110,7 +110,8 @@ test('published C-USAGE artifact hashes and original schema agree with provider 
   const manifest = JSON.parse(readFileSync(new URL('../contracts/usage/provenance.json',import.meta.url),'utf8'));
   assert.equal(manifest.commit,'70c480e42d68d8ff338e40e888a239e887d3f1ed');
   assert.equal(manifest.card,'J2S3-SUSAGE-01');
-  for (const [file,expected] of Object.entries(manifest.contractFiles)) assert.equal(createHash('sha256').update(readFileSync(new URL(`../contracts/usage/${file}`,import.meta.url))).digest('hex'),expected,file);
+  // Q-33 (APIC-16) appends to some files; their v0.9.0 bytes must remain an exact prefix.
+  for (const [file,expected] of Object.entries(manifest.contractFiles)) assert.equal(createHash('sha256').update(readFileSync(new URL(`../contracts/usage/${file}`,import.meta.url)).subarray(0,manifest.maintenance.appendedFiles[file]?.previousBytes)).digest('hex'),expected,file);
   assert.equal(manifest.contractFiles['schema.json'],manifest.sourceFiles['contract/usage-contract.schema.json']);
   assert.ok(!usage.USAGE_ERRORS.includes('IDENTITY_DEVICE_REPLAY'));
   assert.equal(usage.identityError({code:'IDENTITY_DEVICE_REPLAY'}).code,'USAGE_AUTH_REQUIRED');

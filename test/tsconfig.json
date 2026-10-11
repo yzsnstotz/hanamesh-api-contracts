@@ -18,6 +18,7 @@
     "contracts-abi-types.ts",
     "j3s3-types.ts",
     "usage-types.ts",
+    "usage-maintenance-types.ts",
     "points-types.ts"
   ]
 }

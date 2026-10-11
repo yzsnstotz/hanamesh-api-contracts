@@ -38,5 +38,54 @@
     "eventDigest includes event nonce, unsigned optional attribution/receipt, excludes signature. Repository id conflict precedes cross-event nonce reuse, scoped per deployment/device. No provider acceptance rule changes.",
     "Identity request replay is IDENTITY_DEVICE_REPLAY in C-IDENTITY and 401 USAGE_AUTH_REQUIRED on Usage wire; requests are re-signed while original event nonce remains.",
     "Fixture is synthetic, has actual Ed25519 verification but no SQL, HTTP transport/security hooks, rollups, purge or caller-managed transactions. No REAL_DB/REAL_HOST/REAL_UI or owner ACCEPTED claim."
-  ]
+  ],
+  "maintenance": {
+    "provider": "server-usage",
+    "repository": "https://github.com/yzsnstotz/hanamesh-server-usage",
+    "commit": "5ff545afd9d4da7cbb589d37492e7446f65c73eb",
+    "tag": null,
+    "card": "J2S3-SUSAGE-02",
+    "contractCard": "J2S3-APIC-16",
+    "decision": "Q-33",
+    "sourceFiles": {
+      "src/server-contracts.ts": "0de4b3f16383febf2f9e62a29689dbc69c8eeea659f9185da3d3c39fffcac696",
+      "src/index.d.ts": "01622937fd78d3f7615df831e83d00bcad4cf26407e4b401b78b8835520cfd2c",
+      "src/service.ts": "fa93129f7f90e3031b0a4527c10c4de5a9f5241519eb804883622ef39ccb3ec1",
+      "src/transaction.ts": "d62f39eb1adb44863a87749a54c10cd002caeb92f0ad7705c4e44a89e276c199",
+      "src/database/events-repository.ts": "5fa2ab78b359d092490aa41293e709b776b4ef9bdfe78137e869e5e218f070bb",
+      "src/errors.ts": "af994be01873056717052fecf887920d112d3fb6bce2e9b1970dd5046bc4fbb5",
+      "contract/usage-contract.schema.json": "8055477927a45b7f2c1d5710172c5c4b6563496e06c8267969f2d8f4951434d6",
+      "docs/API.md": "46b5d6d36bbcc043f8e1b6e3672862805234a89a68b694509063ed2997276756",
+      "examples/host-maintenance-job.mjs": "46f943a53dd72cee56976b969fd802c78a478bf8dd672a2721069dec842ba1e5",
+      "test/maintenance-port.test.mjs": "2c5d99e58c479db2a4d3294a1e7dcffc327980ce55748bde65955fefab1aeb56",
+      "test/fixtures/maintenance-port-types.ts": "3520dcedb9275925c986ca69fb2d344fa94d661c1f001c046aeb42b254a9d7b5",
+      "package.json": "2bf6a6c5f96924a28c4d2cea260742f1697c520ccce30d09f04e420bbff2a33a"
+    },
+    "contractFiles": {
+      "maintenance.d.ts": "1207b2cf075e0f405f6b94eb189b2dab9e3386984a3be06b0669c02ef9e80c3c",
+      "maintenance.js": "85e8e7ac434f89f68e7b91a1462571e98276c77e97b0e9f28dbb6dcc6d1818a6",
+      "maintenance-fixture.js": "762ae9b9acf2dfcc65efa9cd16d5defaadc48a07175047ec88fba91ce1538871"
+    },
+    "appendedFiles": {
+      "README.md": {
+        "previousBytes": 7671,
+        "previousSha256": "b2db55e285c831ca8fee687922f6381bb3eaa5ce94c703fb17ab6632f3859c68"
+      },
+      "index.d.ts": {
+        "previousBytes": 5010,
+        "previousSha256": "c8f317acb098000df11e1e6170009dc8ba617937ec0c7006f4679b2d0978190a"
+      },
+      "index.js": {
+        "previousBytes": 303,
+        "previousSha256": "0d311cbc11b2f2b0c7cbf7da5098cac0c4e2a9a117ed9a4542946855fca8aff2"
+      }
+    },
+    "notes": [
+      "Provider did not tag J2S3-SUSAGE-02; the fixed published commit is the PR #4 merge on origin/main. src/service.ts, src/database/events-repository.ts and the schema are byte-identical to 70c480e: no runtime rule changed.",
+      "maintenance.d.ts: RollupAndPurgeResult, UsageMaintenancePort (provider Pick<UsageService,'rollupAndPurge'> written structurally), UsageServiceOptions, UsageModuleOptions, AcceptedUsageEvent, OnEventsAccepted, EligibilityReader(Options), EligibilityRule, UsagePolicy(Context), UsageAction copied from src/server-contracts.ts / src/index.d.ts; UsagePolicyContext.summary is unknown because UsageSummary is not published here. UsageHostServices and UsageMaintenanceErrorCode are package names.",
+      "maintenance.js describes provider behaviour from src/service.ts, src/transaction.ts, src/database/events-repository.ts and docs/API.md (Q-33 section). maintenance-fixture.js ports rollupAndPurge/withExecutor/retention check verbatim over an in-memory SQL emulation.",
+      "Not published: createUsageModule, UsageModule (fastify plugin type), full UsageService (legacy summary ports), createEligibilityReader, getUsageMigrations; they stay in the implementation package.",
+      "Appended files keep their v0.9.0 bytes as an exact prefix; top-level contractFiles still record those v0.9.0 hashes. FIXTURE only; no REAL_DB/REAL_HOST or owner ACCEPTED claim."
+    ]
+  }
 }
