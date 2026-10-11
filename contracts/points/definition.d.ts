@@ -1,7 +1,3 @@
-/** Provider-owned C-POINTS concrete surface for J2S4-APIC-05 publication review. */
-export type { OwnPointsDTO, PointsBindingStatus, OwnHanaPointsDTO, OwnPointsSubtotalsDTO, OwnLedgerEntryDTO, BalanceDTO, HanaClaimSummaryDTO, UsagePointsEvent, UsagePointsResult, ClaimPointsResult, DeviceBoundResult, CustodyErrorCode } from './contracts.js';
-export type { CustodyService } from './provider.js';
-export type { LaunchSnapshot, BeneficiaryEntitlementView, SnapshotService } from './snapshots/contracts.js';
 export declare const POINTS_CONTRACT_DEFINITION: {
     readonly id: "C-POINTS";
     readonly provider: "server-custody";
@@ -52,10 +48,46 @@ export declare const POINTS_CONTRACT_DEFINITION: {
             readonly output: "BeneficiaryEntitlementView";
             readonly errors: readonly ["CUSTODY_AUTH_REQUIRED", "CUSTODY_INPUT_INVALID", "CUSTODY_ALLOCATION_POLICY_REQUIRED", "CUSTODY_SNAPSHOT_NOT_FOUND", "CUSTODY_FORBIDDEN", "CUSTODY_WALLET_BINDING_CONFLICT", "CUSTODY_UNAVAILABLE"];
         };
+        readonly checkBeneficiaryView: {
+            readonly input: "BeneficiaryEntitlementView, BeneficiaryViewExpected";
+            readonly output: "string[] (failed rule IDs; empty means consumable)";
+            readonly errors: readonly [];
+        };
     };
     readonly bindingStatus: {
         readonly UNBOUND: "只累计、暂不可领";
         readonly BOUND: "已绑定；不承诺链上领取资格";
+    };
+    readonly snapshotSettings: {
+        readonly rootAuthorizationValiditySeconds: {
+            readonly input: "SnapshotPorts.settings.rootAuthorizationValiditySeconds";
+            readonly required: "each cut";
+            readonly default: null;
+            readonly error: "CUSTODY_ALLOCATION_POLICY_REQUIRED";
+            readonly need: "rootAuthorizationValiditySeconds";
+        };
+        readonly allocationRemainderRule: {
+            readonly input: "createProductionAllocationPolicy({allocationRemainderRule:{source,allocate}})";
+            readonly required: "production cuts with nonzero qualified points";
+            readonly default: null;
+            readonly error: "CUSTODY_ALLOCATION_POLICY_REQUIRED";
+            readonly need: "allocationRemainderRule";
+        };
+        readonly allocationOutput: {
+            readonly required: readonly ["source", "mode", "amounts", "platformDust", "reservedDust"];
+            readonly error: "CUSTODY_ALLOCATION_POLICY_REQUIRED";
+            readonly need: "exact missing field";
+        };
+        readonly readback: "snapshots.readSettings(): SnapshotSettingsView; host/admin only";
+    };
+    readonly beneficiaryValidation: {
+        readonly port: "BeneficiaryValidationPort";
+        readonly callable: "BeneficiaryViewChecker";
+        readonly expected: "BeneficiaryViewExpected";
+        readonly rules: readonly ["SCHEMA", "CONTEXT", "POLICY_LABEL", "ONE_WALLET", "NO_PER_ENTITLEMENT_AMOUNT", "PENDING_ZERO_ACCOUNT", "BOUND_ACCOUNT", "ISOLATION", "CLAIMABLE", "LEAF", "PROOF"];
+        readonly exceptions: "Typed view only: malformed nested fields, ABI values, integers or proofs may throw; no blanket catch or boolean conversion";
+        readonly publicationReview: "J4S3-APIC-18";
+        readonly evidence: "provider SOURCE/FIXTURE; not a published shared-contract port";
     };
     readonly invariants: readonly ["bindingStatus comes from verified identity and account binding facts, never points or pending amounts", "All existing points fields keep their meaning", "Local cross-module writes use the supplied WriteContext.executor", "Ledger rows are append-only", "Chain execution is NOT_CONNECTED"];
 };

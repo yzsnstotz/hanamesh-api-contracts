@@ -1,6 +1,6 @@
-# C-POINTS · v0.10.0
+# C-POINTS · v0.16.0
 
-提供方卡 J2S4-CUST-01，核对提交 `bee5d8219a6bdc70adbb14f72d9d637e21e29d77`。
+既有发布来自提供方卡 J2S4-CUST-01，核对提交 `bee5d8219a6bdc70adbb14f72d9d637e21e29d77`。
 `contracts.d.ts`、`provider.d.ts`、`snapshots/contracts.d.ts`、调用定义和错误实现从该提交提取；仅改包内类型路径、去掉 source map 注释和提供方运行夹具声明。
 本包不加载 Custody 产品实现，不修改提供方行为。来源与逐文件哈希见 `provenance.json`。
 
@@ -83,3 +83,42 @@ const fixture = createPointsProviderFixture({
 证据为 SOURCE/FIXTURE；REAL_DB、REAL_API、REAL_HOST、真实钱包/链和 owner ACCEPTED 不在本卡证据中，chain 保持 NOT_CONNECTED。
 
 许可：HanaMesh server-custody · 0.2.0（卡片提交 bee5d82）· MIT · https://github.com/yzsnstotz/hanamesh-server-custody · 类型/错误/调用定义/示例来源。开源底座为 null，未引入新依赖。
+
+## Q-50 · J4S3-APIC-18 增补
+
+本次固定来源：J4S3-CUST-05 正式 main `c93e7a6efa0d080f0b481b8d4f2577fe78cbd33a`。
+新增 `BeneficiaryViewExpected` / `BeneficiaryViewChecker` / `BeneficiaryValidationPort`：同步 `(view, expected) => string[]`，空数组为通过，保留任意未来失败 ID。expected 的 requestId/hanaId/token/batchId/principalId 必填且必须来自独立可信上下文。
+类型均从提供方声明提取；没有运行时 `checkBeneficiaryView` 导出。实际函数由 `@hanamesh/server-custody` 根入口供应。
+
+```ts
+import {checkBeneficiaryView} from '@hanamesh/server-custody';
+import type {BeneficiaryValidationPort} from '@hanamesh/api-contracts/points';
+const port:BeneficiaryValidationPort = {checkBeneficiaryView};
+```
+
+失败规则为 SCHEMA、CONTEXT、POLICY_LABEL、ONE_WALLET、NO_PER_ENTITLEMENT_AMOUNT、PENDING_ZERO_ACCOUNT、BOUND_ACCOUNT、ISOLATION、CLAIMABLE、LEAF、PROOF，定义保持提供方顺序。重复 ID 去重，SCHEMA 失败立即返回。token/batchId 只将 expected 转小写。
+ordinary/reserved 校验叶子及 proof；普通金额是钱包累计值，pending 预留零地址不可领。详细逐项规则和验证范围见 [提供方 API 原文](PROVIDER-HOST-API.md)。
+
+该 checker 接受类型化 view：null/错误 schema 返回 ['SCHEMA']；正确 schema 下缺 expected/嵌套字段可抛 TypeError，非法 BigInt 可抛 SyntaxError，非法 ABI 值可抛 viem 错误。失败规则不是 CustodyError，也不被共享包转换为 boolean 或成功回退。通过不验证付款、RPC、当前余额或领取状态，且不是全部 schema 字段的运行时验证。
+
+新增 `CustodyServiceDeps`、`CustodyStore`、`SnapshotServiceDeps`、`ConfirmedLaunchSource`、`SnapshotSetting`、`AllocationRemainderRule`、`ProductionAllocationSettings`、`ProductionAllocationPolicy`。已有 CustodyModuleOptions、CustodyService、SnapshotService、Signer、Chain、Summary、HTTP、账本、claim 和 C-UOW 导出保留。`ConfirmedLaunchSource.getConfirmedLaunch(input)` 无 context；admissions 端口的同名方法需要 WriteContext。
+只供应依赖声明；createCustodyModule/createCustodyStore/createCustodyService/createSnapshotService/createProductionAllocationPolicy/createConfirmedLaunchAdmissions 等工厂由提供方拥有，不在本包导出。
+
+具名设置沿用 provider：rootAuthorizationValiditySeconds 缺失/非正安全整数在快照构造时拒绝；allocationRemainderRule 缺失可构造，非零积分生产分配时拒绝；非法 source/allocate 在分配工厂拒绝。缺 allocation/source/mode/amounts/platformDust/reservedDust 使用 CUSTODY_ALLOCATION_POLICY_REQUIRED、503，need.input 指实际缺项；金额集合/预算/协议无效仍用 CUSTODY_ALLOCATION_INVALID。没有新错误码或默认政策。
+SnapshotSetting 同时描述秒数与策略来源；readSettings 不凭空加入缺少读取端口的策略项。两个 dust 缺项分别报告。
+
+```js
+import {createBeneficiaryValidationExamples, createBeneficiaryValidationPortFixture,
+  createSnapshotSettingsExamples} from '@hanamesh/api-contracts/points';
+const vectors = createBeneficiaryValidationExamples();
+// checker 必须显式由调用方提供：真实 provider checker 或明确测试场景。
+const fixture = createBeneficiaryValidationPortFixture(checker);
+const failures = fixture.port.checkBeneficiaryView(vectors.ordinary.view, vectors.ordinary.expected);
+```
+
+`beneficiary-validation-examples.json` 和 `snapshot-settings-examples.json` 从固定提交逐字复制；provider label 记录样例生成时的 SOURCE/FIXTURE，不表示本包执行了其算法。共享 helper 每次读出独立副本。最小 FIXTURE 仅注入并直接暴露同步 checker，缺 checker 抛 TypeError，原样保留失败数组与异常。它不实施校验、认证、持久化、分配、付款或链执行；旧 createPointsProviderFixture 接受范围保持不变。
+
+`validation-provenance.json` 记录新 SHA、原始 blob 哈希、适配和发布字节；`provenance.json` 保留前次来源，并标明本次覆盖项由增补清单追溯。提供方 API 原文是固定 SHA 的归档说明，其中“等待发布”与 factory/fixture 的描述属于提供方，不能理解为共享包导出。
+PACKAGE/FIXTURE 核验包括所有 exports、TS 正负例、确定性样例、显式 checker 转发及错误原样传播；固定 provider checker 的真实规则/异常向量另留运行目录证据。无 REAL_HOST、REAL_API、REAL_DB、资金/钱包/链或 owner ACCEPTED 证明。
+
+许可：HanaMesh server-custody · 0.2.0 / c93e7a6e · MIT · https://github.com/yzsnstotz/hanamesh-server-custody · 公开声明/定义/文档/确定性示例。未新增依赖、开源底座或合约项目。

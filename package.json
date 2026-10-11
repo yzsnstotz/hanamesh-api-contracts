@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -122,7 +122,10 @@
     "./contracts-abi/bond-manifest.json": "./contracts/contracts-abi/bond-manifest.json",
     "./contracts-abi/bond-provenance.json": "./contracts/contracts-abi/bond-provenance.json",
     "./contracts-abi/bond-frozen-manifest.json": "./contracts/contracts-abi/bond-frozen-manifest.json",
-    "./contracts-abi/mock_bond.py": "./contracts/contracts-abi/mock_bond.py"
+    "./contracts-abi/mock_bond.py": "./contracts/contracts-abi/mock_bond.py",
+    "./points/beneficiary-validation-examples.json": "./contracts/points/beneficiary-validation-examples.json",
+    "./points/snapshot-settings-examples.json": "./contracts/points/snapshot-settings-examples.json",
+    "./points/validation-provenance.json": "./contracts/points/validation-provenance.json"
   },
   "files": [
     "index.js",

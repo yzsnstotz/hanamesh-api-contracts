@@ -35,3 +35,21 @@ export interface PointsProviderFixture {
   readonly calls:readonly {readonly name:keyof (PointsService & PointsSnapshotService); readonly args:readonly unknown[]}[];
 }
 export declare function createPointsProviderFixture(handlers?:Partial<PointsService & PointsSnapshotService>):PointsProviderFixture;
+
+import type {BeneficiaryViewExpected, BeneficiaryViewChecker, BeneficiaryValidationPort, SnapshotSettings, SnapshotSetting} from './snapshots/contracts.js';
+export interface BeneficiaryValidationExamples {
+  readonly label:string;
+  readonly ordinary:{readonly view:BeneficiaryEntitlementView; readonly expected:BeneficiaryViewExpected};
+  readonly reserved:BeneficiaryValidationExamples['ordinary'];
+}
+export interface SnapshotSettingsExamples {
+  readonly label:string;
+  readonly validityInput:SnapshotSettings;
+  readonly remainderUnset:readonly SnapshotSetting[];
+  readonly remainderConfigured:readonly SnapshotSetting[];
+  readonly missingInputs:Readonly<Record<'rootAuthorizationValiditySeconds'|'allocationRemainderRule'|'platformDust'|'reservedDust', {readonly status:503; readonly body:{readonly error:{readonly code:'CUSTODY_ALLOCATION_POLICY_REQUIRED'; readonly message:string; readonly need:Readonly<Record<string,string>>}}}>>;
+}
+export declare function createBeneficiaryValidationExamples():BeneficiaryValidationExamples;
+export declare function createSnapshotSettingsExamples():SnapshotSettingsExamples;
+/** No implementation defaults: supply the provider checker or an explicit test scenario. */
+export declare function createBeneficiaryValidationPortFixture(checker:BeneficiaryViewChecker):{readonly label:string; readonly port:BeneficiaryValidationPort};

@@ -35,17 +35,34 @@ export interface FrozenLaunch extends ConfirmedLaunch {
 export interface SnapshotSettings {
     readonly rootAuthorizationValiditySeconds: number;
 }
+/** Explicit owning input for rounding/amounts and dust; no built-in production destination or algorithm. */
+export interface AllocationRemainderRule {
+    readonly source: string;
+    readonly allocate: AllocationPolicyPort['allocate'];
+}
+export interface ProductionAllocationSettings {
+    readonly allocationRemainderRule?: AllocationRemainderRule;
+}
+export type SnapshotSetting = {
+    readonly name: 'rootAuthorizationValiditySeconds';
+    readonly value: number;
+    readonly unit: 'seconds';
+    readonly required: true;
+    readonly default: null;
+    readonly scope: string;
+    readonly consequence: string;
+} | {
+    readonly name: 'allocationRemainderRule';
+    readonly value: string | null;
+    readonly unit: 'policy';
+    readonly required: true;
+    readonly default: null;
+    readonly scope: string;
+    readonly consequence: string;
+};
 export interface SnapshotSettingsView {
     readonly schema: 'hanamesh-custody-snapshot-settings-v1';
-    readonly settings: readonly {
-        readonly name: 'rootAuthorizationValiditySeconds';
-        readonly value: number;
-        readonly unit: 'seconds';
-        readonly required: true;
-        readonly default: null;
-        readonly scope: string;
-        readonly consequence: string;
-    }[];
+    readonly settings: readonly SnapshotSetting[];
 }
 export interface SnapshotHolder {
     readonly entitlementId: Hex;
@@ -69,6 +86,8 @@ export interface PolicyAllocation {
 }
 /** Required sourced policy. Test input is explicitly permitted only in test-only composition. No default provider. */
 export interface AllocationPolicyPort {
+    /** Optional host/admin readback for named inputs owned by this policy. */
+    readSettings?(): readonly SnapshotSetting[];
     allocate(input: {
         readonly launch: ConfirmedLaunch;
         readonly pMilli: string;
@@ -76,6 +95,9 @@ export interface AllocationPolicyPort {
         readonly dMilli: string;
         readonly holders: readonly SnapshotHolder[];
     }, context: WriteContext): Promise<PolicyAllocation>;
+}
+export interface ProductionAllocationPolicy extends AllocationPolicyPort {
+    readSettings(): readonly SnapshotSetting[];
 }
 export interface WalletFact {
     readonly principalId: string;
@@ -313,6 +335,20 @@ export interface BeneficiaryEntitlementView {
         readonly openingRecorded: boolean;
         readonly completedAt: string | null;
     };
+}
+/** Trusted consumer context, supplied independently of the received view. */
+export interface BeneficiaryViewExpected {
+    readonly requestId: string;
+    readonly hanaId: string;
+    readonly token: Hex;
+    readonly batchId: Hex;
+    readonly principalId: string;
+}
+/** Synchronous provider validator. Empty = consumable; malformed typed data may throw. */
+export type BeneficiaryViewChecker = (view: BeneficiaryEntitlementView, expected: BeneficiaryViewExpected) => string[];
+/** Host injection port; wire the provider's existing checkBeneficiaryView function. */
+export interface BeneficiaryValidationPort {
+    readonly checkBeneficiaryView: BeneficiaryViewChecker;
 }
 /** Chain owns canonical receipt/calldata/log/funding verification. Custody validates correspondence, not RPC. */
 export interface CanonicalDistributionReceipt {
