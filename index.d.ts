@@ -1,3 +1,4 @@
+import type { SEMANTIC_CONTRACT_DEFINITION } from './contracts/semantic/index.js';
 import type { USAGE_CONTRACT_DEFINITION } from './contracts/usage/index.js';
 import type { POINTS_CONTRACT_DEFINITION } from './contracts/points/definition.js';
 import type { CLAIM_CONTRACT_DEFINITION } from './contracts/claim/definition.js';
@@ -21,4 +22,5 @@ export declare const CONTRACTS: Readonly<Record<'C-CORE' | 'C-USAGE-LOCAL', Publ
     & Record<'C-INDEXER-CATALOG', PublishedDefinitionContract<typeof INDEXER_CONTRACT_DEFINITION>>
     & Record<'C-USAGE', PublishedDefinitionContract<typeof USAGE_CONTRACT_DEFINITION>>
     & Record<'C-POINTS', PublishedDefinitionContract<typeof POINTS_CONTRACT_DEFINITION>>
+    & Record<'C-SEMANTIC', PublishedDefinitionContract<typeof SEMANTIC_CONTRACT_DEFINITION>>
     & Record<'C-UOW', PublishedDefinitionContract<typeof UOW_CONTRACT_DEFINITION>>>;

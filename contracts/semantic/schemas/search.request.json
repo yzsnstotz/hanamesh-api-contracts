@@ -1,0 +1,6 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hanamesh.com/schemas/o5/search.request.json","type":"object","additionalProperties":false,"required":["query"],
+  "properties":{"query":{"type":"string","minLength":1,"maxLength":500},"type":{"const":"dsh_plugin"},"topK":{"type":"integer","minimum":1,"maximum":200},"telemetry":{"type":"boolean"},
+    "context":{"type":"object","additionalProperties":false,"properties":{"runtime":{"enum":["local","cloud"]},"os":{"enum":["macos","linux","windows"]},"arch":{"type":"string"},"dshVersion":{"type":"string"},"installed":{"type":"array","maxItems":100,"uniqueItems":true,"items":{"type":"string"}},"locale":{"enum":["zh","en","ja"]}}},
+    "constraints":{"type":"object","additionalProperties":false,"properties":{"localOnly":{"type":"boolean"},"free":{"type":"boolean"},"noShell":{"type":"boolean"},"license":{"type":"array","maxItems":20,"uniqueItems":true,"items":{"type":"string"}},"excludeInstalled":{"type":"boolean"}}}}
+}

@@ -6,13 +6,14 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.17.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.18.0"
 ```
 
 ## 合约
 
 | 合约 | 入口 | 提供方 → 使用方 | 来源 |
 |---|---|---|---|
+| C-SEMANTIC | `@hanamesh/api-contracts/semantic` | server-semantic → server-host | J3S1-SEM-01 正式 main `6756523` / `v0.2.0`；[公开端口与固定来源](contracts/semantic/README.md) |
 | C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；Q-50 跟随 J4S3-CUST-05 main `c93e7a6e` 增补受益人同步 checker/expected/port、服务注入与具名设置类型（来源：`/points/validation-provenance.json`）；[字段、错误、示例和夹具](contracts/points/README.md) |
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
 | C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md)。Q-33 宿主维护端口跟随 J2S3-SUSAGE-02 main `5ff545a`：`UsageMaintenancePort`/`RollupAndPurgeResult`、模块配置与注入类型、`USAGE_MAINTENANCE_DEFINITION`、独立维护 FIXTURE（[维护节](contracts/usage/README.md#宿主维护作业端口--j2s3-apic-16--q-33v0140只加不改)） |
@@ -301,3 +302,11 @@ J4S3-APIC-18 仅跟随提供方 J4S3-CUST-05 main `c93e7a6efa0d080f0b481b8d4f257
 模块配置既有类型保留，补发 `CustodyServiceDeps` / `CustodyStore` / `SnapshotServiceDeps` / `ConfirmedLaunchSource` 和具名设置/策略声明。
 [说明](contracts/points/README.md) 包含来源、11 项规则、设置错误和边界；两份 JSON 为固定 provider 样例原字节。
 独立最小 FIXTURE 只转发显式注入 checker；产品校验函数、工厂和分配算法仍由提供方供应。证据限 PACKAGE/FIXTURE。
+
+## C-SEMANTIC D-20 宿主公开端口（v0.18.0）
+
+J3S1-APIC-19 跟随正式 J3S1-SEM-01 main/tag `6756523` / `v0.2.0`。
+入口 `@hanamesh/api-contracts/semantic`；完整模块配置、五个服务调用、HTTP 与 embedding/decision
+具名配置仅供应公开类型签名，产品工厂由部署清单加载。
+[消费说明](contracts/semantic/README.md) 及固定提供方文档/来源清单公开原错误边界与最小 FIXTURE；
+不含生产算法。既有 C-UOW 与所有合约保持。证据限 PACKAGE/FIXTURE。

@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -126,7 +126,20 @@
     "./points/beneficiary-validation-examples.json": "./contracts/points/beneficiary-validation-examples.json",
     "./points/snapshot-settings-examples.json": "./contracts/points/snapshot-settings-examples.json",
     "./points/validation-provenance.json": "./contracts/points/validation-provenance.json",
-    "./indexer-catalog/read-provenance.json": "./contracts/indexer-catalog/read-provenance.json"
+    "./indexer-catalog/read-provenance.json": "./contracts/indexer-catalog/read-provenance.json",
+    "./semantic": {
+      "types": "./contracts/semantic/index.d.ts",
+      "default": "./contracts/semantic/index.js"
+    },
+    "./semantic/fixtures": {
+      "types": "./contracts/semantic/fixtures.d.ts",
+      "default": "./contracts/semantic/fixtures.js"
+    },
+    "./semantic/provenance.json": "./contracts/semantic/provenance.json",
+    "./semantic/schemas/search.request.json": "./contracts/semantic/schemas/search.request.json",
+    "./semantic/schemas/recommend.request.json": "./contracts/semantic/schemas/recommend.request.json",
+    "./semantic/schemas/feedback.request.json": "./contracts/semantic/schemas/feedback.request.json",
+    "./semantic/schemas/decision.response.json": "./contracts/semantic/schemas/decision.response.json"
   },
   "files": [
     "index.js",

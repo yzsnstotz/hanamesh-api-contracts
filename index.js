@@ -10,8 +10,10 @@ import { CHAIN_CONTRACT_DEFINITION } from './contracts/chain/definition.js';
 import { HANASWAP_CONTRACT_DEFINITION } from './contracts/hanaswap/index.js';
 import { CATALOG_CONTRACT_DEFINITION } from './contracts/catalog/definition.js';
 import { UOW_CONTRACT_DEFINITION } from './contracts/uow/definition.js';
+import { SEMANTIC_CONTRACT_DEFINITION } from './contracts/semantic/index.js';
 /** Contracts published in this version, keyed by baseline id. Each entry has its own subpath export. */
 export const CONTRACTS = Object.freeze({
+    'C-SEMANTIC': Object.freeze({provider: 'server-semantic', consumers: Object.freeze(['server-host']), entry: '@hanamesh/api-contracts/semantic', definition: SEMANTIC_CONTRACT_DEFINITION}),
     'C-POINTS': Object.freeze({provider:'server-custody',consumers:Object.freeze(['core','web-market','server-host']),entry:'@hanamesh/api-contracts/points',definition:POINTS_CONTRACT_DEFINITION}),
     'C-USAGE': Object.freeze({provider:'server-usage',consumers:Object.freeze(['usage','web-market','server-host']),entry:'@hanamesh/api-contracts/usage',definition:USAGE_CONTRACT_DEFINITION}),
     'C-CLAIM': Object.freeze({provider: 'server-claim', consumers: Object.freeze(['web-market', 'server-host']), entry: '@hanamesh/api-contracts/claim', definition: CLAIM_CONTRACT_DEFINITION}),
