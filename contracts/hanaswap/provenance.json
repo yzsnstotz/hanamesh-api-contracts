@@ -1,0 +1,18 @@
+{
+  "contract": "C-HANASWAP",
+  "providerRepo": "https://github.com/yzsnstotz/hanamesh-contracts",
+  "providerCommit": "c9e9809ea305e91b67005acbb34610f15ad7d563",
+  "sourceFiles": {
+    "UniswapV2Router02.json": "abi/UniswapV2Router02.json",
+    "manifest.json": "abi/manifest.json",
+    "example.json": "abi/example.json"
+  },
+  "fileSHA256": {
+    "UniswapV2Router02.json": "dead75ff0a9803758f7ec7e5daa93527d4948ee8a22be221e07707c2e96c2d1f",
+    "manifest.json": "b26669d7eb7be5c78db359cd6c7a6a3634d401fda49bb564b19c593bad9fc85c",
+    "example.json": "dd2e5009b97ba79e3c1d49269eecca5c83383c2d045f147ab4249845647ef800",
+    "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  "licenseSource": "hanaswap/periphery/LICENSE",
+  "abiHashEncoding": "SHA256(JSON.stringify(abi)); fileSHA256 uses original file bytes"
+}

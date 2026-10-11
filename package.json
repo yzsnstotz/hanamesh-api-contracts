@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,22 @@
       "default": "./contracts/identity/index.js"
     },
     "./identity/schema.json": "./contracts/identity/schema.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./chain": {
+      "types": "./contracts/chain/index.d.ts",
+      "default": "./contracts/chain/index.js"
+    },
+    "./hanaswap": {
+      "types": "./contracts/hanaswap/index.d.ts",
+      "default": "./contracts/hanaswap/index.js"
+    },
+    "./chain/confirmed-launch.schema.json": "./contracts/chain/confirmed-launch.schema.json",
+    "./chain/user-paid-claim.schema.json": "./contracts/chain/user-paid-claim.schema.json",
+    "./chain/provenance.json": "./contracts/chain/provenance.json",
+    "./hanaswap/UniswapV2Router02.json": "./contracts/hanaswap/UniswapV2Router02.json",
+    "./hanaswap/manifest.json": "./contracts/hanaswap/manifest.json",
+    "./hanaswap/example.json": "./contracts/hanaswap/example.json",
+    "./hanaswap/provenance.json": "./contracts/hanaswap/provenance.json"
   },
   "files": [
     "index.js",

@@ -1,4 +1,4 @@
 {
   "compilerOptions": { "strict": true, "noEmit": true, "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "skipLibCheck": false, "types": [] },
-  "files": ["types.ts"]
+  "files": ["types.ts", "chain-hanaswap-types.ts"]
 }
