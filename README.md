@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.2.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.3.0"
 ```
 
 ## 合约
@@ -16,9 +16,11 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`） | core → usage, desktop | hanamesh-core main `0fa85ef`：`lib/contract.js`、`lib/contract-fixtures.js`、`contract/hanamesh-core.v1.schema.json` 原样搬入（仅改相对路径） |
 | C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js` |
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
+| C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
+| C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
 
-每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道、`implementationErrors` 与说明）、
-JSON Schema、`create*ProviderFixture`（带 `FIXTURE` 标签的内存模拟提供方，不是产品实现）和 `create*ContractExamples`（示例数据）。
+每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、
+类型、JSON Schema 或 ABI、`create*ProviderFixture`（带 `FIXTURE` 标签的内存模拟提供方，不是产品实现）和 `create*ContractExamples`（示例数据）。
 `errors` 是基线声明的错误码；`implementationErrors` 是当前提供方实际还会返回的码；两者不一致的地方写在 `note` 里。
 
 ## C-IDENTITY 要点（按提供方现状，不是基线原文）
@@ -39,6 +41,36 @@ JSON Schema、`create*ProviderFixture`（带 `FIXTURE` 标签的内存模拟提�
 GitHub 证明恒为 `GITHUB_TOKEN_INVALID`；钱包 challenge/bind 需要可选 peer 依赖 `viem`（不装时 `createIdentityContractExamples({wallets:false})`，`getBinding` 等其余端口不需要 viem）。
 未移植提供方的 Pick/port 一致性套件（`/contract/ports`、`/contract/suite`）。
 
+## C-CHAIN 工厂签名
+
+`ChainFactories` 精确保留以下五个提供方工厂的 options、异步返回、服务端口和相关 DTO：
+`createConfirmedLaunchProducer`、`createLaunchAdmissionProducer`、`createUserPaidClaimAdapter`、
+`createBondSupplyAdapter`、`createSwapSupplyAdapter`。可用 `Parameters<ChainFactories['createSwapSupplyAdapter']>[0]`
+取 options，用 `Awaited<ReturnType<...>>` 取端口。工厂名及错误类**只作为类型导出**；本包没有生产工厂实现。
+Host 组合提供方工厂时，以 `ChainFactories` 校验其签名；不要从本包运行时 import 这些工厂。
+
+- `ConfirmedLaunch` 为 readonly 发行事实，缺失发行返回 `null`，没有 `rootValidUntil`；根授权提交有效期由 Custody 在 cut 时冻结。
+- admission 显式依赖事实、市场、signer、store；新请求由 payer 声明 name/symbol。
+- user-paid claim 和 swap 的 `walletClient?: never` 原样保留，由用户钱包签名广播；现有 Bond 工厂要求服务端 wallet client 与 receipt policy。
+- `factories.*.baselineErrors` 保留基线摘要；`errors` / `directErrors` 是提供方源码及已列 shared helpers 的错误目录，按 `code` 识别。
+  注入端口、journal、RPC/SDK 或组合 producer 还会传播其他错误，不能将目录当作穷举 union。
+  例如 Bond 基线的 `HANA_NOT_ISSUED` / `MARKET_NOT_QUALIFIED` 来自可信事实/admission 路径，不能凭基线给 Bond 工厂编造本地错误。
+- `createChainContractExamples()` 给出五条调用相关的合成 DTO/请求；`createChainProviderFixture()` 仅模拟 `ConfirmedLaunchProducer` 的匹配请求读口和缺失 `null`，不模拟链验证或可执行交易。
+
+## C-HANASWAP Router02
+
+JSON 与 `HANASWAP_ROUTER02_ABI` 是完整 **26 项 / 24 个函数** ABI，类型入口保留字段字面量，支持 viem 编解码类型推导。
+`HANASWAP_ABI_MANIFEST` 原样记录冻结 periphery `ed249913`、solc 0.6.6、Istanbul / optimizer 999999。
+ABI 内容哈希为 `SHA256(JSON.stringify(abi))`：`6e79ecda8373ea27fceeff14d4fd6c587524bf3241cd26919048d6572164cac5`；
+原始 JSON 文件字节哈希另见 `contracts/hanaswap/provenance.json`。
+
+金额为整数 base units，deadline 为 Unix 秒，地址为占位示例。swap 输入 token、移除流动性的 LP 均需先独立 approve；
+Router 使用 `Error(string)`，不是自定义 ABI error；常见错误是 `INSUFFICIENT_OUTPUT_AMOUNT`、`INSUFFICIENT_A_AMOUNT`、
+`INSUFFICIENT_B_AMOUNT`、`EXPIRED`（均带 `UniswapV2Router: ` 前缀），底层 pair/token/library 还可传播错误。
+`createHanaSwapProviderFixture()` 只移植提供方 `abi/mock_hanaswap.py` 的固定 swap 示例及滑点/过期拒绝，不提供 LP 模拟或定价引擎。
+
+本包自有代码为 MIT；Router02 ABI 来源为 GPL-3.0-or-later，附其原始许可 `contracts/hanaswap/LICENSE`。
+
 ## 自检
 
 ```sh
@@ -46,7 +78,9 @@ npm ci && npm test
 ```
 
 `node --test` 校验：定义与基线的调用/错误码一致、示例数据通过 schema、每个声明的错误码都有示例、
-C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；`tsc` 校验类型声明。
+C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；
+C-CHAIN 声明/schema 来源哈希、合成 DTO 与缺失事实读口；C-HANASWAP 完整 ABI/hash、swap/add/remove 编解码与固定模拟错误；
+`tsc` 校验五个工厂类型、readonly 发行事实、用户钱包 signer 排除和 ABI 参数。
 
 ## 发布
 
@@ -59,5 +93,8 @@ C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂�
 | ajv | ^8.20.0 | MIT | https://github.com/ajv-validator/ajv | 开发依赖：测试里按 JSON Schema 2020-12 校验示例数据 |
 | typescript | ^5.9.3 | Apache-2.0 | https://github.com/microsoft/TypeScript | 开发依赖：校验 `.d.ts` |
 | viem | 2.54.2（peer `^2.54.2`，可选） | MIT | https://github.com/wevm/viem | C-IDENTITY 夹具的钱包 challenge/bind：SIWE 消息（`viem/siwe`）与 EIP-191 验签；版本同提供方锁定 |
+| Uniswap V2 periphery | ed24991304291297c3b4a52818d02f46a17aa9a2 | GPL-3.0-or-later | https://github.com/Uniswap/v2-periphery | contracts 提供的完整 Router02 ABI 与原始许可；不引入运行时依赖 |
+
+C-CHAIN 类型引用 viem 的公开 SDK 类型；类型消费方需安装兼容 viem。签名来源提供方锁定 viem 2.56.9；本包现有开发版本 2.54.2 的类型自检也通过。C-HANASWAP JSON/离线模拟不加载 viem。
 
 运行时无必需依赖（只用 Node 内置 `node:crypto`、`node:fs`）；`viem` 是可选 peer，只有 C-IDENTITY 夹具的钱包两步会加载它。
