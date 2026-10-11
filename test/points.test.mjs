@@ -14,7 +14,7 @@ test('C-POINTS is published under its provider and subpath', async () => {
   assert.deepEqual(CONTRACTS['C-POINTS'].consumers,['core','web-market','server-host']);
   assert.equal(CONTRACTS['C-POINTS'].definition, p.POINTS_CONTRACT_DEFINITION);
   assert.equal(CONTRACTS['C-POINTS'].entry, '@hanamesh/api-contracts/points');
-  assert.equal(Object.keys(p.POINTS_CONTRACT_DEFINITION.calls).length, 9);
+  assert.equal(Object.keys(p.POINTS_CONTRACT_DEFINITION.calls).length, 10);
 });
 
 test('Q-13 zero scenarios differ only in bindingStatus and retain all old fields', async () => {

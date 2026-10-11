@@ -37,3 +37,47 @@ const port:PointsService = f.service;
 const error = new CustodyError('CUSTODY_PAYMENT_NOT_CONFIRMED');
 void status; void snapshot; void entitlement; void missing; void wrong; void consume; void port; void error;
 void CONTRACTS['C-POINTS'].definition.bindingStatus.UNBOUND;
+
+// Q-50 public host injection types; product factories belong to server-custody.
+import {createBeneficiaryValidationExamples,createBeneficiaryValidationPortFixture,createSnapshotSettingsExamples} from '@hanamesh/api-contracts/points';
+import type {BeneficiaryViewExpected,BeneficiaryViewChecker,BeneficiaryValidationPort,CustodyModuleOptions,CustodyServiceDeps,CustodyStore,SnapshotServiceDeps,ConfirmedLaunchSource,ProductionAllocationSettings,ProductionAllocationPolicy,SnapshotSetting,VoucherSigner,ChainExecutor,ClaimSummaryProvider} from '@hanamesh/api-contracts/points';
+import type {IdentityServices} from '@hanamesh/api-contracts/identity';
+import type {SqlExecutor,UnitOfWork} from '@hanamesh/api-contracts/uow';
+declare const checker:BeneficiaryViewChecker, expected:BeneficiaryViewExpected;
+const validation:BeneficiaryValidationPort=createBeneficiaryValidationPortFixture(checker).port;
+const vectors=createBeneficiaryValidationExamples();
+const failedRules:string[]=validation.checkBeneficiaryView(vectors.ordinary.view,expected);
+// @ts-expect-error synchronous rule IDs, never boolean
+const booleanChecker:BeneficiaryViewChecker=()=>true;
+// @ts-expect-error asynchronous results are not the provider callable
+const asyncChecker:BeneficiaryViewChecker=async()=>[];
+// @ts-expect-error principalId required
+const incompleteExpected:BeneficiaryViewExpected={requestId:'r',hanaId:'h',token:'0x01',batchId:'0x02'};
+// @ts-expect-error expected independently required
+validation.checkBeneficiaryView(vectors.ordinary.view);
+// @ts-expect-error no production checker implementation in the shared package
+import {checkBeneficiaryView} from '@hanamesh/api-contracts/points';
+// @ts-expect-error no product factory in the shared package
+import {createCustodyService} from '@hanamesh/api-contracts/points';
+declare const options:CustodyModuleOptions, serviceDeps:CustodyServiceDeps, snapshotDeps:SnapshotServiceDeps;
+declare const identity:IdentityServices, uow:UnitOfWork, sql:SqlExecutor;
+const injectedService:CustodyServiceDeps={...serviceDeps,identity,unitOfWork:uow};
+const injectedSnapshot:SnapshotServiceDeps={...snapshotDeps,identity,unitOfWork:uow};
+const store:CustodyStore=injectedService.store;
+const signer:VoucherSigner=options.signer;
+const chain:ChainExecutor=options.executor;
+const summary:ClaimSummaryProvider={readOwner:async()=>null};
+const producer:ConfirmedLaunchSource={getConfirmedLaunch:async(_input)=>null};
+producer.getConfirmedLaunch({requestId:'r'});
+// @ts-expect-error producer has no host context parameter
+producer.getConfirmedLaunch({requestId:'r'},{executor:sql});
+snapshotDeps.ports.admissions.getConfirmedLaunch({requestId:'r'},{executor:sql});
+// @ts-expect-error admissions requires the host context
+snapshotDeps.ports.admissions.getConfirmedLaunch({requestId:'r'});
+const settings:ProductionAllocationSettings={allocationRemainderRule:{source:'FIXTURE',allocate:async()=>({source:'FIXTURE',mode:'test-only',amounts:[],platformDust:'0',reservedDust:'0'})}};
+declare const production:ProductionAllocationPolicy;
+const readback:readonly SnapshotSetting[]=production.readSettings();
+const namedSettings:readonly SnapshotSetting[]=createSnapshotSettingsExamples().remainderUnset;
+// @ts-expect-error both dust fields required
+const missingDust:Awaited<ReturnType<ProductionAllocationPolicy['allocate']>>={source:'FIXTURE',mode:'production',amounts:[],platformDust:'0'};
+void [failedRules,booleanChecker,asyncChecker,incompleteExpected,injectedSnapshot,store,signer,chain,summary,settings,readback,namedSettings,missingDust];

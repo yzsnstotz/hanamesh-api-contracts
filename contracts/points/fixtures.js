@@ -20,3 +20,12 @@ export function createPointsProviderFixture(handlers = {}) {
     snapshots: Object.fromEntries(['admit','readEntitlements'].map(name => [name, port(name)]))
   };
 }
+
+/** Copied deterministic outputs; no codec, admission or validation algorithm runs here. */
+export function createBeneficiaryValidationExamples() { return read('./beneficiary-validation-examples.json'); }
+export function createSnapshotSettingsExamples() { return read('./snapshot-settings-examples.json'); }
+/** Explicit synchronous injection only; failure arrays and exceptions pass through unchanged. */
+export function createBeneficiaryValidationPortFixture(checker) {
+  if (typeof checker !== 'function') throw new TypeError('FIXTURE checkBeneficiaryView: explicit checker required');
+  return {label: 'FIXTURE · C-POINTS · injected checker only; no product validation, SQL or chain', port: {checkBeneficiaryView: checker}};
+}

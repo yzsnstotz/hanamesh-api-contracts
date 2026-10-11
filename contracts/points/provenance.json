@@ -39,22 +39,22 @@
     "entitlements-examples.json": "examples/points-entitlements-examples.json"
   },
   "publishedFiles": {
-    "README.md": "3a88f35972b91b17593df88479c6384d8a1c40317045a415992842fb346b2290",
+    "README.md": "b1033fb6e2ba61075dc0a9f4327f90d565d4cc0b140ea37fce93b05bc35c6056",
     "contracts.d.ts": "af1d5ce4238bcd57f1216403a32fbe2a8dd9cd7272fa93242679e6b3f2f4ab5d",
-    "definition.d.ts": "80f0fb88bee17f6985c05063f8bc387313ec96e5962b574ba685d208a73e3123",
-    "definition.js": "c471e4945d4b7bff0207a35231069ff7670dae55346b2315a5698d58ca028003",
+    "definition.d.ts": "5382709f8d63dd9aea170982f9c44fb53749deb0cdaf25e207a5ac9b92d0209d",
+    "definition.js": "632135dc3fcebb1f73360a9ed3cd18c7d617f730bd2c408c478d1c9bed773b84",
     "entitlements-examples.json": "27f1ca4fa52c7e39f4a4d86c2e640220b39e1209ce31664c6da5e99f1d29fd48",
     "entitlements.schema.json": "0a139e77b9e8ec73ac8112441d365de482a7335f4866b22a09848ed3ccf82e8e",
     "errors.d.ts": "58167245170d276680312573fec68d341aaed5876f88c1d2caf3f0d4e9bc17f8",
     "errors.js": "16d1c3f988743d46700a2a66e70be5db79057899ce024b7df4578f55f423cf2d",
     "examples.json": "1470f3cc0ef91728e15cd2e72da1b561834c4edb15f301266f284cdb9a6d01df",
-    "fixtures.d.ts": "ad9bd922eeb6df9bf0106f4886c15037e56b87693a6285819350152fad9113a9",
-    "fixtures.js": "6276e1827d142e0c03dd8b56d49f393db543b3bce96c5225551c9fea47609898",
-    "index.d.ts": "1e38b0d73664761eaf7cf7cdc236a45b667d446745846908d795c9c062d90aa8",
-    "index.js": "8064abd898853b1cf9e17a8b95bdd5831c077d202f5043dbc705a37eddac262d",
+    "fixtures.d.ts": "0412521a27e6e9c17f6076b1c9dcd084949f02cf0ec3d83d677bdf23de6686bb",
+    "fixtures.js": "61f267c5b19d1b5d77cb1d5944c1db261d341daee9bd59b9d09b6e0050b5f643",
+    "index.d.ts": "d8e05d33eab4a50a31ca4acb89a8bf5182248d0f8674e345a4a3831b2a808b9d",
+    "index.js": "f7f86f6753a2cfe6494302a3dac488befb83df8a18eb0e364ded31668e33f1b4",
     "provider.d.ts": "e183e3793b24cc7802fef25b7ab9cf499c1870db0d3af40de67949604e5178bf",
     "schema.json": "67b6a8e67f8720949052c13aaf698183e5828c2b096e305dc5350fc2392173e9",
-    "snapshots/contracts.d.ts": "61483fe4296b15d8a3199498dbf7fd896412919ae3f1c3fe0d1656888f12066b"
+    "snapshots/contracts.d.ts": "363a7e9cb82902dcdb59abec371aa108b6a6c5431989a0af83771db8297e5134"
   },
   "notes": [
     "Pin is the delivered dependency report commit, not the newer dirty provider worktree. No provider files changed.",
@@ -64,5 +64,17 @@
     "Additional unboundPending/boundPoints vectors use provider fixture install = 5 whole points. Original zero vectors and old field semantics retained.",
     "Fixture handlers forward explicit scenarios, never infer account binding or claimability, do not simulate scoring, identity, SQL, signatures or chain.",
     "No new dependency or open-source base; source license MIT. SOURCE/FIXTURE only; real database/API/host/chain NOT_RUN."
-  ]
+  ],
+  "supplement": {
+    "manifest": "validation-provenance.json",
+    "commit": "c93e7a6efa0d080f0b481b8d4f2577fe78cbd33a",
+    "card": "J4S3-CUST-05",
+    "publicationCard": "J4S3-APIC-18",
+    "supersededArtifacts": [
+      "definition.js",
+      "definition.d.ts",
+      "snapshots/contracts.d.ts"
+    ],
+    "note": "Original sourceFiles/extractedFiles describe the prior publication. Current hashes refreshed below; supplement gives the fixed source for changed/new artifacts."
+  }
 }

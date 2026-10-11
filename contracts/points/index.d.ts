@@ -4,3 +4,7 @@ export type * from './snapshots/contracts.js';
 export {POINTS_CONTRACT_DEFINITION} from './definition.js';
 export {CustodyError, safeCustodyError} from './errors.js';
 export * from './fixtures.js';
+export type {CustodyServiceDeps} from './service-deps.js';
+export type {CustodyStore} from './store.js';
+export type {SnapshotServiceDeps} from './snapshots/service-deps.js';
+export type {ConfirmedLaunchSource} from './snapshots/producer.js';

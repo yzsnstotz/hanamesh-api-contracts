@@ -6,14 +6,14 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.14.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.16.0"
 ```
 
 ## 合约
 
 | 合约 | 入口 | 提供方 → 使用方 | 来源 |
 |---|---|---|---|
-| C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；[字段、错误、示例和夹具](contracts/points/README.md) |
+| C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；Q-50 跟随 J4S3-CUST-05 main `c93e7a6e` 增补受益人同步 checker/expected/port、服务注入与具名设置类型（来源：`/points/validation-provenance.json`）；[字段、错误、示例和夹具](contracts/points/README.md) |
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
 | C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md)。Q-33 宿主维护端口跟随 J2S3-SUSAGE-02 main `5ff545a`：`UsageMaintenancePort`/`RollupAndPurgeResult`、模块配置与注入类型、`USAGE_MAINTENANCE_DEFINITION`、独立维护 FIXTURE（[维护节](contracts/usage/README.md#宿主维护作业端口--j2s3-apic-16--q-33v0140只加不改)） |
 | C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js`；Q-18 跟随 J1S4-USAGE-02 main `6f724fc`：`occurredAt` 必填、稳定事件 nonce、跨客户端同事实规则；[说明与示例](contracts/usage-local/README.md) |
@@ -293,3 +293,11 @@ SOURCE_BUILD 继承提供方；本包只验证 PACKAGE/FIXTURE，真实领取 pr
 新增 `USAGE_LOCAL_DELIVERY_RULES`、`usageRecordEventNonce`、夹具 `uploadEvents()` 与 `createUsageLocalCrossClientExamples`
 （重复事实、不同操作、不同设备、时间不一致冲突、缺时间）。事件级 nonce 与 HTTP 请求 nonce 的区别及证据范围见
 [C-USAGE-LOCAL 说明](contracts/usage-local/README.md)。均为 FIXTURE，不是双客户端或服务端验收。
+
+## C-POINTS Q-50 宿主注入与受益人校验（v0.16.0）
+
+J4S3-APIC-18 仅跟随提供方 J4S3-CUST-05 main `c93e7a6efa0d080f0b481b8d4f2577fe78cbd33a`。
+新增 `BeneficiaryViewChecker` / `BeneficiaryViewExpected` / `BeneficiaryValidationPort`，保持同步失败规则 ID 数组及原异常边界。
+模块配置既有类型保留，补发 `CustodyServiceDeps` / `CustodyStore` / `SnapshotServiceDeps` / `ConfirmedLaunchSource` 和具名设置/策略声明。
+[说明](contracts/points/README.md) 包含来源、11 项规则、设置错误和边界；两份 JSON 为固定 provider 样例原字节。
+独立最小 FIXTURE 只转发显式注入 checker；产品校验函数、工厂和分配算法仍由提供方供应。证据限 PACKAGE/FIXTURE。
