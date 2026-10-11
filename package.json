@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -96,7 +96,23 @@
     "./points/entitlements.schema.json": "./contracts/points/entitlements.schema.json",
     "./points/examples.json": "./contracts/points/examples.json",
     "./points/entitlements-examples.json": "./contracts/points/entitlements-examples.json",
-    "./points/provenance.json": "./contracts/points/provenance.json"
+    "./points/provenance.json": "./contracts/points/provenance.json",
+    "./contracts-abi/frozen/oz-ctr09": {
+      "types": "./contracts/contracts-abi/frozen/oz-ctr09/index.d.ts",
+      "default": "./contracts/contracts-abi/frozen/oz-ctr09/index.js"
+    },
+    "./contracts-abi/frozen/oz-ctr09/HanaLauncher.json": "./contracts/contracts-abi/frozen/oz-ctr09/HanaLauncher.json",
+    "./contracts-abi/frozen/oz-ctr09/LaunchFee.json": "./contracts/contracts-abi/frozen/oz-ctr09/LaunchFee.json",
+    "./contracts-abi/frozen/oz-ctr09/HanaToken.json": "./contracts/contracts-abi/frozen/oz-ctr09/HanaToken.json",
+    "./contracts-abi/frozen/oz-ctr09/Distributor.json": "./contracts/contracts-abi/frozen/oz-ctr09/Distributor.json",
+    "./contracts-abi/frozen/oz-ctr09/ReservedDistributor.json": "./contracts/contracts-abi/frozen/oz-ctr09/ReservedDistributor.json",
+    "./contracts-abi/frozen/oz-ctr09/manifest.json": "./contracts/contracts-abi/frozen/oz-ctr09/manifest.json",
+    "./contracts-abi/Distributor.json": "./contracts/contracts-abi/Distributor.json",
+    "./contracts-abi/ReservedDistributor.json": "./contracts/contracts-abi/ReservedDistributor.json",
+    "./contracts-abi/frozen/oz-ctr09/distributor-manifest.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-manifest.json",
+    "./contracts-abi/frozen/oz-ctr09/distributor-example.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-example.json",
+    "./contracts-abi/frozen/oz-ctr09/provenance.json": "./contracts/contracts-abi/frozen/oz-ctr09/provenance.json",
+    "./contracts-abi/frozen/oz-ctr09/mock_distributor.py": "./contracts/contracts-abi/frozen/oz-ctr09/mock_distributor.py"
   },
   "files": [
     "index.js",
