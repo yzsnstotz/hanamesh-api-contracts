@@ -6,14 +6,22 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.18.0"
+{
+  "devDependencies": {
+    "@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.19.0"
+  }
+}
 ```
+
+合约只放 `devDependencies`，不得放消费模块的 `dependencies` 或 `peerDependencies`。
+消费运行结构由模块构建编入；生产插件不得携带整个合约包或在运行时加载它。
+部署宿主按自己的 composition 清单加载提供方正式实现，普通消费者仅使用合约类型与开发 FIXTURE。
 
 ## 合约
 
 | 合约 | 入口 | 提供方 → 使用方 | 来源 |
 |---|---|---|---|
-| C-SEMANTIC | `@hanamesh/api-contracts/semantic` | server-semantic → server-host | J3S1-SEM-01 正式 main `6756523` / `v0.2.0`；[公开端口与固定来源](contracts/semantic/README.md) |
+| C-SEMANTIC | `@hanamesh/api-contracts/semantic` | server-semantic → server-host | J3S1-SEM-02 正式 main `7930d77`；v0.19.0 新增当前 embedding 事实读口与完整配置；[公开端口与固定来源](contracts/semantic/README.md) |
 | C-POINTS | `@hanamesh/api-contracts/points`（schema：`/points/schema.json`、`/points/entitlements.schema.json`；来源：`/points/provenance.json`） | server-custody → core, web-market, server-host | J2S4-CUST-01 提交 `bee5d82`：points/ledger/balance、宿主三写钩子、launch-snapshots/entitlements；Q-13 必填绑定状态与旧字段保留；Q-50 跟随 J4S3-CUST-05 main `c93e7a6e` 增补受益人同步 checker/expected/port、服务注入与具名设置类型（来源：`/points/validation-provenance.json`）；[字段、错误、示例和夹具](contracts/points/README.md) |
 | C-CORE | `@hanamesh/api-contracts/core`（schema：`/core/schema.json`；来源：`/core/provenance.json`） | core → usage, desktop | v1 定义/schema/独立 fixture 仍来自 hanamesh-core main `0fa85ef`，原样搬入（仅改相对路径）；共享身份语义跟随 J1S4-CORE-02 main `572d853` 的 `docs/API.md`、`docs/CORE_CONTRACT.md` 与已校验归档 REPORT |
 | C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md)。Q-33 宿主维护端口跟随 J2S3-SUSAGE-02 main `5ff545a`：`UsageMaintenancePort`/`RollupAndPurgeResult`、模块配置与注入类型、`USAGE_MAINTENANCE_DEFINITION`、独立维护 FIXTURE（[维护节](contracts/usage/README.md#宿主维护作业端口--j2s3-apic-16--q-33v0140只加不改)） |
@@ -310,3 +318,11 @@ J3S1-APIC-19 跟随正式 J3S1-SEM-01 main/tag `6756523` / `v0.2.0`。
 具名配置仅供应公开类型签名，产品工厂由部署清单加载。
 [消费说明](contracts/semantic/README.md) 及固定提供方文档/来源清单公开原错误边界与最小 FIXTURE；
 不含生产算法。既有 C-UOW 与所有合约保持。证据限 PACKAGE/FIXTURE。
+
+## C-SEMANTIC Q61/Q67/Q81（v0.19.0）
+
+只跟随 J3S1-SEM-02 已测试合 main `7930d7729d2fbaae4f096cea481d29a4c8068132`，旧 v0.18.0 调用/类型/JSON/FIXTURE 保持。
+新增 server-only 当前行 embedding 事实、完整具名配置、独立录制 FIXTURE 和公开类型工厂签名；公开新增面一次 minor。
+[说明](contracts/semantic/README.md)、[事实语义](contracts/semantic/EMBEDDING-FACTS.md)、[配置与错误](contracts/semantic/CONFIGURATION.md)
+和 [新来源](contracts/semantic/current-provenance.json) 明确 all/exact、分页、空/故障、当前 MIN 非永久历史及宿主 C-CATALOG 集合分母。
+证据仅 PACKAGE/FIXTURE，不代表 REAL_HOST/UI/MODEL 或 owner ACCEPTED。

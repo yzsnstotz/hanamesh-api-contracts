@@ -1,3 +1,4 @@
+import { type ProviderTransportOptions } from '../configuration.js';
 import type { EmbeddingProvider, EmbeddingResult, ProviderMode } from '../contracts.js';
 export declare class StubEmbeddingProvider implements EmbeddingProvider {
     readonly name = "stub";
@@ -13,7 +14,7 @@ export declare class StubEmbeddingProvider implements EmbeddingProvider {
     embedDocument(texts: readonly string[]): Promise<EmbeddingResult>;
     embedQuery(texts: readonly string[]): Promise<EmbeddingResult>;
 }
-export interface VoyageOptions {
+export interface VoyageOptions extends ProviderTransportOptions {
     apiKey: string;
     dimension?: number;
     endpoint?: string;
@@ -36,6 +37,9 @@ export declare class VoyageEmbeddingProvider implements EmbeddingProvider {
     private readonly sleep;
     private readonly timeoutMs;
     private readonly maxRetries;
+    private readonly retryBaseDelayMs;
+    private readonly retryBackoffFactor;
+    private readonly diagnostic;
     constructor(options: VoyageOptions);
     private embed;
     embedDocument(texts: readonly string[]): Promise<EmbeddingResult>;

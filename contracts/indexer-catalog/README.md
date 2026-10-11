@@ -38,14 +38,14 @@ export const createIndexerComposition: IndexerCompositionFactory = async request
 // pool/Registry/UOW 共用数据库；host 负责授权、迁移顺序和 runtime grants。
 ```
 
-既有提供方 API 的启动/关闭用法：
+部署宿主加载提供方实现的启动/关闭用法（普通消费者只注入正式 `IndexerRunner` 类型）：
 
 ```ts
-// createIndexerRunner 从提供方包取得；供给类型只从合约包取得。
+// 仅宿主 composition：按部署清单加载提供方；供给类型只从 devDependency 合约包取得。
 import {createIndexerRunner} from '@hanamesh/server-indexer';
 const ports = await createIndexerComposition({databaseUrl, purpose:'index-once'});
 // runner 参数验证抛错时由调用者关闭已返回的供给。
-let runner;
+let runner: import('@hanamesh/api-contracts/indexer-catalog').IndexerRunner;
 try { runner = createIndexerRunner(ports); }
 catch (error) { await ports.close(); throw error; }
 try { await runner.start(); await runner.run('awesome'); }
@@ -62,6 +62,8 @@ node scripts/serve.mjs --db="$DATABASE_URL" --port=34081 --composition-module="$
 node scripts/migrate-dev.mjs --db="$DATABASE_URL" --composition-module="$INDEXER_COMPOSITION_MODULE"
 ```
 
+此 runner 签名按原固定来源及 Q55 main `f2a089ae2981324abf432aa73a1546c89693d817` 的 `dist/runner.d.ts` 核对：`createIndexerRunner(ports: IndexerComposition): IndexerRunner`。
+合约只放 devDependencies；构建编入运行结构，不向插件发布整个合约包。
 脚本位于提供方包。serve 的 SIGINT/SIGTERM 关闭 Fastify再关闭供给。真实 Registry+PG factory/migrator/完整独立运行器仍 DEFERRED(J3S1-HOST-01)。Registry fixture/seeded port只是 FIXTURE，不是生产组合或 REAL_HOST；本卡不宣称 owner ACCEPTED。
 
 ## Q55 · J3S3-IDX-02 / J3S3-APIC-20 · v0.17.0

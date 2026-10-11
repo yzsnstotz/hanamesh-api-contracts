@@ -8,6 +8,7 @@ export interface PluginOptions {
     mode: ProviderMode;
     allowedOrigins: readonly string[];
     rateLimitPerMinute?: number;
+    rateLimitWindowMs?: number;
     now?: () => number;
     actorResolver?: (request: FastifyRequest) => {
         kind: 'anon' | 'device' | 'account';

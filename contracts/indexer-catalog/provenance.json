@@ -23,7 +23,7 @@
     "provider.d.ts": "dist/index.d.ts (IndexerModuleOptions only)"
   },
   "publishedFiles": {
-    "README.md": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
+    "README.md": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
     "contracts.d.ts": "dc2c812ea324953873d382350bca7d78fa0c1fbd630bd72c52574d7ee1ae9fc4",
     "definition.d.ts": "a18bd12f1e69568a7bfee8a51a60c6c57d0691f3ddb73701173cc52bf4bfe52c",
     "definition.js": "1df54668b4f26aebf236541daf691a68dc36af0a557bae670f551ca13fdafbc9",
@@ -40,5 +40,11 @@
     "Fixture is synthetic; no real SQL, GitHub, Registry composition, concurrent locks or production integration evidence.",
     "No provider JSON schema exists for this surface; no new runtime acceptance rules are invented.",
     "Q55 readonly contentHash follows J3S3-IDX-02 formal main; additive provenance is read-provenance.json. Base source identity above retained."
-  ]
+  ],
+  "documentationRevision": {
+    "card": "J3S1-APIC-21",
+    "previousReadmeSha256": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
+    "currentReadmeSha256": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
+    "reason": "Q61/Q67 formal contract-only standalone consumption and explicit host composition; provider source/types/JSON unchanged."
+  }
 }
