@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 export { CHAIN_CONTRACT_DEFINITION } from './definition.js';
 export const CHAIN_FIXTURE_LABEL = 'FIXTURE · synthetic C-CHAIN DTO/read port; no chain verification, signing or broadcasting';
 const address = n => '0x' + n.toString(16).padStart(40, '0');
@@ -32,5 +33,27 @@ export function createChainProviderFixture(confirmedLaunch = createChainContract
         producer: { async getConfirmedLaunch({ requestId }) {
             return value?.requestId === requestId ? structuredClone(value) : null;
         } },
+    };
+}
+
+export const CHAIN_DISTRIBUTION_FIXTURE_LABEL = 'FIXTURE · server-chain v0.3.0 createDistributionAdapter examples (TEST_ONLY transport, wire form); no chain verification, signing or broadcasting';
+const distributionExamples = readFileSync(new URL('./distribution-examples.json', import.meta.url), 'utf8');
+export function createChainDistributionExamples() {
+    return JSON.parse(distributionExamples);
+}
+/** Serves only result/canonicalReadback for the example intent; unknown intents reject exactly like the provider example. */
+export function createDistributionReadFixture(examples = createChainDistributionExamples()) {
+    const { success, failure } = structuredClone(examples);
+    const known = intentId => {
+        if (intentId === success.result.intentId) return;
+        const { name, code, message } = failure.intentNotFound;
+        throw Object.assign(new Error(message), { name, code });
+    };
+    return {
+        label: CHAIN_DISTRIBUTION_FIXTURE_LABEL,
+        adapter: {
+            async result(intentId) { known(intentId); return structuredClone(success.result); },
+            async canonicalReadback(intentId) { known(intentId); return structuredClone(success.canonicalReadback); },
+        },
     };
 }

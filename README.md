@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.12.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.13.0"
 ```
 
 ## 合约
@@ -18,7 +18,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-USAGE | `@hanamesh/api-contracts/usage`（schema：`/usage/schema.json`；来源：`/usage/provenance.json`） | server-usage → usage, web-market, server-host | J2S3-SUSAGE-01 origin/main `70c480e`：POST events、DELETE 撤回、GET contributions；Q-18 摘要包含事件 nonce，id/摘要冲突先于跨事件 nonce 复用；[说明与双客户端示例](contracts/usage/README.md) |
 | C-USAGE-LOCAL | `@hanamesh/api-contracts/usage-local`（schema：`/usage-local/schema.json`） | usage → app-host | hanamesh-usage main `7517d76`：`src/host/contracts.d.ts`、`src/host/record.js`、`src/host/transport.js`；Q-18 跟随 J1S4-USAGE-02 main `6f724fc`：`occurredAt` 必填、稳定事件 nonce、跨客户端同事实规则；[说明与示例](contracts/usage-local/README.md) |
 | C-IDENTITY | `@hanamesh/api-contracts/identity`（schema：`/identity/schema.json`） | server-identity → core, web-market, server-usage/custody/claim/registry/host | hanamesh-server-identity origin/main `ffe1ae5`（与 J2S1-IDENT-01 核验的 `f0cb96c` 在类型/schema/路由/服务源码上逐字节相同）：`contract/hanamesh-server-identity.v1.schema.json` 原样搬入；`src/contracts.ts`、`src/server-contracts.ts`、`src/contract.ts`、`src/core/errors.ts`、`src/contract-fixtures.ts` 移植为 JS |
-| C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希 |
+| C-CHAIN | `@hanamesh/api-contracts/chain`；`/chain/confirmed-launch.schema.json`、`/chain/user-paid-claim.schema.json` | server-chain → server-host | J4S2-CHAIN-01 origin/main `f30464b`：`index.d.ts` 中五个工厂及其依赖声明逐字提取，两个 schema 原样搬入；`/chain/provenance.json` 记录源码与声明哈希。Q-33 分发面跟随 J4S2-CHAIN-07 tag `v0.3.0`（`dd0b142`）：`createDistributionAdapter` 及依赖声明逐字追加，`/chain/distribution-examples.json` 为提供方 FIXTURE 例子原字节 |
 | C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
 | C-UOW | `@hanamesh/api-contracts/uow`（来源：`/uow/provenance.json`） | server-host → server-usage, server-custody, server-claim, server-identity, server-registry | J3S1-HOST-01 既有事务行为：host origin/main `b63fb8c` 的 `src/unit-of-work.ts`；共享 SQL 类型按 identity origin/main `9378af2` 的 `src/server-contracts.ts` 增补 |
 | C-CLAIM | `@hanamesh/api-contracts/claim`（来源：`/claim/provenance.json`） | server-claim → web-market, server-host | J3S3-CLAIM-01 origin/main `21a8b6d`：单次 start claimed、幂等/复用、拒绝错误、verify 与事务夹具 |
@@ -170,6 +170,25 @@ Host 组合提供方工厂时，以 `ChainFactories` 校验其签名；不要从
   例如 Bond 基线的 `HANA_NOT_ISSUED` / `MARKET_NOT_QUALIFIED` 来自可信事实/admission 路径，不能凭基线给 Bond 工厂编造本地错误。
 - `createChainContractExamples()` 给出五条调用相关的合成 DTO/请求；`createChainProviderFixture()` 仅模拟 `ConfirmedLaunchProducer` 的匹配请求读口和缺失 `null`，不模拟链验证或可执行交易。
 
+### C-CHAIN 分发适配器（Q-33，server-chain `v0.3.0` / `dd0b142`）
+
+`ChainFactories.createDistributionAdapter(options: DistributionAdapterOptions): Promise<DistributionAdapter>`，
+options 为 publicClient、walletClient、expectedChainId、distributor、reservedDistributor、`policyMode: 'test-only' | 'production'`（无默认值）、
+receiptPolicy、journal、可选 rootSigners。适配器四个方法：`verify` → `DistributionVerifyResult`；`execute` / `result` → `DistributionResult`；
+`canonicalReadback` → `{ result, readback: DistributionCanonicalReadback }`。`DistributionResult` 含 issuance、ordinary/reserved 根、
+三步（ordinary-root / reserved-funding / reserved-opening）结果与 `reservedOpening`。声明从提供方 `v0.3.0` 的 `index.d.ts` 逐字追加到
+`provider.d.ts`，哈希记在 `provenance.json` 的 `distribution.declarationSHA256`；原五个工厂的声明在 `v0.3.0` 上核对无变化。
+
+- 错误通道：工厂先经 `createChainAdapter` 校验客户端/链，失败以 `ChainAdapterConfigurationError`（`CONFIG_INVALID`、`CHAIN_ID_MISMATCH`）拒绝；
+  其后一律 `DistributionError`：`name: 'DistributionError'`，`code: DistributionErrorCode`（32 个，封闭集合 = 提供方 `reject()` = 文档码表），
+  发送后结果带 `result`，缺前置条件带 `need`（要补什么），发送时 SDK 失败带 `cause`。构造 `(code, message, details?)`。
+  `CHAIN_ID_MISMATCH` 两个通道都有：工厂时为配置错误，之后链漂移为 `DistributionError`。
+- 两个错误类与工厂**只作为类型导出**，运行时实现在 server-chain；真实 Chain 由部署组合加载。本包不放宽任何交易规则。
+- `createChainDistributionExamples()` 返回提供方 `docs/distribution/contract-examples.json` 原字节（FIXTURE：真实适配器跑 TEST_ONLY 合成传输，
+  bigint 写成十进制字符串，回执只保留被核验字段）：调用、成功、partial（`AUTHORIZATION_EXPIRED` 带 need 与 `status: 'partial'`）及五个失败。
+- `createDistributionReadFixture()` 是最小 FIXTURE：只用例子回放 `result` / `canonicalReadback`，未知 intent 按例子拒绝 `INTENT_NOT_FOUND`；
+  不验证、不签名、不发送。完整 TEST_ONLY 传输夹具归提供方：`@hanamesh/server-chain/distribution/test-only`。
+
 ## C-HANASWAP Router02
 
 JSON 与 `HANASWAP_ROUTER02_ABI` 是完整 **26 项 / 24 个函数** ABI，类型入口保留字段字面量，支持 viem 编解码类型推导。
@@ -192,10 +211,10 @@ npm ci && npm test
 
 `node --test` 校验：定义与基线的调用/错误码一致、示例数据通过 schema、每个声明的错误码都有示例、
 C-CORE 握手矩阵 13 项、签名按规范字节可验证、C-USAGE-LOCAL 幂等/冲突/同意/Core 状态及 Q-18 跨客户端示例与提供方 eventId/nonce 向量、C-IDENTITY 握手矩阵 14 项与错误表/schema 一致、wire 无 `created`、未知 id/未绑定语义；
-C-CHAIN 声明/schema 来源哈希、合成 DTO 与缺失事实读口；C-HANASWAP 完整 ABI/hash、swap/add/remove 编解码与固定模拟错误；
+C-CHAIN 声明/schema 来源哈希、合成 DTO 与缺失事实读口、分发面声明逐字哈希/错误码/例子字段集与读夹具；C-HANASWAP 完整 ABI/hash、swap/add/remove 编解码与固定模拟错误；
 C-CATALOG 提供方来源哈希、schema/示例/错误覆盖、稳定身份/分页、授权拒绝、owner 注入拒绝、宿主事务提交/回滚和重复认领拒绝；
 C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 context/executor 错误、SQL 故障边界和 pool.query 非固定连接；
-`tsc` 校验共享 SQL 类型、UnitOfWork 泛型回调及旧 C-IDENTITY 类型兼容、五个工厂类型、readonly 发行事实、用户钱包 signer 排除、ABI 参数及四个 catalog 服务签名。
+`tsc` 校验共享 SQL 类型、UnitOfWork 泛型回调及旧 C-IDENTITY 类型兼容、六个工厂类型（含分发适配器 options/返回/错误码）、readonly 发行事实、用户钱包 signer 排除、ABI 参数及四个 catalog 服务签名。
 
 ## 发布
 
@@ -212,6 +231,7 @@ C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 con
 | @hanamesh/server-identity | 0.3.2 / `9378af2` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-identity | 共享 SqlConnection/SqlPool 与模块事务所有权来源；不引入运行时依赖 |
 | @hanamesh/server-custody | 0.2.0 / `c91a0fc` | UNLICENSED | https://github.com/yzsnstotz/hanamesh-server-custody | 必需 host context 检查和既有 500 错误码来源；不引入运行时依赖 |
 | @hanamesh/server-registry | 0.2.1 / `5dcb5ee` | UNLICENSED（提供方 package.json 声明） | https://github.com/yzsnstotz/hanamesh-server-registry | 同项目 C-CATALOG 提供方合约来源，按本卡同步 DTO、schema、错误码及 profile 夹具；不添加运行时依赖 |
+| @hanamesh/server-chain | 0.3.0 / `dd0b142`（tag `v0.3.0`） | 未声明（提供方 package.json 无 license 字段） | https://github.com/yzsnstotz/hanamesh-server-chain/tree/v0.3.0 | C-CHAIN 分发面声明逐字来源与 FIXTURE 例子原字节；不引入运行时依赖 |
 | Uniswap V2 periphery | ed24991304291297c3b4a52818d02f46a17aa9a2 | GPL-3.0-or-later | https://github.com/Uniswap/v2-periphery | contracts 提供的完整 Router02 ABI 与原始许可；不引入运行时依赖 |
 
 C-CHAIN 类型引用 viem 的公开 SDK 类型；类型消费方需安装兼容 viem。签名来源提供方锁定 viem 2.56.9；本包现有开发版本 2.54.2 的类型自检也通过。C-HANASWAP JSON/离线模拟不加载 viem。

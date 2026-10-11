@@ -16,7 +16,7 @@ test('C-CHAIN publishes all five provider factory contracts without pretending t
     assert.equal(CONTRACTS['C-CHAIN'].definition, definition);
     assert.equal(definition.providerCommit, 'f30464bef961b0f226fc3c03697cca08b7a77b5f');
     assert.deepEqual(Object.keys(definition.factories).sort(), [
-        'createBondSupplyAdapter', 'createConfirmedLaunchProducer', 'createLaunchAdmissionProducer',
+        'createBondSupplyAdapter', 'createConfirmedLaunchProducer', 'createDistributionAdapter', 'createLaunchAdmissionProducer',
         'createSwapSupplyAdapter', 'createUserPaidClaimAdapter',
     ]);
     assert.deepEqual(definition.factories.createUserPaidClaimAdapter.baselineErrors,
@@ -75,8 +75,9 @@ test('C-CHAIN declaration bodies, signatures and schema bytes remain pinned to p
     const provenance = json('../contracts/chain/provenance.json');
     const source = ts.createSourceFile('provider.d.ts', readFileSync(new URL('../contracts/chain/provider.d.ts', import.meta.url), 'utf8'), ts.ScriptTarget.Latest, true);
     const statements = new Map(source.statements.filter(s => s.name && ts.isIdentifier(s.name)).map(s => [s.name.text, s]));
-    assert.equal(statements.size, Object.keys(provenance.declarationSHA256).length);
-    for (const [name, digest] of Object.entries(provenance.declarationSHA256))
+    const pinned = { ...provenance.declarationSHA256, ...provenance.distribution.declarationSHA256 };
+    assert.equal(statements.size, Object.keys(pinned).length);
+    for (const [name, digest] of Object.entries(pinned))
         assert.equal(createHash('sha256').update(statements.get(name).getText(source)).digest('hex'), digest, name);
     for (const [name, definition] of Object.entries(provenance.factories))
         assert.equal(statements.get(name).getText(source), definition.signature, name);

@@ -531,3 +531,93 @@ export interface UserPaidClaimAdapter {
 export declare class UserPaidClaimError extends Error { readonly code: string; readonly need?: Readonly<Record<string, unknown>>; constructor(code: string, message: string, details?: object); }
 
 export declare function createUserPaidClaimAdapter(options: UserPaidClaimOptions): Promise<UserPaidClaimAdapter>;
+
+// C-CHAIN distribution surface (Q-33): verbatim declarations from server-chain v0.3.0 (dd0b142) index.d.ts; exported only as types.
+export type ChainAdapterErrorCode = 'CONFIG_INVALID' | 'CHAIN_ID_MISMATCH' |
+  'WALLET_CLIENT_REQUIRED' | 'RECEIPT_POLICY_REQUIRED_OR_INVALID';
+export declare class ChainAdapterConfigurationError extends Error {
+  readonly code: ChainAdapterErrorCode;
+  constructor(code: ChainAdapterErrorCode, message: string);
+}
+
+/** Structural mirror of the public Custody LaunchSnapshot fields Chain consumes (no Custody import). Amounts are decimal strings. */
+export interface DistributionRootPayload {
+  domain: { name: string; version: string; chainId: number; verifyingContract: Address };
+  primaryType: 'RootAuthorization'; types: Readonly<Record<string, readonly { name: string; type: string }[]>>;
+  message: Readonly<Record<string, string>>;
+}
+export interface DistributionRootOutput {
+  root: Hash; totalAmount: string; payload: DistributionRootPayload; digest: Hash;
+  leaves: readonly { entitlementId?: Hash; account: Address; amount: string; leaf: Hash; proof: readonly Hash[] }[];
+}
+export interface DistributionSnapshot {
+  requestId: string; outboxIntentId: string; policy: { mode: 'test-only' | 'production' };
+  launch: {
+    requestId: string; chainId: number; hanaKey: Hash; token: Address; distributor: Address; reservedDistributor: Address; platformWallet: Address;
+    ordinarySigner: Address; reservedSigner: Address; initialPoolAmount: string; claimWindowSeconds: string;
+    /** Original P19 issuance: HanaLauncher address, launch transaction/block and the Issued request/authorization binding. */
+    issuer: Address; transactionHash: Hash; blockNumber: string; requestKey: Hash; authorizationHash: Hash;
+  };
+  distribution: { batchId: Hash; ordinary: DistributionRootOutput; reserved: DistributionRootOutput | null; platformDust: string; reservedDust: string };
+}
+/** Exactly the Custody ReservedOpening field set; produced only from a confirmed, fully funded formal opening. */
+export interface ReservedOpeningFact {
+  requestId: string; chainId: number; transactionHash: Hash; distributor: Address; batchId: Hash; token: Address; root: Hash;
+  totalAmount: string; nonce: '1'; fundedAmount: string; blockNumber: string; openedAt: string; claimDeadline: string;
+}
+export type DistributionStepStatus = 'not-sent' | 'unknown' | 'confirmed' | 'reverted';
+export interface DistributionStepResult {
+  step: DistributionStep; status: DistributionStepStatus; nonce?: number; target?: Address; calldata?: Hex; transactionHash?: Hash;
+  reason?: 'submission-without-hash' | 'no-canonical-receipt'; blockNumber?: bigint; blockHash?: Hash; timestamp?: bigint;
+  receipt?: TransactionReceipt; transaction?: unknown; effect?: Readonly<Record<string, bigint>> | null;
+}
+/** complete = every required step confirmed and verified; partial = some confirmed, rest not sent; unknown/reverted never succeed. */
+export type DistributionStatus = 'complete' | 'partial' | 'unknown' | 'reverted' | 'not-started';
+export interface DistributionRootResult { contract: Address; signer: Address; root: Hash; totalAmount: bigint; nonce: 1n; digest: Hash; }
+/** Canonical successful P19 issuance receipt verified on chain: to = issuer, Issued binds hana/request/token/authorization, exact pool Transfer to Distributor. */
+export interface IssuanceFact { transactionHash: Hash; blockHash: Hash; blockNumber: bigint; blockTimestamp: bigint; to: Address; amount: bigint; }
+export interface DistributionResult {
+  kind: 'p19-distribution'; intentId: string; requestId: string; digest: Hash; resultId: Hash; status: DistributionStatus; policyMode: 'test-only' | 'production';
+  chainId: number; distributor: Address; reservedDistributor: Address; token: Address; hanaKey: Hash; batchId: Hash; broadcaster: Address;
+  requiredSteps: DistributionStep[]; issuer: Address; issuance: IssuanceFact; authorizationHash: Hash; requestKey: Hash;
+  ordinary: DistributionRootResult; reserved: DistributionRootResult | null;
+  steps: DistributionStepResult[]; reservedOpening: ReservedOpeningFact | null;
+}
+export interface RootSignerPort { address: Address; signTypedData: (...args: any[]) => Promise<Hex>; }
+/** Facts every remaining step needs, verified at one canonical block before anything is signed or sent. */
+export interface DistributionVerifyResult { intentId: string; digest: Hash; requiredSteps: DistributionStep[]; blockNumber: bigint; blockHash: Hash }
+/** One pinned canonical block: receipt/issuance blocks still canonical, final state re-read for complete results, token balances. */
+export interface DistributionCanonicalReadback {
+  blockNumber: bigint; blockHash: Hash; timestamp: bigint; canonical: true; distributorBalance: bigint; reservedDistributorBalance: bigint;
+  /** Decimal uint256 strings read at the same pinned block: Distributor.distributions(hanaKey).totalClaimed and Distributor.reserved(token). */
+  ordinaryTotalClaimed: string; ordinaryReservedAmount: string;
+}
+export interface DistributionAdapter {
+  verify(snapshot: DistributionSnapshot): Promise<DistributionVerifyResult>;
+  execute(snapshot: DistributionSnapshot): Promise<DistributionResult>;
+  result(intentId: string): Promise<DistributionResult>;
+  canonicalReadback(intentId: string): Promise<{ result: DistributionResult; readback: DistributionCanonicalReadback }>;
+}
+/** Every DistributionError code createDistributionAdapter and its methods throw (factory chain/config faults use ChainAdapterConfigurationError). */
+export type DistributionErrorCode = 'DISTRIBUTION_INPUT_INVALID' | 'POLICY_MODE_REQUIRED' | 'POLICY_MODE_MISMATCH' | 'CHAIN_ID_MISMATCH' |
+  'WALLET_MISMATCH' | 'DEPLOYMENT_MISMATCH' | 'PROTOCOL_CODE_MISMATCH' | 'ROOT_PAYLOAD_MISMATCH' | 'ROOT_FACT_MISMATCH' | 'ROOT_DIGEST_MISMATCH' |
+  'AMOUNT_MISMATCH' | 'FUNDING_LEAF_MISMATCH' | 'PROOF_MISMATCH' | 'LEAF_MISMATCH' | 'ROOT_SIGNER_REQUIRED' | 'ROOT_SIGNER_MISMATCH' |
+  'ROOT_SIGNATURE_INVALID' | 'ROOT_SIGNER_INVALID' | 'DISTRIBUTOR_UNFUNDED' | 'AUTHORIZATION_EXPIRED' | 'ISSUANCE_NOT_CONFIRMED' |
+  'ONCHAIN_STATE_CONFLICT' | 'INTENT_CONFLICT' | 'NONCE_ALREADY_USED' | 'INTENT_NOT_FOUND' | 'INTENT_SUBMISSION_UNKNOWN' | 'TRANSACTION_REVERTED' |
+  'RECEIPT_AUTHORITY_MISMATCH' | 'RECEIPT_EFFECT_MISMATCH' | 'RECEIPT_POLICY_INVALID' | 'JOURNAL_REQUIRED' | 'JOURNAL_INVALID';
+/**
+ * Post-send outcomes (TRANSACTION_REVERTED, INTENT_SUBMISSION_UNKNOWN, AUTHORIZATION_EXPIRED after earlier steps) carry `result`;
+ * missing prerequisites carry `need` (what to supply next); SDK failures during a send carry `cause`.
+ */
+export declare class DistributionError extends Error {
+  readonly name: 'DistributionError';
+  readonly code: DistributionErrorCode; readonly result?: DistributionResult; readonly need?: string; readonly cause?: unknown;
+  constructor(code: DistributionErrorCode, message: string, details?: { result?: DistributionResult; need?: string; cause?: unknown });
+}
+export interface DistributionAdapterOptions {
+  publicClient: HanaSwapPublicClientPort; walletClient: HanaSwapWalletClientPort; expectedChainId: number;
+  distributor: Address; reservedDistributor: Address; policyMode: 'test-only' | 'production';
+  receiptPolicy: ReceiptPolicy; journal: IntentJournal; rootSigners?: { ordinary?: RootSignerPort; reserved?: RootSignerPort };
+}
+/** Throws ChainAdapterConfigurationError (CONFIG_INVALID, CHAIN_ID_MISMATCH) for client/chain faults, else DistributionError. */
+export declare function createDistributionAdapter(options: DistributionAdapterOptions): Promise<DistributionAdapter>;
