@@ -23,14 +23,14 @@
     "provider.d.ts": "dist/index.d.ts (IndexerModuleOptions only)"
   },
   "publishedFiles": {
-    "README.md": "77d415dcbd70e441b404902f3befaa31525c612e2c88b908899f61ee3691bfde",
-    "contracts.d.ts": "406ea4e7afcdd47a42e731ed713df0ff0c8d56e490b1df499c95f35d4ff52b34",
-    "definition.d.ts": "3e548df1ac0412c8a6d3e917397190d39e211a975b7bec3a284b6a3901408ebb",
-    "definition.js": "76c0b11b737e0cbf86b51479a53783fb03f2a4f2c1225cc82411422c64c9bd6a",
+    "README.md": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
+    "contracts.d.ts": "dc2c812ea324953873d382350bca7d78fa0c1fbd630bd72c52574d7ee1ae9fc4",
+    "definition.d.ts": "a18bd12f1e69568a7bfee8a51a60c6c57d0691f3ddb73701173cc52bf4bfe52c",
+    "definition.js": "1df54668b4f26aebf236541daf691a68dc36af0a557bae670f551ca13fdafbc9",
     "fixtures.d.ts": "ffc53ff2d52b761b830a05a1b1f8fb743c3acfcd059d1f5053bf9b1bed42e8e1",
     "fixtures.js": "cd13c2645532a6edb075e6d4821be67c25211f3da9b884589b4fd6b0a2609c41",
-    "index.d.ts": "cca6bb7139b5039c3645e3b7702be525ff7aaacbb4721228d9532059cb9f15ef",
-    "index.js": "444532556dc6918ec2ce9400fbdd681e756f85b87a9fd99de88499b9c1326e3b",
+    "index.d.ts": "a4d43588b591369081ce503069906d299d2ad2582e19ee9cef7d673520fb7053",
+    "index.js": "5b2849ce89c56fd89db1d3614a10caa628b7703f5b6bfd6d2965b3470aab23a1",
     "provider.d.ts": "fb1c918e477e2e491f70ef1c30cd71c8079ece7850d84e2a132904c4393ee94a",
     "runner.d.ts": "11a4a16220e5d64bda1c72b9d5d79fa0565f49ee645e3c2cdbd43612bc592b26"
   },
@@ -38,6 +38,7 @@
     "Provider declarations/definitions extracted from final build; source map comments removed and local type import paths adapted.",
     "Shared C-CATALOG/C-UOW/C-IDENTITY refer to this package, already published at v0.5.0. No sibling runtime import.",
     "Fixture is synthetic; no real SQL, GitHub, Registry composition, concurrent locks or production integration evidence.",
-    "No provider JSON schema exists for this surface; no new runtime acceptance rules are invented."
+    "No provider JSON schema exists for this surface; no new runtime acceptance rules are invented.",
+    "Q55 readonly contentHash follows J3S3-IDX-02 formal main; additive provenance is read-provenance.json. Base source identity above retained."
   ]
 }

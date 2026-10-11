@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.16.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.17.0"
 ```
 
 ## 合约
@@ -22,7 +22,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-HANASWAP | `@hanamesh/api-contracts/hanaswap`；`/hanaswap/UniswapV2Router02.json` | contracts → server-chain | J4S2-CTR-01 origin/main `c9e9809`：`abi/UniswapV2Router02.json`、`manifest.json`、`example.json` 原样搬入，GPL-3.0-or-later 来源与许可保留 |
 | C-UOW | `@hanamesh/api-contracts/uow`（来源：`/uow/provenance.json`） | server-host → server-usage, server-custody, server-claim, server-identity, server-registry | J3S1-HOST-01 既有事务行为：host origin/main `b63fb8c` 的 `src/unit-of-work.ts`；共享 SQL 类型按 identity origin/main `9378af2` 的 `src/server-contracts.ts` 增补 |
 | C-CLAIM | `@hanamesh/api-contracts/claim`（来源：`/claim/provenance.json`） | server-claim → web-market, server-host | J3S3-CLAIM-01 origin/main `21a8b6d`：单次 start claimed、幂等/复用、拒绝错误、verify 与事务夹具 |
-| C-INDEXER-CATALOG | `@hanamesh/api-contracts/indexer-catalog`（来源：`/indexer-catalog/provenance.json`） | server-indexer → web-market, server-host | J3S3-IDX-01 origin/main `a5b47da`：实际分页/items/hanas/runs、wire差异、注入端口与生命周期 |
+| C-INDEXER-CATALOG | `@hanamesh/api-contracts/indexer-catalog`（来源：`/indexer-catalog/provenance.json`） | server-indexer → web-market, server-host | J3S3-IDX-01 基线保留；Q55 跟随 J3S3-IDX-02 正式 main `f2a089a`/v0.2.0：readonly contentHash、强保证 IndexerReadService、读取500错误与独立新例/FIXTURE；[读取说明](contracts/indexer-catalog/README.md#q55--j3s3-idx-02--j3s3-apic-20--v0170) |
 | C-CATALOG | `@hanamesh/api-contracts/catalog`（schema：`/catalog/schema.json`；来源：`/catalog/provenance.json`） | server-registry → core, web-market, server-indexer, server-claim, server-host | J3S4-REG-01 origin/main `5dcb5ee`：profile DTO/四个服务端口声明提取、profile schema 原样搬入；错误码、HTTP 语义和夹具按提供方源码同步 |
 
 每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、

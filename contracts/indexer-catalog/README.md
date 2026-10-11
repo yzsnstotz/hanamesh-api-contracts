@@ -63,3 +63,37 @@ node scripts/migrate-dev.mjs --db="$DATABASE_URL" --composition-module="$INDEXER
 ```
 
 脚本位于提供方包。serve 的 SIGINT/SIGTERM 关闭 Fastify再关闭供给。真实 Registry+PG factory/migrator/完整独立运行器仍 DEFERRED(J3S1-HOST-01)。Registry fixture/seeded port只是 FIXTURE，不是生产组合或 REAL_HOST；本卡不宣称 owner ACCEPTED。
+
+## Q55 · J3S3-IDX-02 / J3S3-APIC-20 · v0.17.0
+
+正式合约安装：`git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.17.0`，公开入口 `@hanamesh/api-contracts/indexer-catalog`。
+提供方固定正式 main `f2a089ae2981324abf432aa73a1546c89693d817`；代码 tag `v0.2.0` 解引用 `ab47919137ad7e930bb1661cc3c5f494bff3642c`。两者实现/公开 dist 相同，main 只追加 AGENTS.md 清理。新来源与抽取边界见 `/indexer-catalog/read-provenance.json`；原 provenance 保留原提供方基线。
+
+新增 `IndexedHanaDTO.contentHash?: string` 为 **readonly**，可选仅用于旧 DTO 构造与旧 IndexerService/FIXTURE 兼容。新增 `IndexedHanaWithContentHashDTO` 的成员为 required string；`IndexerReadService extends IndexerService` 的 listItems/getItem 成功结果使用强类型。提供方 createIndexerService/buildIndexerService、createIndexerModule.services 返回该强保证服务；产品工厂由提供方包供应，合约包无运行时工厂。
+
+| 面 | 成功 | 无效 catalog hash |
+|---|---|---|
+| IndexerReadService.listItems(query?) | Promise<{items: readonly IndexedHanaWithContentHashDTO[], next: string\|null}> | 拒绝整个 Promise，不跳过坏条目 |
+| IndexerReadService.getItem(hanaId) | Promise<IndexedHanaWithContentHashDTO> | 拒绝 Promise |
+| GET /v1/indexer/items | 同 list 的分页 envelope，成功 item 必有 contentHash | HTTP 500 `{error:{code:'INDEXER_CONTENT_SOURCE_UNKNOWN',message:'INDEXER_CONTENT_SOURCE_UNKNOWN'}}` |
+| GET /v1/indexer/hanas/:hanaId | 同 get 的 DTO，成功必有 contentHash | 相同 HTTP 500 envelope |
+
+字段原样来自**该次返回的胜出 catalog row** 的 `content_hash`，读取不计算、不写入、不缓存。既有格式是 `1024store|awesome|hanamesh` 加冒号、64位小写 SHA256 十六进制公开 metadata 摘要；不是文件/源码/README 摘要。`NormalizedHanaInput.source.rawHash` 是写入输入，`source_links.raw_hash` 是回链记录，二者均不能替代读取字段。SourceLinkDTO 保持旧字段；profile.sourceId/sourceRef 是首次 Registry 身份，可能与 hash 的胜出内容来源不同。
+
+缺失/undefined、null、非字符串、空/损坏/未知来源 hash 由 service 抛提供方 `IndexerError`（name='IndexerError'，code='INDEXER_CONTENT_SOURCE_UNKNOWN'，statusCode=500，message=`INDEXER_CONTENT_SOURCE_UNKNOWN hanaId=<id>`）。实际 PostgresRepository 映射会先 String(row.content_hash)，如缺失/null 成为 'undefined'/'null' 后仍被拒绝。只检查既有格式，不在读时重新验证摘要与 metadata 的一致性。诊断由宿主可选 sink 接收 source='catalog'、同 code、Hana id，不含原 hash；sink 自身异常按提供方既有实现吞掉后仍抛读取错误。合约不导出 IndexerError 构造器；消费者按 code/statusCode 识别，不把 FIXTURE 的普通 Error 当提供方同一构造器。底层 Registry/SQL 异常仍可能传播；HTTP 仍保留原 Registry400/404映射与未知 INDEXER_INTERNAL500。
+
+内容优先级仍为 hanamesh > awesome > 1024store。胜出 metadata 变化更新 hash 与 updatedAt；同内容重放不改二者，只刷新来源链接并计 unchanged；低优先来源也保留回链并计 unchanged。首次 Registry identity 保留。读取没有额外内容/快照协议。
+
+分页先取得最多 limit 个 Registry profile（内部每页最多100），再取 catalog 并过滤 `catalog.updated_at > updatedSince::timestamptz`，严格 `>`，不是字符串字典序或 `>=`。cursor 来自 Registry 页；items 可空而 next 非空，须继续到 next=null。不存在 catalog 的 profile 在 list 被过滤，get 是 INDEXER_NOT_FOUND404；有 catalog 但无效 hash 则对**已通过增量过滤的返回行**拒绝整次读取。未进入当前页/被 updatedSince 排除的行不在该次校验内。limit 原默认20、1..200；HTTP 检验 RFC3339，直接 service 将 updatedSince 传给 repository/PG，不声明 service 单独提供同样的 RFC3339 校验。不承诺跨服务一致快照。
+
+### 全字段与尚未消费调用核对
+
+SEM01 SourceRow 的 hanaId/sourceId/sourceRef/kind/githubRepo/homepage 来自继承的 HanaProfileDTO；name→displayName；npmPackageName/license/categories/keywords/repoUrl/repoSubdirectory/updatedAt 来自 IndexedHanaDTO；summaryEn/summaryZh→summary.en/.zh；contentHash→本轮读取字段。17项完整覆盖，已供应字段不重做。cachedReadme 属 Semantic 自有 source_documents.body；`updatedAt > since OR 本地未同步` 的本地筛选/补扫归 Semantic，不能只传 updatedSince 而漏掉旧未同步记录。
+
+RegistryCatalogPort.getHanaProfile/listHanaProfiles 与 IndexerService.listItems/getItem 已发布；强读取声明现新增 IndexerReadService。既有 runner/composition 的 policy、共享 pool/UOW、migration/close 仍见上节，不改生命周期。SEM01/HOST01 未消费的 createSemanticModule/plugin/services、syncProfiles/runEmbeddingJob/search/recommend/feedback、Embedding/Decision providers 配置与释放仍待 SEM→J3S1-APIC-19→HOST01 按序供应，本卡不发布不存在的 Semantic 面或复制宿主逻辑。
+
+### PACKAGE / FIXTURE
+
+旧 INDEXER_EXAMPLES、createIndexerContractExamples/createIndexerProviderFixture 保持原字节和 hashless 输入接受范围。
+新 `createIndexerContentHashExamples()` 生成独立副本：固定 provider sample hash、首次1024store身份而胜出hanamesh内容、空页仍有 next、五类坏存储的 service/HTTP 错误。胜出例是合成 metadata 相同的多来源结果，不宣称执行了对端事务。
+`createIndexerContentHashReadFixture({pages?,item?,failure?})` 只返回显式预置页/条目或抛预置 code/statusCode/message 的普通 Error；after 用来选预置页。未预置 cursor/id 是 FIXTURE 配置错误；limit/updatedSince 不计算，坏 hash 不自动验证，错误由 failure 明确给出。它只提供 Pick<IndexerReadService,'listItems'|'getItem'>，不冒充完整产品服务、生产算法、SQL、增量过滤或生命周期。实际 hash/优先级/HTTP/增量错误的 SOURCE/FIXTURE 审计在本卡运行目录，未进入包。
