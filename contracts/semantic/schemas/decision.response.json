@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hanamesh.com/schemas/o5/decision.response.json","type":"object","additionalProperties":false,"required":["selected","alternatives","noMatch","confidence","usage"],
+  "$defs":{"selection":{"type":"object","additionalProperties":false,"required":["objectId","rank","confidence","reasons"],"properties":{"objectId":{"type":"string"},"rank":{"type":"integer","minimum":1},"confidence":{"type":"number","minimum":0,"maximum":1},"reasons":{"type":"array","items":{"type":"string","minLength":1,"maxLength":500}}}}},
+  "properties":{"selected":{"type":"array","items":{"$ref":"#/$defs/selection"}},"alternatives":{"type":"array","items":{"$ref":"#/$defs/selection"}},"noMatch":{"type":"boolean"},"confidence":{"type":"number","minimum":0,"maximum":1},"usage":{"type":"object","additionalProperties":false,"required":["tokens"],"properties":{"tokens":{"type":"integer","minimum":0}}}}
+}

@@ -20,6 +20,7 @@
     "usage-types.ts",
     "usage-maintenance-types.ts",
     "points-types.ts",
-    "indexer-content-hash-types.ts"
+    "indexer-content-hash-types.ts",
+    "semantic-types.ts"
   ]
 }

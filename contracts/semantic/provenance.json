@@ -1,0 +1,167 @@
+{
+  "card": "J3S1-APIC-19",
+  "decision": "D-20",
+  "provider": {
+    "card": "J3S1-SEM-01",
+    "name": "@hanamesh/server-semantic",
+    "version": "0.2.0",
+    "license": "UNLICENSED/private (existing provider metadata)",
+    "repo": "https://github.com/yzsnstotz/hanamesh-server-semantic",
+    "commit": "6756523ee56939873fa6f8450089bd99d911a3d5",
+    "tag": "v0.2.0"
+  },
+  "baseline": "5d4b17a1c9f439750f57a60863d2efec96cdc3aa",
+  "release": "v0.18.0",
+  "boundary": "PACKAGE/FIXTURE only. Product factories, providers, UOW bridge and algorithms are type-only. Fixture JS and SemanticError are fixed provider bytes. Historical docs are archived context, not current REAL_* claims.",
+  "sources": [
+    {
+      "source": "dist/contracts.d.ts",
+      "target": "contracts/semantic/contracts.d.ts",
+      "sourceBlob": "fa3bf9d1bef2d38a6b7fe6532b6f41403fd7bdb2",
+      "sourceSha256": "ca01058ff0eb37ba1e4d49a01598a3bee49e6fe7296734940522f2c171cce1fd",
+      "publishedSha256": "1f308bbae7e7116d261d10063b9a814cc1d8c06d95349115b996db172f8f98dc",
+      "adaptation": "Only self-package imports become relative published subpaths; function/constant signatures retained and exported only as types."
+    },
+    {
+      "source": "dist/service.d.ts",
+      "target": "contracts/semantic/service.d.ts",
+      "sourceBlob": "85be2097aedea287b90e8b480f471114ad9c86b3",
+      "sourceSha256": "2155ff2da79e1bf0f74aee80298b280bc76e9d1ec30ba6e157079f43d5e1a50c",
+      "publishedSha256": "2155ff2da79e1bf0f74aee80298b280bc76e9d1ec30ba6e157079f43d5e1a50c",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/http.d.ts",
+      "target": "contracts/semantic/http.d.ts",
+      "sourceBlob": "e0f3592390db2eeeeb006eeb72e76e699b942b7b",
+      "sourceSha256": "3034038a921921e15a5069ccd54e265e360a2a00cd6db219b1cc5615139313fb",
+      "publishedSha256": "3034038a921921e15a5069ccd54e265e360a2a00cd6db219b1cc5615139313fb",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/errors.d.ts",
+      "target": "contracts/semantic/errors.d.ts",
+      "sourceBlob": "c6ae4579975ffc21dd7643e55af3ee9362ac6d51",
+      "sourceSha256": "89fe5c52718afcce259eca78fe2973c3cf3c12ded3580f0105e7115f5d81f20c",
+      "publishedSha256": "89fe5c52718afcce259eca78fe2973c3cf3c12ded3580f0105e7115f5d81f20c",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/errors.js",
+      "target": "contracts/semantic/errors.js",
+      "sourceBlob": "eff1f1b31b4bab2338c8d5c6d0270113f3636f3e",
+      "sourceSha256": "6f799e7c0a94788766ad52a4b1c6f7071a185221b40704d67243ff4415fc21c4",
+      "publishedSha256": "6f799e7c0a94788766ad52a4b1c6f7071a185221b40704d67243ff4415fc21c4",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/fixtures.d.ts",
+      "target": "contracts/semantic/fixtures.d.ts",
+      "sourceBlob": "22a9d399be483a1fea90e0a3fa5c65f75d3be53e",
+      "sourceSha256": "0a3771f7d1510301b2725d64b9a63b9258b3c9a668b5b4d560dfa760c0bdf276",
+      "publishedSha256": "0a3771f7d1510301b2725d64b9a63b9258b3c9a668b5b4d560dfa760c0bdf276",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/fixtures.js",
+      "target": "contracts/semantic/fixtures.js",
+      "sourceBlob": "3329499354076d59d3a93a3489d524511b374fa5",
+      "sourceSha256": "5859f934477255dd683d1928fec56f6fabfad9a242f73aecc9b7c31ee39db5e6",
+      "publishedSha256": "5859f934477255dd683d1928fec56f6fabfad9a242f73aecc9b7c31ee39db5e6",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/providers/embedding.d.ts",
+      "target": "contracts/semantic/providers/embedding.d.ts",
+      "sourceBlob": "d5a32fbaa2b219f77df3f0b3fad716c5c3f18038",
+      "sourceSha256": "c5fe14b5683f0582d9656f629ec5bc3a2208145a80f28b67358f88af0abab45d",
+      "publishedSha256": "c5fe14b5683f0582d9656f629ec5bc3a2208145a80f28b67358f88af0abab45d",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/providers/decision.d.ts",
+      "target": "contracts/semantic/providers/decision.d.ts",
+      "sourceBlob": "7fb55dadaf32a87dcd6c50b645607fa7112b5124",
+      "sourceSha256": "a90485c934c04fae94c111547f07c01fac117329e80eec2d39d57946c7d8662b",
+      "publishedSha256": "a90485c934c04fae94c111547f07c01fac117329e80eec2d39d57946c7d8662b",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "dist/index.d.ts",
+      "target": "contracts/semantic/provider.d.ts",
+      "sourceBlob": "7348fe9d9a4aa8780a311416ac6f098b43dd4706",
+      "sourceSha256": "0246e31d8ac9dbbdc43a0d67b84fc4bc19c4c8588ae45cafd1e81cf4789a5de8",
+      "publishedSha256": "a26a1af18562b25d6abab978d6e82973298bdf325f0b13b668cca544c2968e0b",
+      "adaptation": "Retain complete module options/result and public module/README fetch signatures verbatim; replace imports with required type-only closure, omit unrelated normalization/hash/repository implementation exports."
+    },
+    {
+      "source": "docs/MODULE.md",
+      "target": "contracts/semantic/MODULE.md",
+      "sourceBlob": "6844224d411dc9db46a81c4a1b96f5d0cb7ccfe9",
+      "sourceSha256": "3a2d9d5c7cfc057b8b3e3b87411c3734558f9c4c1b44952a059a3a25db1a1cf8",
+      "publishedSha256": "3a2d9d5c7cfc057b8b3e3b87411c3734558f9c4c1b44952a059a3a25db1a1cf8",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "docs/API-O5.md",
+      "target": "contracts/semantic/API-O5.md",
+      "sourceBlob": "5e9baecb15c6c392d721886a7ca7811bf9190b76",
+      "sourceSha256": "4dcb8a6bbb101894ddcd17a40a6556c89767dde3ea9bf3f57995f3f28a571e13",
+      "publishedSha256": "4dcb8a6bbb101894ddcd17a40a6556c89767dde3ea9bf3f57995f3f28a571e13",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "docs/PROVIDERS.md",
+      "target": "contracts/semantic/PROVIDERS.md",
+      "sourceBlob": "880d0cdcd6ae53f5530ac9e610c65849da592b71",
+      "sourceSha256": "a7842f85ff0052818e2ecd5a2a5f967ed4dcc0dfb332f54301bc7ecdc1916c7f",
+      "publishedSha256": "a7842f85ff0052818e2ecd5a2a5f967ed4dcc0dfb332f54301bc7ecdc1916c7f",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "docs/POLICY.md",
+      "target": "contracts/semantic/POLICY.md",
+      "sourceBlob": "8893d0e3041efef81fce51653cd86052446d4baa",
+      "sourceSha256": "5fad0f1f324667233197150f0075e0ccb831d148e87755a2b5c18838c24718ce",
+      "publishedSha256": "5fad0f1f324667233197150f0075e0ccb831d148e87755a2b5c18838c24718ce",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "schemas/search.request.json",
+      "target": "contracts/semantic/schemas/search.request.json",
+      "sourceBlob": "9ceaf1d706620996be152ff5111913ea929ad196",
+      "sourceSha256": "005b820a68b07b8612b42e5731b9a54593cf3cfe22b6e9584e44f1bf28066733",
+      "publishedSha256": "005b820a68b07b8612b42e5731b9a54593cf3cfe22b6e9584e44f1bf28066733",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "schemas/recommend.request.json",
+      "target": "contracts/semantic/schemas/recommend.request.json",
+      "sourceBlob": "20d93892e5c22bc91c7e5b3ffba4ff0ccea4cd0b",
+      "sourceSha256": "b002f9e8ceec26af2ff3178d4586905bed8306aea8ca0715fb97e2773ff5abb4",
+      "publishedSha256": "b002f9e8ceec26af2ff3178d4586905bed8306aea8ca0715fb97e2773ff5abb4",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "schemas/feedback.request.json",
+      "target": "contracts/semantic/schemas/feedback.request.json",
+      "sourceBlob": "19f0b0e2817720ed14a0a5fccd4862ba66b4294a",
+      "sourceSha256": "6959d087be34e0416501e251ca5d41a49c017c4d980ec182bf768cca0c185275",
+      "publishedSha256": "6959d087be34e0416501e251ca5d41a49c017c4d980ec182bf768cca0c185275",
+      "adaptation": "byte-for-byte"
+    },
+    {
+      "source": "schemas/decision.response.json",
+      "target": "contracts/semantic/schemas/decision.response.json",
+      "sourceBlob": "5a6672386c0293886ba790f02ce65beac344ed9d",
+      "sourceSha256": "c8f85e3250381a771373e5115b142715a2cd2d517fc73e6350c0e8c0ca2b9c97",
+      "publishedSha256": "c8f85e3250381a771373e5115b142715a2cd2d517fc73e6350c0e8c0ca2b9c97",
+      "adaptation": "byte-for-byte"
+    }
+  ],
+  "derived": [
+    "index.js/index.d.ts type-only facade and factory aliases",
+    "definition.js/definition.d.ts metadata from MODULE.md/API-O5.md",
+    "README.md consumption guidance; no extra behaviors/errors"
+  ]
+}
