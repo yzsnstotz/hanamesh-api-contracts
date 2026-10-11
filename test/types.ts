@@ -13,3 +13,18 @@ async function consume(core: HanaMeshCoreContract): Promise<string> {
     return result.eventId;
 }
 void handshake; void consume; void CONTRACTS['C-USAGE-LOCAL'].definition.methods.record.errors;
+import type { DeviceRegisterResponse, IdentityClaimPorts, IdentityCustodyPorts, IdentityHostPorts, IdentityRegistryPorts, IdentityUsagePorts, PrincipalResolution, WalletBindingDTO } from '@hanamesh/api-contracts/identity';
+import { createIdentityServicesFixture, identityDeviceRegisterWire } from '@hanamesh/api-contracts/identity';
+
+const identity = createIdentityServicesFixture().services;
+const usagePorts: IdentityUsagePorts = identity, custodyPorts: IdentityCustodyPorts = identity, claimPorts: IdentityClaimPorts = identity;
+const registryPorts: IdentityRegistryPorts = identity, hostPorts: IdentityHostPorts = identity;
+async function consumeIdentity(): Promise<[PrincipalResolution, WalletBindingDTO | null, DeviceRegisterResponse]> {
+    const challenge = await identity.deviceRegistration.createChallenge('register');
+    const registered = await identity.deviceRegistration.registerDevice({ publicKey: 'k', nonce: challenge.nonce, signature: 's' });
+    const wire = identityDeviceRegisterWire(registered);
+    // @ts-expect-error the wire body has no `created`
+    void wire.body.created;
+    return [await custodyPorts.principalLinks.resolveCanonical('p'), await hostPorts.wallets.getBinding({ principalId: 'p', chainId: 1 }), wire.body];
+}
+void usagePorts; void claimPorts; void registryPorts; void consumeIdentity; void CONTRACTS['C-IDENTITY'].definition.calls.hostGetBinding.errors;
