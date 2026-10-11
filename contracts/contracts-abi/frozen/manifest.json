@@ -49,6 +49,268 @@
       "runtimeTemplateKeccak": "0x32ef6a69c9f2f109a274843d9ca6f1405374c0cc8ada5a35aa473f7abaa4fca4",
       "runtimeBytes": 1860,
       "immutableSlots": 1
+    },
+    "HanaBond": {
+      "path": "HanaBond.json",
+      "source": "src/HanaBond.sol",
+      "fileSHA256": "3c8f821f267c3f5b6c7e7402b04cb1a7ecde65f7995966b519679b9bee8c623b",
+      "sourceSHA256": "a9c429455eb5cfe06bced94ef25347e199fca83b17b62547b4bb799ec5e7d1fe",
+      "abiSHA256": "3016127257c64cafefbff2fae0022f42b066b9ac2c0f159dec1c3fd0058c9017",
+      "creationKeccak": "0x6e436d29d256c60e5b64c5d58287100c2b78a84e338dc8c7084bd364d5d7cda9",
+      "runtimeTemplateKeccak": "0x6c7499567dad7560b36ce6d85e46d682366458f56757ecc67c1c98e0858051d7",
+      "runtimeBytes": 7643,
+      "immutableSlots": 46,
+      "sha256": "3c8f821f267c3f5b6c7e7402b04cb1a7ecde65f7995966b519679b9bee8c623b",
+      "immutableReferences": {
+        "9587": [
+          {
+            "start": 994,
+            "length": 32
+          },
+          {
+            "start": 1418,
+            "length": 32
+          },
+          {
+            "start": 2049,
+            "length": 32
+          },
+          {
+            "start": 2220,
+            "length": 32
+          },
+          {
+            "start": 2290,
+            "length": 32
+          },
+          {
+            "start": 4103,
+            "length": 32
+          },
+          {
+            "start": 4522,
+            "length": 32
+          },
+          {
+            "start": 4868,
+            "length": 32
+          },
+          {
+            "start": 5162,
+            "length": 32
+          },
+          {
+            "start": 5340,
+            "length": 32
+          },
+          {
+            "start": 5613,
+            "length": 32
+          },
+          {
+            "start": 6005,
+            "length": 32
+          },
+          {
+            "start": 6538,
+            "length": 32
+          }
+        ],
+        "9589": [
+          {
+            "start": 1236,
+            "length": 32
+          },
+          {
+            "start": 2516,
+            "length": 32
+          },
+          {
+            "start": 3986,
+            "length": 32
+          }
+        ],
+        "9591": [
+          {
+            "start": 1119,
+            "length": 32
+          },
+          {
+            "start": 2440,
+            "length": 32
+          },
+          {
+            "start": 2483,
+            "length": 32
+          },
+          {
+            "start": 2558,
+            "length": 32
+          },
+          {
+            "start": 3494,
+            "length": 32
+          },
+          {
+            "start": 3691,
+            "length": 32
+          },
+          {
+            "start": 3803,
+            "length": 32
+          },
+          {
+            "start": 3953,
+            "length": 32
+          },
+          {
+            "start": 4028,
+            "length": 32
+          },
+          {
+            "start": 4562,
+            "length": 32
+          },
+          {
+            "start": 5015,
+            "length": 32
+          },
+          {
+            "start": 5248,
+            "length": 32
+          },
+          {
+            "start": 5380,
+            "length": 32
+          },
+          {
+            "start": 5653,
+            "length": 32
+          }
+        ],
+        "9593": [
+          {
+            "start": 1197,
+            "length": 32
+          },
+          {
+            "start": 5195,
+            "length": 32
+          },
+          {
+            "start": 5281,
+            "length": 32
+          },
+          {
+            "start": 5478,
+            "length": 32
+          }
+        ],
+        "9595": [
+          {
+            "start": 955,
+            "length": 32
+          },
+          {
+            "start": 4605,
+            "length": 32
+          },
+          {
+            "start": 5704,
+            "length": 32
+          }
+        ],
+        "9597": [
+          {
+            "start": 804,
+            "length": 32
+          },
+          {
+            "start": 2591,
+            "length": 32
+          },
+          {
+            "start": 4061,
+            "length": 32
+          }
+        ],
+        "9599": [
+          {
+            "start": 1061,
+            "length": 32
+          },
+          {
+            "start": 3266,
+            "length": 32
+          }
+        ],
+        "9601": [
+          {
+            "start": 1158,
+            "length": 32
+          }
+        ],
+        "9604": [
+          {
+            "start": 741,
+            "length": 32
+          },
+          {
+            "start": 1281,
+            "length": 32
+          },
+          {
+            "start": 6585,
+            "length": 32
+          }
+        ]
+      }
+    },
+    "HanaBondFactory": {
+      "path": "HanaBondFactory.json",
+      "source": "src/HanaBond.sol",
+      "fileSHA256": "db12b5eceb91a6c224be5bbe816767fc689b5f53c38c75f19ef346408544bb82",
+      "sourceSHA256": "a9c429455eb5cfe06bced94ef25347e199fca83b17b62547b4bb799ec5e7d1fe",
+      "abiSHA256": "4ec2b488087af52116b8a1c6f79989582972fce135edd2a93ed0ed6acb240488",
+      "creationKeccak": "0xc11d8519c6db06faa67c36964803bdd0b66014d7e939c890669af4a9deca1015",
+      "runtimeTemplateKeccak": "0xe29c43f73ea470305f6395ef7830c4c80955f7c3ce17488cac4722585ad15629",
+      "runtimeBytes": 10975,
+      "immutableSlots": 6,
+      "sha256": "db12b5eceb91a6c224be5bbe816767fc689b5f53c38c75f19ef346408544bb82",
+      "immutableReferences": {
+        "9289": [
+          {
+            "start": 314,
+            "length": 32
+          },
+          {
+            "start": 811,
+            "length": 32
+          }
+        ],
+        "9291": [
+          {
+            "start": 353,
+            "length": 32
+          }
+        ],
+        "9293": [
+          {
+            "start": 213,
+            "length": 32
+          }
+        ],
+        "9295": [
+          {
+            "start": 146,
+            "length": 32
+          },
+          {
+            "start": 691,
+            "length": 32
+          }
+        ]
+      }
     }
   },
   "openzeppelin": {

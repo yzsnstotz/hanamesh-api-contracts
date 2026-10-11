@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -113,7 +113,16 @@
     "./contracts-abi/frozen/oz-ctr09/distributor-manifest.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-manifest.json",
     "./contracts-abi/frozen/oz-ctr09/distributor-example.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-example.json",
     "./contracts-abi/frozen/oz-ctr09/provenance.json": "./contracts/contracts-abi/frozen/oz-ctr09/provenance.json",
-    "./contracts-abi/frozen/oz-ctr09/mock_distributor.py": "./contracts/contracts-abi/frozen/oz-ctr09/mock_distributor.py"
+    "./contracts-abi/frozen/oz-ctr09/mock_distributor.py": "./contracts/contracts-abi/frozen/oz-ctr09/mock_distributor.py",
+    "./contracts-abi/HanaBond.json": "./contracts/contracts-abi/HanaBond.json",
+    "./contracts-abi/HanaBondFactory.json": "./contracts/contracts-abi/HanaBondFactory.json",
+    "./contracts-abi/frozen/HanaBond.json": "./contracts/contracts-abi/frozen/HanaBond.json",
+    "./contracts-abi/frozen/HanaBondFactory.json": "./contracts/contracts-abi/frozen/HanaBondFactory.json",
+    "./contracts-abi/bond-example.json": "./contracts/contracts-abi/bond-example.json",
+    "./contracts-abi/bond-manifest.json": "./contracts/contracts-abi/bond-manifest.json",
+    "./contracts-abi/bond-provenance.json": "./contracts/contracts-abi/bond-provenance.json",
+    "./contracts-abi/bond-frozen-manifest.json": "./contracts/contracts-abi/bond-frozen-manifest.json",
+    "./contracts-abi/mock_bond.py": "./contracts/contracts-abi/mock_bond.py"
   },
   "files": [
     "index.js",

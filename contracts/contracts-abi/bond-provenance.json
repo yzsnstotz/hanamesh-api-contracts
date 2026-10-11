@@ -1,0 +1,43 @@
+{
+  "contract": "C-CONTRACTS-ABI",
+  "providerCard": "J5S1-CTR-05",
+  "providerCommit": "b03f0f0da3f7e62f3f127795e894b115de38ebba",
+  "repository": "https://github.com/yzsnstotz/hanamesh-contracts",
+  "evidence": "SOURCE_BUILD",
+  "files": {
+    "abi/HanaBond.json": {
+      "path": "contracts/contracts-abi/HanaBond.json",
+      "sha256": "d3597e4beaae504c5ffc9046491eead8f16f2ed3f6d798534e20a5d607151181"
+    },
+    "abi/HanaBondFactory.json": {
+      "path": "contracts/contracts-abi/HanaBondFactory.json",
+      "sha256": "46aa4d28228067e85930259e32e4d8d2303281c6a5ccec6e8f17f6342913f32e"
+    },
+    "abi/frozen/HanaBond.json": {
+      "path": "contracts/contracts-abi/frozen/HanaBond.json",
+      "sha256": "3c8f821f267c3f5b6c7e7402b04cb1a7ecde65f7995966b519679b9bee8c623b"
+    },
+    "abi/frozen/HanaBondFactory.json": {
+      "path": "contracts/contracts-abi/frozen/HanaBondFactory.json",
+      "sha256": "db12b5eceb91a6c224be5bbe816767fc689b5f53c38c75f19ef346408544bb82"
+    },
+    "abi/bond-example.json": {
+      "path": "contracts/contracts-abi/bond-example.json",
+      "sha256": "4168da8f8c2ef61e466ee7f8b68ca47a34f8d0d4df4c21cb8a8e21058869e807"
+    },
+    "abi/bond-manifest.json": {
+      "path": "contracts/contracts-abi/bond-manifest.json",
+      "sha256": "6aab04f39754681089f4ea2c535174485aa0db90cb809043e75119e48ac46e13"
+    },
+    "abi/frozen/manifest.json": {
+      "path": "contracts/contracts-abi/bond-frozen-manifest.json",
+      "sha256": "6d3fe785dbb1b005823041c1c75a71d52f3be5c19f11751fe7e01da0a2fa870d"
+    },
+    "abi/mock_bond.py": {
+      "path": "contracts/contracts-abi/mock_bond.py",
+      "sha256": "b687185d5c232326c60a529962f6beb195db51aed4fe5c2800a6e56ee6405826"
+    }
+  },
+  "frozenManifestSource": "abi/frozen/manifest.json",
+  "frozenManifestSHA256": "6d3fe785dbb1b005823041c1c75a71d52f3be5c19f11751fe7e01da0a2fa870d"
+}

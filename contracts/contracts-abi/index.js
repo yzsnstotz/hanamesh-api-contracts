@@ -13,3 +13,11 @@ export const CONTRACTS_ABI_DEFINITION = Object.freeze({
     providerCommit: 'fdfc672d81af286e8f118ccab29eb2a5386ba5ca', evidence: 'SOURCE_BUILD',
 });
 export function createContractsAbiContractExamples() { return read('./launch-example.json'); }
+
+export const HANA_BOND_FROZEN = read('./frozen/HanaBond.json');
+export const HANA_BOND_FACTORY_FROZEN = read('./frozen/HanaBondFactory.json');
+export const HANA_BOND_ABI = HANA_BOND_FROZEN.abi;
+export const HANA_BOND_FACTORY_ABI = HANA_BOND_FACTORY_FROZEN.abi;
+export const BOND_MANIFEST = read('./bond-manifest.json');
+export const BOND_PROVENANCE = read('./bond-provenance.json');
+export function createBondContractExamples() { return read('./bond-example.json'); }
