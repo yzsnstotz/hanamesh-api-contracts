@@ -91,9 +91,12 @@ const fixture = createPointsProviderFixture({
 类型均从提供方声明提取；没有运行时 `checkBeneficiaryView` 导出。实际函数由 `@hanamesh/server-custody` 根入口供应。
 
 ```ts
-import {checkBeneficiaryView} from '@hanamesh/server-custody';
-import type {BeneficiaryValidationPort} from '@hanamesh/api-contracts/points';
-const port:BeneficiaryValidationPort = {checkBeneficiaryView};
+import {createBeneficiaryValidationPortFixture} from '@hanamesh/api-contracts/points';
+import type {BeneficiaryViewChecker, BeneficiaryValidationPort} from '@hanamesh/api-contracts/points';
+// 独立消费者只核对正式签名；实际规则实现由部署宿主从提供方加载。
+declare const checkBeneficiaryViewDeclaration: BeneficiaryViewChecker;
+const port: BeneficiaryValidationPort =
+  createBeneficiaryValidationPortFixture(checkBeneficiaryViewDeclaration).port;
 ```
 
 失败规则为 SCHEMA、CONTEXT、POLICY_LABEL、ONE_WALLET、NO_PER_ENTITLEMENT_AMOUNT、PENDING_ZERO_ACCOUNT、BOUND_ACCOUNT、ISOLATION、CLAIMABLE、LEAF、PROOF，定义保持提供方顺序。重复 ID 去重，SCHEMA 失败立即返回。token/batchId 只将 expected 转小写。

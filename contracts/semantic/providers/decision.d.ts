@@ -1,3 +1,4 @@
+import { type ProviderTransportOptions } from '../configuration.js';
 import type { DecisionInput, DecisionProvider, DecisionResult, ProviderMode } from '../contracts.js';
 export declare class StubDecisionProvider implements DecisionProvider {
     readonly name = "stub";
@@ -7,7 +8,7 @@ export declare class StubDecisionProvider implements DecisionProvider {
     score(input: DecisionInput): Promise<DecisionResult>;
 }
 type Fetcher = (input: string | URL, init?: RequestInit) => Promise<Response>;
-export interface JevDecisionProviderOptions {
+export interface JevDecisionProviderOptions extends ProviderTransportOptions {
     apiKey: string;
     endpoint?: string;
     model?: string;
@@ -26,6 +27,8 @@ export declare class JevDecisionProvider implements DecisionProvider {
     private readonly maxCandidates;
     private readonly timeoutMs;
     private readonly maxRetries;
+    private readonly retryBaseDelayMs;
+    private readonly retryBackoffFactor;
     private readonly fetcher;
     private readonly sleep;
     constructor(options: JevDecisionProviderOptions);

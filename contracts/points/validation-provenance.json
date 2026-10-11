@@ -36,7 +36,7 @@
   },
   "publishedFiles": {
     "PROVIDER-HOST-API.md": "e441920fa91d65da00268feaae0eaa72e9851800fd99f53ca316333bc8bf2b5f",
-    "README.md": "b1033fb6e2ba61075dc0a9f4327f90d565d4cc0b140ea37fce93b05bc35c6056",
+    "README.md": "82fd3c4110e4578e4da447ce4edc5bc7b04b20507ac4fcd8a1ebb6c8f7afc2c0",
     "beneficiary-validation-examples.json": "48f9ea6a60c3483ec1d148ea96bebf78c6ce73f2422dc41a420c42e036cf91fc",
     "contracts.d.ts": "af1d5ce4238bcd57f1216403a32fbe2a8dd9cd7272fa93242679e6b3f2f4ab5d",
     "definition.d.ts": "5382709f8d63dd9aea170982f9c44fb53749deb0cdaf25e207a5ac9b92d0209d",
@@ -67,5 +67,11 @@
     "Two example JSON files and PROVIDER-HOST-API.md copied byte-for-byte.",
     "Shared FIXTURE helpers read copied data and require explicit synchronous checker injection; no provider validation algorithm copied."
   ],
-  "boundary": "PACKAGE/FIXTURE only; no product factory, runtime validator, policy, database, host, wallet or chain implementation."
+  "boundary": "PACKAGE/FIXTURE only; no product factory, runtime validator, policy, database, host, wallet or chain implementation.",
+  "documentationRevision": {
+    "card": "J3S1-APIC-21",
+    "previousReadmeSha256": "b1033fb6e2ba61075dc0a9f4327f90d565d4cc0b140ea37fce93b05bc35c6056",
+    "currentReadmeSha256": "82fd3c4110e4578e4da447ce4edc5bc7b04b20507ac4fcd8a1ebb6c8f7afc2c0",
+    "reason": "Q61/Q67 formal contract-only standalone consumption and explicit host composition; provider source/types/JSON unchanged."
+  }
 }

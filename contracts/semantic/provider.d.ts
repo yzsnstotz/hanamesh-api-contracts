@@ -1,7 +1,13 @@
-import type {FastifyPluginAsync} from 'fastify';
-import type {DecisionProvider, ProfileEnricher, ProviderMode, SemanticRepository, SemanticSourcePort, SemanticUnitOfWork, SourceRow, SqlExecutor, EmbeddingProvider} from './contracts.js';
-import type {createSemanticService} from './service.js';
+import { type SemanticDiagnostic } from './configuration.js';
+import type { FastifyPluginAsync } from 'fastify';
+import type { DecisionProvider, ProfileEnricher, ProviderMode, SemanticRepository, SemanticSourcePort, SemanticUnitOfWork, SourceRow, SqlExecutor } from './contracts.js';
+import type { EmbeddingProvider } from './contracts.js';
+import { createSemanticService } from './service.js';
+import type { SemanticEmbeddingFactsReader, SemanticEmbeddingFactsRepository } from './contracts.js';
 export interface SemanticModuleOptions {
+    embeddingFactsRepository?: SemanticEmbeddingFactsRepository;
+    embeddingFactsPageSize?: number;
+    embeddingFactsMaxPageSize?: number;
     pool: SqlExecutor;
     unitOfWork: SemanticUnitOfWork;
     sourceCatalog?: SemanticSourcePort;
@@ -13,6 +19,9 @@ export interface SemanticModuleOptions {
     minimumConfidence?: number;
     decisionPolicy?: string;
     rateLimitPerMinute?: number;
+    rateLimitWindowMs?: number;
+    readmeTimeoutMs?: number;
+    readmeMaxBytes?: number;
     actorResolver?: (request: unknown) => {
         kind: 'anon' | 'device' | 'account';
         ref: string;
@@ -30,8 +39,11 @@ export interface SemanticModule {
     services: ReturnType<typeof createSemanticService>;
     mode: ProviderMode;
 }
-export declare function fetchCapabilityReadme(row: SourceRow, options?: {
+export interface ReadmeFetchOptions {
     fetcher?: typeof fetch;
     timeoutMs?: number;
-}): Promise<string | null>;
+    maxBytes?: number;
+    diagnostic?: SemanticDiagnostic;
+}
+export declare function fetchCapabilityReadme(row: SourceRow, options?: ReadmeFetchOptions): Promise<string | null>;
 export declare function createSemanticModule(options: SemanticModuleOptions): SemanticModule;

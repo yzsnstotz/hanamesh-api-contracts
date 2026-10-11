@@ -253,6 +253,8 @@ export interface QueryLogInput {
     cost: Record<string, unknown>;
 }
 export interface SemanticRepository {
+    /** Additive server-only read. Legacy injected repositories may omit it; reads then fail visibly. */
+    listEmbeddingFacts?: SemanticEmbeddingFactsRepository['listEmbeddingFacts'];
     listSourceRows(since?: string): Promise<readonly SourceRow[]>;
     upsertProfiles(executor: SqlExecutor, values: readonly NormalizedCapability[]): Promise<readonly string[]>;
     listPendingEmbeddings(provider: string, model: string): Promise<readonly PendingEmbedding[]>;
@@ -273,6 +275,49 @@ export interface SemanticRepository {
         cost: Record<string, unknown>;
     }): Promise<void>;
     logFeedback(executor: SqlExecutor, row: FeedbackLogInput): Promise<void>;
+}
+/** Current own-store facts only: this is neither a Registry denominator nor permanent first history. */
+export interface SemanticEmbeddingFact {
+    hanaId: string;
+    hasCurrentEmbedding: boolean;
+    oldestCurrentEmbeddedAt: string | null;
+}
+export type SemanticEmbeddingSelection = {
+    kind: 'all';
+} | {
+    kind: 'exact';
+    provider: string;
+    model: string;
+};
+export interface SemanticEmbeddingFactsQuery {
+    after?: string;
+    limit?: number;
+    selection?: {
+        provider: string;
+        model: string;
+    };
+}
+export interface SemanticEmbeddingFactsPage {
+    items: readonly SemanticEmbeddingFact[];
+    next: string | null;
+    selection: SemanticEmbeddingSelection;
+    limit: number;
+}
+export interface SemanticEmbeddingFactsRepository {
+    /** Return at most limit+1 facts, grouped by Hana, in ascending UUID order, strictly after afterHanaId. */
+    listEmbeddingFacts(query: {
+        afterHanaId: string | null;
+        limit: number;
+        selection: SemanticEmbeddingSelection;
+    }): Promise<readonly SemanticEmbeddingFact[]>;
+}
+export interface SemanticEmbeddingFactsConfiguration {
+    pageSize: number;
+    maxPageSize: number;
+}
+export interface SemanticEmbeddingFactsReader {
+    readonly configuration: Readonly<SemanticEmbeddingFactsConfiguration>;
+    list(query?: SemanticEmbeddingFactsQuery): Promise<SemanticEmbeddingFactsPage>;
 }
 export interface ProfileEnricher {
     enrich(profile: CapabilityProfile, row: SourceRow): Promise<CapabilityProfile>;

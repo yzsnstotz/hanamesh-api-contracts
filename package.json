@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -139,7 +139,8 @@
     "./semantic/schemas/search.request.json": "./contracts/semantic/schemas/search.request.json",
     "./semantic/schemas/recommend.request.json": "./contracts/semantic/schemas/recommend.request.json",
     "./semantic/schemas/feedback.request.json": "./contracts/semantic/schemas/feedback.request.json",
-    "./semantic/schemas/decision.response.json": "./contracts/semantic/schemas/decision.response.json"
+    "./semantic/schemas/decision.response.json": "./contracts/semantic/schemas/decision.response.json",
+    "./semantic/current-provenance.json": "./contracts/semantic/current-provenance.json"
   },
   "files": [
     "index.js",

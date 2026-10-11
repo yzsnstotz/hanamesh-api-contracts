@@ -2,7 +2,7 @@ export declare const SEMANTIC_CONTRACT_DEFINITION: {
   "id": "C-SEMANTIC",
   "provider": "server-semantic",
   "entry": "@hanamesh/api-contracts/semantic",
-  "providerCommit": "6756523ee56939873fa6f8450089bd99d911a3d5",
+  "providerCommit": "7930d7729d2fbaae4f096cea481d29a4c8068132",
   "module": {
     "factory": "createSemanticModule",
     "input": "SemanticModuleOptions",

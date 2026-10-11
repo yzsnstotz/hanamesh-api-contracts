@@ -28,3 +28,14 @@ export interface SemanticProviderExports {
   JevDecisionProvider: SemanticProviderConstructor<typeof import('./providers/decision.js').JevDecisionProvider>;
   FallbackDecisionProvider: SemanticProviderConstructor<typeof import('./providers/decision.js').FallbackDecisionProvider>;
 }
+export type * from './configuration.js';
+export type * from './embedding-facts.js';
+export {SEMANTIC_DEFAULTS, SEMANTIC_LIMITS} from './configuration.js';
+export type CreateSemanticEmbeddingFactsReader = typeof import('./embedding-facts.js').createSemanticEmbeddingFactsReader;
+/** Additive host provider surface; original deployment exports remain assignable. */
+export type SemanticModuleWithEmbeddingFacts = import('./provider-current.js').SemanticModule;
+export type CreateSemanticModuleWithEmbeddingFacts = typeof import('./provider-current.js').createSemanticModule;
+export interface SemanticEmbeddingFactsProviderExports extends SemanticProviderExports {
+  createSemanticModule: CreateSemanticModuleWithEmbeddingFacts;
+  createSemanticEmbeddingFactsReader: CreateSemanticEmbeddingFactsReader;
+}

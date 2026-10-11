@@ -99,7 +99,7 @@
     "definition.d.ts": "a18bd12f1e69568a7bfee8a51a60c6c57d0691f3ddb73701173cc52bf4bfe52c",
     "content-hash.js": "0d0bb1e5cd73768470194b1e7af952d3d142404920a38b9420721b7141253027",
     "content-hash.d.ts": "c20c59c814152a7c088d69867e9cc2115eea2e9cd3a65e482b885716e9208b09",
-    "README.md": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
+    "README.md": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
     "index.js": "5b2849ce89c56fd89db1d3614a10caa628b7703f5b6bfd6d2965b3470aab23a1",
     "index.d.ts": "a4d43588b591369081ce503069906d299d2ad2582e19ee9cef7d673520fb7053"
   },
@@ -109,5 +109,11 @@
     "New read fixtures return explicit seeded outcomes; no production hash validation/calculation, SQL/filtering or automatic error classification.",
     "New sample hash from provider emitted definition; winning-source example retains first Registry identity with identical metadata digest.",
     "main differs from v0.2.0 only in AGENTS.md; no cross-service snapshot guarantee."
-  ]
+  ],
+  "documentationRevision": {
+    "card": "J3S1-APIC-21",
+    "previousReadmeSha256": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
+    "currentReadmeSha256": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
+    "reason": "Q61/Q67 formal contract-only standalone consumption and explicit host composition; provider source/types/JSON unchanged."
+  }
 }

@@ -1,10 +1,10 @@
-# C-SEMANTIC provider · 0.2.0
+# C-SEMANTIC provider · candidate 0.3.1
 
-Provider-owned source of truth for J3S1-APIC-19 and HOST-01. This package supplies the product factory; api-contracts supplies contracts, never that factory. The release consumes exactly `git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.17.0` (commit `5d4b17a1c9f439750f57a60863d2efec96cdc3aa`). Formal ports/types come from `/catalog`, `/indexer-catalog`, `/uow`. Local provider declarations in `dist` preserve the existing compatibility surface until the C-SEMANTIC follow-up release.
+Provider-owned source of truth for J3S1-APIC-19 and HOST-01. This package supplies the product factory; api-contracts supplies contracts, never that factory. Development consumes exactly `git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.18.0` (commit `3928a7f6d624b6ae9171a46b770563a13da7db5e`). Formal ports/types come from `/catalog`, `/indexer-catalog`, `/uow`. Published declarations form a self-contained closure generated from that formal source; JS has no contract imports. APIC-19 supplies `/semantic` for development conformance. Commit, input/output hashes and MIT license are packaged alongside the generated type-only declarations.
 
 ## Public assembly
 
-`createSemanticModule(options: SemanticModuleOptions): SemanticModule` returns `{plugin: FastifyPluginAsync, services, mode: 'real'|'stub'}`. Mode is real only when both embedding and decision declare real. It does not infer credentials, load environment variables, start a listener, open a pool, schedule a job, migrate, or close host resources. `createSemanticService`, `PostgresSemanticRepository`, `SemanticError`, providers, normalizers, decision validation and hash helpers are public. Named configuration types are `SemanticModuleOptions`, `ServiceOptions`, `VoyageOptions`, `JevDecisionProviderOptions`, `PluginOptions` (the latter is emitted by the HTTP source; module users configure through SemanticModuleOptions).
+`createSemanticModule(options: SemanticModuleOptions): SemanticModule` returns `{plugin: FastifyPluginAsync, services, mode: 'real'|'stub', embeddingFacts: SemanticEmbeddingFactsReader}`. Mode is real only when both embedding and decision declare real. It does not infer credentials, load environment variables, start a listener, open a pool, schedule a job, migrate, or close host resources. `createSemanticService`, `PostgresSemanticRepository`, `SemanticError`, providers, normalizers, decision validation and hash helpers are public. Named configuration types are `SemanticModuleOptions`, `ServiceOptions`, `VoyageOptions`, `JevDecisionProviderOptions`, `PluginOptions` (the latter is emitted by the HTTP source; module users configure through SemanticModuleOptions).
 
 | Module option | Required / existing behavior |
 |---|---|
@@ -16,7 +16,9 @@ Provider-owned source of truth for J3S1-APIC-19 and HOST-01. This package suppli
 | repository | Optional SemanticRepository override; owns all existing methods. An explicit override remains supported without sourceCatalog |
 | decision / fallback | Optional DecisionProvider. Existing default decision is StubDecisionProvider; fallback is used only if supplied and validated decision is noMatch |
 | decisionTopK / minimumConfidence / decisionPolicy | Existing defaults 20 / .35 / documented policy text. TopK accepts 1..200; options are forwarded without changing existing validation |
-| rateLimitPerMinute | Existing default 30, integer >=1; HTTP identity buckets retained |
+| rateLimitPerMinute / rateLimitWindowMs | Existing count30 / window60000ms; positive safe integers; original identity buckets/429 remain |
+| readmeTimeoutMs / readmeMaxBytes | Default10000ms / 1MiB, validated timeout/byte controls forwarded to the default fetcher |
+| embeddingFactsRepository / embeddingFactsPageSize / embeddingFactsMaxPageSize | Explicit server-only read override / default200 / default1000; full scope and errors in EMBEDDING-FACTS.md |
 | actorResolver | Optional sync/async {kind:'anon'|'device'|'account',ref:string}; default account user.id, device header, request.ip |
 | readmeFetcher | Optional async (SourceRow)=>string|null; default fetchCapabilityReadme |
 | enricher | Optional ProfileEnricher; default identityProfileEnricher |
@@ -61,10 +63,10 @@ Semantic queries only its own objects/profiles/documents. It scans all Indexer p
 EmbeddingProvider exposes name/mode/documentModel/queryModel/dimension plus embedDocument/embedQuery -> {vectors,model,usage:{tokens}}. DecisionProvider exposes name/mode/choose and optional rank/score -> DecisionResult. Inputs and responses are fully emitted in dist/contracts.d.ts. No economics fields enter ranking or decision input.
 
 - StubEmbeddingProvider({dimension?}={}): default1024, integer >=3; deterministic vectors, explicit fixture/local choice. StubDecisionProvider keeps retrieval score ordering.
-- VoyageEmbeddingProvider(VoyageOptions): server-only apiKey required; dimension default1024, allowed256/512/1024/2048/3; documentModel voyage-4-large, queryModel voyage-4-lite; endpoint https://api.voyageai.com/v1/embeddings; injectable fetcher/sleep; timeoutMs15000/maxRetries3 retained. Single batch1..128. No provider request body/header/key is logged.
-- JevDecisionProvider(JevDecisionProviderOptions): server-only apiKey required; endpoint https://api.typesafe.ai/v1/systemone, model jev-latest, maxCandidates20, timeoutMs15000/maxRetries3; injectable fetcher/sleep. Existing retry/status/choice parsing behavior unchanged.
+- VoyageEmbeddingProvider(VoyageOptions): server-only apiKey required; dimension default1024, allowed256/512/1024/2048/3; documentModel voyage-4-large, queryModel voyage-4-lite; endpoint https://api.voyageai.com/v1/embeddings; injectable fetcher/sleep; timeoutMs15000/maxRetries3/retryBaseDelayMs250/retryBackoffFactor2; optional safe diagnostic. Single batch1..128. No provider request body/header/key is logged.
+- JevDecisionProvider(JevDecisionProviderOptions): server-only apiKey required; endpoint https://api.typesafe.ai/v1/systemone, model jev-latest, maxCandidates20, timeoutMs15000/maxRetries3/retryBaseDelayMs250/retryBackoffFactor2; safe diagnostic; injectable fetcher/sleep. Existing retry/status/choice parsing behavior unchanged.
 - FallbackDecisionProvider({enabled,delegate}): enabled is explicit, otherwise rejects NOT_ENABLED. No default enabled fallback.
-- fetchCapabilityReadme(row,{fetcher?,timeoutMs?}={}): existing10000ms, response max1MiB; GitHub README or npm latest metadata, null when unavailable/no repository. Distillate stays <=4096 UTF-8 bytes. Existing network behavior/limits retained, not changed by this source repair.
+- fetchCapabilityReadme(row,{fetcher?,timeoutMs?,maxBytes?,diagnostic?}={}): existing10000ms, response max1MiB; GitHub README or npm latest metadata, null when unavailable/no repository. Distillate stays <=4096 UTF-8 bytes. Existing network behavior/limits retained, not changed by this source repair.
 
 See PROVIDERS.md and POLICY.md for existing models, retry handling and validation. Historical REAL_* evidence there is not a new claim from this card. No paid model or database is exercised by test:contract.
 
@@ -76,8 +78,7 @@ Example (host owns all runtime resources):
 
 ```ts
 import {createSemanticModule, bridgeSemanticUnitOfWork, StubEmbeddingProvider} from '@hanamesh/server-semantic';
-import type {UnitOfWork, SqlExecutor} from '@hanamesh/api-contracts/uow';
-import type {IndexerReadService} from '@hanamesh/api-contracts/indexer-catalog';
+import type {UnitOfWork, SqlExecutor, IndexerReadService} from '@hanamesh/server-semantic/contracts';
 declare const pool: SqlExecutor, unitOfWork: UnitOfWork, indexer: IndexerReadService;
 const semantic = createSemanticModule({pool, unitOfWork:bridgeSemanticUnitOfWork(unitOfWork),
   sourceCatalog:indexer, embedding:new StubEmbeddingProvider({dimension:1024}),
@@ -85,6 +86,10 @@ const semantic = createSemanticModule({pool, unitOfWork:bridgeSemanticUnitOfWork
 // Host registers semantic.plugin and schedules services; this example does neither.
 ```
 
-`@hanamesh/server-semantic/migrations` exposes migrationFiles/loadMigrations; the host executes the returned SQL. SQL files create only semantic plus pgvector; runtime-grants.sql grants only semantic to pre-existing hm_runtime. This card neither connects a database nor changes installed grants. Host supplies privileged migration executor and already manages the role. Existing source-service roles/grants are owned by their providers. Retained opt-in real DB/model scripts now use explicit source FIXTURE ports; they do not supply Registry/Indexer tables or prove source hash provenance.
+`@hanamesh/server-semantic/migrations` exposes migrationFiles/loadMigrations; the host executes the returned SQL. SQL files create only semantic plus pgvector; runtime-grants.sql grants only semantic to pre-existing hm_runtime. This card uses only a disposable own pgvector PG gate and does not change deployed grants. Host supplies privileged migration executor and already manages the role. Existing source-service roles/grants are owned by their providers. Retained opt-in real DB/model scripts now use explicit source FIXTURE ports; they do not supply Registry/Indexer tables or prove source hash provenance.
 
-Gates: Node24.13.1, pnpm10.33.0; check, build:source, test, self-building test:contract (runtime + strict consumer types), test:mutations, pack:local, verify:pack. This is SOURCE/FIXTURE/PACKAGE delivery, not REAL_DB/HOST/UI or owner ACCEPTED. C-SEMANTIC follows via J3S1-APIC-19 before HOST-01 assembly.
+Gates: Node24.13.1, pnpm10.33.0; check, build:source, test, self-building test:contract (runtime + strict consumer types), test:mutations, pack:local, verify:pack. This is SOURCE/FIXTURE/PACKAGE delivery, not REAL_DB/HOST/UI or owner ACCEPTED. C-SEMANTIC v0.18.0 is checked independently in the development consumer. Additional configuration is documented in CONFIGURATION.md; PM Q81 resolves the prior coverage/time request with the server-only current-row port in EMBEDDING-FACTS.md. APIC21 follows the provider after main delivery; no permanent first history is claimed.
+
+## J3S1-SEM-02 build/runtime boundary
+
+The build derives only the reachable public catalog/indexer/UOW declarations, with no manually maintained second definitions and no copied provider factories. No contract runtime constant/schema/ABI is used by this module; local provider schemas/errors remain its own original bytes and are checked against formal `/semantic`. `pack:local` builds before packing. `verify:runtime-deps` compares all archive/source/installed bytes (package.json receives only pnpm pack normalization: packageManager removed and whitespace normalized), verifies dist/build-provenance.json source/output hashes, rejects stale generated JS, audits all export targets/static and dynamic import/require/type imports, verifies all JS files load, and type-checks every declaration with skipLibCheck=false. The separate `verify:contract-consumer` uses official FIXTURE exports as development dependencies only.

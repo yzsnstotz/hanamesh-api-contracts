@@ -1,0 +1,4 @@
+/** Existing legal defaults. Retry controls affect provider transport only, never semantic validation. */
+export const SEMANTIC_DEFAULTS = Object.freeze({ providerTimeoutMs: 15_000, maxRetries: 3, retryBaseDelayMs: 250, retryBackoffFactor: 2, embeddingDimension: 1024, httpWindowMs: 60_000, httpRequestsPerWindow: 30, readmeTimeoutMs: 10_000, readmeResponseBytes: 1_048_576, embeddingFactsPageSize: 200, embeddingFactsMaxPageSize: 1000 });
+/** Protocol/security constraints: retained API schemas, provider batch shape, and the <=4KB distillate contract. */
+export const SEMANTIC_LIMITS = Object.freeze({ timerDelayMs: 2_147_483_647, readmeDistillateBytes: 4096, embeddingBatchSize: 128, queryCharacters: 500, retrievalTopK: 200, recommendMore: 20, httpSearchBodyBytes: 16_384, httpFeedbackBodyBytes: 4096 });
