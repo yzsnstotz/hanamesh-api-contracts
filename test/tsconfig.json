@@ -1,4 +1,19 @@
 {
-  "compilerOptions": { "strict": true, "noEmit": true, "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "skipLibCheck": false, "types": [] },
-  "files": ["types.ts", "chain-hanaswap-types.ts", "catalog-types.ts", "uow-types.ts", "core-shared-identity-types.ts"]
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": false,
+    "types": []
+  },
+  "files": [
+    "types.ts",
+    "chain-hanaswap-types.ts",
+    "catalog-types.ts",
+    "uow-types.ts",
+    "core-shared-identity-types.ts",
+    "contracts-abi-types.ts"
+  ]
 }

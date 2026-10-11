@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -58,7 +58,20 @@
       "types": "./contracts/uow/index.d.ts",
       "default": "./contracts/uow/index.js"
     },
-    "./uow/provenance.json": "./contracts/uow/provenance.json"
+    "./uow/provenance.json": "./contracts/uow/provenance.json",
+    "./contracts-abi": {
+      "types": "./contracts/contracts-abi/index.d.ts",
+      "default": "./contracts/contracts-abi/index.js"
+    },
+    "./contracts-abi/HanaLauncher.json": "./contracts/contracts-abi/HanaLauncher.json",
+    "./contracts-abi/LaunchFee.json": "./contracts/contracts-abi/LaunchFee.json",
+    "./contracts-abi/launch-manifest.json": "./contracts/contracts-abi/launch-manifest.json",
+    "./contracts-abi/launch-example.json": "./contracts/contracts-abi/launch-example.json",
+    "./contracts-abi/frozen/HanaLauncher.json": "./contracts/contracts-abi/frozen/HanaLauncher.json",
+    "./contracts-abi/frozen/LaunchFee.json": "./contracts/contracts-abi/frozen/LaunchFee.json",
+    "./contracts-abi/frozen/HanaToken.json": "./contracts/contracts-abi/frozen/HanaToken.json",
+    "./contracts-abi/frozen/manifest.json": "./contracts/contracts-abi/frozen/manifest.json",
+    "./contracts-abi/provenance.json": "./contracts/contracts-abi/provenance.json"
   },
   "files": [
     "index.js",

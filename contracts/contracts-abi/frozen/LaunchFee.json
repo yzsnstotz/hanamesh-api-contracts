@@ -1,0 +1,564 @@
+{
+  "contract": "LaunchFee",
+  "version": "J4S2 OZ v0.2.0",
+  "abi": [
+    {
+      "type": "constructor",
+      "inputs": [
+        {
+          "name": "token_",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "treasury_",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "amount_",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "feeAmount",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "feeToken",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "pay",
+      "inputs": [
+        {
+          "name": "hanaId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "requestId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "payments",
+      "inputs": [
+        {
+          "name": "",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "payer",
+          "type": "address",
+          "internalType": "address"
+        },
+        {
+          "name": "hanaId",
+          "type": "bytes32",
+          "internalType": "bytes32"
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "internalType": "uint256"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "treasury",
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "",
+          "type": "address",
+          "internalType": "address"
+        }
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "event",
+      "name": "LaunchFeePaid",
+      "inputs": [
+        {
+          "name": "hanaId",
+          "type": "bytes32",
+          "indexed": true,
+          "internalType": "bytes32"
+        },
+        {
+          "name": "requestId",
+          "type": "bytes32",
+          "indexed": true,
+          "internalType": "bytes32"
+        },
+        {
+          "name": "payer",
+          "type": "address",
+          "indexed": true,
+          "internalType": "address"
+        },
+        {
+          "name": "token",
+          "type": "address",
+          "indexed": false,
+          "internalType": "address"
+        },
+        {
+          "name": "treasury",
+          "type": "address",
+          "indexed": false,
+          "internalType": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256",
+          "indexed": false,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
+    },
+    {
+      "type": "error",
+      "name": "InvalidConfiguration",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "InvalidRequest",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "ReentrancyGuardReentrantCall",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "RequestAlreadyPaid",
+      "inputs": []
+    },
+    {
+      "type": "error",
+      "name": "SafeERC20FailedOperation",
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address",
+          "internalType": "address"
+        }
+      ]
+    },
+    {
+      "type": "error",
+      "name": "UnexpectedTransferAmount",
+      "inputs": []
+    }
+  ],
+  "creationBytecode": "0x60e060405234801561001057600080fd5b506040516109e33803806109e383398101604081905261002f916100c3565b60016000556001600160a01b0383163b158061005257506001600160a01b038216155b8061006557506001600160a01b03821630145b8061006e575080155b1561008c5760405163c52a9bd360e01b815260040160405180910390fd5b6001600160a01b03928316608052911660a05260c0526100ff565b80516001600160a01b03811681146100be57600080fd5b919050565b6000806000606084860312156100d857600080fd5b6100e1846100a7565b92506100ef602085016100a7565b9150604084015190509250925092565b60805160a05160c05161084d6101966000396000818161012b015281816101ef015281816103ce015281816104ae01528181610590015261063501526000818160c5015281816102eb015281816103ad01528181610409015261060e01526000818161010401528181610267015281816103190152818161038b015281816104340152818161051001526105e0015261084d6000f3fe608060405234801561001057600080fd5b50600436106100575760003560e01c80630716326d1461005c57806361d027b3146100c0578063647846a5146100ff57806369e154041461012657806391f8a6db1461015b575b600080fd5b61009661006a36600461079c565b60016020819052600091825260409091208054918101546002909101546001600160a01b039092169183565b604080516001600160a01b0390941684526020840192909252908201526060015b60405180910390f35b6100e77f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100b7565b6100e77f000000000000000000000000000000000000000000000000000000000000000081565b61014d7f000000000000000000000000000000000000000000000000000000000000000081565b6040519081526020016100b7565b61016e6101693660046107b5565b610170565b005b61017861069d565b811580610183575080155b156101a1576040516341abc80160e01b815260040160405180910390fd5b6000818152600160205260409020546001600160a01b0316156101d7576040516360ad7d4160e11b815260040160405180910390fd5b604080516060810182523380825260208083018681527f00000000000000000000000000000000000000000000000000000000000000008486019081526000878152600193849052868120955186546001600160a01b0319166001600160a01b039182161787559251938601939093555160029094019390935592516370a0823160e01b815260048101919091527f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa1580156102b0573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102d491906107d7565b6040516370a0823160e01b81526001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000811660048301529192506000917f000000000000000000000000000000000000000000000000000000000000000016906370a0823190602401602060405180830381865afa158015610360573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061038491906107d7565b90506103f27f0000000000000000000000000000000000000000000000000000000000000000337f00000000000000000000000000000000000000000000000000000000000000007f00000000000000000000000000000000000000000000000000000000000000006106c7565b6040516370a0823160e01b81526001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000811660048301526000917f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa15801561047d573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104a191906107d7565b9050818110806104da57507f00000000000000000000000000000000000000000000000000000000000000006104d783836107f0565b14155b156104f857604051634168cf8d60e01b815260040160405180910390fd5b6040516370a0823160e01b81523360048201526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906370a0823190602401602060405180830381865afa15801561055f573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061058391906107d7565b9050838111806105bc57507f00000000000000000000000000000000000000000000000000000000000000006105b982866107f0565b14155b156105da57604051634168cf8d60e01b815260040160405180910390fd5b604080517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0390811682527f00000000000000000000000000000000000000000000000000000000000000001660208201527f00000000000000000000000000000000000000000000000000000000000000008183015290513391879189917f39d7e74e77c922704b74f14f9a204d472e0d548fa6212d4db7ce00f1f0e30204919081900360600190a4505050506106996001600055565b5050565b6002600054036106c057604051633ee5aeb560e01b815260040160405180910390fd5b6002600055565b604080516001600160a01b0385811660248301528416604482015260648082018490528251808303909101815260849091019091526020810180516001600160e01b03166323b872dd60e01b179052610721908590610727565b50505050565b600080602060008451602086016000885af18061074a576040513d6000823e3d81fd5b50506000513d9150811561076257806001141561076f565b6001600160a01b0384163b155b1561072157604051635274afe760e01b81526001600160a01b038516600482015260240160405180910390fd5b6000602082840312156107ae57600080fd5b5035919050565b600080604083850312156107c857600080fd5b50508035926020909101359150565b6000602082840312156107e957600080fd5b5051919050565b8181038181111561081157634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220cf31dca2e3fb293283ad33e69782cf765a315cf74362e887cb3fed3b7c355c6064736f6c634300081a0033",
+  "runtimeTemplate": "0x608060405234801561001057600080fd5b50600436106100575760003560e01c80630716326d1461005c57806361d027b3146100c0578063647846a5146100ff57806369e154041461012657806391f8a6db1461015b575b600080fd5b61009661006a36600461079c565b60016020819052600091825260409091208054918101546002909101546001600160a01b039092169183565b604080516001600160a01b0390941684526020840192909252908201526060015b60405180910390f35b6100e77f000000000000000000000000000000000000000000000000000000000000000081565b6040516001600160a01b0390911681526020016100b7565b6100e77f000000000000000000000000000000000000000000000000000000000000000081565b61014d7f000000000000000000000000000000000000000000000000000000000000000081565b6040519081526020016100b7565b61016e6101693660046107b5565b610170565b005b61017861069d565b811580610183575080155b156101a1576040516341abc80160e01b815260040160405180910390fd5b6000818152600160205260409020546001600160a01b0316156101d7576040516360ad7d4160e11b815260040160405180910390fd5b604080516060810182523380825260208083018681527f00000000000000000000000000000000000000000000000000000000000000008486019081526000878152600193849052868120955186546001600160a01b0319166001600160a01b039182161787559251938601939093555160029094019390935592516370a0823160e01b815260048101919091527f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa1580156102b0573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102d491906107d7565b6040516370a0823160e01b81526001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000811660048301529192506000917f000000000000000000000000000000000000000000000000000000000000000016906370a0823190602401602060405180830381865afa158015610360573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061038491906107d7565b90506103f27f0000000000000000000000000000000000000000000000000000000000000000337f00000000000000000000000000000000000000000000000000000000000000007f00000000000000000000000000000000000000000000000000000000000000006106c7565b6040516370a0823160e01b81526001600160a01b037f0000000000000000000000000000000000000000000000000000000000000000811660048301526000917f0000000000000000000000000000000000000000000000000000000000000000909116906370a0823190602401602060405180830381865afa15801561047d573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104a191906107d7565b9050818110806104da57507f00000000000000000000000000000000000000000000000000000000000000006104d783836107f0565b14155b156104f857604051634168cf8d60e01b815260040160405180910390fd5b6040516370a0823160e01b81523360048201526000907f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0316906370a0823190602401602060405180830381865afa15801561055f573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061058391906107d7565b9050838111806105bc57507f00000000000000000000000000000000000000000000000000000000000000006105b982866107f0565b14155b156105da57604051634168cf8d60e01b815260040160405180910390fd5b604080517f00000000000000000000000000000000000000000000000000000000000000006001600160a01b0390811682527f00000000000000000000000000000000000000000000000000000000000000001660208201527f00000000000000000000000000000000000000000000000000000000000000008183015290513391879189917f39d7e74e77c922704b74f14f9a204d472e0d548fa6212d4db7ce00f1f0e30204919081900360600190a4505050506106996001600055565b5050565b6002600054036106c057604051633ee5aeb560e01b815260040160405180910390fd5b6002600055565b604080516001600160a01b0385811660248301528416604482015260648082018490528251808303909101815260849091019091526020810180516001600160e01b03166323b872dd60e01b179052610721908590610727565b50505050565b600080602060008451602086016000885af18061074a576040513d6000823e3d81fd5b50506000513d9150811561076257806001141561076f565b6001600160a01b0384163b155b1561072157604051635274afe760e01b81526001600160a01b038516600482015260240160405180910390fd5b6000602082840312156107ae57600080fd5b5035919050565b600080604083850312156107c857600080fd5b50508035926020909101359150565b6000602082840312156107e957600080fd5b5051919050565b8181038181111561081157634e487b7160e01b600052601160045260246000fd5b9291505056fea2646970667358221220cf31dca2e3fb293283ad33e69782cf765a315cf74362e887cb3fed3b7c355c6064736f6c634300081a0033",
+  "metadata": {
+    "compiler": {
+      "version": "0.8.26+commit.8a97fa7a"
+    },
+    "language": "Solidity",
+    "output": {
+      "abi": [
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token_",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "treasury_",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount_",
+              "type": "uint256"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "constructor"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "InvalidConfiguration"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "InvalidRequest"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "ReentrancyGuardReentrantCall"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "RequestAlreadyPaid"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address"
+            }
+          ],
+          "type": "error",
+          "name": "SafeERC20FailedOperation"
+        },
+        {
+          "inputs": [],
+          "type": "error",
+          "name": "UnexpectedTransferAmount"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "hanaId",
+              "type": "bytes32",
+              "indexed": true
+            },
+            {
+              "internalType": "bytes32",
+              "name": "requestId",
+              "type": "bytes32",
+              "indexed": true
+            },
+            {
+              "internalType": "address",
+              "name": "payer",
+              "type": "address",
+              "indexed": true
+            },
+            {
+              "internalType": "address",
+              "name": "token",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "internalType": "address",
+              "name": "treasury",
+              "type": "address",
+              "indexed": false
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256",
+              "indexed": false
+            }
+          ],
+          "type": "event",
+          "name": "LaunchFeePaid",
+          "anonymous": false
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "feeAmount",
+          "outputs": [
+            {
+              "internalType": "uint256",
+              "name": "",
+              "type": "uint256"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "feeToken",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "hanaId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "requestId",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "nonpayable",
+          "type": "function",
+          "name": "pay"
+        },
+        {
+          "inputs": [
+            {
+              "internalType": "bytes32",
+              "name": "",
+              "type": "bytes32"
+            }
+          ],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "payments",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "payer",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "hanaId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ]
+        },
+        {
+          "inputs": [],
+          "stateMutability": "view",
+          "type": "function",
+          "name": "treasury",
+          "outputs": [
+            {
+              "internalType": "address",
+              "name": "",
+              "type": "address"
+            }
+          ]
+        }
+      ],
+      "devdoc": {
+        "kind": "dev",
+        "methods": {},
+        "version": 1
+      },
+      "userdoc": {
+        "kind": "user",
+        "methods": {},
+        "version": 1
+      }
+    },
+    "settings": {
+      "remappings": [
+        "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+        "forge-std/=lib/forge-std/src/"
+      ],
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "metadata": {
+        "bytecodeHash": "ipfs"
+      },
+      "compilationTarget": {
+        "src/LaunchFee.sol": "LaunchFee"
+      },
+      "evmVersion": "paris",
+      "libraries": {}
+    },
+    "sources": {
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC1363.sol": {
+        "keccak256": "0x9b6b3e7803bc5f2f8cd7ad57db8ac1def61a9930a5a3107df4882e028a9605d7",
+        "urls": [
+          "bzz-raw://da62d6be1f5c6edf577f0cb45666a8aa9c2086a4bac87d95d65f02e2f4c36a4b",
+          "dweb:/ipfs/QmNkpvBpoCMvX8JwAFNSc5XxJ2q5BXJpL5L1txb4QkqVFF"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC165.sol": {
+        "keccak256": "0xde7e9fd9aee8d4f40772f96bb3b58836cbc6dfc0227014a061947f8821ea9724",
+        "urls": [
+          "bzz-raw://11fea9f8bc98949ac6709f0c1699db7430d2948137aa94d5a9e95a91f61a710a",
+          "dweb:/ipfs/QmQdfRXxQjwP6yn3DVo1GHPpriKNcFghSPi94Z1oKEFUNS"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/interfaces/IERC20.sol": {
+        "keccak256": "0xce41876e78d1badc0512229b4d14e4daf83bc1003d7f83978d18e0e56f965b9c",
+        "urls": [
+          "bzz-raw://a2608291cb038b388d80b79a06b6118a42f7894ff67b7da10ec0dbbf5b2973ba",
+          "dweb:/ipfs/QmWohqcBLbcxmA4eGPhZDXe5RYMMEEpFq22nfkaUMvTfw1"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol": {
+        "keccak256": "0xe06a3f08a987af6ad2e1c1e774405d4fe08f1694b67517438b467cecf0da0ef7",
+        "urls": [
+          "bzz-raw://df6f0c459663c9858b6cba2cda1d14a7d05a985bed6d2de72bd8e78c25ee79db",
+          "dweb:/ipfs/QmeTTxZ7qVk9rjEv2R4CpCwdf8UMCcRqDNMvzNxHc3Fnn9"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol": {
+        "keccak256": "0x982c5cb790ab941d1e04f807120a71709d4c313ba0bfc16006447ffbd27fbbd5",
+        "urls": [
+          "bzz-raw://8150ceb4ac947e8a442b2a9c017e01e880b2be2dd958f1fa9bc405f4c5a86508",
+          "dweb:/ipfs/QmbcBmFX66AY6Kbhnd5gx7zpkgqnUafo43XnmayAM7zVdB"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol": {
+        "keccak256": "0x11a5a79827df29e915a12740caf62fe21ebe27c08c9ae3e09abe9ee3ba3866d3",
+        "urls": [
+          "bzz-raw://3cf0c69ab827e3251db9ee6a50647d62c90ba580a4d7bbff21f2bea39e7b2f4a",
+          "dweb:/ipfs/QmZiKwtKU1SBX4RGfQtY7PZfiapbbu6SZ9vizGQD9UHjRA"
+        ],
+        "license": "MIT"
+      },
+      "lib/openzeppelin-contracts/contracts/utils/introspection/IERC165.sol": {
+        "keccak256": "0x79796192ec90263f21b464d5bc90b777a525971d3de8232be80d9c4f9fb353b8",
+        "urls": [
+          "bzz-raw://f6fda447a62815e8064f47eff0dd1cf58d9207ad69b5d32280f8d7ed1d1e4621",
+          "dweb:/ipfs/QmfDRc7pxfaXB2Dh9np5Uf29Na3pQ7tafRS684wd3GLjVL"
+        ],
+        "license": "MIT"
+      },
+      "src/LaunchFee.sol": {
+        "keccak256": "0x09288536b057baef3766257e8eae55b763c055311ecc1e2112a77a6664042707",
+        "urls": [
+          "bzz-raw://a637571cb8b1e42002d32eb4d991408be26759907054dcede54aa175913d8fe0",
+          "dweb:/ipfs/QmZxTjhe7MXRUSydnkewF1pKQhUW8ChQPvrtNvKjk59CYm"
+        ],
+        "license": "MIT"
+      }
+    },
+    "version": 1
+  },
+  "immutableReferences": {
+    "50931": [
+      {
+        "start": 260,
+        "length": 32
+      },
+      {
+        "start": 615,
+        "length": 32
+      },
+      {
+        "start": 793,
+        "length": 32
+      },
+      {
+        "start": 907,
+        "length": 32
+      },
+      {
+        "start": 1076,
+        "length": 32
+      },
+      {
+        "start": 1296,
+        "length": 32
+      },
+      {
+        "start": 1504,
+        "length": 32
+      }
+    ],
+    "50933": [
+      {
+        "start": 197,
+        "length": 32
+      },
+      {
+        "start": 747,
+        "length": 32
+      },
+      {
+        "start": 941,
+        "length": 32
+      },
+      {
+        "start": 1033,
+        "length": 32
+      },
+      {
+        "start": 1550,
+        "length": 32
+      }
+    ],
+    "50935": [
+      {
+        "start": 299,
+        "length": 32
+      },
+      {
+        "start": 495,
+        "length": 32
+      },
+      {
+        "start": 974,
+        "length": 32
+      },
+      {
+        "start": 1198,
+        "length": 32
+      },
+      {
+        "start": 1424,
+        "length": 32
+      },
+      {
+        "start": 1589,
+        "length": 32
+      }
+    ]
+  }
+}

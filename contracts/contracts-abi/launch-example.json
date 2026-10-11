@@ -1,0 +1,71 @@
+{
+  "contract": "C-CONTRACTS-ABI",
+  "evidence": "FIXTURE",
+  "note": "Deterministic Foundry fixture (test/HanaLauncher.t.sol, chain 31337). Addresses are fixture deployments; the signer key 0x123456 is a public test key, never an operational signer.",
+  "pay": {
+    "contract": "LaunchFee",
+    "address": "0xF62849F9A0B5Bf2913b396098F7c7019b51A820a",
+    "function": "pay",
+    "args": {
+      "hanaId": "0x31473484ab1afe19356d6f3e389d73f0c92252a8409632ed72de35435c9d4147",
+      "requestId": "0x72859a6ae50aa97f593f23df1c78bb1fd78cfc493fcef64159d6486223196833"
+    },
+    "precondition": "msg.sender approved feeAmount of feeToken to LaunchFee. This example is the fee leg inside launch(): HanaLauncher is msg.sender",
+    "feeToken": "0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f",
+    "feeAmount": "25000000",
+    "treasury": "0x0000000000000000000000000000000000000777",
+    "mockEvent": {
+      "name": "LaunchFeePaid",
+      "hanaId": "0x31473484ab1afe19356d6f3e389d73f0c92252a8409632ed72de35435c9d4147",
+      "requestId": "0x72859a6ae50aa97f593f23df1c78bb1fd78cfc493fcef64159d6486223196833",
+      "payer": "0xa0Cb889707d426A7A386870A03bc70d1b0697598",
+      "token": "0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f",
+      "treasury": "0x0000000000000000000000000000000000000777",
+      "amount": "25000000"
+    },
+    "payerNote": "LaunchFeePaid.payer and payments(requestId).payer are msg.sender of pay(); via launch() that is the HanaLauncher address. The signed end payer is Issued.payer."
+  },
+  "launch": {
+    "contract": "HanaLauncher",
+    "function": "launch",
+    "domain": {
+      "name": "HanaLauncher",
+      "version": "1",
+      "chainId": 31337,
+      "verifyingContract": "0xa0Cb889707d426A7A386870A03bc70d1b0697598"
+    },
+    "primaryType": "LaunchAuthorization",
+    "signer": "0xd5F5175D014F28c85F7D67A111C2c9335D7CD771",
+    "args": {
+      "authorization": {
+        "hanaId": "0x31473484ab1afe19356d6f3e389d73f0c92252a8409632ed72de35435c9d4147",
+        "requestId": "0x72859a6ae50aa97f593f23df1c78bb1fd78cfc493fcef64159d6486223196833",
+        "payer": "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496",
+        "subject": "0x0c188296f193d040cb11b1ad2d8af333d9498f45b21c8fe8f40724112ef1b69e",
+        "snapshot": "0xde77e793564bc5ba0713b610c743ab0d819d9580fcae7c67b4c6f835fb9ee500",
+        "name": "Hana",
+        "symbol": "HANA",
+        "hanaTreasury": "0x0000000000000000000000000000000000000888",
+        "harnUsdE18": "1000000000000000",
+        "deadline": 86401
+      },
+      "signature": "0xcdc02d6c6119b539607e867c9d28089ef6388bdf6535fa780d8c928d38b3a2823250612be7267707fd691c8cbe36d918c76f206d06c831acadbc75d15c8411d11b"
+    },
+    "digest": "0x14d3f35681258b2703801756daee1279eb4beff768e43a8e0698fe398ea43c64",
+    "precondition": "payer approved LaunchFee.feeAmount of feeToken to HanaLauncher; any relayer may submit",
+    "mockReturn": {
+      "token": "0x83B4EEa426B7328eB3bE89cDb558F18BAF6A2Bf7",
+      "bond": "0x45C92C2Cd0dF7B2d705EF12CfF77Cb0Bc557Ed22"
+    },
+    "issuedSupply": "1000000000000000000000000000",
+    "mockEvent": {
+      "name": "Issued",
+      "hanaId": "0x31473484ab1afe19356d6f3e389d73f0c92252a8409632ed72de35435c9d4147",
+      "requestId": "0x72859a6ae50aa97f593f23df1c78bb1fd78cfc493fcef64159d6486223196833",
+      "token": "0x83B4EEa426B7328eB3bE89cDb558F18BAF6A2Bf7",
+      "bond": "0x45C92C2Cd0dF7B2d705EF12CfF77Cb0Bc557Ed22",
+      "payer": "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496",
+      "authorizationHash": "0x14d3f35681258b2703801756daee1279eb4beff768e43a8e0698fe398ea43c64"
+    }
+  }
+}

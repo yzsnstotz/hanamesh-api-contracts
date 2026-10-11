@@ -1,0 +1,68 @@
+{
+  "contract": "C-CONTRACTS-ABI",
+  "version": "J4S2 OZ v0.2.0",
+  "format": [
+    "contract",
+    "version",
+    "abi",
+    "creationBytecode",
+    "runtimeTemplate",
+    "metadata",
+    "immutableReferences"
+  ],
+  "runtimeCheck": "zero every immutableReferences range in the deployed code, then compare with runtimeTemplate (runtimeTemplateKeccak is keccak256 of the template bytes)",
+  "supersedes": [
+    "docs/acceptance/p19-launch-v0.1.0/frozen/HanaLauncher.json",
+    "docs/acceptance/p19-launch-v0.1.0/frozen/LaunchFee.json",
+    "docs/acceptance/p19-launch-v0.1.0/frozen/HanaToken.json"
+  ],
+  "contracts": {
+    "HanaLauncher": {
+      "path": "HanaLauncher.json",
+      "source": "src/HanaLauncher.sol",
+      "fileSHA256": "728ff398afbf17bf2ea3c8455b67eedee814efcf559f9d85b36dc03a912f086c",
+      "sourceSHA256": "ad60ab6b345e90da3099ea9aed8a42b82ac98300aa842f57afa8100831127c1b",
+      "abiSHA256": "8413109540cba87c3af0c84401f4a9d1802c67ed90d20d1524e0d5f2391fa97d",
+      "creationKeccak": "0x2906a25f12cc55886f05e41567f182b0f2eb3325a4134bfde8e559ee2993e85f",
+      "runtimeTemplateKeccak": "0xcf87792512e2e8250a7b97fb0812e14fc01f73cf66be4a2ea38bd4992d2c6ee2",
+      "runtimeBytes": 10812,
+      "immutableSlots": 23
+    },
+    "LaunchFee": {
+      "path": "LaunchFee.json",
+      "source": "src/LaunchFee.sol",
+      "fileSHA256": "2cc7538a84ebed740bb58df7a4817150b25b35bfa058ddd5eded7cde93c7736f",
+      "sourceSHA256": "40c437ccfa220f69443d5d5d817d2768cde67e32ac852cc3113b0b583690c7d5",
+      "abiSHA256": "2e574ccf53d4de9fe9fe08364c5868ec98e1fe48627281a3d51cc8ca01a6b3d9",
+      "creationKeccak": "0x084a894ea460f6e99e5e70ad171b7a498a28c27312b1e2cfd5e4d44fb521a0f3",
+      "runtimeTemplateKeccak": "0x53bfd24a7ae7549a7bcaeec77f7552317679d93813dc85cc8f4b1a280b621fd6",
+      "runtimeBytes": 2125,
+      "immutableSlots": 18
+    },
+    "HanaToken": {
+      "path": "HanaToken.json",
+      "source": "src/HanaToken.sol",
+      "fileSHA256": "0700effe97a1bda68a7b401cbfe6d775cf723e07ffb762243f3761125bce0c3d",
+      "sourceSHA256": "752bbdd0a781ac3b08ae7603e0aeeae468b1e43d53b1048258df21984370677c",
+      "abiSHA256": "d77a43e2770c5a3d51c4a958b5872185ada02e84a72307ca2deb7b525b03c6e4",
+      "creationKeccak": "0x6b4636c16e7b8fc5f4f5d5a24948392e338dc20f6e47be6e4821cce1ff5fbbb4",
+      "runtimeTemplateKeccak": "0x32ef6a69c9f2f109a274843d9ca6f1405374c0cc8ada5a35aa473f7abaa4fca4",
+      "runtimeBytes": 1860,
+      "immutableSlots": 1
+    }
+  },
+  "openzeppelin": {
+    "tag": "v5.3.0",
+    "commit": "e4f70216d759d8e6a64144a9e1f7bbeed78e7079",
+    "license": "MIT"
+  },
+  "compiler": "0.8.26+commit.8a97fa7a",
+  "settings": {
+    "evmVersion": "paris",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    }
+  },
+  "evidence": "SOURCE_BUILD"
+}

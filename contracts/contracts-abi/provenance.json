@@ -1,0 +1,45 @@
+{
+  "contract": "C-CONTRACTS-ABI",
+  "providerCard": "J4S2-CTR-08",
+  "providerRepository": "https://github.com/yzsnstotz/hanamesh-contracts",
+  "providerCommit": "fdfc672d81af286e8f118ccab29eb2a5386ba5ca",
+  "evidence": "SOURCE_BUILD",
+  "files": {
+    "abi/HanaLauncher.json": {
+      "path": "HanaLauncher.json",
+      "sha256": "1c273191d07ec9d7746ffc5b0114011edd691513b6277181d27b2553950ad130"
+    },
+    "abi/LaunchFee.json": {
+      "path": "LaunchFee.json",
+      "sha256": "a11a1d86c3da7abe49e82ed873db9dffbc7880e2ca68b10910e58ad1ec4d3dab"
+    },
+    "abi/launch-manifest.json": {
+      "path": "launch-manifest.json",
+      "sha256": "ab392bd524759784ce354b1c2e107da2e2ec7dcccb6867c63ed2750799af7be1"
+    },
+    "abi/launch-example.json": {
+      "path": "launch-example.json",
+      "sha256": "7d4402846a6b4662a0530186be80dabdf597c9b59ea3cc997226071ede9bfa65"
+    },
+    "abi/mock_launch.py": {
+      "path": "mock_launch.py",
+      "sha256": "ac4b420f546f641b6819d943da53885e222d52b7ef0b1fc910f16a5ff5059d75"
+    },
+    "abi/frozen/HanaLauncher.json": {
+      "path": "frozen/HanaLauncher.json",
+      "sha256": "728ff398afbf17bf2ea3c8455b67eedee814efcf559f9d85b36dc03a912f086c"
+    },
+    "abi/frozen/LaunchFee.json": {
+      "path": "frozen/LaunchFee.json",
+      "sha256": "2cc7538a84ebed740bb58df7a4817150b25b35bfa058ddd5eded7cde93c7736f"
+    },
+    "abi/frozen/HanaToken.json": {
+      "path": "frozen/HanaToken.json",
+      "sha256": "0700effe97a1bda68a7b401cbfe6d775cf723e07ffb762243f3761125bce0c3d"
+    },
+    "abi/frozen/manifest.json": {
+      "path": "frozen/manifest.json",
+      "sha256": "19f719d2ede3d56c9e05c10ca3e7beaa4c8249ba1df562d8bbc85f9946a9d9c7"
+    }
+  }
+}

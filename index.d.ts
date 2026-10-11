@@ -1,3 +1,4 @@
+import type { CONTRACTS_ABI_DEFINITION } from './contracts/contracts-abi/index.js';
 import type { IDENTITY_CONTRACT_DEFINITION } from './contracts/identity/definition.js';
 import type { CHAIN_CONTRACT_DEFINITION } from './contracts/chain/definition.js';
 import type { HANASWAP_CONTRACT_DEFINITION } from './contracts/hanaswap/index.js';
@@ -11,4 +12,5 @@ export declare const CONTRACTS: Readonly<Record<'C-CORE' | 'C-USAGE-LOCAL', Publ
     & Record<'C-CHAIN', PublishedDefinitionContract<typeof CHAIN_CONTRACT_DEFINITION>>
     & Record<'C-HANASWAP', PublishedDefinitionContract<typeof HANASWAP_CONTRACT_DEFINITION>>
     & Record<'C-CATALOG', PublishedDefinitionContract<typeof CATALOG_CONTRACT_DEFINITION>>
+    & Record<'C-CONTRACTS-ABI', PublishedDefinitionContract<typeof CONTRACTS_ABI_DEFINITION>>
     & Record<'C-UOW', PublishedDefinitionContract<typeof UOW_CONTRACT_DEFINITION>>>;

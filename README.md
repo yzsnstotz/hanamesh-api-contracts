@@ -6,7 +6,7 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 ## 安装（按 git tag 取已发布版本）
 
 ```json
-"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.6.0"
+"@hanamesh/api-contracts": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git#v0.7.0"
 ```
 
 ## 合约
@@ -213,3 +213,25 @@ C-UOW 同连接提交/回滚/释放、host 与模块的事务所有权、缺 con
 C-CHAIN 类型引用 viem 的公开 SDK 类型；类型消费方需安装兼容 viem。签名来源提供方锁定 viem 2.56.9；本包现有开发版本 2.54.2 的类型自检也通过。C-HANASWAP JSON/离线模拟不加载 viem。
 
 运行时无必需依赖（只用 Node 内置 `node:crypto`、`node:fs`）；`viem` 是可选 peer，只有 C-IDENTITY 夹具的钱包两步会加载它。
+
+## C-CONTRACTS-ABI 发行冻结工件（v0.7.0）
+
+入口 `@hanamesh/api-contracts/contracts-abi` 导出 `HANA_LAUNCHER_ABI`、`LAUNCH_FEE_ABI`、
+`HANA_TOKEN_ABI` 与相应 `*_FROZEN`、`CONTRACTS_ABI_MANIFEST`、`CONTRACTS_ABI_FROZEN_MANIFEST`。
+直接 JSON 入口：`/contracts-abi/HanaLauncher.json`、`/contracts-abi/LaunchFee.json`；
+`/contracts-abi/frozen/{HanaLauncher,LaunchFee,HanaToken,manifest}.json`；
+`/contracts-abi/{launch-manifest,launch-example,provenance}.json`。
+HanaToken ABI 从冻结工件原样读取；所有提供方文件逐字节保留，摘要见 provenance 和 frozen manifest。
+来源：J4S2-CTR-08 最终提交 `fdfc672d81af286e8f118ccab29eb2a5386ba5ca`。
+冻结版本 `J4S2 OZ v0.2.0`，证据仅为 SOURCE_BUILD；不代表真链、部署或广播。
+三个 OZ 工件取代提供方旧 P19 同名模板，本发布没有纳入旧模板。
+核对已部署代码时将 immutableReferences 指定的每个字节区间清零，再比较 runtimeTemplate。
+ABI 自定义错误及事件完整保留，金额使用整数 base units。
+`createContractsAbiContractExamples()` 返回提供方 FIXTURE 示例；`contracts/contracts-abi/mock_launch.py`
+是原样提供方最小模拟，仅支持示例签名、不执行 ECDSA、RPC 或转账。
+本次只包含发行；领取/Bond 工件由后续提供方卡增加。
+
+来源许可：HanaLauncher / LaunchFee / HanaToken · J4S2 OZ v0.2.0 · MIT（源码 SPDX）·
+https://github.com/yzsnstotz/hanamesh-contracts · 发行 ABI/冻结工件；
+OpenZeppelin Contracts · v5.3.0 / e4f70216d759d8e6a64144a9e1f7bbeed78e7079 · MIT ·
+https://github.com/OpenZeppelin/openzeppelin-contracts · 提供方冻结构建底座；无新增运行时依赖。

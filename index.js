@@ -1,3 +1,4 @@
+import { CONTRACTS_ABI_DEFINITION } from './contracts/contracts-abi/index.js';
 import { CORE_CONTRACT_DEFINITION } from './contracts/core/index.js';
 import { USAGE_LOCAL_CONTRACT_DEFINITION } from './contracts/usage-local/index.js';
 import { IDENTITY_CONTRACT_DEFINITION } from './contracts/identity/definition.js';
@@ -7,6 +8,7 @@ import { CATALOG_CONTRACT_DEFINITION } from './contracts/catalog/definition.js';
 import { UOW_CONTRACT_DEFINITION } from './contracts/uow/definition.js';
 /** Contracts published in this version, keyed by baseline id. Each entry has its own subpath export. */
 export const CONTRACTS = Object.freeze({
+    'C-CONTRACTS-ABI': Object.freeze({ provider: 'contracts', consumers: Object.freeze(['server-chain']), entry: '@hanamesh/api-contracts/contracts-abi', definition: CONTRACTS_ABI_DEFINITION }),
     'C-UOW': Object.freeze({ provider: 'server-host', consumers: Object.freeze(['server-usage', 'server-custody', 'server-claim', 'server-identity', 'server-registry']), entry: '@hanamesh/api-contracts/uow', definition: UOW_CONTRACT_DEFINITION }),
     'C-CORE': Object.freeze({ provider: 'core', consumers: Object.freeze(['usage', 'desktop']), entry: '@hanamesh/api-contracts/core', definition: CORE_CONTRACT_DEFINITION }),
     'C-USAGE-LOCAL': Object.freeze({ provider: 'usage', consumers: Object.freeze(['app-host']), entry: '@hanamesh/api-contracts/usage-local', definition: USAGE_LOCAL_CONTRACT_DEFINITION }),
