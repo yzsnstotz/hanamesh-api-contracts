@@ -1,0 +1,43 @@
+{
+  "name": "@hanamesh/api-contracts",
+  "version": "0.1.0",
+  "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yzsnstotz/hanamesh-api-contracts.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./core": {
+      "types": "./contracts/core/index.d.ts",
+      "default": "./contracts/core/index.js"
+    },
+    "./core/schema.json": "./contracts/core/schema.json",
+    "./usage-local": {
+      "types": "./contracts/usage-local/index.d.ts",
+      "default": "./contracts/usage-local/index.js"
+    },
+    "./usage-local/schema.json": "./contracts/usage-local/schema.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "contracts"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
+  },
+  "devDependencies": {
+    "ajv": "^8.20.0",
+    "typescript": "^5.9.3"
+  }
+}
