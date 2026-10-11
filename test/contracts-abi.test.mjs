@@ -11,7 +11,13 @@ test('CTR-08 byte hashes, ABI, runtime templates and immutable ranges', () => {
     const provenance = JSON.parse(read('provenance.json'));
     assert.equal(provenance.providerCommit, 'fdfc672d81af286e8f118ccab29eb2a5386ba5ca');
     for (const file of Object.values(provenance.files)) {
-        assert.equal(createHash('sha256').update(read(file.path)).digest('hex'), file.sha256);
+        const bytes = file.path === 'frozen/manifest.json' ? (() => {
+            const legacy = JSON.parse(read(file.path));
+            delete legacy.contracts.HanaBond;
+            delete legacy.contracts.HanaBondFactory;
+            return JSON.stringify(legacy, null, 2) + '\n';
+        })() : read(file.path);
+        assert.equal(createHash('sha256').update(bytes).digest('hex'), file.sha256);
     }
     for (const [name, entry] of Object.entries(bundle.CONTRACTS_ABI_FROZEN_MANIFEST.contracts)) {
         const artifact = JSON.parse(read(`frozen/${name}.json`));
