@@ -19,8 +19,8 @@
       "target": "contracts/semantic/contracts.d.ts",
       "sourceBlob": "fa3bf9d1bef2d38a6b7fe6532b6f41403fd7bdb2",
       "sourceSha256": "ca01058ff0eb37ba1e4d49a01598a3bee49e6fe7296734940522f2c171cce1fd",
-      "publishedSha256": "1f308bbae7e7116d261d10063b9a814cc1d8c06d95349115b996db172f8f98dc",
-      "adaptation": "Only self-package imports become relative published subpaths; function/constant signatures retained and exported only as types."
+      "publishedSha256": "b428502355a9f53673c9299b8da1283750f2893aa86b9db8bc52d826cd7cf0e2",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/service.d.ts",
@@ -35,16 +35,16 @@
       "target": "contracts/semantic/http.d.ts",
       "sourceBlob": "e0f3592390db2eeeeb006eeb72e76e699b942b7b",
       "sourceSha256": "3034038a921921e15a5069ccd54e265e360a2a00cd6db219b1cc5615139313fb",
-      "publishedSha256": "3034038a921921e15a5069ccd54e265e360a2a00cd6db219b1cc5615139313fb",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "3a09efe6097638a1fc0895feba50db6b031e0f6cea1714dc4f78dcb16ec7d308",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/errors.d.ts",
       "target": "contracts/semantic/errors.d.ts",
       "sourceBlob": "c6ae4579975ffc21dd7643e55af3ee9362ac6d51",
       "sourceSha256": "89fe5c52718afcce259eca78fe2973c3cf3c12ded3580f0105e7115f5d81f20c",
-      "publishedSha256": "89fe5c52718afcce259eca78fe2973c3cf3c12ded3580f0105e7115f5d81f20c",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "a005f23efd91e1246687f04cf994b2c0d15213f9b27c693482c1d630b5734ce4",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/errors.js",
@@ -59,48 +59,48 @@
       "target": "contracts/semantic/fixtures.d.ts",
       "sourceBlob": "22a9d399be483a1fea90e0a3fa5c65f75d3be53e",
       "sourceSha256": "0a3771f7d1510301b2725d64b9a63b9258b3c9a668b5b4d560dfa760c0bdf276",
-      "publishedSha256": "0a3771f7d1510301b2725d64b9a63b9258b3c9a668b5b4d560dfa760c0bdf276",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "8f018f558c7113d7ecf9e5b213d38ee507f918b35cbea405d396ccda56e4a9f1",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/fixtures.js",
       "target": "contracts/semantic/fixtures.js",
       "sourceBlob": "3329499354076d59d3a93a3489d524511b374fa5",
       "sourceSha256": "5859f934477255dd683d1928fec56f6fabfad9a242f73aecc9b7c31ee39db5e6",
-      "publishedSha256": "5859f934477255dd683d1928fec56f6fabfad9a242f73aecc9b7c31ee39db5e6",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "ab305caf52e9ef2e09d6f445799ee9e7d1f9644e3f00448ada50af38ad20dab5",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/providers/embedding.d.ts",
       "target": "contracts/semantic/providers/embedding.d.ts",
       "sourceBlob": "d5a32fbaa2b219f77df3f0b3fad716c5c3f18038",
       "sourceSha256": "c5fe14b5683f0582d9656f629ec5bc3a2208145a80f28b67358f88af0abab45d",
-      "publishedSha256": "c5fe14b5683f0582d9656f629ec5bc3a2208145a80f28b67358f88af0abab45d",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "706f03a3788ff5bc80c2f6368bbe4e4cf897e54f0e3388adf1306538dc36d598",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/providers/decision.d.ts",
       "target": "contracts/semantic/providers/decision.d.ts",
       "sourceBlob": "7fb55dadaf32a87dcd6c50b645607fa7112b5124",
       "sourceSha256": "a90485c934c04fae94c111547f07c01fac117329e80eec2d39d57946c7d8662b",
-      "publishedSha256": "a90485c934c04fae94c111547f07c01fac117329e80eec2d39d57946c7d8662b",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "03f9089e31ee1a8d61f14124ed053657a5f05f5636543e36234b954bff001248",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "dist/index.d.ts",
       "target": "contracts/semantic/provider.d.ts",
       "sourceBlob": "7348fe9d9a4aa8780a311416ac6f098b43dd4706",
       "sourceSha256": "0246e31d8ac9dbbdc43a0d67b84fc4bc19c4c8588ae45cafd1e81cf4789a5de8",
-      "publishedSha256": "a26a1af18562b25d6abab978d6e82973298bdf325f0b13b668cca544c2968e0b",
-      "adaptation": "Retain complete module options/result and public module/README fetch signatures verbatim; replace imports with required type-only closure, omit unrelated normalization/hash/repository implementation exports."
+      "publishedSha256": "61c164ae7e7ea5570d96938b2c6d8109a742e930923edae3c9f3b085b0799507",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "docs/MODULE.md",
       "target": "contracts/semantic/MODULE.md",
       "sourceBlob": "6844224d411dc9db46a81c4a1b96f5d0cb7ccfe9",
       "sourceSha256": "3a2d9d5c7cfc057b8b3e3b87411c3734558f9c4c1b44952a059a3a25db1a1cf8",
-      "publishedSha256": "3a2d9d5c7cfc057b8b3e3b87411c3734558f9c4c1b44952a059a3a25db1a1cf8",
-      "adaptation": "byte-for-byte"
+      "publishedSha256": "1c04bb09318956ef3f87e31c1678e8d27a144f5eff99f0612e5fdb83945c1f58",
+      "adaptation": "Registry public type references replace duplicated catalog imports; source provider signatures otherwise retained."
     },
     {
       "source": "docs/API-O5.md",
@@ -163,5 +163,24 @@
     "index.js/index.d.ts type-only facade and factory aliases",
     "definition.js/definition.d.ts metadata from MODULE.md/API-O5.md",
     "README.md consumption guidance; no extra behaviors/errors"
-  ]
+  ],
+  "catalogSourceAdaptation": {
+    "provider": "@hanamesh/server-registry@0.3.34",
+    "publicEntries": [
+      "./contracts",
+      "./server-contracts",
+      "./contract/fixtures"
+    ],
+    "changes": [
+      "contracts/semantic/contracts.d.ts",
+      "contracts/semantic/http.d.ts",
+      "contracts/semantic/errors.d.ts",
+      "contracts/semantic/fixtures.d.ts",
+      "contracts/semantic/fixtures.js",
+      "contracts/semantic/providers/embedding.d.ts",
+      "contracts/semantic/providers/decision.d.ts",
+      "contracts/semantic/provider.d.ts",
+      "contracts/semantic/MODULE.md"
+    ]
+  }
 }

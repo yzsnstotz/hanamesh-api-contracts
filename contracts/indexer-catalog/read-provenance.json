@@ -94,12 +94,12 @@
     "definition.d.ts": "dist/definition.d.ts contentHash metadata/errors; legacy example declaration retained"
   },
   "publishedFiles": {
-    "contracts.d.ts": "dc2c812ea324953873d382350bca7d78fa0c1fbd630bd72c52574d7ee1ae9fc4",
-    "definition.js": "1df54668b4f26aebf236541daf691a68dc36af0a557bae670f551ca13fdafbc9",
-    "definition.d.ts": "a18bd12f1e69568a7bfee8a51a60c6c57d0691f3ddb73701173cc52bf4bfe52c",
+    "contracts.d.ts": "7c0ec34e31f0b86c90f9f2fa3a46ea286445d80330cebecd2321ea4ad9f976f6",
+    "definition.js": "89e5fe7f24ccc3a151c0173beec8fcb8625c50f8103731bc076ed1c5a97f6314",
+    "definition.d.ts": "a87f5220bc245e2767440a9bee5e56c5dd815e7ffaab25f7329a213aabbf861c",
     "content-hash.js": "0d0bb1e5cd73768470194b1e7af952d3d142404920a38b9420721b7141253027",
     "content-hash.d.ts": "c20c59c814152a7c088d69867e9cc2115eea2e9cd3a65e482b885716e9208b09",
-    "README.md": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
+    "README.md": "2ae3d37e61a83a7eab529916c01c8116321d38a6b05aab37c7f1d2b4d627e4cb",
     "index.js": "5b2849ce89c56fd89db1d3614a10caa628b7703f5b6bfd6d2965b3470aab23a1",
     "index.d.ts": "a4d43588b591369081ce503069906d299d2ad2582e19ee9cef7d673520fb7053"
   },
@@ -115,5 +115,19 @@
     "previousReadmeSha256": "04ce16f22db1e198bf37659a228219fe53e0035ebead42593f2d19ee83558f67",
     "currentReadmeSha256": "794356cae9908ffea3fce0ce1771a0fdf50a58b82fe1388e6348cec4fd58fa68",
     "reason": "Q61/Q67 formal contract-only standalone consumption and explicit host composition; provider source/types/JSON unchanged."
+  },
+  "catalogSourceAdaptation": {
+    "provider": "@hanamesh/server-registry@0.3.34",
+    "publicEntries": [
+      "./contracts",
+      "./server-contracts",
+      "./contract/fixtures"
+    ],
+    "changes": [
+      "contracts.d.ts",
+      "definition.js",
+      "definition.d.ts",
+      "README.md"
+    ]
   }
 }
