@@ -1,0 +1,13 @@
+{
+  "provider": "@hanamesh/server-chain/quote-v2",
+  "sourceRepository": "yzsnstotz/hanamesh-contracts",
+  "sourceCommit": "3c1139dbf5fe8283a894d81c6649e10572457eb6",
+  "revision": "2.0.0",
+  "manifestSHA256": "0cb8ad1d9fad328db1358207a4ac9133ab2cbc09566c4143092aba024faf2dd8",
+  "evidence": "SOURCE_BUILD",
+  "acceptance": "NOT_RUN",
+  "providerRepository": "yzsnstotz/hanamesh-server-chain",
+  "providerCommit": "2d8b7f715123ef7493e44db352b82d26e731ae1e",
+  "providerVersion": "0.37.0",
+  "providerDeclarationsSHA256": "e3a932569ce3fd03609301ca7143bacac179ec32feef8ad31c4dc44fd4ccb2c0"
+}

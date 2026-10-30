@@ -68,3 +68,5 @@ export declare function createDistributionReadFixture(examples?: DistributionCon
         canonicalReadback(intentId: string): Promise<DistributionContractExamples['success']['canonicalReadback']>;
     };
 };
+
+export type * from './quote-v2/provider.js';

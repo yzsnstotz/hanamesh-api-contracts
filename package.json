@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -140,7 +140,19 @@
     "./semantic/schemas/recommend.request.json": "./contracts/semantic/schemas/recommend.request.json",
     "./semantic/schemas/feedback.request.json": "./contracts/semantic/schemas/feedback.request.json",
     "./semantic/schemas/decision.response.json": "./contracts/semantic/schemas/decision.response.json",
-    "./semantic/current-provenance.json": "./contracts/semantic/current-provenance.json"
+    "./semantic/current-provenance.json": "./contracts/semantic/current-provenance.json",
+    "./chain/quote-v2": {
+      "types": "./contracts/chain/quote-v2/index.d.ts",
+      "default": "./contracts/chain/quote-v2/index.js"
+    },
+    "./chain/quote-v2/BatchVestingDistributorQuoteV2.json": "./contracts/chain/quote-v2/BatchVestingDistributorQuoteV2.json",
+    "./chain/quote-v2/provenance.json": "./contracts/chain/quote-v2/provenance.json",
+    "./chain/quote-v2/HanaBondQuoteV2.json": "./contracts/chain/quote-v2/HanaBondQuoteV2.json",
+    "./chain/quote-v2/HanaLauncherQuoteV2.json": "./contracts/chain/quote-v2/HanaLauncherQuoteV2.json",
+    "./chain/quote-v2/HanaTokenQuoteV2.json": "./contracts/chain/quote-v2/HanaTokenQuoteV2.json",
+    "./chain/quote-v2/manifest.json": "./contracts/chain/quote-v2/manifest.json",
+    "./chain/quote-v2/WETH9.json": "./contracts/chain/quote-v2/WETH9.json",
+    "./chain/quote-v2/HanaBondFactoryQuoteV2.json": "./contracts/chain/quote-v2/HanaBondFactoryQuoteV2.json"
   },
   "files": [
     "index.js",
