@@ -326,7 +326,7 @@ J3S1-APIC-19 跟随正式 J3S1-SEM-01 main/tag `6756523` / `v0.2.0`。
 和 [新来源](contracts/semantic/current-provenance.json) 明确 all/exact、分页、空/故障、当前 MIN 非永久历史及宿主 C-CATALOG 集合分母。
 证据仅 PACKAGE/FIXTURE，不代表 REAL_HOST/UI/MODEL 或 owner ACCEPTED。
 
-`./chain/quote-v2` carries the new `release-quote-v2` provider declarations, frozen ABI revision2.0.0 and source metadata. Import runtime factories from `@hanamesh/server-chain/quote-v2`; this contracts package exports only `QUOTE_V2_CONTRACT` at runtime. The explicit chain subpath uses the optional viem peer. Its facts distinguish `migrationState: 'open' | 'pending' | 'completed'`; a successful closing receipt may remain pending. Quote selection and virtual starting reserve are per issuance, while wrappedNative is deployment metadata. Launch fee is signed native `launchFeeWei`, sent by the payer wallet.
+`./chain/quote-v2` carries the new `release-quote-v2` provider declarations, frozen ABI revision2.1.0 and source metadata. Import runtime factories from `@hanamesh/server-chain/quote-v2`; this contracts package exports only `QUOTE_V2_CONTRACT` at runtime. The explicit chain subpath uses the optional viem peer. Its facts distinguish `migrationState: 'open' | 'pending' | 'completed'`; a successful closing receipt may remain pending. Quote selection and virtual starting reserve are per issuance, while wrappedNative is deployment metadata. Launch fee is signed native `launchFeeWei`, sent by the payer wallet.
 
 Quote-v2 gas follows [Uniswap/interface v4.0.0 calculateGasMargin](https://github.com/Uniswap/interface/blob/e9148b30c9aff44613003b83daacc83d24b157f0/src/utils/calculateGasMargin.ts): estimate once with viem and attach fixed20% headroom. `calculateQuoteV2GasMargin` is a pure bigint helper declaration; the unpublished custom `prepareQuoteV2Migration` is removed. API0.20.1 replaces the prior0.20.0 candidate.
 
@@ -334,6 +334,6 @@ Hana目录来源与Profile类型直接消费`@hanamesh/server-registry/contracts
 
 ## 10-31 边界核对的正常提供方输入
 
-类型与fixture核对用已核SHA的Registry0.3.34正常包：锁定依赖安装后，以`npm install --no-save --package-lock=false --ignore-scripts --strict-peer-deps <Registry正常tgz>`提供可选公开peer，再跑原`npm test`；不把tgz放进本仓或引用相邻源码。
+类型与fixture核对用已核SHA的Registry0.3.34正常包。在独立临时provider consumer的package.json中显式声明该正常tgz及其全部公开peer，用pnpm严格安装并冻结读回，再将已安装的公开Registry包连接到本仓node_modules/@hanamesh/server-registry后跑原npm test。可选peer不能只靠npm的no-save安装返回值判断已存在；先从公开contracts入口核六项HANA_PROFILE_SOURCES。正常包消费者直接声明两个正常tgz，独立严格安装核对。tgz不放进本仓，不引用相邻源码。
 
 Registry 的当前 Hana 来源类型同时用于本包 Indexer 的 `SourceId` 引用；不维护另一份三项联合类型。开发验证从固定正常 Registry 包安装独立 provider 输入，再将已安装的公开包连接到测试解析路径；本包不附带 Registry tgz 或模拟它的规则。
