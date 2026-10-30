@@ -44,10 +44,10 @@ test('Q81 fixed provider provenance checks every published source byte', () => {
 });
 
 test('host FIXTURE uses exhausted C-CATALOG IDs as denominator and current facts intersection', async () => {
-  const {createRegistryProviderFixture} = await import('@hanamesh/server-registry/contract/fixtures');
+  const {createRegistryConsumerFixture} = await import('@hanamesh/server-registry/contract/fixtures');
   const c = await load(), examples = c.createSemanticEmbeddingFactsExamples();
-  const provider=createRegistryProviderFixture();
-  const catalogExamples={profile:(await provider.service.upsertHanaProfile(provider.subject,provider.input)).profile};
+  const provider=createRegistryConsumerFixture();
+  const catalogExamples={profile:(await provider.registry.upsertHanaProfile(provider.subject,provider.input)).profile};
   const ids = ['00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000003'];
   const catalogPages = [{items:[{...catalogExamples.profile,hanaId:ids[0]}],next:'FIXTURE-cursor'},{items:[{...catalogExamples.profile,hanaId:ids[1]}],next:null}];
   const registryIds = new Set(catalogPages.flatMap(page => page.items.map(item => item.hanaId)));
