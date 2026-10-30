@@ -6,3 +6,9 @@ async function check(){const f:QuoteV2BondFact=await reader.readBond({hanaId:aut
 // @ts-expect-error quote-v2 metadata cannot use the old generation
 const bad:QuoteV2Deployment={...d,protocol:'release-quota-v1'};
 void [protocol,fee,quote,check,bad];
+
+import type {calculateQuoteV2GasMargin as Margin} from '@hanamesh/api-contracts/chain/quote-v2';
+declare const margin:typeof Margin;
+const gas:bigint=margin(604617n);void gas;
+// @ts-expect-error The unpublished custom preflight is removed
+import type {prepareQuoteV2Migration} from '@hanamesh/api-contracts/chain/quote-v2';

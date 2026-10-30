@@ -328,3 +328,5 @@ J3S1-APIC-19 跟随正式 J3S1-SEM-01 main/tag `6756523` / `v0.2.0`。
 证据仅 PACKAGE/FIXTURE，不代表 REAL_HOST/UI/MODEL 或 owner ACCEPTED。
 
 `./chain/quote-v2` carries the new `release-quote-v2` provider declarations, frozen ABI revision2.0.0 and source metadata. Import runtime factories from `@hanamesh/server-chain/quote-v2`; this contracts package exports only `QUOTE_V2_CONTRACT` at runtime. The explicit chain subpath uses the optional viem peer. Its facts distinguish `migrationState: 'open' | 'pending' | 'completed'`; a successful closing receipt may remain pending. Quote selection and virtual starting reserve are per issuance, while wrappedNative is deployment metadata. Launch fee is signed native `launchFeeWei`, sent by the payer wallet.
+
+Quote-v2 gas follows [Uniswap/interface v4.0.0 calculateGasMargin](https://github.com/Uniswap/interface/blob/e9148b30c9aff44613003b83daacc83d24b157f0/src/utils/calculateGasMargin.ts): estimate once with viem and attach fixed20% headroom. `calculateQuoteV2GasMargin` is a pure bigint helper declaration; the unpublished custom `prepareQuoteV2Migration` is removed. API0.20.1 replaces the prior0.20.0 candidate.
