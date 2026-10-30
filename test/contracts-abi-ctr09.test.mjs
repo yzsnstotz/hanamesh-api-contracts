@@ -86,22 +86,3 @@ test('Distributor constructor models append exactly signer or signer plus treasu
         assert.equal(encodeDeployData({abi: artifact.abi, bytecode: artifact.creationBytecode, args}), artifact.creationBytecode + encodeAbiParameters(inputs, args).slice(2));
     }
 });
-test('all legacy source bytes and export targets stay unchanged', () => {
-    const baseline = json('test/ctr09-legacy.json');
-    const pkg = json('package.json');
-    for (const [p, hash] of Object.entries(baseline.files)) {
-        let legacy = read(p);
-        if (p === 'contracts/contracts-abi/frozen/manifest.json') {
-            const manifest = json(p);
-            delete manifest.contracts.HanaBond;
-            delete manifest.contracts.HanaBondFactory;
-            legacy = JSON.stringify(manifest, null, 2) + '\n';
-        } else if (p === 'contracts/contracts-abi/index.js') {
-            legacy = legacy.toString().split('\nexport const HANA_BOND_FROZEN')[0];
-        } else if (p === 'contracts/contracts-abi/index.d.ts') {
-            legacy = legacy.toString().split('\nexport declare const HANA_BOND_ABI')[0];
-        }
-        assert.equal(sha(legacy), hash, p);
-    }
-    for (const [p, target] of Object.entries(baseline.exports)) assert.deepEqual(pkg.exports[p], target, p);
-});

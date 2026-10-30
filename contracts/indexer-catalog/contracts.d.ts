@@ -1,4 +1,5 @@
-import type { HanaProfileDTO, RegistryProfilePort } from '@hanamesh/api-contracts/catalog';
+import type {RegistryProfilePort} from '@hanamesh/server-registry/contract/fixtures';
+import type {HanaProfileDTO} from '@hanamesh/server-registry/contracts';
 import type { WriteContext } from '@hanamesh/api-contracts/uow';
 export type SourceId = 'awesome' | '1024store' | 'hanamesh';
 export interface NormalizedHanaInput {

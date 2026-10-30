@@ -37,13 +37,14 @@
     "fixtures.js": "05005c40a50e25051dafb89231c05e5e07c706f98f146de9c190dba41acfdd82",
     "index.d.ts": "567f42e37717d0a3b33a9944e722c9a20b3c6d5a943623f0ec4fc22e77ce8e75",
     "index.js": "a75b03b09967a76bc28285be39d51956e5a86fa457ddd0c00e8d5e166c232699",
-    "provider.d.ts": "274dcfaad03c600f55ffd60c7d30c04f228ea241c21ccfb84b982d04e19641c4"
+    "provider.d.ts": "a0a046012ed71e70062aa309ad108b1c6eb110b42653ecd6de5a0c15b82c3c91"
   },
   "notes": [
     "Provider declarations/definitions extracted from final build; source map comments removed and local type import paths adapted.",
     "Shared C-CATALOG/C-UOW/C-IDENTITY refer to this package, already published at v0.5.0. No sibling runtime import.",
     "Fixture is synthetic; no real SQL, GitHub, Registry composition, concurrent locks or production integration evidence.",
     "No provider JSON schema exists for this surface; no new runtime acceptance rules are invented.",
-    "fixture-service.js preserves final provider service code for the scenario fixture; its store/identity/host ports are synthetic. Definition declarations omit the fixture signature, re-declared in fixtures.d.ts, so root constants do not require Fastify."
+    "fixture-service.js preserves final provider service code for the scenario fixture; its store/identity/host ports are synthetic. Definition declarations omit the fixture signature, re-declared in fixtures.d.ts, so root constants do not require Fastify.",
+    "10-31: Registry catalog types reference the provider public exports; the duplicated api-contracts/catalog payload was removed."
   ]
 }

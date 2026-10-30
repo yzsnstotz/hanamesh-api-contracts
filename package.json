@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.20.2",
+  "version": "0.20.3",
   "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
   "type": "module",
   "license": "MIT",
@@ -32,12 +32,6 @@
       "default": "./contracts/identity/index.js"
     },
     "./identity/schema.json": "./contracts/identity/schema.json",
-    "./catalog": {
-      "types": "./contracts/catalog/index.d.ts",
-      "default": "./contracts/catalog/index.js"
-    },
-    "./catalog/schema.json": "./contracts/catalog/schema.json",
-    "./catalog/provenance.json": "./contracts/catalog/provenance.json",
     "./package.json": "./package.json",
     "./chain": {
       "types": "./contracts/chain/index.d.ts",
@@ -164,13 +158,17 @@
   },
   "peerDependencies": {
     "viem": "^2.54.2",
-    "fastify": "^5.12.3"
+    "fastify": "^5.12.3",
+    "@hanamesh/server-registry": "^0.3.34"
   },
   "peerDependenciesMeta": {
     "viem": {
       "optional": true
     },
     "fastify": {
+      "optional": true
+    },
+    "@hanamesh/server-registry": {
       "optional": true
     }
   },

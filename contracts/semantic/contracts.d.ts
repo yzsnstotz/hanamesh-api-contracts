@@ -1,6 +1,7 @@
 import type { SqlExecutor as ContractSqlExecutor, SqlResult, UnitOfWork } from '../uow/index.js';
 import type { IndexerReadService } from '../indexer-catalog/index.js';
-export type { RegistryCatalogPort, HanaProfileDTO } from '../catalog/index.js';
+export type {HanaProfileDTO} from '@hanamesh/server-registry/contracts';
+export type {RegistryService} from '@hanamesh/server-registry/server-contracts';
 export type { IndexerReadService, IndexedHanaWithContentHashDTO } from '../indexer-catalog/index.js';
 export type { UnitOfWork, WriteContext } from '../uow/index.js';
 /** Host supplies the published read port. No product source implementation is imported. */

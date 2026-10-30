@@ -19,8 +19,8 @@
       "target": "contracts/semantic/contracts.d.ts",
       "sourceBlob": "e6e994c91c1419b11a7e91b3c0a1dc1c9dc6a896",
       "sourceSha256": "33900c136cfc40b32cef72e1b26249e1f103a236bde595c00b77c22418c614f1",
-      "publishedSha256": "51d17aef400837cc70151c756c8c02e22fbe2bf03cf81b1cf3f0bd753b74d844",
-      "adaptation": "Only five bundled contract-type import/export paths restored to existing formal C-UOW/C-INDEXER-CATALOG/C-CATALOG; all declarations unchanged."
+      "publishedSha256": "b428502355a9f53673c9299b8da1283750f2893aa86b9db8bc52d826cd7cf0e2",
+      "adaptation": "Registry profile types reference @hanamesh/server-registry public contracts; no bundled catalog type/list copy."
     },
     {
       "source": "dist/service.d.ts",

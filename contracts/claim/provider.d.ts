@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import type { IdentityServices, SessionCredentials, VerifiedActor } from '@hanamesh/api-contracts/identity';
 import type { SqlExecutor, SqlPool, WriteContext, UnitOfWork } from '@hanamesh/api-contracts/uow';
-import type { RegistryCatalogPort } from '@hanamesh/api-contracts/catalog';
+import type {RegistryService} from '@hanamesh/server-registry/server-contracts';
 import type { ClaimDTO, ClaimRelation, PublicClaimStatusDTO } from './contracts.js';
 export type { SessionCredentials, SqlExecutor, SqlPool, VerifiedActor, WriteContext, UnitOfWork };
 export interface OnClaimedEvent {
@@ -27,7 +27,7 @@ export interface ClaimModuleOptions {
     readonly pool: SqlPool;
     readonly identity: Pick<IdentityServices, 'authenticate' | 'principalLinks' | 'githubProof'>;
     /** `listHanaProfiles` is optional; only the development page uses it to look up a Hana by name or repository. */
-    readonly registry: Pick<RegistryCatalogPort, 'getHanaProfile'> & Partial<Pick<RegistryCatalogPort, 'listHanaProfiles'>>;
+    readonly registry: Pick<RegistryService, 'getHanaProfile'> & Partial<Pick<RegistryService, 'listHanaProfiles'>>;
     readonly onClaimed: OnClaimed;
     readonly unitOfWork: UnitOfWork;
     readonly allowedOrigins: readonly string[];

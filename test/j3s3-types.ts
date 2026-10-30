@@ -3,7 +3,9 @@ import {createClaimProviderFixture, createClaimContractExamples} from '@hanamesh
 import {createIndexerProviderFixture, createIndexerContractExamples} from '@hanamesh/api-contracts/indexer-catalog';
 import type {ClaimService, ClaimDTO, OnClaimed, ClaimModuleOptions} from '@hanamesh/api-contracts/claim';
 import type {IndexerService, IndexerCompositionFactory, IndexerComposition, IndexerRunner, NormalizedHanaInput, IndexRunDTO, RunResult, IndexedHanaDTO} from '@hanamesh/api-contracts/indexer-catalog';
-import type {RegistryCatalogPort, RegistryProfilePort, HanaProfileDTO} from '@hanamesh/api-contracts/catalog';
+import type {RegistryService} from '@hanamesh/server-registry/server-contracts';
+import type {RegistryProfilePort} from '@hanamesh/server-registry/contract/fixtures';
+import type {HanaProfileDTO} from '@hanamesh/server-registry/contracts';
 import type {SqlPool, UnitOfWork, WriteContext} from '@hanamesh/api-contracts/uow';
 const cs:ClaimService=createClaimProviderFixture().service;
 const is:IndexerService=createIndexerProviderFixture().service;
@@ -12,7 +14,7 @@ const item:IndexedHanaDTO=createIndexerContractExamples().dedupe.output;
 const profile:HanaProfileDTO=item;
 const input:NormalizedHanaInput=createIndexerContractExamples().dedupe.inputs[0]!;
 const hook:OnClaimed=async (event,ctx)=>{ await ctx.executor.query('FIXTURE',[event.githubOwnerId]); };
-declare const pool:SqlPool, unitOfWork:UnitOfWork, registry:RegistryCatalogPort, claimOptions:ClaimModuleOptions;
+declare const pool:SqlPool, unitOfWork:UnitOfWork, registry:RegistryService, claimOptions:ClaimModuleOptions;
 const rp:RegistryProfilePort=registry;
 const factory:IndexerCompositionFactory=async request=>{
     const purpose:'index-once'|'serve'|'migrate'=request.purpose;

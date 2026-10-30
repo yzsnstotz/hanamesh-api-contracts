@@ -32,7 +32,6 @@ HanaMesh 模块间 API 合约的唯一来源：类型、错误码、示例数据
 | C-UOW | `@hanamesh/api-contracts/uow`（来源：`/uow/provenance.json`） | server-host → server-usage, server-custody, server-claim, server-identity, server-registry | J3S1-HOST-01 既有事务行为：host origin/main `b63fb8c` 的 `src/unit-of-work.ts`；共享 SQL 类型按 identity origin/main `9378af2` 的 `src/server-contracts.ts` 增补 |
 | C-CLAIM | `@hanamesh/api-contracts/claim`（来源：`/claim/provenance.json`） | server-claim → web-market, server-host | J3S3-CLAIM-01 origin/main `21a8b6d`：单次 start claimed、幂等/复用、拒绝错误、verify 与事务夹具 |
 | C-INDEXER-CATALOG | `@hanamesh/api-contracts/indexer-catalog`（来源：`/indexer-catalog/provenance.json`） | server-indexer → web-market, server-host | J3S3-IDX-01 基线保留；Q55 跟随 J3S3-IDX-02 正式 main `f2a089a`/v0.2.0：readonly contentHash、强保证 IndexerReadService、读取500错误与独立新例/FIXTURE；[读取说明](contracts/indexer-catalog/README.md#q55--j3s3-idx-02--j3s3-apic-20--v0170) |
-| C-CATALOG | `@hanamesh/api-contracts/catalog`（schema：`/catalog/schema.json`；来源：`/catalog/provenance.json`） | server-registry → core, web-market, server-indexer, server-claim, server-host | J3S4-REG-01 origin/main `5dcb5ee`：profile DTO/四个服务端口声明提取、profile schema 原样搬入；错误码、HTTP 语义和夹具按提供方源码同步 |
 
 每个合约导出：`*_CONTRACT_DEFINITION`（调用、返回、错误码、错误通道与说明）、
 类型、JSON Schema 或 ABI、`create*ProviderFixture`（带 `FIXTURE` 标签的内存模拟提供方，不是产品实现）和 `create*ContractExamples`（示例数据）。
@@ -330,3 +329,9 @@ J3S1-APIC-19 跟随正式 J3S1-SEM-01 main/tag `6756523` / `v0.2.0`。
 `./chain/quote-v2` carries the new `release-quote-v2` provider declarations, frozen ABI revision2.0.0 and source metadata. Import runtime factories from `@hanamesh/server-chain/quote-v2`; this contracts package exports only `QUOTE_V2_CONTRACT` at runtime. The explicit chain subpath uses the optional viem peer. Its facts distinguish `migrationState: 'open' | 'pending' | 'completed'`; a successful closing receipt may remain pending. Quote selection and virtual starting reserve are per issuance, while wrappedNative is deployment metadata. Launch fee is signed native `launchFeeWei`, sent by the payer wallet.
 
 Quote-v2 gas follows [Uniswap/interface v4.0.0 calculateGasMargin](https://github.com/Uniswap/interface/blob/e9148b30c9aff44613003b83daacc83d24b157f0/src/utils/calculateGasMargin.ts): estimate once with viem and attach fixed20% headroom. `calculateQuoteV2GasMargin` is a pure bigint helper declaration; the unpublished custom `prepareQuoteV2Migration` is removed. API0.20.1 replaces the prior0.20.0 candidate.
+
+Hana目录来源与Profile类型直接消费`@hanamesh/server-registry/contracts`，服务类型消费`/server-contracts`，提供方fixture消费`/contract/fixtures`。本包不再提供catalog入口或来源列表副本。使用有关类型/fixture的开发核对先安装冻结的Registry正常包；未使用这些类型的运行消费者无需装配Registry。
+
+## 10-31 边界核对的正常提供方输入
+
+类型与fixture核对用已核SHA的Registry0.3.34正常包：锁定依赖安装后，以`npm install --no-save --package-lock=false --ignore-scripts --strict-peer-deps <Registry正常tgz>`提供可选公开peer，再跑原`npm test`；不把tgz放进本仓或引用相邻源码。

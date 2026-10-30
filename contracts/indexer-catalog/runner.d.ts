@@ -1,7 +1,7 @@
 import type { IndexerModuleOptions } from './provider.js';
 import type { SourceId, RunResult, IndexerService } from './contracts.js';
 import type { SqlPool, UnitOfWork } from '@hanamesh/api-contracts/uow';
-import type { RegistryProfilePort } from '@hanamesh/api-contracts/catalog';
+import type {RegistryProfilePort} from '@hanamesh/server-registry/contract/fixtures';
 import type { FastifyInstance, FastifyPluginAsync, FastifyListenOptions } from 'fastify';
 /** Host owns the database, registry, authorization, migration order and resource teardown. */
 export interface IndexerComposition extends IndexerModuleOptions {
