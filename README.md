@@ -335,3 +335,5 @@ Hana目录来源与Profile类型直接消费`@hanamesh/server-registry/contracts
 ## 10-31 边界核对的正常提供方输入
 
 类型与fixture核对用已核SHA的Registry0.3.34正常包：锁定依赖安装后，以`npm install --no-save --package-lock=false --ignore-scripts --strict-peer-deps <Registry正常tgz>`提供可选公开peer，再跑原`npm test`；不把tgz放进本仓或引用相邻源码。
+
+Registry 的当前 Hana 来源类型同时用于本包 Indexer 的 `SourceId` 引用；不维护另一份三项联合类型。开发验证从固定正常 Registry 包安装独立 provider 输入，再将已安装的公开包连接到测试解析路径；本包不附带 Registry tgz 或模拟它的规则。

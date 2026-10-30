@@ -36,7 +36,7 @@ export const INDEXER_ERRORS = Object.freeze({
     INDEXER_INVALID_UPDATED_SINCE: [400, 'updatedSince must be a valid RFC3339 timestamp'],
     INDEXER_NOT_FOUND: [404, 'indexed Hana does not exist'],
     INDEXER_FORBIDDEN: [403, 'host policy rejected run'],
-    INDEXER_INVALID_SOURCE: [400, 'source must be awesome, 1024store or hanamesh'],
+    INDEXER_INVALID_SOURCE: [400, 'source must be a supported Indexer source'],
     INDEXER_SOURCE_DISABLED: [404, 'source adapter was not supplied'],
     INDEXER_INVALID_REQUEST: [400, 'registry input error mapped for HTTP'],
     INDEXER_INTERNAL: [500, 'unexpected HTTP error'],

@@ -1,7 +1,7 @@
 import type {RegistryProfilePort} from '@hanamesh/server-registry/contract/fixtures';
 import type {HanaProfileDTO} from '@hanamesh/server-registry/contracts';
 import type { WriteContext } from '@hanamesh/api-contracts/uow';
-export type SourceId = 'awesome' | '1024store' | 'hanamesh';
+export type SourceId = HanaProfileDTO['sourceId'];
 export interface NormalizedHanaInput {
     readonly dedupeKey: string;
     readonly displayName: string;

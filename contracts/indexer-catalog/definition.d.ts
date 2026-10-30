@@ -60,7 +60,7 @@ export declare const INDEXER_ERRORS: Readonly<{
     readonly INDEXER_INVALID_UPDATED_SINCE: readonly [400, "updatedSince must be a valid RFC3339 timestamp"];
     readonly INDEXER_NOT_FOUND: readonly [404, "indexed Hana does not exist"];
     readonly INDEXER_FORBIDDEN: readonly [403, "host policy rejected run"];
-    readonly INDEXER_INVALID_SOURCE: readonly [400, "source must be awesome, 1024store or hanamesh"];
+    readonly INDEXER_INVALID_SOURCE: readonly [400, "source must be a supported Indexer source"];
     readonly INDEXER_SOURCE_DISABLED: readonly [404, "source adapter was not supplied"];
     readonly INDEXER_INVALID_REQUEST: readonly [400, "registry input error mapped for HTTP"];
     readonly INDEXER_INTERNAL: readonly [500, "unexpected HTTP error"];

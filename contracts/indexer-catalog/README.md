@@ -7,7 +7,7 @@
 | GET /v1/indexer/items | after?、limit?（默认20，1..200）、updatedSince?（有效 RFC3339） | {items:IndexedHanaDTO[],next:string\|null}；基线数组对应 items，额外分页 envelope/cursor |
 | GET /v1/indexer/hanas/:hanaId | hanaId | IndexedHanaDTO；未知 404 INDEXER_NOT_FOUND |
 | GET /v1/indexer/runs | limit?（默认20，1..200） | {items:IndexRunDTO[]} |
-| POST /v1/indexer/runs | {source:'awesome'\|'1024store'\|'hanamesh'} | RunResult；基线 sourceId 对应实际 source，sourceId 请求 400；POST 没有 runId/startedAt/finishedAt/running，GET runs 提供持久化 IndexRunDTO |
+| POST /v1/indexer/runs | {source: SourceId}（SourceId引用Registry公开HanaProfileDTO.sourceId） | RunResult；基线 sourceId 对应实际 source，sourceId 请求 400；POST 没有 runId/startedAt/finishedAt/running，GET runs 提供持久化 IndexRunDTO |
 
 IndexedHanaDTO 继承 C-CATALOG 身份字段 hanaId/sourceId/sourceRef/displayName/kind/githubRepo/homepage/indexedAt/ownerPrincipalId，增加 npmPackageName、summary{en,zh}、latestVersion、license、categories、keywords、publisher{name,url}|null、repoUrl、repoSubdirectory、updatedAt、sourceLinks。SourceLinkDTO 是 sourceId/sourceRef/sourceUrl/firstSeenAt/lastSeenAt。不存在额外原始凭据/来源 rawHash wire 字段。
 
