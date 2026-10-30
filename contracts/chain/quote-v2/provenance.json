@@ -1,22 +1,20 @@
 {
   "provider": "@hanamesh/server-chain/quote-v2",
   "sourceRepository": "yzsnstotz/hanamesh-contracts",
-  "sourceCommit": "c42a52974b0b56b2e34d18d977f0a3866e1eb3ca",
-  "revision": "2.1.0",
-  "manifestSHA256": "8958468e5b3902d16039a68640696cf0c3a2528f808c5f86a54d17ac9f0a2626",
+  "sourceCommit": "59ddb9554286d9ba1c68a2f8227a67d2b5c8d450",
+  "revision": "2.2.0",
+  "manifestSHA256": "918790fd46272d591b45465780dc4747f5d16c5f2b5250f3db268c5e7e006820",
   "evidence": "SOURCE_BUILD",
-  "acceptance": "NOT_RUN",
   "providerRepository": "yzsnstotz/hanamesh-server-chain",
-  "providerCommit": "e70f5fb50e346ea6ebb0d4f90ba72419c7fccf4d",
-  "providerVersion": "0.37.2",
-  "providerDeclarationsSHA256": "61daa499986415b5504d798ee294f0cedca2cc455d3fb1e5b02bc3563b9405fd",
+  "providerCommit": "ad5bebac6095ca50d8039be3c53c9e55b59ad9a4",
+  "providerVersion": "0.38.0",
+  "providerDeclarationsSHA256": "53c9d0b36723cbdf71b1a6dc1f7b60fdeb8cbdb0fb0ce9568ff2d94d2dbdbc03",
   "gasHandling": {
     "project": "Uniswap/interface",
     "tag": "v4.0.0",
     "commit": "e9148b30c9aff44613003b83daacc83d24b157f0",
     "source": "src/utils/calculateGasMargin.ts",
     "walletFlow": "src/hooks/useSwapCallback.ts",
-    "adopted": "single viem estimateContractGas then fixed20% gas margin; user wallet sends",
-    "removed": "prepareQuoteV2Migration custom gas search"
+    "adopted": "single viem estimateContractGas then fixed20% gas margin; user wallet sends"
   }
 }

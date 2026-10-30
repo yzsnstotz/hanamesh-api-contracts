@@ -1,4 +1,0 @@
-{
-  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hanamesh.com/schemas/o5/recommend.request.json","type":"object","additionalProperties":false,"required":["query"],
-  "properties":{"query":{"$ref":"search.request.json#/properties/query"},"type":{"$ref":"search.request.json#/properties/type"},"topK":{"$ref":"search.request.json#/properties/topK"},"telemetry":{"$ref":"search.request.json#/properties/telemetry"},"context":{"$ref":"search.request.json#/properties/context"},"constraints":{"$ref":"search.request.json#/properties/constraints"},"more":{"type":"integer","minimum":0,"maximum":20}}
-}

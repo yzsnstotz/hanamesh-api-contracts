@@ -1,7 +1,7 @@
 {
   "version": "release-quote-v2",
   "evidence": "SOURCE_BUILD",
-  "revision": "2.1.0",
+  "revision": "2.2.0",
   "compiler": "0.8.26+commit.8a97fa7a",
   "settings": {
     "remappings": [
@@ -25,7 +25,7 @@
     "HanaLauncherQuoteV2": {
       "path": "HanaLauncherQuoteV2.json",
       "source": "src/HanaLauncherQuoteV2.sol",
-      "fileSHA256": "17cfd6698479e744e38cae37c091693414d1625caa4fb03dc72d0fe438e733fc",
+      "fileSHA256": "f2e3925cdc58b8a8340049373b5c0cc9cafcac19406b06b8781d0e9183e1220e",
       "sourceSHA256": "91afeebbfe96a05b50fa049f32d047cbe1c38c854e466f45ab007bf2fb21b1fe",
       "abiSHA256": "811b774c71131beac41afba6986a4c7a55d37491a9d18aef8897ad97320c90d3",
       "creationKeccak": "0xd5945667a94cf4ab5636f2b60c9ab45ee0c6515293e24cc86c11e92f224f7069",
@@ -36,7 +36,7 @@
     "HanaBondFactoryQuoteV2": {
       "path": "HanaBondFactoryQuoteV2.json",
       "source": "src/HanaBondQuoteV2.sol",
-      "fileSHA256": "a5125139d824c87b185e9cb377128f36efd93ac4012d523e7c7044d285c93d00",
+      "fileSHA256": "966560f06a8e24d685fbba0a08a74934c84c5d775f182366fbf129e4baea5c9b",
       "sourceSHA256": "54f1aacacc2ff4a7e86677e1864a5a625ccdf8bcd506867ab6b95a0f600ca4f1",
       "abiSHA256": "8058aca9fdab82c01e9437686d00ffaca6a8f49dffde949e6479cb7f4ca7802a",
       "creationKeccak": "0x02642f54a54e23c8845c99ddcfc1a97af1efac3de8a83a78f64365d4fe0be0f6",
@@ -47,7 +47,7 @@
     "HanaBondQuoteV2": {
       "path": "HanaBondQuoteV2.json",
       "source": "src/HanaBondQuoteV2.sol",
-      "fileSHA256": "91bc8d1f28e90fbe638896e15a7d76a7e98e76a9d5ac4e26c9dd5dc6783e44ae",
+      "fileSHA256": "4a754dee89ea4e8b07cd9da54bd32889f6a236c049c518d533ec7d72e7a5c8a8",
       "sourceSHA256": "54f1aacacc2ff4a7e86677e1864a5a625ccdf8bcd506867ab6b95a0f600ca4f1",
       "abiSHA256": "5e913ac833dc86b9cc268b35f37d22d52fd3be56932349e9570e3790c1bb080a",
       "creationKeccak": "0xa06e328d33b13f2b901d7c18b3cda7360914a8d79fa4fdc96029caaab473376e",
@@ -58,7 +58,7 @@
     "HanaTokenQuoteV2": {
       "path": "HanaTokenQuoteV2.json",
       "source": "src/HanaTokenQuoteV2.sol",
-      "fileSHA256": "d366befe413227799f857d37163c893750e903b34b90c2fdfaddd10e6252b95a",
+      "fileSHA256": "5a2fab3e94d642a88eb6fea627c80370462e88d764073cf85b073fca42a0e1b0",
       "sourceSHA256": "acd89ff6bf4647429d0396f7cc28a4789c630a4a2bdef5044cfafc3655bad6fa",
       "abiSHA256": "6a9eee53d9e09ec26a7c854d8ba765a0dac9c6eca652daba1e080de001a3dd1c",
       "creationKeccak": "0x5ee558e9707eb57bc982738fcc803a21eb278c9d76d0a9816de2ba56984535e8",
@@ -69,11 +69,11 @@
     "BatchVestingDistributorQuoteV2": {
       "path": "BatchVestingDistributorQuoteV2.json",
       "source": "src/BatchVestingDistributorQuoteV2.sol",
-      "fileSHA256": "3af2e9e4db78dde283d3bc35d50813a316b2c310118ba25cce3cdb91776008d7",
-      "sourceSHA256": "44c2802ac5fec81cd72ae88ea6095af486dff6c0142540ce026897b07fb5162f",
-      "abiSHA256": "0db3029397fa0c77a1e76e56d9e538f95f3499097e0cc561d853f70f411bb32e",
-      "creationKeccak": "0x7e24ebbac719d304489915546794748cf8b3f79f1ad8e2fd459009ce77e703bf",
-      "runtimeTemplateKeccak": "0x2964827b0984f6d7e082b9dcdada7594df994e61f414ab03bb86e161fdcd5c8c",
+      "fileSHA256": "8a342f2f14c9c0dafbf156aa763818a470e7477197a4488f9f25d85631b576d4",
+      "sourceSHA256": "027a5b5274e3785eb18352cfcd5afb455eeb31a1faec4aaad46c0c0a993e1649",
+      "abiSHA256": "98c4c55e3390104361166342d3c4ee1412f9feeabb8e1a6c90b1ad0332bf19f7",
+      "creationKeccak": "0x95ab394179d3609dedbf3170921da7dc5762006447f00f03f269d87f35512cab",
+      "runtimeTemplateKeccak": "0x9a45881a05e813194cc6753b42d658a9ab25fcbf45af47956f559cc68fac5090",
       "runtimeBytes": 16711,
       "immutableSlots": 25
     },
@@ -102,7 +102,6 @@
     "scope": "business ERC20, safe transfer/approval, reentrancy, typed-data/signatures and Merkle proofs (D-4/HM-4)"
   },
   "runtimeCheck": "Zero all immutableReferences ranges in deployed runtime, compare runtimeTemplate.",
-  "legacy": "Independent additive artifacts. Earlier abi/* directories are preserved byte-for-byte.",
   "wrappedNative": {
     "fixture": "fixtures/release-quote-v2/WETH9.json",
     "compiler": "0.6.6+commit.6c089d02",

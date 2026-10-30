@@ -1,4 +1,0 @@
-{
-  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://hanamesh.com/schemas/o5/feedback.request.json","type":"object","additionalProperties":false,"required":["requestId","objectId","action"],
-  "properties":{"requestId":{"type":"string","format":"uuid"},"objectId":{"type":"string","format":"uuid"},"action":{"enum":["select","install","open","dismiss"]}}
-}

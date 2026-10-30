@@ -2,3 +2,10 @@ import test from 'node:test';import assert from 'node:assert/strict';import {rea
 import {QUOTE_V2_CONTRACT as c} from '@hanamesh/api-contracts/chain/quote-v2';
 test('quote-v2 source manifest and all six exported artifacts are pinned',async()=>{const dir=new URL('../contracts/chain/quote-v2/',import.meta.url),raw=await readFile(new URL('manifest.json',dir));assert.equal(createHash('sha256').update(raw).digest('hex'),c.manifestSHA256);const m=JSON.parse(raw);assert.equal(m.revision,c.revision);assert.equal(Object.keys(m.contracts).length,6);for(const [name,pin]of Object.entries(m.contracts)){const a=await readFile(new URL(name+'.json',dir));assert.equal(createHash('sha256').update(a).digest('hex'),pin.fileSHA256);}});
 test('quote-v2 consumer metadata exposes pending semantics without provider runtime stubs',async()=>{const mod=await import('@hanamesh/api-contracts/chain/quote-v2');assert.deepEqual(Object.keys(mod),['QUOTE_V2_CONTRACT']);assert.equal(c.launcherDomainVersion,'4');assert.equal(c.releaseDomainVersion,'3');assert.equal(c.migrationReasons[1],'HistoryUnavailable');assert.deepEqual(c.migrationReasons,['None','HistoryUnavailable','PriceOutsideBand','NoFeasibleLiquidity']);});
+
+test('root exposes only real current metadata and old declaration families are absent',async()=>{
+ const root=await import('@hanamesh/api-contracts');
+ assert.deepEqual(Object.keys(root),['QUOTE_V2_CONTRACT']);assert.equal(root.QUOTE_V2_CONTRACT,c);
+ for(const path of ['chain','contracts-abi','points','claim','catalog','usage','semantic'])
+  await assert.rejects(import('@hanamesh/api-contracts/'+path),{code:'ERR_PACKAGE_PATH_NOT_EXPORTED'});
+});

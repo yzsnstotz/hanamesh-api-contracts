@@ -30,7 +30,7 @@ export declare const quoteV2Calls:{
  settleEmpty:(input:QuoteV2EmptyInput&{signature:Hex})=>QuoteV2Call;
  withdrawReserve:(input:{deployment:QuoteV2Deployment;hanaId:Hex;bucket:0|1;to:Address;amount:bigint;proposalId:Hex;expectedRemaining:bigint})=>QuoteV2Call;
 };
-export type QuoteV2MigrationReason=0|1|2|3|4|5;
+export type QuoteV2MigrationReason=0|1|2|3;
 export declare const QUOTE_V2_MIGRATION_REASONS:readonly ['None','HistoryUnavailable','PriceOutsideBand','NoFeasibleLiquidity'];
 export interface QuoteV2MigrationStatus{closed:boolean;completed:boolean;historyReady:boolean;lastReason:QuoteV2MigrationReason;closedAt:string;migratedAt:string;closingQuote:string;windowSeconds:string;averageX112:string;spotX112:string}
 export type QuoteV2MigrationState='open'|'pending'|'completed';
@@ -46,3 +46,7 @@ export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deploymen
 
 /** Fixed20% gas margin from Uniswap/interface v4.0.0 calculateGasMargin. */
 export declare function calculateQuoteV2GasMargin(estimate:bigint):bigint;
+
+/** Chain-owned issuance range and frozen inventory formula; used by custody. */
+export declare function isValidPointsBps(value:unknown):boolean;
+export declare function quoteV2SupplySplit(pointsBps:number|bigint):Readonly<{pointsAmount:bigint;treasuryReserve:bigint;creatorReserve:bigint;bondAmount:bigint}>;

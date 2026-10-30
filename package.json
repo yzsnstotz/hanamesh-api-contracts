@@ -1,7 +1,7 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.20.2",
-  "description": "HanaMesh inter-module API contracts: types, error codes, sample data and conformance fixtures. Single source of truth; changes follow provider cards.",
+  "version": "0.21.0",
+  "description": "Consumed quote-v2 provider declarations and exact current contract artifacts.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -16,131 +16,7 @@
       "types": "./index.d.ts",
       "default": "./index.js"
     },
-    "./core": {
-      "types": "./contracts/core/index.d.ts",
-      "default": "./contracts/core/index.js"
-    },
-    "./core/schema.json": "./contracts/core/schema.json",
-    "./core/provenance.json": "./contracts/core/provenance.json",
-    "./usage-local": {
-      "types": "./contracts/usage-local/index.d.ts",
-      "default": "./contracts/usage-local/index.js"
-    },
-    "./usage-local/schema.json": "./contracts/usage-local/schema.json",
-    "./identity": {
-      "types": "./contracts/identity/index.d.ts",
-      "default": "./contracts/identity/index.js"
-    },
-    "./identity/schema.json": "./contracts/identity/schema.json",
-    "./catalog": {
-      "types": "./contracts/catalog/index.d.ts",
-      "default": "./contracts/catalog/index.js"
-    },
-    "./catalog/schema.json": "./contracts/catalog/schema.json",
-    "./catalog/provenance.json": "./contracts/catalog/provenance.json",
     "./package.json": "./package.json",
-    "./chain": {
-      "types": "./contracts/chain/index.d.ts",
-      "default": "./contracts/chain/index.js"
-    },
-    "./hanaswap": {
-      "types": "./contracts/hanaswap/index.d.ts",
-      "default": "./contracts/hanaswap/index.js"
-    },
-    "./chain/confirmed-launch.schema.json": "./contracts/chain/confirmed-launch.schema.json",
-    "./chain/user-paid-claim.schema.json": "./contracts/chain/user-paid-claim.schema.json",
-    "./chain/provenance.json": "./contracts/chain/provenance.json",
-    "./chain/distribution-examples.json": "./contracts/chain/distribution-examples.json",
-    "./hanaswap/UniswapV2Router02.json": "./contracts/hanaswap/UniswapV2Router02.json",
-    "./hanaswap/manifest.json": "./contracts/hanaswap/manifest.json",
-    "./hanaswap/example.json": "./contracts/hanaswap/example.json",
-    "./hanaswap/provenance.json": "./contracts/hanaswap/provenance.json",
-    "./uow": {
-      "types": "./contracts/uow/index.d.ts",
-      "default": "./contracts/uow/index.js"
-    },
-    "./uow/provenance.json": "./contracts/uow/provenance.json",
-    "./contracts-abi": {
-      "types": "./contracts/contracts-abi/index.d.ts",
-      "default": "./contracts/contracts-abi/index.js"
-    },
-    "./contracts-abi/HanaLauncher.json": "./contracts/contracts-abi/HanaLauncher.json",
-    "./contracts-abi/LaunchFee.json": "./contracts/contracts-abi/LaunchFee.json",
-    "./contracts-abi/launch-manifest.json": "./contracts/contracts-abi/launch-manifest.json",
-    "./contracts-abi/launch-example.json": "./contracts/contracts-abi/launch-example.json",
-    "./contracts-abi/frozen/HanaLauncher.json": "./contracts/contracts-abi/frozen/HanaLauncher.json",
-    "./contracts-abi/frozen/LaunchFee.json": "./contracts/contracts-abi/frozen/LaunchFee.json",
-    "./contracts-abi/frozen/HanaToken.json": "./contracts/contracts-abi/frozen/HanaToken.json",
-    "./contracts-abi/frozen/manifest.json": "./contracts/contracts-abi/frozen/manifest.json",
-    "./contracts-abi/provenance.json": "./contracts/contracts-abi/provenance.json",
-    "./claim": {
-      "types": "./contracts/claim/index.d.ts",
-      "default": "./contracts/claim/index.js"
-    },
-    "./claim/provenance.json": "./contracts/claim/provenance.json",
-    "./indexer-catalog": {
-      "types": "./contracts/indexer-catalog/index.d.ts",
-      "default": "./contracts/indexer-catalog/index.js"
-    },
-    "./indexer-catalog/provenance.json": "./contracts/indexer-catalog/provenance.json",
-    "./usage": {
-      "types": "./contracts/usage/index.d.ts",
-      "default": "./contracts/usage/index.js"
-    },
-    "./usage/schema.json": "./contracts/usage/schema.json",
-    "./usage/provenance.json": "./contracts/usage/provenance.json",
-    "./points": {
-      "types": "./contracts/points/index.d.ts",
-      "default": "./contracts/points/index.js"
-    },
-    "./points/schema.json": "./contracts/points/schema.json",
-    "./points/entitlements.schema.json": "./contracts/points/entitlements.schema.json",
-    "./points/examples.json": "./contracts/points/examples.json",
-    "./points/entitlements-examples.json": "./contracts/points/entitlements-examples.json",
-    "./points/provenance.json": "./contracts/points/provenance.json",
-    "./contracts-abi/frozen/oz-ctr09": {
-      "types": "./contracts/contracts-abi/frozen/oz-ctr09/index.d.ts",
-      "default": "./contracts/contracts-abi/frozen/oz-ctr09/index.js"
-    },
-    "./contracts-abi/frozen/oz-ctr09/HanaLauncher.json": "./contracts/contracts-abi/frozen/oz-ctr09/HanaLauncher.json",
-    "./contracts-abi/frozen/oz-ctr09/LaunchFee.json": "./contracts/contracts-abi/frozen/oz-ctr09/LaunchFee.json",
-    "./contracts-abi/frozen/oz-ctr09/HanaToken.json": "./contracts/contracts-abi/frozen/oz-ctr09/HanaToken.json",
-    "./contracts-abi/frozen/oz-ctr09/Distributor.json": "./contracts/contracts-abi/frozen/oz-ctr09/Distributor.json",
-    "./contracts-abi/frozen/oz-ctr09/ReservedDistributor.json": "./contracts/contracts-abi/frozen/oz-ctr09/ReservedDistributor.json",
-    "./contracts-abi/frozen/oz-ctr09/manifest.json": "./contracts/contracts-abi/frozen/oz-ctr09/manifest.json",
-    "./contracts-abi/Distributor.json": "./contracts/contracts-abi/Distributor.json",
-    "./contracts-abi/ReservedDistributor.json": "./contracts/contracts-abi/ReservedDistributor.json",
-    "./contracts-abi/frozen/oz-ctr09/distributor-manifest.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-manifest.json",
-    "./contracts-abi/frozen/oz-ctr09/distributor-example.json": "./contracts/contracts-abi/frozen/oz-ctr09/distributor-example.json",
-    "./contracts-abi/frozen/oz-ctr09/provenance.json": "./contracts/contracts-abi/frozen/oz-ctr09/provenance.json",
-    "./contracts-abi/frozen/oz-ctr09/mock_distributor.py": "./contracts/contracts-abi/frozen/oz-ctr09/mock_distributor.py",
-    "./contracts-abi/HanaBond.json": "./contracts/contracts-abi/HanaBond.json",
-    "./contracts-abi/HanaBondFactory.json": "./contracts/contracts-abi/HanaBondFactory.json",
-    "./contracts-abi/frozen/HanaBond.json": "./contracts/contracts-abi/frozen/HanaBond.json",
-    "./contracts-abi/frozen/HanaBondFactory.json": "./contracts/contracts-abi/frozen/HanaBondFactory.json",
-    "./contracts-abi/bond-example.json": "./contracts/contracts-abi/bond-example.json",
-    "./contracts-abi/bond-manifest.json": "./contracts/contracts-abi/bond-manifest.json",
-    "./contracts-abi/bond-provenance.json": "./contracts/contracts-abi/bond-provenance.json",
-    "./contracts-abi/bond-frozen-manifest.json": "./contracts/contracts-abi/bond-frozen-manifest.json",
-    "./contracts-abi/mock_bond.py": "./contracts/contracts-abi/mock_bond.py",
-    "./points/beneficiary-validation-examples.json": "./contracts/points/beneficiary-validation-examples.json",
-    "./points/snapshot-settings-examples.json": "./contracts/points/snapshot-settings-examples.json",
-    "./points/validation-provenance.json": "./contracts/points/validation-provenance.json",
-    "./indexer-catalog/read-provenance.json": "./contracts/indexer-catalog/read-provenance.json",
-    "./semantic": {
-      "types": "./contracts/semantic/index.d.ts",
-      "default": "./contracts/semantic/index.js"
-    },
-    "./semantic/fixtures": {
-      "types": "./contracts/semantic/fixtures.d.ts",
-      "default": "./contracts/semantic/fixtures.js"
-    },
-    "./semantic/provenance.json": "./contracts/semantic/provenance.json",
-    "./semantic/schemas/search.request.json": "./contracts/semantic/schemas/search.request.json",
-    "./semantic/schemas/recommend.request.json": "./contracts/semantic/schemas/recommend.request.json",
-    "./semantic/schemas/feedback.request.json": "./contracts/semantic/schemas/feedback.request.json",
-    "./semantic/schemas/decision.response.json": "./contracts/semantic/schemas/decision.response.json",
-    "./semantic/current-provenance.json": "./contracts/semantic/current-provenance.json",
     "./chain/quote-v2": {
       "types": "./contracts/chain/quote-v2/index.d.ts",
       "default": "./contracts/chain/quote-v2/index.js"
@@ -157,28 +33,22 @@
   "files": [
     "index.js",
     "index.d.ts",
-    "contracts"
+    "contracts/chain/quote-v2"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
   },
   "peerDependencies": {
-    "viem": "^2.54.2",
-    "fastify": "^5.12.3"
+    "viem": "^2.56.9"
   },
   "peerDependenciesMeta": {
     "viem": {
       "optional": true
-    },
-    "fastify": {
-      "optional": true
     }
   },
   "devDependencies": {
-    "ajv": "^8.20.0",
     "typescript": "^5.9.3",
-    "viem": "2.54.2",
-    "fastify": "5.12.3",
+    "viem": "2.56.9",
     "@types/node": "24.3.0"
   }
 }

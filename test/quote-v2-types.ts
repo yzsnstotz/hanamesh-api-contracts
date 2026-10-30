@@ -12,3 +12,10 @@ declare const margin:typeof Margin;
 const gas:bigint=margin(604617n);void gas;
 // @ts-expect-error The unpublished custom preflight is removed
 import type {prepareQuoteV2Migration} from '@hanamesh/api-contracts/chain/quote-v2';
+
+import type {QuoteV2MigrationReason} from '@hanamesh/api-contracts';
+// @ts-expect-error only the active migration reasons are exposed
+const retiredFour:QuoteV2MigrationReason=4;
+// @ts-expect-error only the active migration reasons are exposed
+const retiredFive:QuoteV2MigrationReason=5;
+void [retiredFour,retiredFive];
