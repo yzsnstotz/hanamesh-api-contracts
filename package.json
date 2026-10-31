@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.22.1",
+  "version": "0.22.3",
   "description": "Consumed quote-v2 provider declarations and exact current contract artifacts.",
   "type": "module",
   "license": "MIT",
