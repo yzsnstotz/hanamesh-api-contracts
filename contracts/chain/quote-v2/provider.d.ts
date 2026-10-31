@@ -54,6 +54,8 @@ export declare function calculateQuoteV2GasMargin(estimate:bigint):bigint;
 
 /** Chain-owned issuance range and frozen inventory formula; used by custody. */
 export declare function isValidPointsBps(value:unknown):boolean;
+/** Chain-owned launch fee rule (Launcher uint256: 0 allowed, no other cap); bigint or canonical decimal wei string; used by custody. */
+export declare function isLaunchFeeWei(value:unknown):boolean;
 export declare function quoteV2SupplySplit(pointsBps:number|bigint):Readonly<{pointsAmount:bigint;treasuryReserve:bigint;creatorReserve:bigint;bondAmount:bigint}>;
 
 export interface QuoteV2CampaignParams {campaignId:Hex;token:Address;bond:Address;rightsRoot:Hex;budget:bigint}
