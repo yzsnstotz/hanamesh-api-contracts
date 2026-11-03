@@ -6,7 +6,7 @@
   "manifestSHA256": "918790fd46272d591b45465780dc4747f5d16c5f2b5250f3db268c5e7e006820",
   "evidence": "SOURCE_BUILD",
   "providerRepository": "yzsnstotz/hanamesh-server-chain",
-  "providerCommit": "e68899c5ca5294105a05bdb6db76c6730937ce2f",
+  "providerCommit": "95c66d56f47037bc860e86dc1f55defd097906a9",
   "providerVersion": "0.39.3",
   "providerDeclarationsSHA256": "3664b6cd95d100a4322a8bf263ffc8735b7723e5dbdaa1ef4428eaa23f501003",
   "gasHandling": {
