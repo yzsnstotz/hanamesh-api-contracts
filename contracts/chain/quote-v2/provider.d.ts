@@ -90,7 +90,7 @@ export interface QuoteV2MarketHistoryPage extends QuoteV2MarketFact{readonly sch
  readonly phaseBoundary:{readonly migratedAt:string;readonly event:QuoteV2CanonicalEvent;readonly tailState:QuoteV2HistoryState;readonly initialPoolState:QuoteV2HistoryState;readonly initialPoolSync:QuoteV2CanonicalEvent;readonly initialPoolMint:QuoteV2CanonicalEvent}|null}
 /** Registry market publicFailure: QuoteV2Error only; generic message; null for any other error. */
 export declare function publicQuoteV2ReadError(error:unknown):{readonly statusCode:400|404|503;readonly code:string;readonly message:string;readonly need:{readonly action:string}}|null;
-export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production'}):Promise<QuoteV2Reader>;
+export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'|'getTransaction'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production'}):Promise<QuoteV2Reader>;
 
 /** Fixed20% gas margin from Uniswap/interface v4.0.0 calculateGasMargin. */
 export declare function calculateQuoteV2GasMargin(estimate:bigint):bigint;
