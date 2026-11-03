@@ -1,2 +1,6 @@
 node_modules/
 .npm-cache/
+
+# Local CI tools
+scripts/ci/node_modules/
+scripts/ci/__pycache__/
