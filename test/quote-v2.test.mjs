@@ -9,3 +9,13 @@ test('root exposes only real current metadata and old declaration families are a
  for(const path of ['chain','contracts-abi','points','claim','catalog','usage','semantic'])
   await assert.rejects(import('@hanamesh/api-contracts/'+path),{code:'ERR_PACKAGE_PATH_NOT_EXPORTED'});
 });
+
+test('current token artifact exposes timestamp voting and EIP-2612 without administration',async()=>{
+ const {default:token}=await import('@hanamesh/api-contracts/chain/quote-v2/HanaTokenQuoteV2.json',{with:{type:'json'}});
+ const functions=new Map(token.abi.filter(a=>a.type==='function').map(a=>[a.name,a]));
+ for(const name of ['permit','nonces','DOMAIN_SEPARATOR','delegate','delegateBySig','delegates','getVotes','getPastVotes','getPastTotalSupply','clock','CLOCK_MODE'])assert.ok(functions.has(name),name);
+ assert.equal(functions.get('clock').outputs[0].type,'uint48');
+ assert.deepEqual(functions.get('permit').inputs.map(x=>x.type),['address','address','uint256','uint256','uint8','bytes32','bytes32']);
+ for(const name of ['owner','mint','burn','upgradeTo','transferOwnership'])assert.equal(functions.has(name),false,name);
+ assert.equal(c.revision,'2.3.0');
+});

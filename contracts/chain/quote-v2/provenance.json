@@ -1,13 +1,13 @@
 {
   "provider": "@hanamesh/server-chain/quote-v2",
   "sourceRepository": "yzsnstotz/hanamesh-contracts",
-  "sourceCommit": "59ddb9554286d9ba1c68a2f8227a67d2b5c8d450",
-  "revision": "2.2.0",
-  "manifestSHA256": "918790fd46272d591b45465780dc4747f5d16c5f2b5250f3db268c5e7e006820",
+  "sourceCommit": "2bbf4a5b6e45ca0392189daf15c680b8debfe110",
+  "revision": "2.3.0",
+  "manifestSHA256": "bf32a54f50ef95853d2ac423dc107fcdbc5d6e5baca8f1d4d1c0640175768b72",
   "evidence": "SOURCE_BUILD",
   "providerRepository": "yzsnstotz/hanamesh-server-chain",
-  "providerCommit": "11569ecfa34a47e08be872978b018887abc97dae",
-  "providerVersion": "0.39.5",
+  "providerCommit": "a7d8eb8e19da3d624c0f5a51456fc8310860a03a",
+  "providerVersion": "0.39.6",
   "providerDeclarationsSHA256": "b6adb917f1644c85df7514ea516f29301fae1306d2b94dd4c21a0e16dadbcda1",
   "gasHandling": {
     "project": "Uniswap/interface",
