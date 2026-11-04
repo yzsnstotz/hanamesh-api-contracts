@@ -15,3 +15,9 @@ Votes use ERC-6372 timestamps (`CLOCK_MODE() == "mode=timestamp"`). Holders must
 explicitly delegate (including to themselves) before their balance counts as voting
 power. No application automatically delegates. Permit uses the token name, version
 `1`, chain ID and token address as its EIP-712 domain, with the OZ shared nonce.
+
+API 0.22.7 mirrors the Chain 0.39.9 reader declarations, including anchored
+`readMarketBalances` and the native multicall capability of its explicit public client.
+Balances are raw decimal strings for every requested token/account, including zero;
+this package supplies declarations only. ABI revision 2.3.0 and all contract artifacts
+remain unchanged.

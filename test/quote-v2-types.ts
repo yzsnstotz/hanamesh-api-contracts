@@ -17,3 +17,16 @@ const retiredFour:QuoteV2MigrationReason=4;
 // @ts-expect-error only the active migration reasons are exposed
 const retiredFive:QuoteV2MigrationReason=5;
 void [retiredFour,retiredFive];
+
+
+import type {QuoteV2MarketBalances,createQuoteV2Reader as CreateReader} from '@hanamesh/api-contracts';
+import type {PublicClient} from 'viem';
+async function balances(){
+ const page:QuoteV2MarketBalances=await reader.readMarketBalances({hanaKeys:[auth.hanaId],account:auth.payer,anchor:{blockNumber:'42',blockHash:auth.snapshot}});
+ const amount:string=page.records[0]!.balance;return amount;
+}
+type BalanceClient=Parameters<typeof CreateReader>[0]['publicClient'];
+declare const balanceClient:BalanceClient;const multicall:PublicClient['multicall']=balanceClient.multicall;
+// @ts-expect-error balances always use an explicit Issued enumeration anchor
+reader.readMarketBalances({hanaKeys:[auth.hanaId],account:auth.payer});
+void [balances,multicall];

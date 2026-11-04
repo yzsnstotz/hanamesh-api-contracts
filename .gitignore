@@ -4,3 +4,9 @@ node_modules/
 # Local CI tools
 scripts/ci/node_modules/
 scripts/ci/__pycache__/
+
+# Normal packages remain in the run relay; package SHA belongs to the receipt.
+*.tgz
+*.tgz.sha256
+
+/release-quote-v2.SHA256SUMS
