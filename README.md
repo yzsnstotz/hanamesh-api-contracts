@@ -21,3 +21,5 @@ API 0.22.8 mirrors the Chain 0.39.9 reader declarations, including anchored
 Balances are raw decimal strings for every requested token/account, including zero;
 this package supplies declarations only. ABI revision 2.3.0 and all contract artifacts
 remain unchanged.
+
+API0.22.9 candidate mirrors the normal Chain0.39.10 candidate declarations, adding same-anchor `readMarketHistoryBatch` query/page types. Provider implementation remains in Chain; this package has no provider runtime stubs. Source is Chain18d4c1e, declaration SHA256 bfc1326d8745ef92b41e1a1de116510a098b33eb3c515a3f50514ae648089ce3, copied byte-for-byte from its normal packed archive. Provider review/main/tag and API verification/publication are still pending; this does not claim an npm release.

@@ -6,9 +6,9 @@
   "manifestSHA256": "bf32a54f50ef95853d2ac423dc107fcdbc5d6e5baca8f1d4d1c0640175768b72",
   "evidence": "SOURCE_BUILD",
   "providerRepository": "yzsnstotz/hanamesh-server-chain",
-  "providerCommit": "64fc58f80699a5873b67be6fb749e8663f4564e1",
-  "providerVersion": "0.39.9",
-  "providerDeclarationsSHA256": "e4524e049b7f331bc11da727c6f625224c5e83f3088a7bab6732db89d71a5ff8",
+  "providerCommit": "18d4c1ecfe1598afeceb015a99aebccdff3a2c7c",
+  "providerVersion": "0.39.10",
+  "providerDeclarationsSHA256": "bfc1326d8745ef92b41e1a1de116510a098b33eb3c515a3f50514ae648089ce3",
   "gasHandling": {
     "project": "Uniswap/interface",
     "tag": "v4.0.0",
