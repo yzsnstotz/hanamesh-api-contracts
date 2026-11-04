@@ -33,9 +33,10 @@ void [balances,multicall];
 
 async function issuedIndexSources(){
  const captured=await reader.readMarketPhases({hanaKeys:[]});
- const phase=await reader.readMarketPhases({hanaKeys:[auth.hanaId],anchor:captured});
+ const anchor={blockNumber:captured.blockNumber,blockHash:captured.blockHash};
+ const phase=await reader.readMarketPhases({hanaKeys:[auth.hanaId],anchor});
  const stage:'bond'|'migrated'|'inactive'=phase.records[0]!.phase;
- const window=await reader.readMarketIssuedWindow({fromBlock:'40',scanBlockSpan:10,anchor:captured});
+ const window=await reader.readMarketIssuedWindow({fromBlock:'40',scanBlockSpan:10,anchor});
  const schema:'quote-v2-issued-window-v1'=window.schema;
  // @ts-expect-error a delta window cannot select a new anchor implicitly
  reader.readMarketIssuedWindow({fromBlock:'40',scanBlockSpan:10});

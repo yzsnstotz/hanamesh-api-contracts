@@ -92,7 +92,7 @@ export interface QuoteV2MarketHistoryPage extends QuoteV2MarketFact{readonly sch
  readonly phaseBoundary:{readonly migratedAt:string;readonly event:QuoteV2CanonicalEvent;readonly tailState:QuoteV2HistoryState;readonly initialPoolState:QuoteV2HistoryState;readonly initialPoolSync:QuoteV2CanonicalEvent;readonly initialPoolMint:QuoteV2CanonicalEvent}|null}
 /** Registry market publicFailure: QuoteV2Error only; generic message; null for any other error. */
 export declare function publicQuoteV2ReadError(error:unknown):{readonly statusCode:400|404|503;readonly code:string;readonly message:string;readonly need:{readonly action:string}}|null;
-export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'|'getTransaction'|'multicall'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production'}):Promise<QuoteV2Reader>;
+export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'|'getTransaction'|'multicall'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production';multicall3Address?:`0x${string}`}):Promise<QuoteV2Reader>;
 
 /** Fixed20% gas margin from Uniswap/interface v4.0.0 calculateGasMargin. */
 export declare function calculateQuoteV2GasMargin(estimate:bigint):bigint;
@@ -137,7 +137,7 @@ export declare function createQuoteV2ReleasePorts(options:{reader:QuoteV2Reader;
 /** Exact ERC20 balances over the supplied Issued keys, read by multicall at one explicit anchor. */
 export interface QuoteV2MarketBalances extends QuoteV2MarketFact {readonly account:Address;readonly records:readonly {readonly hanaKey:Hex;readonly token:Address;readonly balance:string}[]}
 
-/** Two atomic same-block multicalls over canonical Launcher issuances and Bond phase views. */
+/** Bounded deployed Multicall3 stages over canonical issuances and Bond views at one fixed block. */
 export interface QuoteV2MarketPhases extends QuoteV2MarketFact {readonly launcher:Address;readonly fromBlock:string;readonly records:readonly {readonly hanaKey:Hex;readonly token:Address;readonly bond:Address;readonly phase:'bond'|'migrated'|'inactive';readonly sold:string;readonly sales:string}[]}
 /** A single explicit log delta. Indexer owns persistence, pagination and reorg rollback. */
 export interface QuoteV2IssuedWindow extends QuoteV2MarketFact {readonly schema:'quote-v2-issued-window-v1';readonly launcher:Address;readonly fromBlock:string;readonly scanFromBlock:string;readonly scanToBlock:string;readonly throughBlockHash:Hex;readonly records:readonly (Omit<QuoteV2CanonicalEvent,'event'|'address'|'args'>&{readonly hanaKey:Hex})[]}
