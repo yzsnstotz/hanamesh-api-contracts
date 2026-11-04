@@ -30,3 +30,15 @@ declare const balanceClient:BalanceClient;const multicall:PublicClient['multical
 // @ts-expect-error balances always use an explicit Issued enumeration anchor
 reader.readMarketBalances({hanaKeys:[auth.hanaId],account:auth.payer});
 void [balances,multicall];
+
+async function issuedIndexSources(){
+ const captured=await reader.readMarketPhases({hanaKeys:[]});
+ const phase=await reader.readMarketPhases({hanaKeys:[auth.hanaId],anchor:captured});
+ const stage:'bond'|'migrated'|'inactive'=phase.records[0]!.phase;
+ const window=await reader.readMarketIssuedWindow({fromBlock:'40',scanBlockSpan:10,anchor:captured});
+ const schema:'quote-v2-issued-window-v1'=window.schema;
+ // @ts-expect-error a delta window cannot select a new anchor implicitly
+ reader.readMarketIssuedWindow({fromBlock:'40',scanBlockSpan:10});
+ return [stage,schema];
+}
+void issuedIndexSources;
