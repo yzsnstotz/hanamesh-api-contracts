@@ -26,4 +26,5 @@ test('provider declarations match their recorded source snapshot without loading
  assert.equal(createHash('sha256').update(declarations).digest('hex'),provenance.providerDeclarationsSHA256);
  assert.equal(provenance.providerVersion,'0.39.10');assert.match(provenance.providerCommit,/^[0-9a-f]{40}$/);
  assert.match(declarations.toString(),/readMarketHistoryBatch\(input:QuoteV2MarketHistoryBatchQuery\)/);
+ assert.match(declarations.toString(),/withMarketHistoryBatch<T>/);
 });
