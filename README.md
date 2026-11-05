@@ -24,3 +24,5 @@ remain unchanged.
 
 The account-free `reader.previewSell({hanaId,amount})` declaration exposes canonical
 principal, both fees and receive. Personal account/sellable fields are exclusive to quoteSell.
+
+The U1 candidate additionally mirrors same-anchor `readMarketHistoryBatch` and `withMarketHistoryBatch` declarations byte-for-byte from the recorded provider commit. It keeps the public sell preview. Provider review, candidate renumbering and publication remain pending; this is not a release.
