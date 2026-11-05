@@ -70,3 +70,10 @@ void canonicalHistoryBatch;
 
 async function dailyHttpScope(){const result:string=await reader.withMarketHistoryBatch({anchor:{blockNumber:'42',blockHash:auth.snapshot},scanBlockSpan:100},async read=>(await read([{hanaKey:auth.hanaId,limit:1,scanBlockSpan:100}])).schema);return result;}
 void dailyHttpScope;
+
+import type {createQuoteV2ReadRpcBatch as CreateRpcBatch} from '@hanamesh/api-contracts/chain/quote-v2';
+declare const readRpcBatch:ReturnType<typeof CreateRpcBatch>;
+const rawReads:Promise<readonly unknown[]>=readRpcBatch([{method:'eth_getCode',params:[auth.payer,'0x2a']}]);
+// @ts-expect-error the transport capability cannot submit transactions
+readRpcBatch([{method:'eth_sendRawTransaction',params:['0x12']}]);
+void rawReads;

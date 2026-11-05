@@ -94,7 +94,7 @@ export interface QuoteV2MarketHistoryPage extends QuoteV2MarketFact{readonly sch
  readonly phaseBoundary:{readonly migratedAt:string;readonly event:QuoteV2CanonicalEvent;readonly tailState:QuoteV2HistoryState;readonly initialPoolState:QuoteV2HistoryState;readonly initialPoolSync:QuoteV2CanonicalEvent;readonly initialPoolMint:QuoteV2CanonicalEvent}|null}
 /** Registry market publicFailure: QuoteV2Error only; generic message; null for any other error. */
 export declare function publicQuoteV2ReadError(error:unknown):{readonly statusCode:400|404|503;readonly code:string;readonly message:string;readonly need:{readonly action:string}}|null;
-export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'|'getTransaction'|'multicall'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production';multicall3Address?:`0x${string}`}):Promise<QuoteV2Reader>;
+export declare function createQuoteV2Reader(options:{deployment:QuoteV2Deployment;publicClient:Pick<PublicClient,'getChainId'|'getBlock'|'getCode'|'readContract'|'getLogs'|'getTransaction'|'multicall'>;confirmations:number;fromBlock:bigint;mode:'test-only'|'production';multicall3Address?:`0x${string}`;readRpcBatch?:QuoteV2ReadRpcBatch}):Promise<QuoteV2Reader>;
 
 /** Fixed20% gas margin from Uniswap/interface v4.0.0 calculateGasMargin. */
 export declare function calculateQuoteV2GasMargin(estimate:bigint):bigint;
@@ -147,3 +147,8 @@ export interface QuoteV2IssuedWindow extends QuoteV2MarketFact {readonly schema:
 /** Same canonical event history, coalesced within a single explicit block anchor. Member failure rejects the complete batch. */
 export interface QuoteV2MarketHistoryBatchQuery {readonly anchor:QuoteV2MarketAnchor;readonly queries:readonly Omit<QuoteV2MarketHistoryQuery,'anchor'>[]}
 export interface QuoteV2MarketHistoryBatchPage extends QuoteV2MarketFact {readonly schema:'hanamesh-chain-market-history-batch-v1';readonly records:readonly QuoteV2MarketHistoryPage[]}
+
+export interface QuoteV2ReadRpcQuery {readonly method:'eth_getCode'|'eth_getBlockByNumber'|'eth_getTransactionByHash';readonly params:readonly unknown[]}
+export type QuoteV2ReadRpcBatch=(queries:readonly QuoteV2ReadRpcQuery[])=>Promise<readonly unknown[]>;
+/** Compose the existing explicit viem HTTP client; no provider URL or credential inference. */
+export declare function createQuoteV2ReadRpcBatch(rpc:Pick<ReturnType<typeof import('viem/utils').getHttpRpcClient>,'request'>):QuoteV2ReadRpcBatch;
