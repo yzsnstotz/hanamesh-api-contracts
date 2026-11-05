@@ -43,3 +43,14 @@ async function issuedIndexSources(){
  return [stage,schema];
 }
 void issuedIndexSources;
+
+async function publicSell(){
+ const q=await reader.previewSell({hanaId:auth.hanaId,amount:1n});
+ const principal:string=q.principal,receive:string=q.receive;
+ // @ts-expect-error public reference has no account-bound sell quota
+ q.sellable;
+ // @ts-expect-error public reference has no account
+ q.account;
+ return [principal,receive];
+}
+void publicSell;
