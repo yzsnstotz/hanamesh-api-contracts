@@ -54,3 +54,19 @@ async function publicSell(){
  return [principal,receive];
 }
 void publicSell;
+
+import type {QuoteV2MarketHistoryBatchPage} from '@hanamesh/api-contracts/chain/quote-v2';
+async function canonicalHistoryBatch(){
+ const page:QuoteV2MarketHistoryBatchPage=await reader.readMarketHistoryBatch({anchor:{blockNumber:'42',blockHash:auth.snapshot},queries:[{hanaKey:auth.hanaId,limit:1000,scanBlockSpan:100}]});
+ const schema:'hanamesh-chain-market-history-batch-v1'=page.schema;
+ const memberKey:`0x${string}`|undefined=page.records[0]?.hanaKey;
+ return [schema,memberKey];
+}
+// @ts-expect-error the batch requires one common anchor
+reader.readMarketHistoryBatch({queries:[]});
+// @ts-expect-error per-member queries cannot override that anchor
+reader.readMarketHistoryBatch({anchor:{blockNumber:'42',blockHash:auth.snapshot},queries:[{hanaKey:auth.hanaId,limit:1,scanBlockSpan:100,anchor:{blockNumber:'41',blockHash:auth.snapshot}}]});
+void canonicalHistoryBatch;
+
+async function dailyHttpScope(){const result:string=await reader.withMarketHistoryBatch({anchor:{blockNumber:'42',blockHash:auth.snapshot},scanBlockSpan:100},async read=>(await read([{hanaKey:auth.hanaId,limit:1,scanBlockSpan:100}])).schema);return result;}
+void dailyHttpScope;
