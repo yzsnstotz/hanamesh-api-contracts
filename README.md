@@ -16,7 +16,7 @@ explicitly delegate (including to themselves) before their balance counts as vot
 power. No application automatically delegates. Permit uses the token name, version
 `1`, chain ID and token address as its EIP-712 domain, with the OZ shared nonce.
 
-API 0.22.10 mirrors the Chain 0.39.11 reader declarations, including anchored
+API 0.22.11 mirrors the Chain 0.39.12 reader declarations, including anchored
 `readMarketBalances`, `readMarketPhases`, `readMarketIssuedWindow`, and the native multicall capability of its explicit public client. Optional `multicall3Address` selects the deployed Multicall3 transport; all bounded chunks share one explicit anchor.
 Balances are raw decimal strings for every requested token/account, including zero;
 this package supplies declarations only. ABI revision 2.3.0 and all contract artifacts
@@ -25,4 +25,4 @@ remain unchanged.
 The account-free `reader.previewSell({hanaId,amount})` declaration exposes canonical
 principal, both fees and receive. Personal account/sellable fields are exclusive to quoteSell.
 
-The U1 candidate additionally mirrors same-anchor `readMarketHistoryBatch` and `withMarketHistoryBatch` declarations byte-for-byte from the recorded provider commit. It keeps the public sell preview. Provider review, candidate renumbering and publication remain pending; this is not a release.
+The candidate additionally mirrors same-anchor `readMarketHistoryBatch`, `withMarketHistoryBatch` and the explicit `createQuoteV2ReadRpcBatch` factory byte-for-byte from the provider commit and SHA256 recorded in `contracts/chain/quote-v2/provenance.json`. It keeps the public sell preview. Provider review, main/tag and publication remain pending.
