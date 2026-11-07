@@ -24,7 +24,7 @@ test('provider declarations match their recorded source snapshot without loading
  const dir=new URL('../contracts/chain/quote-v2/',import.meta.url),provenance=JSON.parse(await readFile(new URL('provenance.json',dir),'utf8'));
  const declarations=await readFile(new URL('provider.d.ts',dir));
  assert.equal(createHash('sha256').update(declarations).digest('hex'),provenance.providerDeclarationsSHA256);
- assert.equal(provenance.providerVersion,'0.39.12');assert.match(provenance.providerCommit,/^[0-9a-f]{40}$/);
+ assert.equal(provenance.providerVersion,'0.39.13');assert.match(provenance.providerCommit,/^[0-9a-f]{40}$/);
  assert.match(declarations.toString(),/readMarketHistoryBatch\(input:QuoteV2MarketHistoryBatchQuery\)/);
  assert.match(declarations.toString(),/withMarketHistoryBatch<T>/);
 });

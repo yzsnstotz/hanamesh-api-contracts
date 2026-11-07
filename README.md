@@ -16,7 +16,7 @@ explicitly delegate (including to themselves) before their balance counts as vot
 power. No application automatically delegates. Permit uses the token name, version
 `1`, chain ID and token address as its EIP-712 domain, with the OZ shared nonce.
 
-API 0.22.11 mirrors the Chain 0.39.12 reader declarations, including anchored
+API 0.22.12 mirrors the Chain 0.39.13 reader declarations, including anchored
 `readMarketBalances`, `readMarketPhases`, `readMarketIssuedWindow`, and the native multicall capability of its explicit public client. Optional `multicall3Address` selects the deployed Multicall3 transport; all bounded chunks share one explicit anchor.
 Balances are raw decimal strings for every requested token/account, including zero;
 this package supplies declarations only. ABI revision 2.3.0 and all contract artifacts
@@ -25,4 +25,15 @@ remain unchanged.
 The account-free `reader.previewSell({hanaId,amount})` declaration exposes canonical
 principal, both fees and receive. Personal account/sellable fields are exclusive to quoteSell.
 
-The candidate additionally mirrors same-anchor `readMarketHistoryBatch`, `withMarketHistoryBatch` and the explicit `createQuoteV2ReadRpcBatch` factory byte-for-byte from the provider commit and SHA256 recorded in `contracts/chain/quote-v2/provenance.json`. It keeps the public sell preview. Provider review, main/tag and publication remain pending.
+The declarations mirror `readMarketHistoryBatch`, `withMarketHistoryBatch`,
+`readMarketFactsBatch`, `withMarketReadBatch`, and the explicit
+`createQuoteV2ReadRpcBatch` factory byte-for-byte from the Chain v0.39.13 commit
+and SHA256 recorded in `contracts/chain/quote-v2/provenance.json`.
+`createQuoteV2Reader` requires `readRpcBatch` at both public type exports; callers
+must supply the explicit readonly RPC batch capability. Omitting it or passing
+`undefined` is invalid, matching the Chain factory's runtime requirement.
+
+Release flow: independent review, PR merge to main, `v0.22.12` tag, then normal
+`npm pack` and npm publication from that tag. Host must consume the published
+`@hanamesh/api-contracts@0.22.12` (peer range `^0.22.12`), together with Chain
+0.39.13. A candidate branch or local tarball is not the official release.

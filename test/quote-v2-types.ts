@@ -77,3 +77,20 @@ const rawReads:Promise<readonly unknown[]>=readRpcBatch([{method:'eth_getCode',p
 // @ts-expect-error the transport capability cannot submit transactions
 readRpcBatch([{method:'eth_sendRawTransaction',params:['0x12']}]);
 void rawReads;
+
+// The factory requires the explicit readonly RPC batch capability at both exports.
+import type {createQuoteV2Reader as CreateSubpathReader} from '@hanamesh/api-contracts/chain/quote-v2';
+declare const createRootReader:typeof CreateReader;
+declare const createSubpathReader:typeof CreateSubpathReader;
+declare const readerOptions:Parameters<typeof CreateReader>[0];
+const {readRpcBatch:requiredBatch,...withoutReadRpcBatch}=readerOptions;
+const requiredCapability:ReturnType<typeof CreateRpcBatch>=requiredBatch;
+const createdReader:Promise<QuoteV2Reader>=createRootReader({...withoutReadRpcBatch,readRpcBatch});
+const createdSubpathReader:Promise<QuoteV2Reader>=createSubpathReader({...withoutReadRpcBatch,readRpcBatch});
+// @ts-expect-error Chain requires readRpcBatch; there is no implicit transport fallback
+createRootReader(withoutReadRpcBatch);
+// @ts-expect-error the subpath has the same required capability
+createSubpathReader(withoutReadRpcBatch);
+// @ts-expect-error explicitly undefined is also invalid
+createRootReader({...withoutReadRpcBatch,readRpcBatch:undefined});
+void [requiredCapability,createdReader,createdSubpathReader];
