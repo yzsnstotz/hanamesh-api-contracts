@@ -28,7 +28,7 @@ export declare const quoteV2Calls:{
  fundCampaign:(input:QuoteV2ReleaseIdInput&QuoteV2Sender)=>QuoteV2Call;
  openRegistration:(input:QuoteV2OpenRegistrationInput&QuoteV2Sender&{signature:Hex})=>QuoteV2Call;
  register:(input:QuoteV2RegisterInput&QuoteV2Sender&{proof:readonly Hex[];signature:Hex})=>QuoteV2Call;
- claim:(input:QuoteV2ReleaseIdInput&QuoteV2Sender&{entitlementId:Hex;pool:Address})=>QuoteV2Call;
+ claim:(input:QuoteV2ReleaseIdInput&QuoteV2Sender&{entitlementId:Hex;pool:Address;/** Actual recipient from the trusted rightState for these IDs; account is the transaction sender. */right:Pick<QuoteV2RightState,'account'>})=>QuoteV2Call;
  launch:(input:QuoteV2LaunchInput&{account:Address;signature:Hex;gas?:bigint})=>QuoteV2Call;
  emptyLaunch:(input:QuoteV2LaunchInput&{account:Address;signature:Hex;nonce:bigint;deadline:bigint;emptySignature:Hex;gas?:bigint})=>QuoteV2Call;
  buyExact:(input:QuoteV2BuyInput&{amount:bigint;maxSpend:bigint})=>QuoteV2Call;

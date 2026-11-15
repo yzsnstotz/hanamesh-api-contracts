@@ -40,8 +40,11 @@ Release flow: independent review, PR merge to main, `v0.23.0` tag, then normal
 A candidate branch or local tarball is not the official release.
 
 Candidate status: first-batch independent review only; no tag or npm publication is performed here.
-The exact provider commit is 8502a98edd1cbb58393d85834e97ae9b4f590d1f. New live facts use migrated, closedAt,
+The exact provider commit is 8d801c4ed02f013f5f34a6ead510a138cbbb0f96. New live facts use migrated, closedAt,
 migratedAt and closingQuote; migrationState has only open/completed. migrationQuote is the Bond
 contribution, migrationPoolQuote includes donations. Provider declarations expose signer rotation
 and advanceEpoch builders, and require a verified official pool for reserve/claim recipient guards.
 Runtime still exports metadata only; implementations remain in Chain.
+
+Claim context requires both the verified issuance pool and the actual right recipient from the trusted
+state for the same campaign/entitlement IDs; the sender may be a relayer.
