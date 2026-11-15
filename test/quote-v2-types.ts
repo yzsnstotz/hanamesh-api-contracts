@@ -1,6 +1,6 @@
 import type {QuoteV2Deployment,QuoteV2Authorization,QuoteV2Reader,QuoteV2MarketWindow,QuoteV2MarketState,QuoteV2BondLive,QuoteV2MarketAnchorFact,QuoteV2MarketHeadFact,QuoteV2ReadRpcQuery} from '@hanamesh/api-contracts/chain/quote-v2';
 import {QUOTE_V2_CONTRACT} from '@hanamesh/api-contracts/chain/quote-v2';
-import type {createQuoteV2Reader as CreateReader,createQuoteV2ReadRpcBatch as CreateRpcBatch,calculateQuoteV2GasMargin as Margin,QuoteV2MigrationReason} from '@hanamesh/api-contracts';
+import type {createQuoteV2Reader as CreateReader,createQuoteV2ReadRpcBatch as CreateRpcBatch,calculateQuoteV2GasMargin as Margin} from '@hanamesh/api-contracts';
 import type {createQuoteV2Reader as CreateSubpathReader} from '@hanamesh/api-contracts/chain/quote-v2';
 import type {PublicClient} from 'viem';
 
@@ -12,10 +12,6 @@ const fee:bigint=auth.launchFeeWei;
 const quote:`0x${string}`=auth.quote;
 // @ts-expect-error only the current deployment protocol is accepted
 const bad:QuoteV2Deployment={...d,protocol:'unsupported'};
-// @ts-expect-error only the active migration reasons are exposed
-const retiredFour:QuoteV2MigrationReason=4;
-// @ts-expect-error only the active migration reasons are exposed
-const retiredFive:QuoteV2MigrationReason=5;
 declare const margin:typeof Margin;
 const gas:bigint=margin(604617n);
 
@@ -30,7 +26,11 @@ async function marketPorts(){
  const state:QuoteV2MarketState=await reader.readMarketState({anchor,members:[{...member,holders:[{address:auth.payer,balance:'0'}]}]});
  const live:QuoteV2BondLive=await reader.readBondLive({hanaKey:issued.hanaKey,binding:issued.binding,account:auth.payer,quote:{kind:'buyExact',amount:'1'}});
  const balance:string|undefined=live.account?.hanaBalance;
- const phase:'open'|'pending'|'completed'=live.migrationState;
+ const migrated:boolean=live.migrated;const migratedAt:string=live.migratedAt;
+ // @ts-expect-error ABI 2.4.0 has no legacy status tuple
+ live.migrationStatus;
+ void [migrated,migratedAt];
+ const phase:'open'|'completed'=live.migrationState;
  const result:string=await reader.withMarketAnchorScope(async()=>captured.schema);
  // @ts-expect-error every window requires an explicit anchor
  reader.readMarketWindow({after:null,fromBlock:'40',scanBlockSpan:10,members:[]});
@@ -112,4 +112,7 @@ import type {QuoteV2BondFact} from '@hanamesh/api-contracts';
 // @ts-expect-error retired DTO
 import type {QuoteV2MarketBalances} from '@hanamesh/api-contracts/chain/quote-v2';
 
-void [protocol,fee,quote,bad,retiredFour,retiredFive,gas,marketPorts,multicall,rawReads,chainIdMethod,requiredCapability,createdReader,createdSubpathReader];
+void [protocol,fee,quote,bad,gas,marketPorts,multicall,rawReads,chainIdMethod,requiredCapability,createdReader,createdSubpathReader];
+
+// @ts-expect-error ABI 2.4.0 removes deferred migration reasons
+import type {QuoteV2MigrationReason} from '@hanamesh/api-contracts';

@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
 import {QUOTE_V2_CONTRACT as c} from '@hanamesh/api-contracts/chain/quote-v2';
 test('quote-v2 source manifest and all six exported artifacts are pinned',async()=>{const dir=new URL('../contracts/chain/quote-v2/',import.meta.url),raw=await readFile(new URL('manifest.json',dir));assert.equal(createHash('sha256').update(raw).digest('hex'),c.manifestSHA256);const m=JSON.parse(raw);assert.equal(m.revision,c.revision);assert.equal(Object.keys(m.contracts).length,6);for(const [name,pin]of Object.entries(m.contracts)){const a=await readFile(new URL(name+'.json',dir));assert.equal(createHash('sha256').update(a).digest('hex'),pin.fileSHA256);}});
-test('quote-v2 consumer metadata exposes pending semantics without provider runtime stubs',async()=>{const mod=await import('@hanamesh/api-contracts/chain/quote-v2');assert.deepEqual(Object.keys(mod),['QUOTE_V2_CONTRACT']);assert.equal(c.launcherDomainVersion,'4');assert.equal(c.releaseDomainVersion,'3');assert.equal(c.migrationReasons[1],'HistoryUnavailable');assert.deepEqual(c.migrationReasons,['None','HistoryUnavailable','PriceOutsideBand','NoFeasibleLiquidity']);});
+test('quote-v2 consumer metadata exposes atomic graduation without provider runtime stubs',async()=>{const mod=await import('@hanamesh/api-contracts/chain/quote-v2');assert.deepEqual(Object.keys(mod),['QUOTE_V2_CONTRACT']);assert.equal(c.launcherDomainVersion,'4');assert.equal(c.releaseDomainVersion,'3');assert.equal(Object.hasOwn(c,'migrationReasons'),false);});
 
 test('root exposes only real current metadata and old declaration families are absent',async()=>{
  const root=await import('@hanamesh/api-contracts');
@@ -17,14 +17,14 @@ test('current token artifact exposes timestamp voting and EIP-2612 without admin
  assert.equal(functions.get('clock').outputs[0].type,'uint48');
  assert.deepEqual(functions.get('permit').inputs.map(x=>x.type),['address','address','uint256','uint256','uint8','bytes32','bytes32']);
  for(const name of ['owner','mint','burn','upgradeTo','transferOwnership'])assert.equal(functions.has(name),false,name);
- assert.equal(c.revision,'2.3.0');
+ assert.equal(c.revision,'2.4.0');
 });
 
 test('provider declarations match their recorded source snapshot without loading provider implementation',async()=>{
  const dir=new URL('../contracts/chain/quote-v2/',import.meta.url),provenance=JSON.parse(await readFile(new URL('provenance.json',dir),'utf8'));
  const declarations=await readFile(new URL('provider.d.ts',dir));
  assert.equal(createHash('sha256').update(declarations).digest('hex'),provenance.providerDeclarationsSHA256);
- assert.equal(provenance.providerVersion,'0.40.0');assert.match(provenance.providerCommit,/^[0-9a-f]{40}$/);
+ assert.equal(provenance.providerVersion,'0.41.0');assert.match(provenance.providerCommit,/^[0-9a-f]{40}$/);
  for(const name of ['readMarketAnchor','withMarketAnchorScope','readMarketHead','readMarketWindow','readMarketState','readBondLive']) assert.match(declarations.toString(),new RegExp(name+'(?:<T>)?\\('));
  assert.match(declarations.toString(),/readonly method:'eth_chainId'\|/);
  for(const name of ['withMarketReadBatch','withMarketHistoryBatch','readMarketHistoryBatch','readMarketFactsBatch','readMarketHistory','readBond','quoteBuy','previewSell','quoteSell']) assert.doesNotMatch(declarations.toString(),new RegExp('\\b'+name+'(?:<T>)?\\('));
