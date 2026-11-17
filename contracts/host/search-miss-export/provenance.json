@@ -1,0 +1,11 @@
+{
+  "hostRepository": "https://github.com/yzsnstotz/hanamesh-server",
+  "hostCommit": "da666f19d475008c9fe0981380b0e0eb0b5778a9",
+  "hostSource": "src/search-miss-export-schema.ts",
+  "hostSchemaSourceSHA256": "54cc64c55bd16506dc307abff5b5a1f74a62d1346093f33a3fa116ebd0e31165",
+  "schemaDialect": "http://json-schema.org/draft-07/schema#",
+  "schemas": {
+    "success": "03bd66d183a4a085ed76d509806b515e36046d1ef24927ff0cb9e7331d7fce0f",
+    "error": "a5a4b10f294eaab922e615e8fdf4c4b77a31478ba171a4e4487b25fefb664819"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "@hanamesh/api-contracts",
   "version": "0.23.0",
-  "description": "Consumed quote-v2 provider declarations and exact current contract artifacts.",
+  "description": "Current quote-v2 provider declarations, ABI artifacts and C09 search-miss response schemas.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -28,12 +28,20 @@
     "./chain/quote-v2/HanaTokenQuoteV2.json": "./contracts/chain/quote-v2/HanaTokenQuoteV2.json",
     "./chain/quote-v2/manifest.json": "./contracts/chain/quote-v2/manifest.json",
     "./chain/quote-v2/WETH9.json": "./contracts/chain/quote-v2/WETH9.json",
-    "./chain/quote-v2/HanaBondFactoryQuoteV2.json": "./contracts/chain/quote-v2/HanaBondFactoryQuoteV2.json"
+    "./chain/quote-v2/HanaBondFactoryQuoteV2.json": "./contracts/chain/quote-v2/HanaBondFactoryQuoteV2.json",
+    "./host/search-miss-export": {
+      "types": "./contracts/host/search-miss-export/index.d.ts",
+      "default": "./contracts/host/search-miss-export/index.js"
+    },
+    "./host/search-miss-export/success.schema.json": "./contracts/host/search-miss-export/success.schema.json",
+    "./host/search-miss-export/error.schema.json": "./contracts/host/search-miss-export/error.schema.json"
   },
   "files": [
     "index.js",
     "index.d.ts",
-    "contracts/chain/quote-v2"
+    "contracts/chain/quote-v2",
+    "contracts/host/search-miss-export",
+    "docs/search-miss-export.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
@@ -47,8 +55,9 @@
     }
   },
   "devDependencies": {
+    "@types/node": "24.3.0",
+    "ajv": "8.20.0",
     "typescript": "^5.9.3",
-    "viem": "2.56.9",
-    "@types/node": "24.3.0"
+    "viem": "2.56.9"
   }
 }

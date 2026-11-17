@@ -1,0 +1,175 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "status",
+    "period",
+    "coverage",
+    "expiresOn",
+    "totals",
+    "terms",
+    "candidatesTruncated",
+    "filteredCandidates"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "not-ready",
+        "no-data"
+      ]
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startDay",
+        "endDay"
+      ],
+      "properties": {
+        "startDay": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "endDay": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startDay",
+        "days",
+        "requestedDays"
+      ],
+      "properties": {
+        "startDay": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "requestedDays": {
+          "type": "integer",
+          "const": 7
+        }
+      }
+    },
+    "expiresOn": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "searches",
+        "zeroResultSearches",
+        "clickedSearches",
+        "clickThroughRate"
+      ],
+      "properties": {
+        "searches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "zeroResultSearches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "clickedSearches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "clickThroughRate": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "terms": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "query",
+          "count",
+          "kind",
+          "period"
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "keyword",
+              "semantic"
+            ]
+          },
+          "period": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "startDay",
+              "endDay"
+            ],
+            "properties": {
+              "startDay": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "endDay": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "candidatesTruncated": {
+      "type": "boolean"
+    },
+    "filteredCandidates": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

@@ -10,6 +10,7 @@
     "exactOptionalPropertyTypes": true
   },
   "files": [
-    "quote-v2-types.ts"
+    "quote-v2-types.ts",
+    "search-miss-export-types.ts"
   ]
 }

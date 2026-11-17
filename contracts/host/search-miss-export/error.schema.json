@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "error"
+  ],
+  "properties": {
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "AUTH_REQUIRED",
+            "OPS_FORBIDDEN",
+            "OPS_ADMIN_LOOKUP_UNAVAILABLE",
+            "SEARCH_MISS_EXPORT_INPUT_INVALID",
+            "SEARCH_MISS_EXPORT_UNAVAILABLE"
+          ]
+        }
+      }
+    }
+  }
+}

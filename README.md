@@ -1,6 +1,8 @@
 # @hanamesh/api-contracts
 
-This package exposes the consumed current quote-v2 provider types and exact current ABI artifacts.
+This package exposes the consumed current quote-v2 provider types and exact current ABI artifacts,
+plus the isolated [C09 search-miss export response schemas](docs/search-miss-export.md)
+at `/host/search-miss-export`.
 The root and `/chain/quote-v2` export QUOTE_V2_CONTRACT metadata; provider functions are not runtime
 stubs. Type-only exports describe the actual @hanamesh/server-chain API.
 
