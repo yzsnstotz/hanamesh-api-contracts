@@ -1,6 +1,6 @@
 {
   "hostRepository": "https://github.com/yzsnstotz/hanamesh-server",
-  "hostCommit": "da666f19d475008c9fe0981380b0e0eb0b5778a9",
+  "hostCommit": "9e2864c0758151ae09068a323cf0fe4e748e1ae9",
   "hostSource": "src/search-miss-export-schema.ts",
   "hostSchemaSourceSHA256": "54cc64c55bd16506dc307abff5b5a1f74a62d1346093f33a3fa116ebd0e31165",
   "schemaDialect": "http://json-schema.org/draft-07/schema#",

@@ -24,8 +24,10 @@ The same schemas are separately exported as
 This subpath exports schema data only. The package root and `/chain/quote-v2`
 retain their existing exports. Host owns the implementations and the public
 `hanamesh-server/search-miss-export` port, including `readSearchMissExport`,
-`renderSearchMissReport`, the DTO types, and both response schemas. Consumers use
-that port or the HTTP route; they must not read Host's private tables.
+`renderSearchMissReport`, the DTO types, both response schemas, and the catalog
+and policy helpers `readSearchMissVocabulary`, `SearchMissCatalogSource` and
+`SEARCH_MISS_RELEASE_POLICY`. Consumers use that port or the HTTP route; they
+must not read Host's private tables.
 
 ## Route inventory
 
@@ -62,10 +64,11 @@ objects, rejects extra properties (`additionalProperties: false`).
 | `filteredCandidates` | Nonnegative integer; number of whole terms rejected among the scanned candidates, with no rejected raw text returned |
 
 Host rejects invalid calendar dates, today/future end days, and expired request
-periods. It reads only settled aggregates in one snapshot, using the existing
-SL1 agent exclusion and typeahead merging rules. Not-ready responses do not
-expose terms or counts. Coverage describes the observable interval and does not
-prove complete collection.
+periods. Report counts come from settled daily aggregates. Within the same SQL
+snapshot, eligible events and clicks also supply distinct anonymous-session
+counts, using the existing SL1 agent exclusion and typeahead merging rules.
+Not-ready responses do not expose terms or counts. Coverage describes the
+observable interval and does not prove complete collection.
 
 The adopted schemas enforce the source's date-only `YYYY-MM-DD` pattern; they
 do not validate calendar existence, cross-field arithmetic, status-dependent
@@ -85,9 +88,18 @@ Normative UTC examples (all inclusive seven-day periods):
 ## Privacy and downstream boundary
 
 There are no user/principal/session/search identifiers, filters, top IDs, IPs,
-exact timestamps or query hashes in the response. Host applies its conservative
-whole-term policy after normalization. Only `terms` may later be supplied to a
-model; status, coverage and totals support local deterministic reporting.
+exact timestamps or query hashes in the response. For the session evidence,
+raw session IDs stay inside SQL. Only aggregate distinct-anonymous-session
+counts return to the Host application, which evaluates the k threshold. These
+internal population counts and all identity fields are absent from the public
+DTO.
+
+Host releases a term only when every normalized token has proof from Indexer's
+public catalog fields and the same `(kind, query_key)` reaches the anonymous
+session threshold within the UTC seven-day window. Missing proof rejects the
+term by default. The current k is 5, explicitly pending owner confirmation;
+different sessions do not imply different people. Only `terms` may later be
+supplied to a model; status, coverage and totals support local deterministic reporting.
 Consumers displaying `renderSearchMissReport` output must treat it as plain text.
 Saved reports, drafts, downloads and caches must all expire by `expiresOn`.
 The read-only export itself does not persist derived content, invoke a model,
