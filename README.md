@@ -50,3 +50,6 @@ Runtime still exports metadata only; implementations remain in Chain.
 
 Claim context requires both the verified issuance pool and the actual right recipient from the trusted
 state for the same campaign/entitlement IDs; the sender may be a relayer.
+
+
+Host ops manifest HTTP 契约与 JSON Schema：[`docs/ops-manifest.md`](docs/ops-manifest.md)，公开子路径 `@hanamesh/api-contracts/host/ops-manifest`。清单由运行中的 Host 声明，本包不维护页面名单。

@@ -34,14 +34,21 @@
       "default": "./contracts/host/search-miss-export/index.js"
     },
     "./host/search-miss-export/success.schema.json": "./contracts/host/search-miss-export/success.schema.json",
-    "./host/search-miss-export/error.schema.json": "./contracts/host/search-miss-export/error.schema.json"
+    "./host/search-miss-export/error.schema.json": "./contracts/host/search-miss-export/error.schema.json",
+    "./host/ops-manifest": {
+      "types": "./contracts/host/ops-manifest/index.d.ts",
+      "default": "./contracts/host/ops-manifest/index.js"
+    },
+    "./host/ops-manifest/success.schema.json": "./contracts/host/ops-manifest/success.schema.json"
   },
   "files": [
     "index.js",
     "index.d.ts",
     "contracts/chain/quote-v2",
     "contracts/host/search-miss-export",
-    "docs/search-miss-export.md"
+    "docs/search-miss-export.md",
+    "contracts/host/ops-manifest",
+    "docs/ops-manifest.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
