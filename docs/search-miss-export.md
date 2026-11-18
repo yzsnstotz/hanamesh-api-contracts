@@ -6,8 +6,9 @@ draft-07 objects, with the same validation content as Host's
 JSON artifact hashes are recorded in
 [`provenance.json`](../contracts/host/search-miss-export/provenance.json).
 The source semantics are Host's `src/search-miss-export.ts` and
-`docs/SEARCH-MISS-EXPORT.md` at that commit. This addition awaits an independently
-reviewed minor release; the release version is assigned during integration.
+`docs/SEARCH-MISS-EXPORT.md` at that commit. This independently reviewed addition
+is assigned API 0.24.0. The release becomes official after PR integration,
+tagging and publication.
 
 ## Public package surface
 
