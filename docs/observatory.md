@@ -54,3 +54,9 @@
 估值由Chain拥有：V2以reserves/kLast计算下一次mint/burn的待铸费LP；已持有LP提取量按Pair实际token余额×已持有LP/铸费后的总供给向下取整。未铸费LP不并入lpBalance；feeTo不是平台地址时也不把待铸费LP说成平台已持有。当前持仓/底层资产估值不是已实现现金，balanceOf本身也不是累计协议铸币来源的事件账。若以后显示累计已赚，需归属模块的事件归因读模型。
 
 依据：[Uniswap费用说明](https://developers.uniswap.org/docs/get-started/concepts/fees)；HanaSwap冻结源码`core/contracts/UniswapV2Factory.sol`的feeTo/feeToSetter与`UniswapV2Pair.sol`的_mintFee、burn；估值对照periphery `UniswapV2LiquidityMathLibrary.computeLiquidityValue`，提取底层采用Pair.burn实际余额口径。来源、可得性与模块权限沿本页原规则，不能由Host复制该公式或扫描32k池目录。
+
+## Server composition registration (0.27.0)
+
+`ObservatoryReadPort` carries a module-owned `declaration` plus an optional read-only `read(context)`. Context has server-authenticated principal/cookie and UTC request cutoff `at`; it is not a client principal override. A declaration contains only pending metrics (or manual values still null); it declares stable IDs, sections, source ports and definitions. Host rejects duplicate metric IDs or aggregate capacity beyond the response schema. Each read must return the same IDs/sections/module/source port/definition; only value, availability, reason and source watermark can change. This prevents a failed provider from removing its cards or replacing another module's facts. An absent reader retains the declared pending state. Providers must enforce stricter resource policy before reading (for example AI owner), implement bounded reads, and perform no refresh, cache write or paid execution on this path.
+
+Host composes the supplied list generically; module-specific metric/task/permission registries remain with providers. HTTP adapter is `GET /hm/v1/ops/observatory` at the website gateway (`/v1/ops/observatory` within Host), with existing Identity authentication plus ops-admin authorization, no request query/body fields, no-store responses and source-local degradation. Request cutoff is not a common database snapshot and never substitutes for an unknown source watermark.

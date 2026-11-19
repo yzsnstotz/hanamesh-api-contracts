@@ -118,3 +118,19 @@ export interface ObservatoryResponse extends ObservatorySections {
 }
 export declare const OBSERVATORY_SCHEMA: Readonly<Record<string, unknown>>;
 export declare const OBSERVATORY_CONTRIBUTION_SCHEMA: Readonly<Record<string, unknown>>;
+
+/** Trusted server read context. HTTP authentication is supplied by Host; a provider retains its own stricter policy. */
+export interface ObservatoryReadContext {
+  readonly credentials: {readonly cookie?: string};
+  readonly principalId: string;
+  /** UTC request cutoff; source.asOf remains the provider watermark. */
+  readonly at: string;
+}
+/** Module-owned stable declarations permit source-local pending values without inventing a Host metric registry.
+ * declaration metrics must be pending (or an unregistered manual null); read must return exactly the declared IDs.
+ * Absent read means the declared dependency is pending. No queries, refreshes or writes are performed at registration.
+ */
+export interface ObservatoryReadPort {
+  readonly declaration: ObservatoryContribution;
+  readonly read?: (context: ObservatoryReadContext) => Promise<ObservatoryContribution>;
+}
