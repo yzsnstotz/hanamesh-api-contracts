@@ -53,3 +53,7 @@ state for the same campaign/entitlement IDs; the sender may be a relayer.
 
 
 Host ops manifest HTTP 契约与 JSON Schema：[`docs/ops-manifest.md`](docs/ops-manifest.md)，公开子路径 `@hanamesh/api-contracts/host/ops-manifest`。清单由运行中的 Host 声明，本包不维护页面名单。
+
+观测台只读 DTO 与 JSON Schema 候选：[`docs/observatory.md`](docs/observatory.md)，子路径
+`@hanamesh/api-contracts/ops/observatory`。每个指标附来源与 available/pending/manual；
+模块拥有统计与授权，Host 只组合。版本及 Host 采用尚待编排分配与验收。
