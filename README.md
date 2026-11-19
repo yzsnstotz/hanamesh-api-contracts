@@ -56,12 +56,12 @@ Host ops manifest HTTP 契约与 JSON Schema：[`docs/ops-manifest.md`](docs/ops
 
 观测台只读 DTO 与 JSON Schema 候选：[`docs/observatory.md`](docs/observatory.md)，子路径
 `@hanamesh/api-contracts/ops/observatory`。每个指标附来源与 available/pending/manual；
-模块拥有统计与授权，Host 只组合。版本及 Host 采用尚待编排分配与验收。
+模块拥有统计与授权，Host 只组合。候选包版本 **0.26.0**；正式合入、发布及 Host 采用仍待独审与验收。
 
 OB1 追加的 ops 页面声明候选采用 manifest schemaVersion 2：模块必填
 `group: {id,labelKey,order}`、组内 `order`、`permission: {policyId}`；Host 组合 `pages`，
 原精确 GET 允许集 `paths` 保留独立职责。见 [`docs/ops-manifest.md`](docs/ops-manifest.md)。
-提供方/消费方采用与新包版本仍由编排协调。
+本候选包版本为 **0.26.0**，提供方/消费方采用仍由编排协调。
 
 编排11-19更正的 feeTo 协议手续费采用结构化 Factory 设置和 LP 持仓页：
 `ObservatoryIncome.protocolFees` / `ObservatoryParameter.protocolFee`，已持有、未铸费LP、

@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import Ajv from 'ajv';
+import {OBSERVATORY_SCHEMA,OBSERVATORY_CONTRIBUTION_SCHEMA} from '@hanamesh/api-contracts/ops/observatory';
 const ids=['rev.launch','rev.mesh','rev.split','rev.hana','rev.protocolFee','rev.reserve','rev.fiat','exp.ai','exp.ai.use','exp.server','exp.gas','ppl.reg','ppl.30d','ppl.dau','ppl.dev','svc.install','svc.install.p','svc.uses','svc.search','svc.ai','svc.issue','svc.issue.p','svc.points','svc.comm','svc.claim','svc.agent','hl.ai','hl.self','hl.vec','hl.sync','hl.idx','hl.safe','hl.all'];
 test('R429-F2 shipped authority maps all33 ops-v3 ids to sections, typed values and owned sources',async()=>{
  const {default:m}=await import('@hanamesh/api-contracts/ops/observatory/metrics.ops-v3.json',{with:{type:'json'}});
@@ -30,5 +32,17 @@ test('R429-N1 shipped current-version prose matches the assigned package release
  for(const name of ['README.md','docs/observatory.md','docs/ops-manifest.md']){
   const s=await readFile(new URL('../'+name,import.meta.url),'utf8');assert(s.includes(pkg.version),name);
   assert.doesNotMatch(s,/本候选未分配版本|包发布版本尚未分配|版本及 Host 采用尚待编排分配|本候选0\.25\.0 tarball/);
+ }
+});
+test('R429-F2 corresponding shipped examples use authoritative ids and validate as contributions and responses',async()=>{
+ const doc=await readFile(new URL('../docs/observatory-ops-v3.md',import.meta.url),'utf8');
+ const mapping=(await import('@hanamesh/api-contracts/ops/observatory/metrics.ops-v3.json',{with:{type:'json'}})).default;
+ const examples=[...doc.matchAll(/```json\n([\s\S]*?)\n```/gu)].map(x=>JSON.parse(x[1]));assert.equal(examples.length,5);
+ const ajv=new Ajv({strict:true}),response=ajv.compile(OBSERVATORY_SCHEMA),contribution=ajv.compile(OBSERVATORY_CONTRIBUTION_SCHEMA);
+ for(const m of examples){
+  const p=mapping.metrics.flatMap(x=>x.projections).find(p=>p.id===m.id||p.id.includes('<')&&m.id.startsWith(p.id.split('<')[0]));assert(p,m.id);
+  const sections={income:[],spending:[],people:[],health:[],parameters:[]};sections[p.section].push(m);
+  assert.equal(contribution({module:m.source.module,...sections}),true,JSON.stringify(contribution.errors));
+  assert.equal(response({schemaVersion:1,timezone:'UTC',generatedAt:'2026-11-19T00:00:00.000Z',...sections}),true,JSON.stringify(response.errors));
  }
 });

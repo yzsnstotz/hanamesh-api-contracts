@@ -46,7 +46,8 @@
     },
     "./ops/observatory/success.schema.json": "./contracts/ops/observatory/success.schema.json",
     "./ops/observatory/contribution.schema.json": "./contracts/ops/observatory/contribution.schema.json",
-    "./host/ops-manifest/page.schema.json": "./contracts/host/ops-manifest/page.schema.json"
+    "./host/ops-manifest/page.schema.json": "./contracts/host/ops-manifest/page.schema.json",
+    "./ops/observatory/metrics.ops-v3.json": "./contracts/ops/observatory/metrics.ops-v3.json"
   },
   "files": [
     "index.js",
@@ -57,7 +58,8 @@
     "contracts/host/ops-manifest",
     "docs/ops-manifest.md",
     "contracts/ops/observatory",
-    "docs/observatory.md"
+    "docs/observatory.md",
+    "docs/observatory-ops-v3.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"

@@ -119,6 +119,22 @@ export interface ObservatoryHealth {
   readonly reason: string | null;
   readonly attention: 'owner' | 'operations' | 'none' | 'unknown';
 }
+/** N10 global unresolved reviews across all billing months; never a page length or failure count. */
+export interface ObservatoryAiPendingCountValue {readonly pendingCount: number}
+export interface ObservatoryAiPendingCountSource extends ObservatorySource {
+  readonly module: 'ai';
+  readonly port: 'readPendingCount';
+}
+/** Direct, read-only projection of AI's guarded pending-count snapshot. Zero is available; missing has no value. */
+export type ObservatoryAiPendingCountMetric = {
+  readonly id: 'hl.ai';
+  readonly source: ObservatoryAiPendingCountSource;
+} & (
+  | {readonly availability: 'available'; readonly value: ObservatoryAiPendingCountValue}
+  | {readonly availability: 'pending'; readonly reason: string; readonly value?: never}
+);
+/** Open provider health IDs retain the existing structure; hl.ai has its dedicated JSON-schema branch. */
+export type ObservatoryHealthMetric = ObservatoryMetric<ObservatoryHealth> | ObservatoryAiPendingCountMetric;
 export interface ObservatoryParameter {
   readonly platformSafe?:ObservatoryPlatformSafe;
   readonly protocolFee?: ObservatoryProtocolFeeSettings;
@@ -133,7 +149,7 @@ export interface ObservatorySections {
   readonly income: readonly ObservatoryMetric<ObservatoryIncome>[];
   readonly spending: readonly ObservatoryMetric<ObservatorySpending>[];
   readonly people: readonly ObservatoryMetric<ObservatoryPeople>[];
-  readonly health: readonly ObservatoryMetric<ObservatoryHealth>[];
+  readonly health: readonly ObservatoryHealthMetric[];
   readonly parameters: readonly ObservatoryMetric<ObservatoryParameter>[];
 }
 /** A module exports its own contribution; no module/metric/task list is encoded by Host. */

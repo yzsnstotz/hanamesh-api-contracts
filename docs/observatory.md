@@ -1,8 +1,8 @@
 # 观测台只读数据契约（OB1 候选）
 
-公开子路径：`@hanamesh/api-contracts/ops/observatory`。导出五类 DTO、模块贡献 DTO，及 draft-07 `OBSERVATORY_SCHEMA` / `OBSERVATORY_CONTRIBUTION_SCHEMA`。本包只声明结构，不拥有统计 SQL、任务清单、权限、缓存、作业或写操作。本候选未分配版本，未成为 Host 现行依赖。
+公开子路径：`@hanamesh/api-contracts/ops/observatory`。导出五类 DTO、模块贡献 DTO，及 draft-07 `OBSERVATORY_SCHEMA` / `OBSERVATORY_CONTRIBUTION_SCHEMA`。本包只声明结构，不拥有统计 SQL、任务清单、权限、缓存、作业或写操作。本候选版本为 **0.26.0**，尚未合入/tag/发布，也未成为 Host 现行依赖。
 
-依据：owner 2026-11-19 通过的 ops-v2；OB1 派单与 `questions/OB1-plan.md`。设计区块为收入、开支、人数、健康、关键参数。
+依据：owner 2026-11-19 通过、按协议费更正后的 ops-v3；OB1 派单与 `questions/OB1-plan.md`。设计区块为收入、开支、人数、健康、关键参数。
 
 ## 可得性与来源
 
@@ -35,7 +35,7 @@
 
 ## 验证与成熟依据
 
-测试包含 Node test 的正反例、Ajv 8.20.0 严格 schema 编译和 TypeScript 判别联合约束。红测先提交，故意验证未实现子路径缺失；最终发布仍需完整门、独审、编排分配版本与正式合入，候选不等于已采用。
+测试包含 Node test 的正反例、Ajv 8.20.0 严格 schema 编译和 TypeScript 判别联合约束。红测先提交，故意验证未实现子路径缺失；最终发布仍需完整门、独审、正式合入/tag与发布，候选不等于已采用。
 
 - [JSON Schema draft-07](https://json-schema.org/draft-07) 的 oneOf/required/additionalProperties 表达可得性互斥与封闭 DTO。
 - [TypeScript discriminated unions](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) 表达 pending 禁止值与 available 必须值。
@@ -74,3 +74,11 @@ No history means pending/unknown with null timestamps/count/window, not a green 
 Parameter.platformSafe carries actual Safe address, owner count and threshold at the confirmed network block, block hash and evidence. It contains no owner list or invented health judgment. Spending.gasReceipts carries an explicit known-transaction page (at most64), including pending/missing facts, actual payer/platformPaid, reverted status and exact integer wei. It is not a complete-history/daily total: amounts remains empty when only a receipt page is known; owning-module aggregate contributions remain pending. External-payer receipts remain factual and are not platform expenditure. Existing feeTo/protocolFees fields retain explicit-pool-page and separate held/unminted LP. All source watermarks remain Chain block times. No new UI, scan, rate, FX or accounting aggregation.
 
 N9 的 `healthIntervalMs` 沿实际公开声明；只有 cron 而未声明健康间隔的作业返回 null，并保留原 cron/timezone，不能推测间隔或据此变绿。作业原始身份允许下划线（如 AI 的 `search_miss_weekly`）。
+
+## ops-v3稳定id与N10类型化投影（R429）
+
+全部33项的权威映射、聚合子id、wire区块/value结构/来源及pending缺口见[ops-v3指标映射](observatory-ops-v3.md)与公开`metrics.ops-v3.json`。模块声明其贡献，Host只组合；不能把这份设计映射变成Host硬编码名单。扩展id继续开放。旧测试中的`plugins.users30d`等是泛型扩展fixture，不是设计id的别名；产品卡片按映射采用`ppl.30d`等精确id。
+
+`hl.ai`使用`ObservatoryAiPendingCountMetric`，value为封闭`ObservatoryAiPendingCountValue{pendingCount:number}`，不是通用失败/健康统计。它将AI0.7.0 `AiPendingCountSnapshot`投影为`{id:'hl.ai',source:snapshot.source,availability:snapshot.availability,value:{pendingCount:snapshot.pendingCount}}`；保留模块的全账期全局计数和真实PG语句水位，不从当前review列表取length。来源固定为AI公开`readPendingCount`，调用必须经过`createAiOpsReader`的既有管理员AND AI owner双guard；本包不计算权限、不复制owner名单、不运行reader。
+
+数量是非负安全整数，available的0表示确实没有未决计划；没有配置、无owner或来源失败时是pending+reason且没有value，不能伪造0。此指标不接受manual、不接受generic health/failures/reason中的文本数字，不根据pendingCount自行设置健康、失败或暂停。未知来源水位仍null，Host generatedAt不替代它。其他提供方的开放health id和N9结构保持原契约；新增专用schema分支不放宽原additionalProperties约束。

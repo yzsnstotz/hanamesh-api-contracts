@@ -1,0 +1,1083 @@
+{
+  "schemaVersion": 1,
+  "contractVersion": "0.26.0",
+  "design": "ops-v3",
+  "hostRegistry": false,
+  "extensionIdsAllowed": true,
+  "scope": "Authoritative design-to-contract mapping, not a provider registry, auth result, runtime reader, or claim that Host has composed a source.",
+  "rules": [
+    "Each module owns and declares its contribution. Host only composes supplied ports; do not enumerate these rows to invent module readers or pending providers.",
+    "Root ids with multiple projections are presentation groups; consume their explicitly listed child ids. Do not emit a fabricated root value. Patterns <taskId>/<channelId>/<generationId>/<recordId>/<providerCategoryId>/<providerSourceId>/<providerScopeId> are stable ids declared by the owning provider, never names or categories guessed by Host.",
+    "defaultAvailability is a no-data baseline, never a live reading. published means a public port is known, not that it is configured, authorized, fresh or adopted. Unknown/unimplemented source ports stay null in this mapping and pending in the presentation; do not invent a source reader.",
+    "Amounts/people unions/category totals are owned by providers. A missing aggregate stays pending even if a detail page exists. No implicit FX, channel/DAU sums, wallet-to-person inference or current-page-to-global counts.",
+    "Health design cards may explicitly consume parameters/people child values as listed; section is the wire section, designSection is the design screen. Do not move values into failures or text to bypass a type."
+  ],
+  "metrics": [
+    {
+      "id": "rev.launch",
+      "label": "发币手续费",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.launch",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='revenue'",
+            "amounts:ObservatoryAmount[] (each currency/network separate)",
+            "window:ObservatoryWindow",
+            "series?:ObservatoryAmountBucket[]"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": null,
+            "status": "pending",
+            "missing": "Confirmed platform-wide issuance-fee aggregate is not supplied; recorded launchFeeWei is not payment confirmation."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "rev.mesh",
+      "label": "曲线交易费·平台0.6%",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.mesh",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='revenue'",
+            "amounts:ObservatoryAmount[] (each currency/network separate)",
+            "window:ObservatoryWindow",
+            "series?:ObservatoryAmountBucket[]"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "Bounded confirmed curve-fee aggregate not supplied."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "rev.split",
+      "label": "服务商结算·平台分成",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.split",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='revenue'",
+            "amounts:ObservatoryAmount[] (each currency/network separate)",
+            "window:ObservatoryWindow",
+            "series?:ObservatoryAmountBucket[]"
+          ],
+          "supply": {
+            "module": "revenue-router",
+            "port": null,
+            "status": "pending",
+            "missing": "Use the owning bounded settlement aggregate when formally adopted; listEntries without LIMIT is not a source."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "rev.hana",
+      "label": "曲线交易费·Hana专户代管0.4%",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.hana",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='custodial'",
+            "amounts:ObservatoryAmount[] (each currency/network separate)",
+            "window:ObservatoryWindow",
+            "series?:ObservatoryAmountBucket[]"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "Bounded confirmed Hana treasury aggregate not supplied; cannot include in platform revenue."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "rev.protocolFee",
+      "label": "HanaSwap协议费0.05%",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.protocolFee",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='revenue'",
+            "amounts=[] when only LP holdings are known",
+            "protocolFees.settings:ObservatoryProtocolFeeSettings",
+            "protocolFees.scope=explicit-pool-page",
+            "protocolFees.positions[<=64]:lpBalance/unmintedProtocolLp/withdrawable[2]/share/withdrawalSupply"
+          ],
+          "supply": {
+            "module": "chain",
+            "port": "readPositions",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Chain0.43.0 readSettings/readPositions: available only for the explicit pool page and confirmed block. LP held, unminted LP and two underlying assets remain separate; no cumulative/realized revenue or FX is inferred."
+        }
+      ]
+    },
+    {
+      "id": "rev.reserve",
+      "label": "平台储备代币·资产",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.reserve",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='asset'",
+            "amounts:ObservatoryAmount[]",
+            "window?:ObservatoryWindow"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "No bounded platform-reserve asset aggregate; per-Hana allocation is not a platform total."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "rev.fiat",
+      "label": "法币收入",
+      "designSection": "income",
+      "projections": [
+        {
+          "id": "rev.fiat",
+          "section": "income",
+          "valueType": "ObservatoryIncome",
+          "fields": [
+            "accounting='revenue'",
+            "amounts:ObservatoryAmount[]; network=null",
+            "window:ObservatoryWindow"
+          ],
+          "supply": {
+            "module": null,
+            "port": null,
+            "status": "pending",
+            "missing": "Payment module/confirmed settlement source has not been implemented."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "exp.ai",
+      "label": "OpenAI本月花费及硬顶",
+      "designSection": "spending",
+      "projections": [
+        {
+          "id": "exp.ai",
+          "section": "spending",
+          "valueType": "ObservatorySpending",
+          "fields": [
+            "funding='credit'",
+            "amounts:actualMicros as USD/6 base units",
+            "reserved:reservedMicros; separate from actual",
+            "unknown:unknownMicros; separate from actual",
+            "window:UTC calendar month to provider cutoff"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "budgetSnapshot/usageSummary",
+            "status": "pending",
+            "missing": "A module-owned global spending/reserved/unknown summary is needed; per-task arrays must not be copied/grouped or reservations counted as spending by Host."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "exp.ai.limit",
+          "section": "parameters",
+          "valueType": "ObservatoryParameter",
+          "fields": [
+            "value=budget.limitMicros; unit=USD-micros",
+            "changedBy=owner; effective=running",
+            "meaning/impact:module public budget policy"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "budgetSnapshot",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "exp.ai.use",
+      "label": "OpenAI按用途拆分",
+      "designSection": "spending",
+      "projections": [
+        {
+          "id": "exp.ai.use.<providerCategoryId>",
+          "section": "spending",
+          "valueType": "ObservatorySpending",
+          "fields": [
+            "funding='credit'",
+            "amounts/reserved/unknown:ObservatoryAmount[]",
+            "window:UTC calendar month",
+            "child id exp.ai.use.<providerCategoryId>; provider declares category/task mapping"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": null,
+            "status": "pending",
+            "missing": "AI has not published the design five-category aggregate/declaration. No Host mapping of the fourteen tasks into five categories; missing categories remain pending."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "exp.server",
+      "label": "服务器与第三方服务账单",
+      "designSection": "spending",
+      "projections": [
+        {
+          "id": "exp.server.<recordId>",
+          "section": "spending",
+          "valueType": "ObservatorySpending",
+          "fields": [
+            "funding='cash' or 'credit' per recorded invoice",
+            "amounts:ObservatoryAmount[]; network=null",
+            "window:invoice accounting period",
+            "child id exp.server.<recordId>; no synthetic bill or FX total"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "readManualCosts",
+            "status": "manual"
+          },
+          "defaultAvailability": "manual",
+          "availabilityRule": "manual with value=null until the orchestrator records an invoice; recorded cash and credit remain separate. This contract supplies no user write endpoint."
+        }
+      ]
+    },
+    {
+      "id": "exp.gas",
+      "label": "平台地址支付的gas",
+      "designSection": "spending",
+      "projections": [
+        {
+          "id": "exp.gas",
+          "section": "spending",
+          "valueType": "ObservatorySpending",
+          "fields": [
+            "funding='chain'",
+            "amounts:confirmed platform-paid daily aggregate",
+            "window/series:UTC day buckets"
+          ],
+          "supply": {
+            "module": "chain",
+            "port": null,
+            "status": "pending",
+            "missing": "N7 whole-platform daily/history aggregate has not been supplied; no chain sweep or known-hash page may substitute."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "exp.gas.receipts",
+          "section": "spending",
+          "valueType": "ObservatorySpending",
+          "fields": [
+            "funding='chain'",
+            "amounts=[] unless an independent aggregate exists",
+            "gasReceipts:ObservatoryPlatformGasPage",
+            "entries[<=64]:actual payer/platformPaid/status/feeWei; each with source/availability"
+          ],
+          "supply": {
+            "module": "chain",
+            "port": "readPlatformGasReceipts",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Auxiliary explicit-known-hash page only. External payers do not become platform costs; a pending entry is never zero. This child never satisfies the root daily-total metric."
+        }
+      ]
+    },
+    {
+      "id": "ppl.reg",
+      "label": "注册账号",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "ppl.reg",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='accounts'",
+            "count:module cumulative distinct accounts",
+            "series:daily new accounts",
+            "breakdown?:login methods (may overlap)"
+          ],
+          "supply": {
+            "module": "identity",
+            "port": null,
+            "status": "pending",
+            "missing": "N2 bounded cumulative/daily account reader not supplied; devices or principals are not registered-person totals."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "ppl.30d",
+      "label": "30天用过插件的人",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "ppl.30d",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=users30d; series=[] if provider has no daily people series",
+            "child id ppl.30d.<channelId> for independently returned channels; never sum channel counts"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readScopedPopularity",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Use formal Custody plugin-scope users30d and its published watermark; aggregate total is independently deduplicated, channel children can overlap."
+        },
+        {
+          "id": "ppl.30d.<channelId>",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=module users30d for this channel; never sum to the root total",
+            "series=[]; source.asOf from the same channel snapshot"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readScopedPopularity",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Use formal Custody plugin-scope users30d and its published watermark; aggregate total is independently deduplicated, channel children can overlap."
+        }
+      ]
+    },
+    {
+      "id": "ppl.dau",
+      "label": "插件日活与自然周活",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "ppl.dau.day",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=module use/day total",
+            "window=today UTC start to actual covered_to",
+            "series=module daily distinct counts; not summed to form totals"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readActivePeopleStats",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "ppl.dau.week",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=module use/week independent union",
+            "window=Monday00:00 UTC to actual covered_to",
+            "series=module week buckets; not the sum of DAU"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readActivePeopleStats",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "ppl.dev",
+      "label": "登记设备与未绑定设备",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "ppl.dev.total",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='devices'",
+            "count=registered devices; series=[]"
+          ],
+          "supply": {
+            "module": "identity",
+            "port": null,
+            "status": "pending",
+            "missing": "No bounded all-device aggregate; never reuse ops-metrics allPages."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "ppl.dev.unbound",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='devices'",
+            "count=unbound registered devices; series=[]"
+          ],
+          "supply": {
+            "module": "identity",
+            "port": null,
+            "status": "pending",
+            "missing": "No bounded all-unbound-device aggregate. N3 active unbound devices do not substitute for all registered unbound devices."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.install",
+      "label": "插件安装次数",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.install",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=accepted install events over seven completed UTC days",
+            "window:seven-day UTC interval",
+            "series:module install counts by day"
+          ],
+          "supply": {
+            "module": "usage",
+            "port": "readMetrics",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.install.p",
+      "label": "近7天插件安装人数",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.install.p",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=module action=install independent 7-day union",
+            "window=7 completed UTC days [today-7days,today)",
+            "series=provider daily people; total is not sum(series)"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readActivePeopleStats",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Custody0.37.6 N3; action=install, day granularity, seven completed UTC days. Preserve missing-date pending and separate active unbound devices; not a cumulative/lifetime or90day installation count."
+        }
+      ]
+    },
+    {
+      "id": "svc.uses",
+      "label": "近7天插件使用次数与前期对比",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.uses",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=uses7d",
+            "previousCount=previousUses7d",
+            "series=dailyUses; retain provider windows"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readScopedPopularity",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.search",
+      "label": "搜索次数与无结果率",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.search.keyword",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=searches",
+            "ratio={numerator:zeroResultSearches,denominator:searches,value:number|null}",
+            "series=daily trend",
+            "child id svc.search.keyword / svc.search.semantic; each independently measured"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "readSearchAnalytics",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Host-owned bounded rollup only; anonymous events, no people. Root is a group of keyword/semantic children, not a cross-kind sum of ratios."
+        },
+        {
+          "id": "svc.search.semantic",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=searches",
+            "ratio={numerator:zeroResultSearches,denominator:searches,value:number|null}",
+            "series=daily trend",
+            "child id svc.search.keyword / svc.search.semantic; each independently measured"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "readSearchAnalytics",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Host-owned bounded rollup only; anonymous events, no people. Root is a group of keyword/semantic children, not a cross-kind sum of ratios."
+        }
+      ]
+    },
+    {
+      "id": "svc.ai",
+      "label": "AI展示与点击次数",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.ai.display.<taskId>",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=usageSummary(task).displayCount",
+            "window:UTC month; series=[]"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "usageSummary",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.ai.click.<taskId>",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=usageSummary(task).clickCount",
+            "window:UTC month; series=[]"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "usageSummary",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.issue",
+      "label": "已发币插件数",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.issue",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='hanas'",
+            "count=latest published issuedMembers stock, not sum of daily stocks",
+            "window?:provider deployment/time coverage; series=[]"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "Existing readPlatformMarketDaily traverses issued members; a bounded module-owned stock reader is required."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.issue.p",
+      "label": "发币人数与交易人数",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.issue.p.issuers",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count/series:canonical issuers; window explicit"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "N4 bounded issuer facts/canonical mapping not supplied; wallet count is not people."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.issue.p.traders",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count/series:canonical traders; curve/pool subitems declared by module"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "N4 bounded trade facts/wallet-to-canonical public mapping not supplied."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.points",
+      "label": "积分与成功空投领取",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.points.positive",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count:canonical people with positive points; series=[]"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readPointsStats",
+            "status": "pending",
+            "missing": "Positive-balance cumulative aggregate is not implemented; published port explicitly returns pending."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.points.claimants",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count:canonical confirmed successful recipients; window explicit; series=[]"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readPointsStats",
+            "status": "pending",
+            "missing": "Confirmed successful claim facts missing; voucher/prepare/claimed amount is not this count."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.points.claims",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count:confirmed successful claim events; window explicit; series=[]"
+          ],
+          "supply": {
+            "module": "custody",
+            "port": "readPointsStats",
+            "status": "pending",
+            "missing": "Confirmed claim-event source missing; do not infer event count from money."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.comm",
+      "label": "社区帖子、作者与今日帖子",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.comm.posts",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='posts'",
+            "count=posts; series=[]"
+          ],
+          "supply": {
+            "module": "community-site",
+            "port": "GET /hm/community-site/stats",
+            "status": "pending",
+            "missing": "Edge source exists but authenticated Host contribution bridge is not supplied."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.comm.authors",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='people'",
+            "count=authors; series=[]; community-owned distinct author semantics"
+          ],
+          "supply": {
+            "module": "community-site",
+            "port": "GET /hm/community-site/stats",
+            "status": "pending",
+            "missing": "Edge contribution/identity semantics must be supplied by community; Host cannot deduplicate authors."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.comm.today",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='posts'",
+            "count=postsToday; window=today UTC; series=[]"
+          ],
+          "supply": {
+            "module": "community-site",
+            "port": "GET /hm/community-site/stats",
+            "status": "pending",
+            "missing": "Authenticated bounded Edge contribution and UTC watermark not composed."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.claim",
+      "label": "作者认领率",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.claim",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='hanas'",
+            "count=eligible population",
+            "ratio={numerator:claimed,denominator:eligible,value:number|null}",
+            "child id svc.claim.<providerScopeId> for declared bounded scope"
+          ],
+          "supply": {
+            "module": "registry",
+            "port": null,
+            "status": "pending",
+            "missing": "Module-owned bounded eligible/claimed aggregate not supplied; old ops-metrics catalog/Claim traversal is excluded."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "svc.agent",
+      "label": "注册agent与已认领agent",
+      "designSection": "people",
+      "projections": [
+        {
+          "id": "svc.agent.total",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='agents'",
+            "count=registered agents; series=[]"
+          ],
+          "supply": {
+            "module": "identity",
+            "port": null,
+            "status": "pending",
+            "missing": "N2 bounded agent aggregate not supplied."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "svc.agent.claimed",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='agents'",
+            "count=owner-claimed agents; series=[]"
+          ],
+          "supply": {
+            "module": "identity",
+            "port": null,
+            "status": "pending",
+            "missing": "N2 bounded claimed-agent aggregate not supplied."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "hl.ai",
+      "label": "AI全账期待批计划",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.ai",
+          "section": "health",
+          "valueType": "ObservatoryAiPendingCountValue",
+          "fields": [
+            "pendingCount:nonnegative safe integer; global unresolved status=pending across all months",
+            "outer source:ObservatoryAiPendingCountSource",
+            "outer availability=available with count including0; pending has reason and no value"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "readPendingCount",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "AI0.7.0 createAiOpsReader requires admin AND AI owner before repository access. Direct projection of pendingCount/source/availability; list length, failures and textual numbers are prohibited substitutes."
+        }
+      ]
+    },
+    {
+      "id": "hl.self",
+      "label": "AI自检暂停",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.self",
+          "section": "health",
+          "valueType": "ObservatoryHealth",
+          "fields": [
+            "paused:boolean|null; reason:module public pause reason",
+            "status=paused only when module reports pause; otherwise unknown unless module owns another verdict",
+            "lastSuccessAt/failures/failureWindow=null when not supplied",
+            "child id hl.self.<taskId>; identity comes from module declaration"
+          ],
+          "supply": {
+            "module": "ai",
+            "port": "selfCheckSnapshot",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Keep admin AND AI owner for the existing read. A skipped run is not paused; budget/quality recovery permissions stay module-owned."
+        }
+      ]
+    },
+    {
+      "id": "hl.vec",
+      "label": "语义两代覆盖与暂停",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.vec.coverage.<generationId>",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='hanas'",
+            "count=total",
+            "ratio={numerator:total-pending,denominator:total,value:number|null}; provider values only",
+            "series=[]"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "SemanticGenerationRuntime.readObservatory",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        },
+        {
+          "id": "hl.vec.pause.<generationId>",
+          "section": "health",
+          "valueType": "ObservatoryHealth",
+          "fields": [
+            "paused/reason:published generation pause state",
+            "status=paused or unknown; lastSuccessAt/failures/failureWindow=null unless factual history supplied"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "SemanticGenerationRuntime.readObservatory",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "hl.sync",
+      "label": "目录同步最近跳过",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.sync.lastSkipped",
+          "section": "people",
+          "valueType": "ObservatoryPeople",
+          "fields": [
+            "unit='events'",
+            "count=lastSkipped; window=provider latest run; series=[]; not accumulated failures"
+          ],
+          "supply": {
+            "module": "catalog-sync",
+            "port": "GET /hm/v1/ops/catalog-sync",
+            "status": "pending",
+            "missing": "Edge contribution/authenticated bridge not supplied. Preserve cursor/run watermark; do not invent global pending/failure total."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "hl.idx",
+      "label": "来源摄取健康",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.idx.<providerSourceId>",
+          "section": "health",
+          "valueType": "ObservatoryHealth",
+          "fields": [
+            "child id hl.idx.<providerSourceId>",
+            "status/timestamps/reason:owning source contribution",
+            "failures only with provider explicit failureWindow"
+          ],
+          "supply": {
+            "module": "indexer",
+            "port": null,
+            "status": "pending",
+            "missing": "One finite listRuns page is not full-site job health or last-ever success. A module-owned bounded health contribution is needed; N9 registered jobs appear under hl.all independently."
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "hl.safe",
+      "label": "平台Safe签名门限",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.safe",
+          "section": "parameters",
+          "valueType": "ObservatoryParameter",
+          "fields": [
+            "platformSafe:ObservatoryPlatformSafe (safe,ownersCount,threshold,network,blockHash,evidence)",
+            "value=platformSafe.threshold; unit=signatures; changedBy=owner; effective=running",
+            "meaning/impact:read-only Safe signing policy; no owner-address list or guessed 1/1 health"
+          ],
+          "supply": {
+            "module": "chain",
+            "port": "readPlatformSafeStats",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "Only available after the owning public reader is composed, authorized, and returns a valid snapshot; otherwise pending."
+        }
+      ]
+    },
+    {
+      "id": "hl.all",
+      "label": "实际注册作业结果历史",
+      "designSection": "health",
+      "projections": [
+        {
+          "id": "hl.all",
+          "section": "health",
+          "valueType": "ObservatoryHealth",
+          "fields": [
+            "jobHistory:ObservatoryJobHistory; one actual instance",
+            "jobHistory.jobs[]:moduleId/jobName/source/availability/lastSuccessAt/lastFailureAt/results[<=100]/failureWindow/coverageStartedAt/activity",
+            "outer status=unknown; never a synthetic overall green score"
+          ],
+          "supply": {
+            "module": "host",
+            "port": "readJobResultHistory",
+            "status": "published"
+          },
+          "defaultAvailability": "pending",
+          "availabilityRule": "N9 Host-owned persistence for actual registered jobs only; AI jobs retain the owner gate. last-ever times, SQL failure window, receipt/persisted clocks and coverage remain independent. No history means pending/unknown/null."
+        }
+      ]
+    }
+  ]
+}
