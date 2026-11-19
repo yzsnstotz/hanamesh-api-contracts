@@ -5,7 +5,7 @@
 
 列表/搜索/详情的每项，以及页和领域目录都增加`projection`：`{watermark:string|null,assessedAt:string|null,rulesVersion:'hanamesh-initial-v1',projectionAt:string|null}`。每项指该插件已完成的行投影版本；页/目录水位为本SQL快照内最大已发布行版本，不保证全目录同时新鲜，不能单独当全目录ETag。`assessedAt`是评估业务时点，`projectionAt`是写成投影的UTC时间。`score.assessedAt`不再每次读伪装成当前时刻；无投影时间保持null，资料不足总分仍null。读请求不重算。Indexer作业按due/变更队列每批最多200插件追平；Host后续采用单需调度该公开作业端口，前端直接呈现缓存值/水位。
 
-六份共享fixture路径不变，已同步新增字段；search.json展示1000+。API最新分配为0.27.0，OB1观测台先合入0.26.0；本发现契约合入前须在其上变基，未合入时按本次增量定稿，WX30/CL7可按此继续。近期维护、关键词cap和SWR裁定均在交件标「待追认」。
+六份共享fixture路径不变，已同步新增字段；search.json展示1000+。API最新分配为0.27.0，OB1观测台先合入0.26.0；本发现契约已变基到正式v0.26.0（404cc9da410e8241a78ecf09caf93d4f18a629b5）之上，未合入时按本次增量定稿，WX30/CL7可按此继续。近期维护、关键词cap和SWR裁定均在交件标「待追认」。
 
 # Shared discovery DTO (SC1 candidate)
 
@@ -23,7 +23,7 @@ Similar groups are display-only. Only checkable GitHub fork/parent relations or 
 
 Phase `early` hides platform-internal data by configuration; it does not hide public plugin facts or scores. Host must pass the configured phase. The service owns all filtering/ranking/counts in bounded SQL. Featured = eligible top11 per domain, score descending, Hana ID ascending for ties. Short domains return fewer; no filler.
 
-SemVer: orchestration reassigned discovery contracts to version 0.27.0. OB1 observation contracts merge first as 0.26.0; discovery contracts must rebase onto that main commit before merging. Existing 0.26.0 discovery candidate receipts are historical evidence and do not validate the 0.27.0 package. No tag/publish in this task.
+SemVer: orchestration reassigned discovery contracts to version 0.27.0. OB1 observation contracts merge first as 0.26.0; discovery contracts are rebased onto the actual v0.26.0 tag (404cc9da410e8241a78ecf09caf93d4f18a629b5), preserving the observation exports, schemas and type checks. Existing 0.26.0 discovery candidate receipts are historical evidence and do not validate the 0.27.0 package. No tag/publish in this task.
 
 Standards: [JSON Schema2020-12](https://json-schema.org/draft/2020-12/json-schema-validation), [PostgreSQL17 ordered LIMIT](https://www.postgresql.org/docs/17/queries-limit.html), [node-postgres transaction client](https://node-postgres.com/features/transactions).
 
