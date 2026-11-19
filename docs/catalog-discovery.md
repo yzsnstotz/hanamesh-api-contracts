@@ -17,3 +17,8 @@ Phase `early` hides platform-internal data by configuration; it does not hide pu
 SemVer: additive public export proposes a minor upgrade from0.25.0; final version assigned by orchestration at merge. No tag/publish in this task.
 
 Standards: [JSON Schema2020-12](https://json-schema.org/draft/2020-12/json-schema-validation), [PostgreSQL17 ordered LIMIT](https://www.postgresql.org/docs/17/queries-limit.html), [node-postgres transaction client](https://node-postgres.com/features/transactions).
+
+Ordinary browse preserves Hana-ID order. Keyword/authority reads reuse Indexer's existing `SEARCH_ORDER_POLICY` (prefix normalization, published tiers/authority columns, candidate window and presentation CTEs); `window` exposes that existing capped result window while discovery facet/hidden counts stay exact. Only `readFeatured` orders by initial assessment. There is no frontend ranking or new recommendation heuristic.
+
+Owner11-19 final display: raw `total`/`dimensions` retain scale100 and two decimals; `displayTotal`/`displayDimensions` are supplied by Indexer at displayScale10 with displayDecimals1. Example86.00→8.6/10; 80.80→8.1/10. `dimensionWeights` is quality30/popularity35/maintenance35. Formatting trailing zero is allowed; clients never convert or score.
+`readDomainDirectory` supplies the versioned ten-domain/subdivision directory and exact visible/insufficient counts. `readStageConfig`/`getDiscoveryStageConfig` supplies the configured phase and explicit showPlatformData boolean. `readListFields` decorates a bounded existing candidate order without replacing semantic/native selection.

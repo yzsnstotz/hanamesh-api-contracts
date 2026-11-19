@@ -347,6 +347,64 @@
               }
             ]
           }
+        },
+        "displayDecimals": {
+          "const": 1
+        },
+        "displayDimensions": {
+          "type": "object",
+          "properties": {
+            "quality": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 10
+            },
+            "popularity": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 10
+            },
+            "maintenance": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 10
+            }
+          },
+          "required": [
+            "quality",
+            "popularity",
+            "maintenance"
+          ],
+          "additionalProperties": false
+        },
+        "dimensionWeights": {
+          "type": "object",
+          "properties": {
+            "quality": {
+              "const": 30
+            },
+            "popularity": {
+              "const": 35
+            },
+            "maintenance": {
+              "const": 35
+            }
+          },
+          "required": [
+            "quality",
+            "popularity",
+            "maintenance"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -361,7 +419,10 @@
         "evidence",
         "rulesVersion",
         "assessedAt",
-        "checks"
+        "checks",
+        "displayDecimals",
+        "displayDimensions",
+        "dimensionWeights"
       ],
       "additionalProperties": false,
       "allOf": [
@@ -415,6 +476,32 @@
                     "type": "number",
                     "minimum": 0,
                     "maximum": 100
+                  }
+                },
+                "required": [
+                  "quality",
+                  "popularity",
+                  "maintenance"
+                ],
+                "additionalProperties": false
+              },
+              "displayDimensions": {
+                "type": "object",
+                "properties": {
+                  "quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "popularity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                  },
+                  "maintenance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
                   }
                 },
                 "required": [
@@ -846,6 +933,26 @@
             "early",
             "growth"
           ]
+        },
+        "window": {
+          "type": "object",
+          "properties": {
+            "capped": {
+              "type": "boolean"
+            },
+            "countsCapped": {
+              "type": "boolean"
+            },
+            "indexReady": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "capped",
+            "countsCapped",
+            "indexReady"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -986,6 +1093,134 @@
         "reasons"
       ],
       "additionalProperties": true
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "subdivision": {
+          "type": "string"
+        },
+        "channel": {
+          "enum": [
+            "hanamesh",
+            "claude",
+            "codex",
+            "dsh"
+          ]
+        },
+        "search": {
+          "type": "string"
+        },
+        "sort": {
+          "const": "authority"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "after": {
+          "type": "string"
+        },
+        "includeInsufficient": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "limit"
+      ],
+      "additionalProperties": false
+    },
+    "domainDirectory": {
+      "type": "object",
+      "properties": {
+        "taxonomyVersion": {
+          "const": "hanamesh-discovery-taxonomy-v1"
+        },
+        "domains": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "hiddenInsufficientCount": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "subdivisions": {
+                "type": "array",
+                "maxItems": 44,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "count"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "count",
+              "hiddenInsufficientCount",
+              "subdivisions"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "taxonomyVersion",
+        "domains"
+      ],
+      "additionalProperties": false
+    },
+    "stageConfig": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "enum": [
+            "early",
+            "growth"
+          ]
+        },
+        "showPlatformData": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "phase",
+        "showPlatformData"
+      ],
+      "additionalProperties": false
     }
   }
 }
