@@ -640,16 +640,14 @@
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "subdivisions": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "taxonomyVersion": {
           "const": "hanamesh-discovery-taxonomy-v1"
@@ -710,16 +708,14 @@
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "subdivisions": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "taxonomyVersion": {
           "const": "hanamesh-discovery-taxonomy-v1"
@@ -790,16 +786,14 @@
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "subdivisions": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "taxonomyVersion": {
           "const": "hanamesh-discovery-taxonomy-v1"
@@ -1024,16 +1018,14 @@
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "subdivisions": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "uniqueItems": true,
-          "minItems": 2
+          "uniqueItems": true
         },
         "taxonomyVersion": {
           "const": "hanamesh-discovery-taxonomy-v1"

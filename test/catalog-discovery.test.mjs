@@ -28,4 +28,5 @@ test('overview enforces Unicode code point limits 28/70/35 without truncation',(
 test('every trust badge and similar group carries a checkable source',()=>{
  assert.equal(validate('listFields',{...sparse,trustBadges:[{kind:'official'}]}),false);
  assert.equal(validate('listFields',{...sparse,similarGroup:{id:'g',kind:'fork',members:['a','b']}}),false);
+ assert.equal(validate('listFields',{...sparse,similarGroup:{id:'g',kind:'manual',members:['a'],sources:[{sourceUrl:'https://example.invalid/group',observedAt:'2026-11-19T00:00:00Z'}]}}),false);
 });
