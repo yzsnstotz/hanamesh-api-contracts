@@ -751,7 +751,8 @@
               "type": "null"
             }
           ]
-        }
+        },
+        "reasons": false
       },
       "required": [
         "hanaId",
@@ -764,7 +765,7 @@
         "featured",
         "similarGroup"
       ],
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "page": {
       "type": "object",
@@ -904,6 +905,87 @@
           }
         }
       ]
+    },
+    "detailItem": {
+      "type": "object",
+      "properties": {
+        "hanaId": {
+          "type": "string"
+        },
+        "domainIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "subdivisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "taxonomyVersion": {
+          "const": "hanamesh-discovery-taxonomy-v1"
+        },
+        "overview": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/overview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "$ref": "#/$defs/score"
+        },
+        "trustBadges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/badge"
+          }
+        },
+        "featured": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/featured"
+          }
+        },
+        "similarGroup": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/similarGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reason"
+          }
+        }
+      },
+      "required": [
+        "hanaId",
+        "domainIds",
+        "subdivisions",
+        "taxonomyVersion",
+        "overview",
+        "score",
+        "trustBadges",
+        "featured",
+        "similarGroup",
+        "reasons"
+      ],
+      "additionalProperties": true
     }
   }
 }
