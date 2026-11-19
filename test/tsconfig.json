@@ -12,6 +12,7 @@
   "files": [
     "quote-v2-types.ts",
     "search-miss-export-types.ts",
-    "observatory-types.ts"
+    "observatory-types.ts",
+    "ops-manifest-types.ts"
   ]
 }
