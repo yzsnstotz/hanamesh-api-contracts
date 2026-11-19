@@ -1443,7 +1443,8 @@
                 "module": {
                   "const": "host"
                 }
-              }
+              },
+              "type": "object"
             }
           ]
         },
