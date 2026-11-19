@@ -47,7 +47,12 @@
     "./ops/observatory/success.schema.json": "./contracts/ops/observatory/success.schema.json",
     "./ops/observatory/contribution.schema.json": "./contracts/ops/observatory/contribution.schema.json",
     "./host/ops-manifest/page.schema.json": "./contracts/host/ops-manifest/page.schema.json",
-    "./ops/observatory/metrics.ops-v3.json": "./contracts/ops/observatory/metrics.ops-v3.json"
+    "./ops/observatory/metrics.ops-v3.json": "./contracts/ops/observatory/metrics.ops-v3.json",
+    "./catalog/discovery": {
+      "types": "./contracts/catalog/discovery/index.d.ts",
+      "default": "./contracts/catalog/discovery/index.js"
+    },
+    "./catalog/discovery/schema.json": "./contracts/catalog/discovery/schema.json"
   },
   "files": [
     "index.js",
@@ -59,7 +64,9 @@
     "docs/ops-manifest.md",
     "contracts/ops/observatory",
     "docs/observatory.md",
-    "docs/observatory-ops-v3.md"
+    "docs/observatory-ops-v3.md",
+    "contracts/catalog/discovery",
+    "docs/catalog-discovery.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"

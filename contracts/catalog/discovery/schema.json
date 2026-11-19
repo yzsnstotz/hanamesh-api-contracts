@@ -1,0 +1,909 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.com/contracts/catalog/discovery-v1",
+  "$defs": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "sourceUrl": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "observedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceUrl",
+        "observedAt"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "pattern": "^https?://"
+        },
+        "observedAt": {
+          "type": "string"
+        },
+        "quote": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "sourceUrl",
+        "observedAt"
+      ],
+      "additionalProperties": false
+    },
+    "overview": {
+      "type": "object",
+      "properties": {
+        "does": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "zh": {
+                  "type": "string",
+                  "maxLength": 28
+                },
+                "en": {
+                  "type": "string",
+                  "maxLength": 70
+                },
+                "ja": {
+                  "type": "string",
+                  "maxLength": 35
+                }
+              },
+              "required": [
+                "zh",
+                "en",
+                "ja"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "facts": {
+          "type": "object",
+          "properties": {
+            "audience": {
+              "$ref": "#/$defs/fact"
+            },
+            "difficulty": {
+              "$ref": "#/$defs/fact"
+            },
+            "difficultyReason": {
+              "$ref": "#/$defs/fact"
+            },
+            "apiKey": {
+              "$ref": "#/$defs/fact"
+            },
+            "commandLine": {
+              "$ref": "#/$defs/fact"
+            },
+            "selfHostedService": {
+              "$ref": "#/$defs/fact"
+            },
+            "installation": {
+              "$ref": "#/$defs/fact"
+            },
+            "examples": {
+              "$ref": "#/$defs/fact"
+            },
+            "localFileRead": {
+              "$ref": "#/$defs/fact"
+            },
+            "localFileWrite": {
+              "$ref": "#/$defs/fact"
+            },
+            "network": {
+              "$ref": "#/$defs/fact"
+            },
+            "paidAccount": {
+              "$ref": "#/$defs/fact"
+            },
+            "scenarioTags": {
+              "$ref": "#/$defs/fact"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "does",
+        "facts",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "does": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "does"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "score": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "scored",
+            "insufficient"
+          ]
+        },
+        "total": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "scale": {
+          "const": 100
+        },
+        "displayTotal": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 10
+        },
+        "displayScale": {
+          "const": 10
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "quality": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            },
+            "popularity": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            },
+            "maintenance": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "quality",
+            "popularity",
+            "maintenance"
+          ],
+          "additionalProperties": false
+        },
+        "coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "missing": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "rulesVersion": {
+          "const": "hanamesh-initial-v1"
+        },
+        "assessedAt": {
+          "type": "string"
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "dimension": {
+                "enum": [
+                  "quality",
+                  "popularity",
+                  "maintenance"
+                ]
+              },
+              "weight": {
+                "type": "number"
+              },
+              "normalized": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "maximum": 1
+              },
+              "value": {},
+              "state": {
+                "enum": [
+                  "observed",
+                  "missing"
+                ]
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "dimension",
+              "weight",
+              "normalized",
+              "value",
+              "state",
+              "reason"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "state": {
+                      "const": "observed"
+                    }
+                  },
+                  "required": [
+                    "state"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "normalized": {
+                      "type": "number"
+                    },
+                    "reason": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "normalized": {
+                      "type": "null"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "status",
+        "total",
+        "scale",
+        "displayTotal",
+        "displayScale",
+        "dimensions",
+        "coverage",
+        "missing",
+        "evidence",
+        "rulesVersion",
+        "assessedAt",
+        "checks"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "insufficient"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "total": {
+                "type": "null"
+              },
+              "displayTotal": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "total": {
+                "type": "number"
+              },
+              "displayTotal": {
+                "type": "number"
+              },
+              "coverage": {
+                "type": "number",
+                "minimum": 60
+              },
+              "dimensions": {
+                "type": "object",
+                "properties": {
+                  "quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "popularity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "maintenance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "quality",
+                  "popularity",
+                  "maintenance"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "badge": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "official",
+            "author-claimed",
+            "installation-tested",
+            "recent-maintenance"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "kind",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "similarGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "fork",
+            "manual"
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "members",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "featured": {
+      "type": "object",
+      "properties": {
+        "domainId": {
+          "type": "string"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 11
+        }
+      },
+      "required": [
+        "domainId",
+        "rank"
+      ],
+      "additionalProperties": false
+    },
+    "reason": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "object",
+          "properties": {
+            "zh": {
+              "type": "string"
+            },
+            "en": {
+              "type": "string"
+            },
+            "ja": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "zh",
+            "en",
+            "ja"
+          ],
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "text",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "listFields": {
+      "type": "object",
+      "properties": {
+        "domainIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "subdivisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "taxonomyVersion": {
+          "const": "hanamesh-discovery-taxonomy-v1"
+        },
+        "overview": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/overview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "$ref": "#/$defs/score"
+        },
+        "trustBadges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/badge"
+          }
+        },
+        "featured": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/featured"
+          }
+        },
+        "similarGroup": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/similarGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "domainIds",
+        "subdivisions",
+        "taxonomyVersion",
+        "overview",
+        "score",
+        "trustBadges",
+        "featured",
+        "similarGroup"
+      ],
+      "additionalProperties": false
+    },
+    "detailFields": {
+      "type": "object",
+      "properties": {
+        "domainIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "subdivisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "taxonomyVersion": {
+          "const": "hanamesh-discovery-taxonomy-v1"
+        },
+        "overview": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/overview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "$ref": "#/$defs/score"
+        },
+        "trustBadges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/badge"
+          }
+        },
+        "featured": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/featured"
+          }
+        },
+        "similarGroup": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/similarGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reason"
+          }
+        }
+      },
+      "required": [
+        "domainIds",
+        "subdivisions",
+        "taxonomyVersion",
+        "overview",
+        "score",
+        "trustBadges",
+        "featured",
+        "similarGroup",
+        "reasons"
+      ],
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "properties": {
+        "hanaId": {
+          "type": "string"
+        },
+        "domainIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "subdivisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "minItems": 2
+        },
+        "taxonomyVersion": {
+          "const": "hanamesh-discovery-taxonomy-v1"
+        },
+        "overview": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/overview"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "score": {
+          "$ref": "#/$defs/score"
+        },
+        "trustBadges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/badge"
+          }
+        },
+        "featured": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/featured"
+          }
+        },
+        "similarGroup": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/similarGroup"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "hanaId",
+        "domainIds",
+        "subdivisions",
+        "taxonomyVersion",
+        "overview",
+        "score",
+        "trustBadges",
+        "featured",
+        "similarGroup"
+      ],
+      "additionalProperties": false
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/item"
+          },
+          "maxItems": 200
+        },
+        "next": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hiddenInsufficientCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "count"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 10
+        },
+        "subdivisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "count"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 44
+        },
+        "phase": {
+          "enum": [
+            "early",
+            "growth"
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "next",
+        "total",
+        "hiddenInsufficientCount",
+        "domains",
+        "subdivisions",
+        "phase"
+      ],
+      "additionalProperties": false
+    },
+    "fact": {
+      "type": "object",
+      "properties": {
+        "value": {},
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

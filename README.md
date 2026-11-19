@@ -66,3 +66,7 @@ OB1 追加的 ops 页面声明候选采用 manifest schemaVersion 2：模块必�
 编排11-19更正的 feeTo 协议手续费采用结构化 Factory 设置和 LP 持仓页：
 `ObservatoryIncome.protocolFees` / `ObservatoryParameter.protocolFee`，已持有、未铸费LP、
 可提取底层资产分开；详见 [`docs/observatory.md`](docs/observatory.md)。
+
+## Shared plugin discovery candidate
+
+`@hanamesh/api-contracts/catalog/discovery` exports the common list/search/detail DTOs and JSON Schema2020-12; see [catalog-discovery.md](docs/catalog-discovery.md). Indexer owns scoring/taxonomy/evidence projection; Web and the independent Market render the same fields. Final additive minor version is assigned by orchestration.
