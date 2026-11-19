@@ -1,4 +1,4 @@
-# ops-v3 指标 id 权威映射（api-contracts 0.26.0 候选）
+# ops-v3 指标 id 权威映射（映射版本 0.26.0，包候选 0.27.0）
 
 权威结构化声明：[metrics.ops-v3.json](../contracts/ops/observatory/metrics.ops-v3.json)，公开包路径 `@hanamesh/api-contracts/ops/observatory/metrics.ops-v3.json`。以下33个根id逐一对应 owner确认的ops-v3登记表。JSON逐投影列出wire section、value类型与字段、来源模块/公开端口、缺口和可得性条件；本表只作索引，不是第二份运行注册表。
 
