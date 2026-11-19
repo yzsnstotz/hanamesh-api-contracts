@@ -30,3 +30,10 @@ test('every trust badge and similar group carries a checkable source',()=>{
  assert.equal(validate('listFields',{...sparse,similarGroup:{id:'g',kind:'fork',members:['a','b']}}),false);
  assert.equal(validate('listFields',{...sparse,similarGroup:{id:'g',kind:'manual',members:['a'],sources:[{sourceUrl:'https://example.invalid/group',observedAt:'2026-11-19T00:00:00Z'}]}}),false);
 });
+test('R423 pending ratification: projection watermarks and capped counts are explicit public fields',()=>{
+ const defs=schema().$defs;assert.equal(typeof defs.projection,'object','SWR metadata is public, never synthesized by consumers');
+ assert.ok(defs.page.required.includes('capped'));assert.ok(defs.page.required.includes('projection'));
+ assert.equal(validate('projection',{watermark:'42',assessedAt:'2026-11-19T00:00:00.000Z',rulesVersion:'hanamesh-initial-v1',projectionAt:'2026-11-19T00:00:01.000Z'}),true);
+ assert.equal(validate('projection',{watermark:null,assessedAt:null,rulesVersion:'hanamesh-initial-v1',projectionAt:null}),true);
+ assert.equal(validate('projection',{watermark:'-1',assessedAt:null,rulesVersion:'hanamesh-initial-v1',projectionAt:null}),false);
+});
