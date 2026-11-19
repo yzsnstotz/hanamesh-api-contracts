@@ -1574,7 +1574,8 @@
               "availability": {
                 "const": "pending"
               }
-            }
+            },
+            "type": "object"
           },
           "then": {
             "properties": {
@@ -1606,16 +1607,19 @@
                 "const": "unknown"
               },
               "results": {
-                "maxItems": 0
+                "maxItems": 0,
+                "type": "array"
               },
               "source": {
                 "properties": {
                   "asOf": {
                     "type": "null"
                   }
-                }
+                },
+                "type": "object"
               }
-            }
+            },
+            "type": "object"
           }
         }
       ]
