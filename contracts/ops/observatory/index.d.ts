@@ -63,7 +63,16 @@ export interface ObservatoryIncome {
   readonly window?: ObservatoryWindow;
   readonly series?: readonly ObservatoryAmountBucket[];
 }
+/** One confirmed Safe configuration; owner addresses are deliberately excluded. */
+export interface ObservatoryPlatformSafe {readonly safe:string;readonly ownersCount:number;readonly threshold:number;readonly network:ObservatoryNetwork;readonly blockHash:string;readonly evidence:'FIXTURE'|'READ_ONLY_RPC'}
+export type ObservatoryPlatformGasReceipt={readonly id:string;readonly transactionHash:string;readonly source:ObservatorySource}&(
+ |{readonly availability:'pending';readonly reason:string;readonly missing:readonly string[];readonly value?:never}
+ |{readonly availability:'available';readonly value:{readonly gasUsed:string;readonly effectiveGasPrice:string;readonly feeWei:string;readonly payer:string;readonly platformPaid:boolean;readonly status:'success'|'reverted';readonly occurredAt:string;readonly blockNumber:string;readonly blockHash:string}}
+);
+/** An explicit known-hash page, never a complete platform gas ledger or daily total. */
+export interface ObservatoryPlatformGasPage {readonly scope:'explicit-transaction-page';readonly source:ObservatorySource;readonly network:ObservatoryNetwork;readonly blockHash:string;readonly evidence:'FIXTURE'|'READ_ONLY_RPC';readonly entries:readonly ObservatoryPlatformGasReceipt[]}
 export interface ObservatorySpending {
+  readonly gasReceipts?:ObservatoryPlatformGasPage;
   readonly amounts: readonly ObservatoryAmount[];
   readonly funding: 'cash' | 'credit' | 'chain';
   readonly window?: ObservatoryWindow;
@@ -111,6 +120,7 @@ export interface ObservatoryHealth {
   readonly attention: 'owner' | 'operations' | 'none' | 'unknown';
 }
 export interface ObservatoryParameter {
+  readonly platformSafe?:ObservatoryPlatformSafe;
   readonly protocolFee?: ObservatoryProtocolFeeSettings;
   readonly value: string | number | boolean | null;
   readonly unit: string;

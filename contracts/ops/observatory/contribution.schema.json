@@ -346,6 +346,9 @@
           "items": {
             "$ref": "#/definitions/amount"
           }
+        },
+        "gasReceipts": {
+          "$ref": "#/definitions/platformGasPage"
         }
       }
     },
@@ -572,6 +575,9 @@
         },
         "protocolFee": {
           "$ref": "#/definitions/protocolFeeSettings"
+        },
+        "platformSafe": {
+          "$ref": "#/definitions/platformSafe"
         }
       }
     },
@@ -1697,6 +1703,297 @@
               "type": "null"
             }
           ]
+        }
+      }
+    },
+    "platformSafe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "safe",
+        "ownersCount",
+        "threshold",
+        "network",
+        "blockHash",
+        "evidence"
+      ],
+      "properties": {
+        "safe": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "ownersCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "threshold": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "network": {
+          "$ref": "#/definitions/network"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "READ_ONLY_RPC"
+          ]
+        }
+      }
+    },
+    "platformGasReceiptValue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gasUsed",
+        "effectiveGasPrice",
+        "feeWei",
+        "payer",
+        "platformPaid",
+        "status",
+        "occurredAt",
+        "blockNumber",
+        "blockHash"
+      ],
+      "properties": {
+        "gasUsed": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "effectiveGasPrice": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "feeWei": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,155})$"
+        },
+        "payer": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "platformPaid": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "success",
+            "reverted"
+          ]
+        },
+        "occurredAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+          "maxLength": 24
+        },
+        "blockNumber": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        }
+      }
+    },
+    "platformGasReceipt": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "transactionHash",
+            "source",
+            "availability",
+            "value"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "transactionHash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{64}$"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "module",
+                "port",
+                "definition",
+                "asOf"
+              ],
+              "properties": {
+                "module": {
+                  "const": "chain"
+                },
+                "port": {
+                  "const": "readPlatformGasReceipts"
+                },
+                "definition": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "asOf": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+                  "maxLength": 24
+                }
+              }
+            },
+            "availability": {
+              "const": "available"
+            },
+            "value": {
+              "$ref": "#/definitions/platformGasReceiptValue"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "transactionHash",
+            "source",
+            "availability",
+            "reason",
+            "missing"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "transactionHash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{64}$"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "module",
+                "port",
+                "definition",
+                "asOf"
+              ],
+              "properties": {
+                "module": {
+                  "const": "chain"
+                },
+                "port": {
+                  "const": "readPlatformGasReceipts"
+                },
+                "definition": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                },
+                "asOf": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+                  "maxLength": 24
+                }
+              }
+            },
+            "availability": {
+              "const": "pending"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "missing": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 8,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              }
+            }
+          }
+        }
+      ]
+    },
+    "platformGasPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope",
+        "source",
+        "network",
+        "blockHash",
+        "evidence",
+        "entries"
+      ],
+      "properties": {
+        "scope": {
+          "const": "explicit-transaction-page"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "module",
+            "port",
+            "definition",
+            "asOf"
+          ],
+          "properties": {
+            "module": {
+              "const": "chain"
+            },
+            "port": {
+              "const": "readPlatformGasReceipts"
+            },
+            "definition": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "asOf": {
+              "type": "string",
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+              "maxLength": 24
+            }
+          }
+        },
+        "network": {
+          "$ref": "#/definitions/network"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{64}$"
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "READ_ONLY_RPC"
+          ]
+        },
+        "entries": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/definitions/platformGasReceipt"
+          }
         }
       }
     }
