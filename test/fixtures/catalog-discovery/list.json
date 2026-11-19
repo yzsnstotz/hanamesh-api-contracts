@@ -348,6 +348,12 @@
             "observedAt": "2026-11-19T00:00:00.000Z"
           }
         ]
+      },
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
       }
     },
     {
@@ -685,7 +691,13 @@
           "rank": 2
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000003",
@@ -1012,7 +1024,13 @@
           "rank": 3
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000004",
@@ -1339,7 +1357,13 @@
           "rank": 4
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000005",
@@ -1666,7 +1690,13 @@
           "rank": 5
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000006",
@@ -1993,7 +2023,13 @@
           "rank": 6
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000007",
@@ -2320,7 +2356,13 @@
           "rank": 7
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000008",
@@ -2647,7 +2689,13 @@
           "rank": 8
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000009",
@@ -2974,7 +3022,13 @@
           "rank": 9
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000010",
@@ -3301,7 +3355,13 @@
           "rank": 10
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000011",
@@ -3628,7 +3688,13 @@
           "rank": 11
         }
       ],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     },
     {
       "hanaId": "00000000-0000-4000-8000-000000000012",
@@ -3784,7 +3850,13 @@
       },
       "trustBadges": [],
       "featured": [],
-      "similarGroup": null
+      "similarGroup": null,
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      }
     }
   ],
   "next": null,
@@ -3794,60 +3866,79 @@
     {
       "id": "office",
       "name": "办公写作",
-      "count": 12
+      "count": 12,
+      "capped": false
     },
     {
       "id": "code",
       "name": "编程开发",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "design",
       "name": "设计与图像",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "data",
       "name": "数据分析",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "marketing",
       "name": "营销运营",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "research",
       "name": "学习研究",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "finance",
       "name": "金融与链上",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "life",
       "name": "生活效率",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "automation",
       "name": "自动化与集成",
-      "count": 0
+      "count": 0,
+      "capped": false
     },
     {
       "id": "setup",
       "name": "AI 工具与环境",
-      "count": 0
+      "count": 0,
+      "capped": false
     }
   ],
   "subdivisions": [
     {
       "id": "session",
       "name": "会话管理",
-      "count": 12
+      "count": 12,
+      "capped": false
     }
   ],
-  "phase": "early"
+  "phase": "early",
+  "projection": {
+    "watermark": "1",
+    "assessedAt": "2026-11-19T00:00:00.000Z",
+    "rulesVersion": "hanamesh-initial-v1",
+    "projectionAt": "2026-11-19T00:00:01.000Z"
+  },
+  "capped": false,
+  "hiddenInsufficientCountCapped": false
 }

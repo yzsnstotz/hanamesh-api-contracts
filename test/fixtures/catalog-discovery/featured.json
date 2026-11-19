@@ -350,6 +350,12 @@
                 "observedAt": "2026-11-19T00:00:00.000Z"
               }
             ]
+          },
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
           }
         },
         {
@@ -687,7 +693,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000003",
@@ -1014,7 +1026,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000004",
@@ -1341,7 +1359,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000005",
@@ -1668,7 +1692,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000006",
@@ -1995,7 +2025,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000007",
@@ -2322,7 +2358,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000008",
@@ -2649,7 +2691,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000009",
@@ -2976,7 +3024,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000010",
@@ -3303,7 +3357,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000011",
@@ -3630,7 +3690,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -3640,62 +3706,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "session",
           "name": "会话管理",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "code": {
       "items": [
@@ -4034,7 +4119,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000102",
@@ -4361,7 +4452,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000103",
@@ -4688,7 +4785,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000104",
@@ -5015,7 +5118,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000105",
@@ -5342,7 +5451,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000106",
@@ -5669,7 +5784,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000107",
@@ -5996,7 +6117,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000108",
@@ -6323,7 +6450,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000109",
@@ -6650,7 +6783,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000110",
@@ -6977,7 +7116,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000111",
@@ -7304,7 +7449,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -7314,62 +7465,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "git",
           "name": "代码版本管理",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "design": {
       "items": [
@@ -7698,7 +7868,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000202",
@@ -8025,7 +8201,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000203",
@@ -8352,7 +8534,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000204",
@@ -8679,7 +8867,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000205",
@@ -9006,7 +9200,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000206",
@@ -9333,7 +9533,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000207",
@@ -9660,7 +9866,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000208",
@@ -9987,7 +10199,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000209",
@@ -10314,7 +10532,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000210",
@@ -10641,7 +10865,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000211",
@@ -10968,7 +11198,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -10978,62 +11214,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "design",
           "name": "设计工具",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "data": {
       "items": [
@@ -11362,7 +11617,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000302",
@@ -11689,7 +11950,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000303",
@@ -12016,7 +12283,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000304",
@@ -12343,7 +12616,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000305",
@@ -12670,7 +12949,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000306",
@@ -12997,7 +13282,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000307",
@@ -13324,7 +13615,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000308",
@@ -13651,7 +13948,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000309",
@@ -13978,7 +14281,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000310",
@@ -14305,7 +14614,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000311",
@@ -14632,7 +14947,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -14642,62 +14963,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "database",
           "name": "数据库",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "marketing": {
       "items": [
@@ -15026,7 +15366,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000402",
@@ -15353,7 +15699,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000403",
@@ -15680,7 +16032,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000404",
@@ -16007,7 +16365,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000405",
@@ -16334,7 +16698,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000406",
@@ -16661,7 +17031,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000407",
@@ -16988,7 +17364,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000408",
@@ -17315,7 +17697,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000409",
@@ -17642,7 +18030,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000410",
@@ -17969,7 +18363,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000411",
@@ -18296,7 +18696,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -18306,62 +18712,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "business-operations",
           "name": "业务运营",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "research": {
       "items": [
@@ -18690,7 +19115,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000502",
@@ -19017,7 +19448,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000503",
@@ -19344,7 +19781,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000504",
@@ -19671,7 +20114,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000505",
@@ -19998,7 +20447,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000506",
@@ -20325,7 +20780,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000507",
@@ -20652,7 +21113,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000508",
@@ -20979,7 +21446,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000509",
@@ -21306,7 +21779,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000510",
@@ -21633,7 +22112,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000511",
@@ -21960,7 +22445,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -21970,62 +22461,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "agi",
           "name": "智能体架构",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "finance": {
       "items": [
@@ -22354,7 +22864,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000602",
@@ -22681,7 +23197,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000603",
@@ -23008,7 +23530,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000604",
@@ -23335,7 +23863,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000605",
@@ -23662,7 +24196,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000606",
@@ -23989,7 +24529,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000607",
@@ -24316,7 +24862,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000608",
@@ -24643,7 +25195,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000609",
@@ -24970,7 +25528,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000610",
@@ -25297,7 +25861,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000611",
@@ -25624,7 +26194,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -25634,62 +26210,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "finance",
           "name": "金融资料",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "life": {
       "items": [
@@ -26018,7 +26613,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000702",
@@ -26345,7 +26946,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000703",
@@ -26672,7 +27279,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000704",
@@ -26999,7 +27612,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000705",
@@ -27326,7 +27945,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000706",
@@ -27653,7 +28278,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000707",
@@ -27980,7 +28611,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000708",
@@ -28307,7 +28944,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000709",
@@ -28634,7 +29277,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000710",
@@ -28961,7 +29610,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000711",
@@ -29288,7 +29943,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -29298,62 +29959,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "remote",
           "name": "远程控制",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "automation": {
       "items": [
@@ -29682,7 +30362,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000802",
@@ -30009,7 +30695,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000803",
@@ -30336,7 +31028,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000804",
@@ -30663,7 +31361,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000805",
@@ -30990,7 +31694,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000806",
@@ -31317,7 +32027,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000807",
@@ -31644,7 +32360,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000808",
@@ -31971,7 +32693,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000809",
@@ -32298,7 +33026,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000810",
@@ -32625,7 +33359,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000811",
@@ -32952,7 +33692,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -32962,62 +33708,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 11
+          "count": 11,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 0
+          "count": 0,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "identity",
           "name": "身份与通信",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     },
     "setup": {
       "items": [
@@ -33346,7 +34111,13 @@
               "rank": 1
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000902",
@@ -33673,7 +34444,13 @@
               "rank": 2
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000903",
@@ -34000,7 +34777,13 @@
               "rank": 3
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000904",
@@ -34327,7 +35110,13 @@
               "rank": 4
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000905",
@@ -34654,7 +35443,13 @@
               "rank": 5
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000906",
@@ -34981,7 +35776,13 @@
               "rank": 6
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000907",
@@ -35308,7 +36109,13 @@
               "rank": 7
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000908",
@@ -35635,7 +36442,13 @@
               "rank": 8
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000909",
@@ -35962,7 +36775,13 @@
               "rank": 9
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000910",
@@ -36289,7 +37108,13 @@
               "rank": 10
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         },
         {
           "hanaId": "00000000-0000-4000-8000-000000000911",
@@ -36616,7 +37441,13 @@
               "rank": 11
             }
           ],
-          "similarGroup": null
+          "similarGroup": null,
+          "projection": {
+            "watermark": "1",
+            "assessedAt": "2026-11-19T00:00:00.000Z",
+            "rulesVersion": "hanamesh-initial-v1",
+            "projectionAt": "2026-11-19T00:00:01.000Z"
+          }
         }
       ],
       "next": null,
@@ -36626,62 +37457,81 @@
         {
           "id": "office",
           "name": "办公写作",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "code",
           "name": "编程开发",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "design",
           "name": "设计与图像",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "data",
           "name": "数据分析",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "marketing",
           "name": "营销运营",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "research",
           "name": "学习研究",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "finance",
           "name": "金融与链上",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "life",
           "name": "生活效率",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "automation",
           "name": "自动化与集成",
-          "count": 0
+          "count": 0,
+          "capped": false
         },
         {
           "id": "setup",
           "name": "AI 工具与环境",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
       "subdivisions": [
         {
           "id": "model",
           "name": "模型接入",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
       ],
-      "phase": "early"
+      "phase": "early",
+      "projection": {
+        "watermark": "1",
+        "assessedAt": "2026-11-19T00:00:00.000Z",
+        "rulesVersion": "hanamesh-initial-v1",
+        "projectionAt": "2026-11-19T00:00:01.000Z"
+      },
+      "capped": false,
+      "hiddenInsufficientCountCapped": false
     }
   }
 }

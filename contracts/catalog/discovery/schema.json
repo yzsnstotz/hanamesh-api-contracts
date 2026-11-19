@@ -686,6 +686,9 @@
               "type": "null"
             }
           ]
+        },
+        "projection": {
+          "$ref": "#/$defs/projection"
         }
       },
       "required": [
@@ -696,7 +699,8 @@
         "score",
         "trustBadges",
         "featured",
-        "similarGroup"
+        "similarGroup",
+        "projection"
       ],
       "additionalProperties": false
     },
@@ -760,6 +764,9 @@
           "items": {
             "$ref": "#/$defs/reason"
           }
+        },
+        "projection": {
+          "$ref": "#/$defs/projection"
         }
       },
       "required": [
@@ -771,7 +778,8 @@
         "trustBadges",
         "featured",
         "similarGroup",
-        "reasons"
+        "reasons",
+        "projection"
       ],
       "additionalProperties": false
     },
@@ -833,7 +841,10 @@
             }
           ]
         },
-        "reasons": false
+        "reasons": false,
+        "projection": {
+          "$ref": "#/$defs/projection"
+        }
       },
       "required": [
         "hanaId",
@@ -844,7 +855,8 @@
         "score",
         "trustBadges",
         "featured",
-        "similarGroup"
+        "similarGroup",
+        "projection"
       ],
       "additionalProperties": true
     },
@@ -886,12 +898,16 @@
               "count": {
                 "type": "integer",
                 "minimum": 0
+              },
+              "capped": {
+                "type": "boolean"
               }
             },
             "required": [
               "id",
               "name",
-              "count"
+              "count",
+              "capped"
             ],
             "additionalProperties": false
           },
@@ -911,12 +927,16 @@
               "count": {
                 "type": "integer",
                 "minimum": 0
+              },
+              "capped": {
+                "type": "boolean"
               }
             },
             "required": [
               "id",
               "name",
-              "count"
+              "count",
+              "capped"
             ],
             "additionalProperties": false
           },
@@ -947,6 +967,15 @@
             "indexReady"
           ],
           "additionalProperties": false
+        },
+        "projection": {
+          "$ref": "#/$defs/projection"
+        },
+        "capped": {
+          "type": "boolean"
+        },
+        "hiddenInsufficientCountCapped": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -956,9 +985,33 @@
         "hiddenInsufficientCount",
         "domains",
         "subdivisions",
-        "phase"
+        "phase",
+        "projection",
+        "capped",
+        "hiddenInsufficientCountCapped"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "capped": {
+                "const": true
+              }
+            },
+            "required": [
+              "capped"
+            ]
+          },
+          "then": {
+            "properties": {
+              "total": {
+                "const": 1000
+              }
+            }
+          }
+        }
+      ]
     },
     "fact": {
       "type": "object",
@@ -1070,6 +1123,9 @@
           "items": {
             "$ref": "#/$defs/reason"
           }
+        },
+        "projection": {
+          "$ref": "#/$defs/projection"
         }
       },
       "required": [
@@ -1082,7 +1138,8 @@
         "trustBadges",
         "featured",
         "similarGroup",
-        "reasons"
+        "reasons",
+        "projection"
       ],
       "additionalProperties": true
     },
@@ -1167,15 +1224,22 @@
                     "count": {
                       "type": "integer",
                       "minimum": 0
+                    },
+                    "capped": {
+                      "type": "boolean"
                     }
                   },
                   "required": [
                     "id",
                     "name",
-                    "count"
+                    "count",
+                    "capped"
                   ],
                   "additionalProperties": false
                 }
+              },
+              "capped": {
+                "type": "boolean"
               }
             },
             "required": [
@@ -1183,15 +1247,20 @@
               "name",
               "count",
               "hiddenInsufficientCount",
-              "subdivisions"
+              "subdivisions",
+              "capped"
             ],
             "additionalProperties": false
           }
+        },
+        "projection": {
+          "$ref": "#/$defs/projection"
         }
       },
       "required": [
         "taxonomyVersion",
-        "domains"
+        "domains",
+        "projection"
       ],
       "additionalProperties": false
     },
@@ -1211,6 +1280,40 @@
       "required": [
         "phase",
         "showPlatformData"
+      ],
+      "additionalProperties": false
+    },
+    "projection": {
+      "type": "object",
+      "properties": {
+        "watermark": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "assessedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rulesVersion": {
+          "const": "hanamesh-initial-v1"
+        },
+        "projectionAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "watermark",
+        "assessedAt",
+        "rulesVersion",
+        "projectionAt"
       ],
       "additionalProperties": false
     }

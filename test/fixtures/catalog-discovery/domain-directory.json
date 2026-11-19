@@ -10,9 +10,11 @@
         {
           "id": "session",
           "name": "会话管理",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "code",
@@ -23,9 +25,11 @@
         {
           "id": "git",
           "name": "代码版本管理",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "design",
@@ -36,9 +40,11 @@
         {
           "id": "design",
           "name": "设计工具",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "data",
@@ -49,9 +55,11 @@
         {
           "id": "database",
           "name": "数据库",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "marketing",
@@ -62,9 +70,11 @@
         {
           "id": "business-operations",
           "name": "业务运营",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "research",
@@ -75,9 +85,11 @@
         {
           "id": "agi",
           "name": "智能体架构",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "finance",
@@ -88,9 +100,11 @@
         {
           "id": "finance",
           "name": "金融资料",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "life",
@@ -101,9 +115,11 @@
         {
           "id": "remote",
           "name": "远程控制",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "automation",
@@ -114,9 +130,11 @@
         {
           "id": "identity",
           "name": "身份与通信",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     },
     {
       "id": "setup",
@@ -127,9 +145,17 @@
         {
           "id": "model",
           "name": "模型接入",
-          "count": 11
+          "count": 11,
+          "capped": false
         }
-      ]
+      ],
+      "capped": false
     }
-  ]
+  ],
+  "projection": {
+    "watermark": "1",
+    "assessedAt": "2026-11-19T00:00:00.000Z",
+    "rulesVersion": "hanamesh-initial-v1",
+    "projectionAt": "2026-11-19T00:00:01.000Z"
+  }
 }

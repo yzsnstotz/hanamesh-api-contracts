@@ -13,14 +13,16 @@ export interface DiscoveryTrustBadge {readonly kind:'official'|'author-claimed'|
 export interface DiscoverySimilarGroup {readonly id:string;readonly kind:'fork'|'manual';readonly members:readonly string[];readonly sources:readonly DiscoverySource[]}
 export interface DiscoveryFeatured {readonly domainId:string;readonly rank:number}
 /** List/search use these fields. Unknown facts are null/empty. Host alone composes Registry claim evidence. */
-export interface DiscoveryListFields {readonly domainIds:readonly string[];readonly subdivisions:readonly string[];readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly overview:DiscoveryOverview|null;readonly score:DiscoveryScore;readonly trustBadges:readonly DiscoveryTrustBadge[];readonly featured:readonly DiscoveryFeatured[];readonly similarGroup:DiscoverySimilarGroup|null}
+/** Completed per-item projection; a page/directory watermark is the greatest published row version, not a whole-catalog freshness guarantee. */
+export interface DiscoveryProjection {readonly watermark:string|null;readonly assessedAt:string|null;readonly rulesVersion:'hanamesh-initial-v1';readonly projectionAt:string|null}
+export interface DiscoveryListFields {readonly projection:DiscoveryProjection;readonly domainIds:readonly string[];readonly subdivisions:readonly string[];readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly overview:DiscoveryOverview|null;readonly score:DiscoveryScore;readonly trustBadges:readonly DiscoveryTrustBadge[];readonly featured:readonly DiscoveryFeatured[];readonly similarGroup:DiscoverySimilarGroup|null}
 export interface DiscoveryReason {readonly text:DiscoveryLocalizedText;readonly evidence:readonly DiscoveryEvidence[]}
 /** Recommendation reasons never appear in list/search DTOs. */
 export interface DiscoveryDetailFields extends DiscoveryListFields {readonly reasons:readonly DiscoveryReason[]}
-export interface DiscoveryFacet {readonly id:string;readonly name:string;readonly count:number}
-export interface DiscoveryPage<T extends {readonly hanaId:string}={readonly hanaId:string}> {readonly items:readonly (T & DiscoveryListFields)[];readonly next:string|null;readonly total:number;readonly hiddenInsufficientCount:number;readonly domains:readonly DiscoveryFacet[];readonly subdivisions:readonly DiscoveryFacet[];readonly phase:'early'|'growth';readonly window?:{readonly capped:boolean;readonly countsCapped:boolean;readonly indexReady:boolean}}
+export interface DiscoveryFacet {readonly id:string;readonly name:string;readonly count:number;readonly capped:boolean}
+export interface DiscoveryPage<T extends {readonly hanaId:string}={readonly hanaId:string}> {readonly projection:DiscoveryProjection;readonly capped:boolean;readonly hiddenInsufficientCountCapped:boolean;readonly items:readonly (T & DiscoveryListFields)[];readonly next:string|null;readonly total:number;readonly hiddenInsufficientCount:number;readonly domains:readonly DiscoveryFacet[];readonly subdivisions:readonly DiscoveryFacet[];readonly phase:'early'|'growth';readonly window?:{readonly capped:boolean;readonly countsCapped:boolean;readonly indexReady:boolean}}
 
 export interface DiscoveryQuery {readonly domain?:string;readonly subdivision?:string;readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly search?:string;readonly sort?:'authority';readonly limit:number;readonly after?:string;readonly includeInsufficient?:boolean}
 
-export interface DiscoveryDomainDirectory {readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly domains:readonly (DiscoveryFacet & {readonly hiddenInsufficientCount:number;readonly subdivisions:readonly DiscoveryFacet[]})[]}
+export interface DiscoveryDomainDirectory {readonly projection:DiscoveryProjection;readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly domains:readonly (DiscoveryFacet & {readonly hiddenInsufficientCount:number;readonly subdivisions:readonly DiscoveryFacet[]})[]}
 export interface DiscoveryStageConfig {readonly phase:'early'|'growth';readonly showPlatformData:boolean}
