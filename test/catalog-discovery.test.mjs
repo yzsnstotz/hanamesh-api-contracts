@@ -9,6 +9,9 @@ function validate(name,value){const ajv=new Ajv({strict:true});ajv.addSchema(sch
 test('list, search and detail share one discovery DTO; reasons are detail only',()=>{
  assert.equal(validate('listFields',sparse),true);assert.equal(validate('listFields',{...sparse,reasons:[]}),false);
  assert.equal(validate('detailFields',{...sparse,reasons:[]}),true);
+ assert.equal(validate('item',{hanaId:'fixture',displayName:'existing catalog field',...sparse}),true);
+ assert.equal(validate('item',{hanaId:'fixture',...sparse,reasons:[]}),false);
+ assert.equal(validate('detailItem',{hanaId:'fixture',displayName:'existing catalog field',...sparse,reasons:[]}),true);
  assert.equal(validate('page',{items:[{hanaId:'00000000-0000-4000-8000-000000000001',...sparse}],next:null,total:1,hiddenInsufficientCount:1,domains:[],subdivisions:[],phase:'early'}),true);
 });
 test('unknown score is null, never zero; a scored result requires an actual total',()=>{
