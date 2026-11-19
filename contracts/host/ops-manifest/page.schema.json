@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "moduleId",
+    "href",
+    "titleKey",
+    "descriptionKey",
+    "group",
+    "order",
+    "permission",
+    "kind"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "moduleId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "href": {
+      "type": "string",
+      "maxLength": 256,
+      "pattern": "^/ops/[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$"
+    },
+    "titleKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "descriptionKey": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "group": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "labelKey",
+        "order"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "labelKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "order": {
+          "type": "integer",
+          "minimum": -9007199254740991,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "order": {
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "permission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policyId"
+      ],
+      "properties": {
+        "policyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "kind": {
+      "const": "page"
+    }
+  }
+}

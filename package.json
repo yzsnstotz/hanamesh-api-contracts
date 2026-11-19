@@ -45,7 +45,8 @@
       "default": "./contracts/ops/observatory/index.js"
     },
     "./ops/observatory/success.schema.json": "./contracts/ops/observatory/success.schema.json",
-    "./ops/observatory/contribution.schema.json": "./contracts/ops/observatory/contribution.schema.json"
+    "./ops/observatory/contribution.schema.json": "./contracts/ops/observatory/contribution.schema.json",
+    "./host/ops-manifest/page.schema.json": "./contracts/host/ops-manifest/page.schema.json"
   },
   "files": [
     "index.js",
