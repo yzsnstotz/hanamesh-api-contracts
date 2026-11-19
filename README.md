@@ -53,3 +53,7 @@ state for the same campaign/entitlement IDs; the sender may be a relayer.
 
 
 Host ops manifest HTTP 契约与 JSON Schema：[`docs/ops-manifest.md`](docs/ops-manifest.md)，公开子路径 `@hanamesh/api-contracts/host/ops-manifest`。清单由运行中的 Host 声明，本包不维护页面名单。
+
+## Shared plugin discovery candidate
+
+`@hanamesh/api-contracts/catalog/discovery` exports the common list/search/detail DTOs and JSON Schema2020-12; see [catalog-discovery.md](docs/catalog-discovery.md). Indexer owns scoring/taxonomy/evidence projection; Web and the independent Market render the same fields. Final additive minor version is assigned by orchestration.

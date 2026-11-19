@@ -11,6 +11,7 @@
   },
   "files": [
     "quote-v2-types.ts",
-    "search-miss-export-types.ts"
+    "search-miss-export-types.ts",
+    "catalog-discovery-types.ts"
   ]
 }

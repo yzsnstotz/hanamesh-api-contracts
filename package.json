@@ -39,7 +39,12 @@
       "types": "./contracts/host/ops-manifest/index.d.ts",
       "default": "./contracts/host/ops-manifest/index.js"
     },
-    "./host/ops-manifest/success.schema.json": "./contracts/host/ops-manifest/success.schema.json"
+    "./host/ops-manifest/success.schema.json": "./contracts/host/ops-manifest/success.schema.json",
+    "./catalog/discovery": {
+      "types": "./contracts/catalog/discovery/index.d.ts",
+      "default": "./contracts/catalog/discovery/index.js"
+    },
+    "./catalog/discovery/schema.json": "./contracts/catalog/discovery/schema.json"
   },
   "files": [
     "index.js",
@@ -48,7 +53,9 @@
     "contracts/host/search-miss-export",
     "docs/search-miss-export.md",
     "contracts/host/ops-manifest",
-    "docs/ops-manifest.md"
+    "docs/ops-manifest.md",
+    "contracts/catalog/discovery",
+    "docs/catalog-discovery.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
