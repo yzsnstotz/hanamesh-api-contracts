@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Ajv from 'ajv';
 import {OBSERVATORY_SCHEMA} from '@hanamesh/api-contracts/ops/observatory';
-const validate=new Ajv({strict:false}).compile(OBSERVATORY_SCHEMA),at='2026-11-19T00:00:00.000Z';
+const validate=new Ajv({strict:true}).compile(OBSERVATORY_SCHEMA),at='2026-11-19T00:00:00.000Z';
 const source={module:'host',port:'readJobResultHistory',definition:'Persisted Host results, per instance/module/job; window clipped to coverage',asOf:at};
 const result={eventId:'00000000-0000-4000-8000-000000000001',sequence:'1',runId:'fixture-run',outcome:'failed',recordedAt:at,persistedAt:at,code:'FIXTURE_FAILED',reason:null,reports:[{kind:'failed',receivedAt:at,code:'FIXTURE_FAILED',reason:null}]};
 const job={instanceId:'fixture-a',moduleId:'fixture',jobName:'sweep',healthIntervalMs:60000,availability:'available',source,coverageStartedAt:at,status:'failed',lastSuccessAt:null,lastFailureAt:at,latestResult:'failed',latestResultAt:at,failures:1,failureWindow:{from:at,to:'2026-11-20T00:00:00.000Z'},paused:null,reason:'FIXTURE_FAILED',results:[result]};
