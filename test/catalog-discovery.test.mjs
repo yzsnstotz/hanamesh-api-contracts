@@ -4,7 +4,8 @@ import {existsSync,readFileSync} from 'node:fs';
 import Ajv from 'ajv/dist/2020.js';
 const file=new URL('../contracts/catalog/discovery/schema.json',import.meta.url);
 function schema(){assert.equal(existsSync(file),true,'public discovery schema is shipped');return JSON.parse(readFileSync(file,'utf8'));}
-const sparse={domainIds:[],subdivisions:[],taxonomyVersion:'hanamesh-discovery-taxonomy-v1',overview:null,score:{checks:['readme','license','scorecard','npmDownloads7d','githubStars','pushedAt'].map((key,i)=>({key,dimension:i<3?'quality':i<5?'popularity':'maintenance',weight:[10,10,10,20,15,35][i],normalized:null,value:null,state:'missing',reason:'not_available'})),status:'insufficient',total:null,scale:100,displayTotal:null,displayScale:10,displayDecimals:1,displayDimensions:{quality:null,popularity:null,maintenance:null},dimensionWeights:{quality:30,popularity:35,maintenance:35},dimensions:{quality:null,popularity:null,maintenance:null},coverage:0,missing:[],evidence:[],rulesVersion:'hanamesh-initial-v1',assessedAt:'2026-11-19T00:00:00.000Z'},trustBadges:[],featured:[],similarGroup:null};
+const projection={watermark:null,assessedAt:null,rulesVersion:'hanamesh-initial-v1',projectionAt:null};
+const sparse={projection,domainIds:[],subdivisions:[],taxonomyVersion:'hanamesh-discovery-taxonomy-v1',overview:null,score:{checks:['readme','license','scorecard','npmDownloads7d','githubStars','pushedAt'].map((key,i)=>({key,dimension:i<3?'quality':i<5?'popularity':'maintenance',weight:[10,10,10,20,15,35][i],normalized:null,value:null,state:'missing',reason:'not_available'})),status:'insufficient',total:null,scale:100,displayTotal:null,displayScale:10,displayDecimals:1,displayDimensions:{quality:null,popularity:null,maintenance:null},dimensionWeights:{quality:30,popularity:35,maintenance:35},dimensions:{quality:null,popularity:null,maintenance:null},coverage:0,missing:[],evidence:[],rulesVersion:'hanamesh-initial-v1',assessedAt:'2026-11-19T00:00:00.000Z'},trustBadges:[],featured:[],similarGroup:null};
 function validate(name,value){const ajv=new Ajv({strict:true});ajv.addSchema(schema(),'discovery');return ajv.compile({$ref:'discovery#/$defs/'+name})(value);}
 test('list, search and detail share one discovery DTO; reasons are detail only',()=>{
  assert.equal(validate('listFields',sparse),true);assert.equal(validate('listFields',{...sparse,reasons:[]}),false);
@@ -12,7 +13,7 @@ test('list, search and detail share one discovery DTO; reasons are detail only',
  assert.equal(validate('item',{hanaId:'fixture',displayName:'existing catalog field',...sparse}),true);
  assert.equal(validate('item',{hanaId:'fixture',...sparse,reasons:[]}),false);
  assert.equal(validate('detailItem',{hanaId:'fixture',displayName:'existing catalog field',...sparse,reasons:[]}),true);
- assert.equal(validate('page',{items:[{hanaId:'00000000-0000-4000-8000-000000000001',...sparse}],next:null,total:1,hiddenInsufficientCount:1,domains:[],subdivisions:[],phase:'early'}),true);
+ assert.equal(validate('page',{items:[{hanaId:'00000000-0000-4000-8000-000000000001',...sparse}],next:null,total:1,capped:false,hiddenInsufficientCount:1,hiddenInsufficientCountCapped:false,projection,domains:[],subdivisions:[],phase:'early'}),true);
 });
 test('unknown score is null, never zero; a scored result requires an actual total',()=>{
  assert.equal(validate('listFields',{...sparse,score:{...sparse.score,total:0}}),false);

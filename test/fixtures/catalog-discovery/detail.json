@@ -393,5 +393,11 @@
         }
       ]
     }
-  ]
+  ],
+  "projection": {
+    "watermark": "1",
+    "assessedAt": "2026-11-19T00:00:00.000Z",
+    "rulesVersion": "hanamesh-initial-v1",
+    "projectionAt": "2026-11-19T00:00:01.000Z"
+  }
 }
