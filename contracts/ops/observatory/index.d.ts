@@ -29,8 +29,36 @@ export interface ObservatoryAmount {
   readonly network: ObservatoryNetwork | null;
 }
 export interface ObservatoryAmountBucket extends ObservatoryWindow {readonly amounts: readonly ObservatoryAmount[]}
+/** Actual HanaSwap Factory controls at one confirmed block; zero feeTo disables new fees. */
+export interface ObservatoryProtocolFeeSettings {
+  readonly factory: string;
+  readonly feeTo: string;
+  readonly feeToSetter: string;
+  readonly platformWallet: string;
+  readonly enabled: boolean;
+  readonly platformIsRecipient: boolean;
+  readonly rateBps: 5;
+  readonly network: ObservatoryNetwork;
+}
+/** Current LP holdings, not a cumulative fee ledger or realized cash income. */
+export interface ObservatoryProtocolFeePosition {
+  readonly pool: string;
+  readonly lpBalance: string;
+  readonly totalSupply: string;
+  readonly withdrawalSupply: string;
+  /** Fee LP that would be minted by the next mint/burn, separate from held LP. */
+  readonly unmintedProtocolLp: string;
+  readonly share: {readonly numerator: string; readonly denominator: string};
+  readonly withdrawable: readonly [ObservatoryAmount, ObservatoryAmount];
+}
+export interface ObservatoryProtocolFeePage {
+  readonly settings: ObservatoryProtocolFeeSettings;
+  readonly scope: 'explicit-pool-page';
+  readonly positions: readonly ObservatoryProtocolFeePosition[];
+}
 export interface ObservatoryIncome {
   readonly accounting: 'revenue' | 'custodial' | 'asset';
+  readonly protocolFees?: ObservatoryProtocolFeePage;
   readonly amounts: readonly ObservatoryAmount[];
   readonly window?: ObservatoryWindow;
   readonly series?: readonly ObservatoryAmountBucket[];
@@ -66,6 +94,7 @@ export interface ObservatoryHealth {
   readonly attention: 'owner' | 'operations' | 'none' | 'unknown';
 }
 export interface ObservatoryParameter {
+  readonly protocolFee?: ObservatoryProtocolFeeSettings;
   readonly value: string | number | boolean | null;
   readonly unit: string;
   readonly changedBy: 'owner' | 'operations' | 'admin' | 'contract';

@@ -303,6 +303,9 @@
           "items": {
             "$ref": "#/definitions/amountBucket"
           }
+        },
+        "protocolFees": {
+          "$ref": "#/definitions/protocolFeePage"
         }
       }
     },
@@ -572,6 +575,9 @@
         "impact": {
           "type": "string",
           "maxLength": 2048
+        },
+        "protocolFee": {
+          "$ref": "#/definitions/protocolFeeSettings"
         }
       }
     },
@@ -1009,6 +1015,141 @@
           }
         }
       ]
+    },
+    "protocolFeeSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factory",
+        "feeTo",
+        "feeToSetter",
+        "platformWallet",
+        "enabled",
+        "platformIsRecipient",
+        "rateBps",
+        "network"
+      ],
+      "properties": {
+        "factory": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "feeTo": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "feeToSetter": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "platformWallet": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "platformIsRecipient": {
+          "type": "boolean"
+        },
+        "rateBps": {
+          "const": 5
+        },
+        "network": {
+          "$ref": "#/definitions/network"
+        }
+      }
+    },
+    "protocolFeePosition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pool",
+        "lpBalance",
+        "totalSupply",
+        "withdrawalSupply",
+        "unmintedProtocolLp",
+        "share",
+        "withdrawable"
+      ],
+      "properties": {
+        "pool": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "lpBalance": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)$",
+          "maxLength": 160
+        },
+        "totalSupply": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)$",
+          "maxLength": 160
+        },
+        "withdrawalSupply": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)$",
+          "maxLength": 160
+        },
+        "unmintedProtocolLp": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)$",
+          "maxLength": 160
+        },
+        "share": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "numerator",
+            "denominator"
+          ],
+          "properties": {
+            "numerator": {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)$",
+              "maxLength": 160
+            },
+            "denominator": {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)$",
+              "maxLength": 160
+            }
+          }
+        },
+        "withdrawable": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/definitions/amount"
+          }
+        }
+      }
+    },
+    "protocolFeePage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "settings",
+        "scope",
+        "positions"
+      ],
+      "properties": {
+        "settings": {
+          "$ref": "#/definitions/protocolFeeSettings"
+        },
+        "scope": {
+          "const": "explicit-pool-page"
+        },
+        "positions": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/definitions/protocolFeePosition"
+          }
+        }
+      }
     }
   }
 }

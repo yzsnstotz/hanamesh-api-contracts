@@ -62,3 +62,7 @@ OB1 追加的 ops 页面声明候选采用 manifest schemaVersion 2：模块必�
 `group: {id,labelKey,order}`、组内 `order`、`permission: {policyId}`；Host 组合 `pages`，
 原精确 GET 允许集 `paths` 保留独立职责。见 [`docs/ops-manifest.md`](docs/ops-manifest.md)。
 提供方/消费方采用与新包版本仍由编排协调。
+
+编排11-19更正的 feeTo 协议手续费采用结构化 Factory 设置和 LP 持仓页：
+`ObservatoryIncome.protocolFees` / `ObservatoryParameter.protocolFee`，已持有、未铸费LP、
+可提取底层资产分开；详见 [`docs/observatory.md`](docs/observatory.md)。

@@ -42,3 +42,15 @@
 - [PostgreSQL 17 date_trunc](https://www.postgresql.org/docs/17/functions-datetime.html) 的显式 UTC 分桶；[Mixpanel DAU/WAU](https://mixpanel.com/blog/daily-active-users/) 的窗口内活跃用户去重定义。
 
 自造：五类指标、模块 source 与 availability 的业务 DTO 结构；没有可直接替代 HanaMesh 数据归属和会计分类的第三方协议。未新造读查询、权限或调度框架。
+
+## 编排11-19更正：协议手续费（feeTo，0.05%）
+
+收入科目采用 **协议手续费（feeTo，0.05%）**，替换设计稿中的“LP手续费/结构性为0”。HanaSwap为自部署Uniswap V2 fork：迁池LP铸给零地址，不会阻止Pair的`_mintFee`向Factory的`feeTo`另铸协议LP。按编排确认，0.3%的1/6展示为0.05%；只读接口不设置开关或签交易，是否开启由owner另定。
+
+`ObservatoryIncome.protocolFees` 承载协议LP持仓页；`ObservatoryParameter.protocolFee` 承载真实Factory开关与修改权限。`ObservatoryProtocolFeeSettings` 必含factory、feeTo、feeToSetter、platformWallet、enabled、platformIsRecipient、rateBps=5和实际network/区块。feeToSetter是链上“谁能改”的实际地址，不推测它就是Safe/owner；feeTo零地址表示新费关闭，已有LP仍正常读取。没有实现/读失败时原metric仍pending，不能回到“结构性零收入”。
+
+`ObservatoryProtocolFeePosition` 区分lpBalance（已持有）、totalSupply（链上总供给）、unmintedProtocolLp（下一次mint/burn才可能铸出的协议LP）和withdrawalSupply（铸费后的估算供给）；share是已持有LP占该供给的整数分子/分母。withdrawable严格两项，分别为两种底层资产的最小单位数量；网络、精度与区块保留，不自造美元价格。所有数值同一确认区块；pool页只覆盖明确选中的最多64个池（沿现有只读RPC批量容量），scope固定explicit-pool-page，不冒充全平台总计。
+
+估值由Chain拥有：V2以reserves/kLast计算下一次mint/burn的待铸费LP；已持有LP提取量按Pair实际token余额×已持有LP/铸费后的总供给向下取整。未铸费LP不并入lpBalance；feeTo不是平台地址时也不把待铸费LP说成平台已持有。当前持仓/底层资产估值不是已实现现金，balanceOf本身也不是累计协议铸币来源的事件账。若以后显示累计已赚，需归属模块的事件归因读模型。
+
+依据：[Uniswap费用说明](https://developers.uniswap.org/docs/get-started/concepts/fees)；HanaSwap冻结源码`core/contracts/UniswapV2Factory.sol`的feeTo/feeToSetter与`UniswapV2Pair.sol`的_mintFee、burn；估值对照periphery `UniswapV2LiquidityMathLibrary.computeLiquidityValue`，提取底层采用Pair.burn实际余额口径。来源、可得性与模块权限沿本页原规则，不能由Host复制该公式或扫描32k池目录。
