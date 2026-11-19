@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import Ajv from 'ajv';
+import {OBSERVATORY_SCHEMA} from '@hanamesh/api-contracts/ops/observatory';
+const validate=new Ajv({strict:false}).compile(OBSERVATORY_SCHEMA),at='2026-11-19T00:00:00.000Z';
+const source={module:'host',port:'readJobResultHistory',definition:'Persisted Host results, per instance/module/job; window clipped to coverage',asOf:at};
+const result={eventId:'00000000-0000-4000-8000-000000000001',sequence:'1',runId:'fixture-run',outcome:'failed',recordedAt:at,persistedAt:at,code:'FIXTURE_FAILED',reason:null,reports:[{kind:'failed',receivedAt:at,code:'FIXTURE_FAILED',reason:null}]};
+const job={instanceId:'fixture-a',moduleId:'fixture',jobName:'sweep',healthIntervalMs:60000,availability:'available',source,coverageStartedAt:at,status:'failed',lastSuccessAt:null,lastFailureAt:at,latestResult:'failed',latestResultAt:at,failures:1,failureWindow:{from:at,to:'2026-11-20T00:00:00.000Z'},paused:null,reason:'FIXTURE_FAILED',results:[result]};
+const body=()=>({schemaVersion:1,timezone:'UTC',generatedAt:at,income:[],spending:[],people:[],parameters:[],health:[{id:'host.jobs',source,availability:'available',value:{status:'unknown',lastSuccessAt:null,failures:null,failureWindow:null,paused:null,reason:null,attention:'unknown',jobHistory:{instanceId:'fixture-a',jobs:[structuredClone(job)]}}}]});
+test('N9 per-job health preserves genuine timestamps, bounded results and separate raw report receipts',()=>{assert.equal(validate(body()),true,JSON.stringify(validate.errors));});
+test('N9 missing history is pending/unknown, with null timestamps and failure count',()=>{const v=body(),j=v.health[0].value.jobHistory.jobs[0];Object.assign(j,{availability:'pending',status:'unknown',lastFailureAt:null,latestResult:null,latestResultAt:null,coverageStartedAt:null,failures:null,failureWindow:null,results:[],reason:'JOB_HISTORY_NOT_RECORDED'});assert.equal(validate(v),true,JSON.stringify(validate.errors));});
+test('N9 rejects exception payloads and unbounded result lists',()=>{for(const change of [j=>{j.results[0].stack='PRIVATE';},j=>{j.results=Array.from({length:101},()=>result);},j=>{j.results[0].outcome='progress';},j=>{j.results[0].reports[0].prompt='PRIVATE';}]){const v=body();change(v.health[0].value.jobHistory.jobs[0]);assert.equal(validate(v),false);}});
