@@ -72,3 +72,5 @@ No history means pending/unknown with null timestamps/count/window, not a green 
 ## Chain0.43.0 composition
 
 Parameter.platformSafe carries actual Safe address, owner count and threshold at the confirmed network block, block hash and evidence. It contains no owner list or invented health judgment. Spending.gasReceipts carries an explicit known-transaction page (at most64), including pending/missing facts, actual payer/platformPaid, reverted status and exact integer wei. It is not a complete-history/daily total: amounts remains empty when only a receipt page is known; owning-module aggregate contributions remain pending. External-payer receipts remain factual and are not platform expenditure. Existing feeTo/protocolFees fields retain explicit-pool-page and separate held/unminted LP. All source watermarks remain Chain block times. No new UI, scan, rate, FX or accounting aggregation.
+
+N9 的 `healthIntervalMs` 沿实际公开声明；只有 cron 而未声明健康间隔的作业返回 null，并保留原 cron/timezone，不能推测间隔或据此变绿。作业原始身份允许下划线（如 AI 的 `search_miss_weekly`）。

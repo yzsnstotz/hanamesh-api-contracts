@@ -96,11 +96,11 @@ export interface ObservatoryPeople {
 /** Host-observed terminal reports. Progress/queued/started remain liveness facts, not result history. */
 export interface ObservatoryJobReport {readonly kind:'ok'|'failed'|'skipped';readonly receivedAt:string;readonly code:string|null;readonly reason:string|null}
 export interface ObservatoryJobResult {readonly eventId:string;readonly sequence:string;readonly runId:string;readonly outcome:'ok'|'failed'|'skipped';readonly recordedAt:string;readonly persistedAt:string;readonly code:string|null;readonly reason:string|null;readonly reports:readonly ObservatoryJobReport[]}
-export interface ObservatoryJobDeclaration {readonly tags:readonly string[];readonly resources:readonly ('db'|'rpc'|'ai')[];readonly schedule?:{readonly pattern:string;readonly kind?:'interval'|'after-completion'|'once'|'manual';readonly start:'after-interval'|'immediate'|'scheduled'|'manual';readonly healthIntervalMs:number;readonly options:{readonly protect:true;readonly interval?:number;readonly timezone?:string}};readonly singleInstance?:{readonly scope:'instance'}}
+export interface ObservatoryJobDeclaration {readonly tags:readonly string[];readonly resources:readonly ('db'|'rpc'|'ai')[];readonly schedule?:{readonly pattern:string;readonly kind?:'interval'|'after-completion'|'once'|'manual';readonly start:'after-interval'|'immediate'|'scheduled'|'manual';readonly healthIntervalMs:number|null;readonly options:{readonly protect:true;readonly interval?:number;readonly timezone?:string}};readonly singleInstance?:{readonly scope:'instance'}}
 export interface ObservatoryJobActivity {readonly state:'queued'|'running'|'idle'|'unknown';readonly lastResult:'pending'|'queued'|'ok'|'failed'|'skipped'|null;readonly heartbeatAt:string|null;readonly progressAt:string|null;readonly asOf:string|null}
 export interface ObservatoryJobHealth {
  readonly activity?:ObservatoryJobActivity;
- readonly instanceId:string;readonly moduleId:string;readonly jobName:string;readonly healthIntervalMs:number;readonly declaration?:ObservatoryJobDeclaration;
+ readonly instanceId:string;readonly moduleId:string;readonly jobName:string;readonly healthIntervalMs:number|null;readonly declaration?:ObservatoryJobDeclaration;
  readonly availability:'available'|'pending';readonly source:ObservatorySource;readonly coverageStartedAt:string|null;
  readonly status:'healthy'|'degraded'|'paused'|'failed'|'unknown';readonly lastSuccessAt:string|null;readonly lastFailureAt:string|null;
  readonly latestResult:'ok'|'failed'|'skipped'|null;readonly latestResultAt:string|null;
