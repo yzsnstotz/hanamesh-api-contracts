@@ -14,7 +14,7 @@ Similar groups are display-only. Only checkable GitHub fork/parent relations or 
 
 Phase `early` hides platform-internal data by configuration; it does not hide public plugin facts or scores. Host must pass the configured phase. The service owns all filtering/ranking/counts in bounded SQL. Featured = eligible top11 per domain, score descending, Hana ID ascending for ties. Short domains return fewer; no filler.
 
-SemVer: additive public export proposes a minor upgrade from0.25.0; final version assigned by orchestration at merge. No tag/publish in this task.
+SemVer: orchestration allocated discovery contracts version0.26.0 (OB1 observation contracts use0.27.0). The later merge rebases onto the earlier one. No tag/publish in this task.
 
 Standards: [JSON Schema2020-12](https://json-schema.org/draft/2020-12/json-schema-validation), [PostgreSQL17 ordered LIMIT](https://www.postgresql.org/docs/17/queries-limit.html), [node-postgres transaction client](https://node-postgres.com/features/transactions).
 
