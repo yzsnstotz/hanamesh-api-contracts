@@ -505,6 +505,9 @@
             "none",
             "unknown"
           ]
+        },
+        "jobHistory": {
+          "$ref": "#/definitions/jobHistory"
         }
       }
     },
@@ -1138,6 +1141,491 @@
           "maxItems": 64,
           "items": {
             "$ref": "#/definitions/protocolFeePosition"
+          }
+        }
+      }
+    },
+    "jobReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "receivedAt",
+        "code",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "ok",
+            "failed",
+            "skipped"
+          ]
+        },
+        "receivedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+          "maxLength": 24
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[A-Z][A-Z0-9_]{0,95}|[0-9][0-9A-Z]{4})$",
+              "maxLength": 96
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[A-Z][A-Z0-9_]{0,95}|[0-9][0-9A-Z]{4})$",
+              "maxLength": 96
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "jobResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eventId",
+        "sequence",
+        "runId",
+        "outcome",
+        "recordedAt",
+        "persistedAt",
+        "code",
+        "reason",
+        "reports"
+      ],
+      "properties": {
+        "eventId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "sequence": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$",
+          "maxLength": 30
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "outcome": {
+          "enum": [
+            "ok",
+            "failed",
+            "skipped"
+          ]
+        },
+        "recordedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+          "maxLength": 24
+        },
+        "persistedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+          "maxLength": 24
+        },
+        "code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[A-Z][A-Z0-9_]{0,95}|[0-9][0-9A-Z]{4})$",
+              "maxLength": 96
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(?:[A-Z][A-Z0-9_]{0,95}|[0-9][0-9A-Z]{4})$",
+              "maxLength": 96
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reports": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/definitions/jobReport"
+          }
+        }
+      }
+    },
+    "jobDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tags",
+        "resources"
+      ],
+      "properties": {
+        "tags": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "resources": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "enum": [
+              "db",
+              "rpc",
+              "ai"
+            ]
+          }
+        },
+        "schedule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pattern",
+            "start",
+            "healthIntervalMs",
+            "options"
+          ],
+          "properties": {
+            "pattern": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "kind": {
+              "enum": [
+                "interval",
+                "after-completion",
+                "once",
+                "manual"
+              ]
+            },
+            "start": {
+              "enum": [
+                "after-interval",
+                "immediate",
+                "scheduled",
+                "manual"
+              ]
+            },
+            "healthIntervalMs": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "protect"
+              ],
+              "properties": {
+                "protect": {
+                  "const": true
+                },
+                "interval": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 9007199254740991
+                },
+                "timezone": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 128
+                }
+              }
+            }
+          }
+        },
+        "singleInstance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope"
+          ],
+          "properties": {
+            "scope": {
+              "const": "instance"
+            }
+          }
+        }
+      }
+    },
+    "jobHealth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instanceId",
+        "moduleId",
+        "jobName",
+        "healthIntervalMs",
+        "availability",
+        "source",
+        "coverageStartedAt",
+        "status",
+        "lastSuccessAt",
+        "lastFailureAt",
+        "latestResult",
+        "latestResultAt",
+        "failures",
+        "failureWindow",
+        "paused",
+        "reason",
+        "results"
+      ],
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "moduleId": {
+          "type": "string",
+          "pattern": "^[a-z][a-zA-Z0-9.-]{0,63}$"
+        },
+        "jobName": {
+          "type": "string",
+          "pattern": "^[a-z][a-zA-Z0-9.-]{0,63}$"
+        },
+        "healthIntervalMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "declaration": {
+          "$ref": "#/definitions/jobDeclaration"
+        },
+        "availability": {
+          "enum": [
+            "available",
+            "pending"
+          ]
+        },
+        "source": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/source"
+            },
+            {
+              "properties": {
+                "module": {
+                  "const": "host"
+                }
+              }
+            }
+          ]
+        },
+        "coverageStartedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "healthy",
+            "degraded",
+            "paused",
+            "failed",
+            "unknown"
+          ]
+        },
+        "lastSuccessAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastFailureAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "latestResult": {
+          "enum": [
+            "ok",
+            "failed",
+            "skipped",
+            null
+          ]
+        },
+        "latestResultAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])T([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(\\.\\d{1,3})?Z$",
+              "maxLength": 24
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "failures": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "failureWindow": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/window"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "paused": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "results": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/jobResult"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "const": "pending"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "coverageStartedAt": {
+                "type": "null"
+              },
+              "lastSuccessAt": {
+                "type": "null"
+              },
+              "lastFailureAt": {
+                "type": "null"
+              },
+              "latestResult": {
+                "type": "null"
+              },
+              "latestResultAt": {
+                "type": "null"
+              },
+              "failures": {
+                "type": "null"
+              },
+              "failureWindow": {
+                "type": "null"
+              },
+              "paused": {
+                "type": "null"
+              },
+              "status": {
+                "const": "unknown"
+              },
+              "results": {
+                "maxItems": 0
+              },
+              "source": {
+                "properties": {
+                  "asOf": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "jobHistory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instanceId",
+        "jobs"
+      ],
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "jobs": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/definitions/jobHealth"
           }
         }
       }

@@ -84,7 +84,22 @@ export interface ObservatoryPeople {
   /** Segments may overlap. Providers must independently deduplicate the total. */
   readonly breakdown?: readonly {readonly label: string; readonly count: number}[];
 }
+/** Host-observed terminal reports. Progress/queued/started remain liveness facts, not result history. */
+export interface ObservatoryJobReport {readonly kind:'ok'|'failed'|'skipped';readonly receivedAt:string;readonly code:string|null;readonly reason:string|null}
+export interface ObservatoryJobResult {readonly eventId:string;readonly sequence:string;readonly runId:string;readonly outcome:'ok'|'failed'|'skipped';readonly recordedAt:string;readonly persistedAt:string;readonly code:string|null;readonly reason:string|null;readonly reports:readonly ObservatoryJobReport[]}
+export interface ObservatoryJobDeclaration {readonly tags:readonly string[];readonly resources:readonly ('db'|'rpc'|'ai')[];readonly schedule?:{readonly pattern:string;readonly kind?:'interval'|'after-completion'|'once'|'manual';readonly start:'after-interval'|'immediate'|'scheduled'|'manual';readonly healthIntervalMs:number;readonly options:{readonly protect:true;readonly interval?:number;readonly timezone?:string}};readonly singleInstance?:{readonly scope:'instance'}}
+export interface ObservatoryJobHealth {
+ readonly instanceId:string;readonly moduleId:string;readonly jobName:string;readonly healthIntervalMs:number;readonly declaration?:ObservatoryJobDeclaration;
+ readonly availability:'available'|'pending';readonly source:ObservatorySource;readonly coverageStartedAt:string|null;
+ readonly status:'healthy'|'degraded'|'paused'|'failed'|'unknown';readonly lastSuccessAt:string|null;readonly lastFailureAt:string|null;
+ readonly latestResult:'ok'|'failed'|'skipped'|null;readonly latestResultAt:string|null;
+ readonly failures:number|null;readonly failureWindow:ObservatoryWindow|null;readonly paused:boolean|null;readonly reason:string|null;
+ readonly results:readonly ObservatoryJobResult[];
+}
+export interface ObservatoryJobHistory {readonly instanceId:string;readonly jobs:readonly ObservatoryJobHealth[]}
 export interface ObservatoryHealth {
+  /** Host-owned result history. Each actual registered job carries its own availability and watermark. */
+  readonly jobHistory?:ObservatoryJobHistory;
   readonly status: 'healthy' | 'degraded' | 'paused' | 'failed' | 'unknown';
   readonly lastSuccessAt: string | null;
   readonly failures: number | null;
