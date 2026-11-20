@@ -1,12 +1,12 @@
 # 本人发行读契约 · IR1 / 0.29.0
 
-公开入口 `@hanamesh/api-contracts/issuer/read` 与 `/issuer/read/schema.json`。上游基线为 I18NC 0.28.0 候选 b52b4325；本件未宣称其已合入。DTO和JSON Schema只描述公开结果，鉴权由资源模块实现，Host仅组合公开端口。所有金额、sold/SALES和Unix秒为十进制整数字符串；issuedAt为同一原事件时间的UTC表示。未知数据不造0；事实来源无法验证时返回具名503，明确无记录才返回空页。
+公开入口 `@hanamesh/api-contracts/issuer/read` 与 `/issuer/read/schema.json`。上游基线为正式 v0.28.0 / afc62900，本候选已在其上变基。DTO和JSON Schema只描述公开结果，鉴权由资源模块实现，Host仅组合公开端口。所有金额、sold/SALES和Unix秒为十进制整数字符串；issuedAt为同一原事件时间的UTC表示。未知数据不造0；事实来源无法验证时返回具名503，明确无记录才返回空页。
 
 | 提供模块 | 公开读方法 / HTTP | 输入与结果 |
 |---|---|---|
 | Identity 0.11.0 | attachedWallets.listOwnAddresses(actor,context?) / GET /v1/identity/me/wallets/attached-addresses | 已认证规范本人；OwnAttachedAddresses；当前attached的EVM地址≤10、按地址排序；不返回proof或detached历史；资源端校验account/scope/deployment |
 | Registry 0.4.12 | readIssuedHanaProfiles({deploymentId,hanaKeys},context?) | IssuedHanaProfiles；最多50个唯一键，保持输入次序，每个键恰一条，缺映射status:not-found且两个名称字段null；只读自己表 |
-| Indexer 0.5.45 | listOwnIssuedTokens(credentials,{deploymentId,limit?,cursor?}) / GET /v1/indexer/me/issued-tokens | OwnIssuedTokensPage；Cookie本人、当前钱包集合匹配binding.issuer；limit默认20最大50；未知/重复参数拒绝；GET no-store；Origin须可信 |
+| Indexer 0.5.46 | listOwnIssuedTokens(credentials,{deploymentId,limit?,cursor?}) / GET /v1/indexer/me/issued-tokens | OwnIssuedTokensPage；Cookie本人、当前钱包集合匹配binding.issuer；limit默认20最大50；未知/重复参数拒绝；GET no-store；Origin须可信 |
 
 Indexer读取已提交规范market_members/binding/issued和同head market_facts，数据在Chain验证后入库。按(原发行blockTimestamp,lowercase token address)降序稳定分页；游标绑定规范principal、钱包version/地址集合、deployment、limit及原head/hash，且每次仍重新鉴权。畸形游标400、跨本人403、钱包或head变化409，来源故障503；不隐式重试。游标不包含Cookie、proof、签名或私有身份明文。不接受浏览器自报issuer/principal。重组移除或head移动时拒绝旧页；不拿旧head和当前数据混成快照。
 
