@@ -49,27 +49,7 @@
         "does": {
           "anyOf": [
             {
-              "type": "object",
-              "properties": {
-                "zh": {
-                  "type": "string",
-                  "maxLength": 28
-                },
-                "en": {
-                  "type": "string",
-                  "maxLength": 70
-                },
-                "ja": {
-                  "type": "string",
-                  "maxLength": 35
-                }
-              },
-              "required": [
-                "zh",
-                "en",
-                "ja"
-              ],
-              "additionalProperties": false
+              "$ref": "https://hanamesh.com/contracts/catalog/localized-v2#/$defs/does"
             },
             {
               "type": "null"
@@ -80,13 +60,13 @@
           "type": "object",
           "properties": {
             "audience": {
-              "$ref": "#/$defs/fact"
+              "$ref": "#/$defs/localizedFact"
             },
             "difficulty": {
               "$ref": "#/$defs/fact"
             },
             "difficultyReason": {
-              "$ref": "#/$defs/fact"
+              "$ref": "#/$defs/localizedFact"
             },
             "apiKey": {
               "$ref": "#/$defs/fact"
@@ -599,24 +579,7 @@
       "type": "object",
       "properties": {
         "text": {
-          "type": "object",
-          "properties": {
-            "zh": {
-              "type": "string"
-            },
-            "en": {
-              "type": "string"
-            },
-            "ja": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "zh",
-            "en",
-            "ja"
-          ],
-          "additionalProperties": false
+          "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
         },
         "evidence": {
           "type": "array",
@@ -893,7 +856,7 @@
                 "type": "string"
               },
               "name": {
-                "type": "string"
+                "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
               },
               "count": {
                 "type": "integer",
@@ -922,7 +885,7 @@
                 "type": "string"
               },
               "name": {
-                "type": "string"
+                "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
               },
               "count": {
                 "type": "integer",
@@ -1199,7 +1162,7 @@
                 "type": "string"
               },
               "name": {
-                "type": "string"
+                "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
               },
               "count": {
                 "type": "integer",
@@ -1219,7 +1182,7 @@
                       "type": "string"
                     },
                     "name": {
-                      "type": "string"
+                      "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
                     },
                     "count": {
                       "type": "integer",
@@ -1316,6 +1279,62 @@
         "projectionAt"
       ],
       "additionalProperties": false
+    },
+    "localizedFact": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "evidence": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

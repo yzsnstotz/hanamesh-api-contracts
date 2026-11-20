@@ -8,5 +8,5 @@ declare const list:DiscoveryListFields;
 // @ts-expect-error detail-only reasons may not be consumed on a list card
 list.reasons;
 declare const detail:DiscoveryDetailFields;
-const reason:string|undefined=detail.reasons[0]?.text.zh;
+const reason:string|undefined=detail.reasons[0]?.text.byLocale.zh;
 void [schema,version,display,reason];

@@ -15,7 +15,7 @@ AI18 `hanamesh-initial-v1`: 0–100, weights README10/license10/Scorecard10/npm 
 
 `domainIds` and normalized `subdivisions` use Indexer-owned taxonomy `hanamesh-discovery-taxonomy-v1` (46 raw IDs to44 groups; union alias domains and count distinct hana IDs). Multiple domains are permitted. Unknown raw classifications do not invent domains.
 
-Overview: `does` zh<=28/en<=70/ja<=35 Unicode code points; facts mirror the14 AI18 source facts (does is top-level, the other13 in facts). No truncation. Every non-null capability/fact requires source-bound evidence on submission; absent facts are null/omitted. Detail reasons are deterministic facts with evidence, never praise inferred from score.
+Overview: `does` uses shared `LocalizedText.byLocale` and `does-limits-v2` (zh28/en70/ja35/pt-BR80/es80/ko45/vi90/id80/ru80 NFC Unicode code points); facts mirror the14 AI18 source facts (does is top-level, the other13 in facts). No truncation. Every non-null capability/fact requires source-bound evidence on submission; absent facts are null/omitted. Detail reasons are deterministic facts with evidence, never praise inferred from score.
 
 Trust: `official` remains the existing authoritative item field; its discovery badge carries existing active source proof. `recent-maintenance` is Indexer-owned using AI18 update/fresh-observation rules. Indexer does not issue `author-claimed`; Host composes that badge solely from Registry's public claim state and its checkable source/date. `installation-tested` is reserved but absent until a formal authoritative evidence source exists. Unknown is never trusted.
 
@@ -33,3 +33,16 @@ Owner11-19 final display: raw `total`/`dimensions` retain scale100 and two decim
 `readDomainDirectory` supplies the versioned ten-domain/subdivision directory and exact visible/insufficient counts. `readStageConfig`/`getDiscoveryStageConfig` supplies the configured phase and explicit showPlatformData boolean. `readListFields` decorates a bounded existing candidate order without replacing semantic/native selection.
 
 R423 physical bounds: selected IDs are materialized before primary-key LATERAL catalog/discovery payload reads. `index_ready` seeks the partial pending-document index. Raw EXPLAIN retains GIN bitmap posting entries/buffers separately from bounded candidate heap visits; repeated bitmap construction is forbidden and the complete work is included in the exclusive34k F02 endpoint timings. No new PG extensions or planner-path disabling.
+
+
+## API 0.28.0: localized-v2 replacement
+
+All localized discovery text now uses the shared [localized-v2 contract](catalog-localized.md):
+`overview.does`, `facts.audience.value`, `facts.difficultyReason.value`, detail `reasons[].text`,
+and every page/directory domain/subdivision `name`. Null facts retain their existing evidence rules.
+Register `LOCALIZED_SCHEMA` alongside `DISCOVERY_SCHEMA` with a JSON Schema2020-12 validator;
+the discovery JSON references the public localized schema by its canonical `$id`.
+The old `DiscoveryLocalizedText` declaration and top-level `{zh,en,ja}` schemas are removed.
+There is no union, adapter, dual write or legacy payload reader. Taxonomy IDs and scoring rules
+remain owned by Indexer. Summary and other provider-owned text fields adopt `LocalizedText`
+at their public ports in the corresponding consumer tasks, not through an invented discovery summary field.

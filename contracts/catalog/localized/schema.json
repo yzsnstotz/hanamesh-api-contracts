@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.com/contracts/catalog/localized-v2",
+  "description": "Sparse translated text. Resolve requested locale, then en, then the original source text. Never copy fallback text into a missing locale or relabel its language. Unknown whole facts are null at their owning field, not null map entries. Producers normalize derived text to NFC before code point validation; original source, hashes and evidence quotes are unchanged.",
+  "$ref": "#/$defs/localizedText",
+  "$defs": {
+    "locale": {
+      "type": "string",
+      "enum": [
+        "zh",
+        "en",
+        "ja",
+        "pt-BR",
+        "es",
+        "ko",
+        "vi",
+        "id",
+        "ru"
+      ]
+    },
+    "localizedText": {
+      "type": "object",
+      "properties": {
+        "byLocale": {
+          "type": "object",
+          "properties": {
+            "zh": {
+              "type": "string"
+            },
+            "en": {
+              "type": "string"
+            },
+            "ja": {
+              "type": "string"
+            },
+            "pt-BR": {
+              "type": "string"
+            },
+            "es": {
+              "type": "string"
+            },
+            "ko": {
+              "type": "string"
+            },
+            "vi": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "ru": {
+              "type": "string"
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "byLocale"
+      ],
+      "additionalProperties": false
+    },
+    "does": {
+      "type": "object",
+      "properties": {
+        "byLocale": {
+          "type": "object",
+          "properties": {
+            "zh": {
+              "type": "string",
+              "maxLength": 28
+            },
+            "en": {
+              "type": "string",
+              "maxLength": 70
+            },
+            "ja": {
+              "type": "string",
+              "maxLength": 35
+            },
+            "pt-BR": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "es": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "ko": {
+              "type": "string",
+              "maxLength": 45
+            },
+            "vi": {
+              "type": "string",
+              "maxLength": 90
+            },
+            "id": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "ru": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "byLocale"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -56,12 +56,12 @@ Host ops manifest HTTP 契约与 JSON Schema：[`docs/ops-manifest.md`](docs/ops
 
 观测台只读 DTO 与 JSON Schema 候选：[`docs/observatory.md`](docs/observatory.md)，子路径
 `@hanamesh/api-contracts/ops/observatory`。每个指标附来源与 available/pending/manual；
-模块拥有统计与授权，Host 只组合。观测契约沿正式 v0.26.0 基点保留；当前包候选 **0.27.0** 同时增加发现契约，合入、发布及 Host 采用仍待本候选验收。
+模块拥有统计与授权，Host 只组合。观测契约沿正式 v0.26.0 基点保留；当前包候选 **0.28.0** 同时增加发现契约，合入、发布及 Host 采用仍待本候选验收。
 
 OB1 追加的 ops 页面声明候选采用 manifest schemaVersion 2：模块必填
 `group: {id,labelKey,order}`、组内 `order`、`permission: {policyId}`；Host 组合 `pages`，
 原精确 GET 允许集 `paths` 保留独立职责。见 [`docs/ops-manifest.md`](docs/ops-manifest.md)。
-当前包候选版本为 **0.27.0**；上述观测声明保持 v0.26.0 的接口与映射，提供方/消费方采用仍由编排协调。
+当前包候选版本为 **0.28.0**；上述观测声明保持 v0.26.0 的接口与映射，提供方/消费方采用仍由编排协调。
 
 编排11-19更正的 feeTo 协议手续费采用结构化 Factory 设置和 LP 持仓页：
 `ObservatoryIncome.protocolFees` / `ObservatoryParameter.protocolFee`，已持有、未铸费LP、
@@ -70,3 +70,9 @@ OB1 追加的 ops 页面声明候选采用 manifest schemaVersion 2：模块必�
 ## Shared plugin discovery candidate
 
 `@hanamesh/api-contracts/catalog/discovery` exports the common list/search/detail DTOs and JSON Schema2020-12; see [catalog-discovery.md](docs/catalog-discovery.md). Indexer owns scoring/taxonomy/evidence projection; Web and the independent Market render the same fields. Final additive minor version is assigned by orchestration.
+
+
+Shared nine-language text: `@hanamesh/api-contracts/catalog/localized` exports `Locale`,
+nonempty sparse `LocalizedText`, `LOCALES`, `DOES_LIMITS` and JSON Schema2020-12.
+API0.28.0 replaces discovery's three-key text with `localized-v2`; see
+[catalog-localized.md](docs/catalog-localized.md) for fallback and consumer follow-up.

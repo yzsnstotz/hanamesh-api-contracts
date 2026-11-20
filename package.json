@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "description": "Current quote-v2 provider declarations, ABI artifacts and C09 search-miss response schemas.",
   "type": "module",
   "license": "MIT",
@@ -52,7 +52,12 @@
       "types": "./contracts/catalog/discovery/index.d.ts",
       "default": "./contracts/catalog/discovery/index.js"
     },
-    "./catalog/discovery/schema.json": "./contracts/catalog/discovery/schema.json"
+    "./catalog/discovery/schema.json": "./contracts/catalog/discovery/schema.json",
+    "./catalog/localized": {
+      "types": "./contracts/catalog/localized/index.d.ts",
+      "default": "./contracts/catalog/localized/index.js"
+    },
+    "./catalog/localized/schema.json": "./contracts/catalog/localized/schema.json"
   },
   "files": [
     "index.js",
@@ -66,10 +71,13 @@
     "docs/observatory.md",
     "docs/observatory-ops-v3.md",
     "contracts/catalog/discovery",
-    "docs/catalog-discovery.md"
+    "docs/catalog-discovery.md",
+    "contracts/catalog/localized",
+    "docs/catalog-localized.md"
   ],
   "scripts": {
-    "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json"
+    "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",
+    "test:localized": "node --test test/catalog-discovery.test.mjs test/catalog-localized.test.mjs && tsc -p test/tsconfig.json"
   },
   "peerDependencies": {
     "viem": "^2.56.9"
