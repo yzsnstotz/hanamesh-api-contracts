@@ -4,13 +4,13 @@
 
 | 提供模块 | 公开读方法 / HTTP | 输入与结果 |
 |---|---|---|
-| Identity 0.11.0 | wallets.listOwnAttachedAddresses(actor,context?) / GET /v1/identity/me/wallets/attached-addresses | 已认证规范本人；OwnAttachedAddresses；当前attached的EVM地址≤10、按地址排序；不返回proof或detached历史；资源端校验account/scope/deployment |
+| Identity 0.11.0 | attachedWallets.listOwnAddresses(actor,context?) / GET /v1/identity/me/wallets/attached-addresses | 已认证规范本人；OwnAttachedAddresses；当前attached的EVM地址≤10、按地址排序；不返回proof或detached历史；资源端校验account/scope/deployment |
 | Registry 0.4.12 | readIssuedHanaProfiles({deploymentId,hanaKeys},context?) | IssuedHanaProfiles；最多50个唯一键，保持输入次序，每个键恰一条，缺映射status:not-found且两个名称字段null；只读自己表 |
 | Indexer 0.5.45 | listOwnIssuedTokens(credentials,{deploymentId,limit?,cursor?}) / GET /v1/indexer/me/issued-tokens | OwnIssuedTokensPage；Cookie本人、当前钱包集合匹配binding.issuer；limit默认20最大50；未知/重复参数拒绝；GET no-store；Origin须可信 |
 
 Indexer读取已提交规范market_members/binding/issued和同head market_facts，数据在Chain验证后入库。按(原发行blockTimestamp,lowercase token address)降序稳定分页；游标绑定规范principal、钱包version/地址集合、deployment、limit及原head/hash，且每次仍重新鉴权。畸形游标400、跨本人403、钱包或head变化409，来源故障503；不隐式重试。游标不包含Cookie、proof、签名或私有身份明文。不接受浏览器自报issuer/principal。重组移除或head移动时拒绝旧页；不拿旧head和当前数据混成快照。
 
-本人集合按当前attached地址，包含主/次钱包且不按当前主钱包缩减，不使用持仓或Custody frozen.principalId替代发行钱包。Identity端口接受同一只读executor，认证、规范账号、钱包版本及Indexer/Registry页读在调用方同一只读事务中。其他源不支持executor时不得仿造共享快照。
+本人集合按当前attached地址，包含主/次钱包且不按当前主钱包缩减，不使用持仓或Custody frozen.principalId替代发行钱包。Identity另向服务端提供 attachedWallets.readOwnScope(actor,context?)，返回{principalId,wallets:OwnAttachedAddresses}；principalId仅供服务器绑定游标，不进入HTTP钱包响应或游标明文。该方法用自身有界SQL解析规范本人，不调用会枚举关联设备的通用resolveCanonical。Identity端口接受同一只读executor，认证、规范账号、钱包版本及Indexer/Registry页读在调用方同一只读事务中。其他源不支持executor时不得仿造共享快照。
 
 响应覆盖完整链身份、token/quote真实元数据、发行交易/时间、实际sold/SALES、phase、earlyReleaseAllowed、releaseStartedAt/source与migratedAt。phase:inactive保持原事实；“已迁池”和“释放中”可同时成立；列表事实不能代替即时链操作资格。Hana名称由Registry公开有界读口按当页键补齐，缺映射保留发行行和具名not-found；不从hash反推UUID或伪造“管理”目标。
 
