@@ -44,16 +44,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -77,9 +81,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -400,16 +406,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -433,9 +443,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -743,16 +755,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -776,9 +792,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -1076,16 +1094,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -1109,9 +1131,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -1409,16 +1433,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -1442,9 +1470,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -1742,16 +1772,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -1775,9 +1809,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -2075,16 +2111,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -2108,9 +2148,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -2408,16 +2450,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -2441,9 +2487,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -2741,16 +2789,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -2774,9 +2826,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -3074,16 +3128,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -3107,9 +3165,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -3407,16 +3467,20 @@
       "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
       "overview": {
         "does": {
-          "zh": "把演示文档整理成笔记和待办",
-          "en": "Turn sample documents into notes and tasks.",
-          "ja": "サンプル文書をノートとタスクに整理する。"
+          "byLocale": {
+            "zh": "把演示文档整理成笔记和待办",
+            "en": "Turn sample documents into notes and tasks.",
+            "ja": "サンプル文書をノートとタスクに整理する。"
+          }
         },
         "facts": {
           "audience": {
             "value": {
-              "zh": "需要整理演示文档的人",
-              "en": "People organizing sample documents",
-              "ja": "サンプル文書を整理する人"
+              "byLocale": {
+                "zh": "需要整理演示文档的人",
+                "en": "People organizing sample documents",
+                "ja": "サンプル文書を整理する人"
+              }
             },
             "evidence": [
               {
@@ -3440,9 +3504,11 @@
           },
           "difficultyReason": {
             "value": {
-              "zh": "合成示例有安装说明和使用示例",
-              "en": "The synthetic fixture includes setup and usage examples.",
-              "ja": "合成サンプルに導入手順と使用例がある。"
+              "byLocale": {
+                "zh": "合成示例有安装说明和使用示例",
+                "en": "The synthetic fixture includes setup and usage examples.",
+                "ja": "合成サンプルに導入手順と使用例がある。"
+              }
             },
             "evidence": [
               {
@@ -3865,61 +3931,101 @@
   "domains": [
     {
       "id": "office",
-      "name": "办公写作",
+      "name": {
+        "byLocale": {
+          "zh": "办公写作"
+        }
+      },
       "count": 12,
       "capped": false
     },
     {
       "id": "code",
-      "name": "编程开发",
+      "name": {
+        "byLocale": {
+          "zh": "编程开发"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "design",
-      "name": "设计与图像",
+      "name": {
+        "byLocale": {
+          "zh": "设计与图像"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "data",
-      "name": "数据分析",
+      "name": {
+        "byLocale": {
+          "zh": "数据分析"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "marketing",
-      "name": "营销运营",
+      "name": {
+        "byLocale": {
+          "zh": "营销运营"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "research",
-      "name": "学习研究",
+      "name": {
+        "byLocale": {
+          "zh": "学习研究"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "finance",
-      "name": "金融与链上",
+      "name": {
+        "byLocale": {
+          "zh": "金融与链上"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "life",
-      "name": "生活效率",
+      "name": {
+        "byLocale": {
+          "zh": "生活效率"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "automation",
-      "name": "自动化与集成",
+      "name": {
+        "byLocale": {
+          "zh": "自动化与集成"
+        }
+      },
       "count": 0,
       "capped": false
     },
     {
       "id": "setup",
-      "name": "AI 工具与环境",
+      "name": {
+        "byLocale": {
+          "zh": "AI 工具与环境"
+        }
+      },
       "count": 0,
       "capped": false
     }
@@ -3927,7 +4033,11 @@
   "subdivisions": [
     {
       "id": "session",
-      "name": "会话管理",
+      "name": {
+        "byLocale": {
+          "zh": "会话管理"
+        }
+      },
       "count": 12,
       "capped": false
     }

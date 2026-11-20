@@ -42,16 +42,20 @@
   "taxonomyVersion": "hanamesh-discovery-taxonomy-v1",
   "overview": {
     "does": {
-      "zh": "把演示文档整理成笔记和待办",
-      "en": "Turn sample documents into notes and tasks.",
-      "ja": "サンプル文書をノートとタスクに整理する。"
+      "byLocale": {
+        "zh": "把演示文档整理成笔记和待办",
+        "en": "Turn sample documents into notes and tasks.",
+        "ja": "サンプル文書をノートとタスクに整理する。"
+      }
     },
     "facts": {
       "audience": {
         "value": {
-          "zh": "需要整理演示文档的人",
-          "en": "People organizing sample documents",
-          "ja": "サンプル文書を整理する人"
+          "byLocale": {
+            "zh": "需要整理演示文档的人",
+            "en": "People organizing sample documents",
+            "ja": "サンプル文書を整理する人"
+          }
         },
         "evidence": [
           {
@@ -75,9 +79,11 @@
       },
       "difficultyReason": {
         "value": {
-          "zh": "合成示例有安装说明和使用示例",
-          "en": "The synthetic fixture includes setup and usage examples.",
-          "ja": "合成サンプルに導入手順と使用例がある。"
+          "byLocale": {
+            "zh": "合成示例有安装说明和使用示例",
+            "en": "The synthetic fixture includes setup and usage examples.",
+            "ja": "合成サンプルに導入手順と使用例がある。"
+          }
         },
         "evidence": [
           {
@@ -350,9 +356,11 @@
   "reasons": [
     {
       "text": {
-        "zh": "无需 API key",
-        "en": "No API key required",
-        "ja": "APIキー不要"
+        "byLocale": {
+          "zh": "无需 API key",
+          "en": "No API key required",
+          "ja": "APIキー不要"
+        }
       },
       "evidence": [
         {
@@ -365,9 +373,11 @@
     },
     {
       "text": {
-        "zh": "有安装说明",
-        "en": "Installation documented",
-        "ja": "インストール手順あり"
+        "byLocale": {
+          "zh": "有安装说明",
+          "en": "Installation documented",
+          "ja": "インストール手順あり"
+        }
       },
       "evidence": [
         {
@@ -380,9 +390,11 @@
     },
     {
       "text": {
-        "zh": "有使用示例",
-        "en": "Usage examples available",
-        "ja": "使用例あり"
+        "byLocale": {
+          "zh": "有使用示例",
+          "en": "Usage examples available",
+          "ja": "使用例あり"
+        }
       },
       "evidence": [
         {

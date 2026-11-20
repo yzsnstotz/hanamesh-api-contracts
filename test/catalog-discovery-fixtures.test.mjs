@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import Ajv from 'ajv/dist/2020.js';
 import {DISCOVERY_SCHEMA} from '@hanamesh/api-contracts/catalog/discovery';
-const ajv=new Ajv({strict:true});ajv.addSchema(DISCOVERY_SCHEMA,'discovery');
+import {LOCALIZED_SCHEMA} from '@hanamesh/api-contracts/catalog/localized';
+const ajv=new Ajv({strict:true});ajv.addSchema(LOCALIZED_SCHEMA);ajv.addSchema(DISCOVERY_SCHEMA,'discovery');
 const read=name=>JSON.parse(readFileSync(new URL('./fixtures/catalog-discovery/'+name,import.meta.url),'utf8'));
 const valid=(type,value)=>{const v=ajv.compile({$ref:'discovery#/$defs/'+type});assert.equal(v(value),true,JSON.stringify(v.errors));};
 test('shared draft fixtures validate as actual list/search/detail/directory/config response shapes',()=>{
