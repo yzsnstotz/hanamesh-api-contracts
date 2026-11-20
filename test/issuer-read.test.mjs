@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import Ajv from 'ajv/dist/2020.js';
-import {ISSUER_READ_SCHEMA as schema,ISSUER_READ_LIMITS as limits,ISSUER_READ_ORDER as order} from '@hanamesh/api-contracts/issuer/read';
+import {ISSUER_READ_SCHEMA as schema,ISSUER_READ_LIMITS as limits,ISSUER_READ_ORDER as order,ISSUER_READ_ERRORS as errors} from '@hanamesh/api-contracts/issuer/read';
 import published from '@hanamesh/api-contracts/issuer/read/schema.json' with {type:'json'};
 const ajv=new Ajv({strict:true});ajv.addSchema(schema);
 const validate=name=>ajv.compile({$ref:schema.$id+'#/$defs/'+name});
@@ -40,4 +40,74 @@ test('profile batch has a fixed maximum and explicit missing mappings',()=>{
  const v=validate('profiles'),p={schema:'hanamesh-issued-hana-profiles-v1',deploymentId:'fixture-deployment',maxKeys:50,items:[profile]};
  assert.equal(v(p),true);assert.equal(v({...p,items:Array(51).fill(profile)}),false);
  assert.equal(v({...p,items:[{...profile,ownerPrincipalId:'private'}]}),false);
+});
+
+const expectedErrors = {
+  "indexer": {
+    "AUTH_REQUIRED": 401,
+    "AUTH_FORBIDDEN": 403,
+    "INDEXER_ISSUER_INPUT_INVALID": 400,
+    "INDEXER_ISSUER_CURSOR_INVALID": 400,
+    "INDEXER_ISSUER_CURSOR_FORBIDDEN": 403,
+    "INDEXER_ISSUER_WALLETS_CHANGED": 409,
+    "INDEXER_ISSUER_ORIGIN_REJECTED": 403,
+    "INDEXER_MARKET_HEAD_CHANGED": 409,
+    "INDEXER_ISSUED_NOT_READY": 409,
+    "INDEXER_ISSUED_SOURCE_REQUIRED": 503,
+    "INDEXER_ISSUED_SOURCE_INVALID": 503,
+    "INDEXER_ISSUER_SOURCE_INVALID": 503,
+    "INDEXER_ISSUER_SOURCE_UNAVAILABLE": 503,
+    "INDEXER_ISSUER_RESPONSE_TOO_LARGE": 503
+  },
+  "identity": {
+    "AUTH_REQUIRED": 401,
+    "AUTH_FORBIDDEN": 403,
+    "IDENTITY_INPUT_INVALID": 400,
+    "AUTH_UNAVAILABLE": 503,
+    "IDENTITY_NOT_READY": 503
+  },
+  "registry": {
+    "REGISTRY_INPUT_INVALID": 400,
+    "REGISTRY_UNAVAILABLE": 503
+  },
+  "configuration": {
+    "INDEXER_ISSUER_CONFIG_INVALID": 500,
+    "INDEXER_ISSUED_CONFIG_INVALID": 500,
+    "REGISTRY_CONFIG_INVALID": 500
+  }
+};
+test('native endpoint code and status catalogue is complete and deeply immutable',()=>{
+ assert.deepEqual(errors,expectedErrors);assert(Object.isFrozen(errors));
+ for(const group of Object.values(errors))assert(Object.isFrozen(group));
+ assert(!Object.values(errors).some(group=>'ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED' in group));
+});
+for(const [group,codes] of Object.entries(expectedErrors))for(const [code,statusCode] of Object.entries(codes))test(`${group}: ${code} preserves its actual failure shape and status`,()=>{
+ const body={error:{code,message:code}};
+ if(group==='indexer'||group==='identity'){
+  const prefix=group==='indexer'?'indexer':'attachedAddresses';
+  assert.equal(validate(prefix+'Error')(body),true);
+  const v=validate(prefix+'HttpFailure');assert.equal(v({statusCode,body}),true,JSON.stringify(v.errors));
+  assert.equal(v({statusCode:statusCode===400?401:400,body}),false);
+ }else{
+  const v=validate(group==='registry'?'profilesFailure':'configurationFailure');
+  assert.equal(v({code,statusCode,message:code}),true,JSON.stringify(v.errors));
+  assert.equal(v({code,statusCode:200,message:code}),false);
+ }
+});
+test('failure schemas reject unknown codes, private details, false success, and wrong provider envelopes',()=>{
+ for(const name of ['indexerError','attachedAddressesError']){
+  const v=validate(name);assert.equal(v({error:{code:'SECRET_SQL_FAILURE',message:'arbitrary'}}),false);
+  assert.equal(v({error:{code:'AUTH_REQUIRED',message:'login',cause:'private'}}),false);
+  assert.equal(v({error:{code:'AUTH_REQUIRED',message:'login'},principalId:'private'}),false);
+  assert.equal(v({error:{code:'AUTH_REQUIRED',message:''}}),false);
+ }
+ assert.equal(validate('indexerError')({error:{code:'REGISTRY_UNAVAILABLE',message:'upstream'}}),false);
+ assert.equal(validate('profilesFailure')({error:{code:'REGISTRY_UNAVAILABLE',message:'wrong envelope'}}),false);
+ assert.equal(validate('page')({error:{code:'AUTH_REQUIRED',message:'login'}}),false);
+ assert.equal(validate('indexerError')({error:{code:'ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED',message:'success-only'}}),false);
+});
+test('Identity shared HTTP parser 413 and415 retain IDENTITY_INPUT_INVALID, not invented business codes',()=>{
+ const v=validate('attachedAddressesHttpFailure');
+ for(const statusCode of [400,413,415])assert.equal(v({statusCode,body:{error:{code:'IDENTITY_INPUT_INVALID',message:'Invalid identity request.'}}}),true);
+ assert.equal(v({statusCode:413,body:{error:{code:'AUTH_UNAVAILABLE',message:'no'}}}),false);
 });

@@ -657,6 +657,619 @@
           }
         }
       }
+    },
+    "indexerError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "AUTH_REQUIRED",
+                "AUTH_FORBIDDEN",
+                "INDEXER_ISSUER_INPUT_INVALID",
+                "INDEXER_ISSUER_CURSOR_INVALID",
+                "INDEXER_ISSUER_CURSOR_FORBIDDEN",
+                "INDEXER_ISSUER_WALLETS_CHANGED",
+                "INDEXER_ISSUER_ORIGIN_REJECTED",
+                "INDEXER_MARKET_HEAD_CHANGED",
+                "INDEXER_ISSUED_NOT_READY",
+                "INDEXER_ISSUED_SOURCE_REQUIRED",
+                "INDEXER_ISSUED_SOURCE_INVALID",
+                "INDEXER_ISSUER_SOURCE_INVALID",
+                "INDEXER_ISSUER_SOURCE_UNAVAILABLE",
+                "INDEXER_ISSUER_RESPONSE_TOO_LARGE"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "attachedAddressesError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "AUTH_REQUIRED",
+                "AUTH_FORBIDDEN",
+                "IDENTITY_INPUT_INVALID",
+                "AUTH_UNAVAILABLE",
+                "IDENTITY_NOT_READY"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "indexerHttpFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUER_INPUT_INVALID",
+                        "INDEXER_ISSUER_CURSOR_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_FORBIDDEN",
+                        "INDEXER_ISSUER_CURSOR_FORBIDDEN",
+                        "INDEXER_ISSUER_ORIGIN_REJECTED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 409
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUER_WALLETS_CHANGED",
+                        "INDEXER_MARKET_HEAD_CHANGED",
+                        "INDEXER_ISSUED_NOT_READY"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUED_SOURCE_REQUIRED",
+                        "INDEXER_ISSUED_SOURCE_INVALID",
+                        "INDEXER_ISSUER_SOURCE_INVALID",
+                        "INDEXER_ISSUER_SOURCE_UNAVAILABLE",
+                        "INDEXER_ISSUER_RESPONSE_TOO_LARGE"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "attachedAddressesHttpFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_FORBIDDEN"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 413
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 415
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_UNAVAILABLE",
+                        "IDENTITY_NOT_READY"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "profilesFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "statusCode",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "const": "REGISTRY_INPUT_INVALID"
+            },
+            "statusCode": {
+              "const": 400
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "statusCode",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "const": "REGISTRY_UNAVAILABLE"
+            },
+            "statusCode": {
+              "const": 503
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "configurationFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "statusCode",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "INDEXER_ISSUER_CONFIG_INVALID",
+            "INDEXER_ISSUED_CONFIG_INVALID",
+            "REGISTRY_CONFIG_INVALID"
+          ]
+        },
+        "statusCode": {
+          "const": 500
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     }
   }
 }
