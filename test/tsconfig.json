@@ -15,6 +15,7 @@
     "observatory-types.ts",
     "ops-manifest-types.ts",
     "catalog-discovery-types.ts",
-    "catalog-localized-types.ts"
+    "catalog-localized-types.ts",
+    "issuer-read-types.ts"
   ]
 }
