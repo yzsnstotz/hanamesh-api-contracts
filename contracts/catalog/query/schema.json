@@ -333,11 +333,16 @@
               },
               "name": {
                 "type": "string"
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": 1
               }
             },
             "required": [
               "hanaId",
-              "name"
+              "name",
+              "rank"
             ],
             "additionalProperties": false
           }

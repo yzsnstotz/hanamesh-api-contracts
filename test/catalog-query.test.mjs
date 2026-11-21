@@ -37,3 +37,10 @@ test('existing cursor bound and Semantic notices/match labels are the only publi
  const item={hanaId:'00000000-0000-4000-8000-000000000001',rank:1,tier:1,authority:0,authorityVersion:null,stars:null,npmDownloads30d:null,updatedAt:'2026-11-21T00:00:00Z'};
  assert.equal(check('item')(item),true);for(const matchKind of ['name','meaning'])assert.equal(check('item')({...item,matchKind}),true);for(const matchKind of ['text','browse'])assert.equal(check('item')({...item,matchKind}),false);
 });
+
+
+test('names suggestions retain the provider rank for existing search logs',()=>{
+ const names=check('names'),item={hanaId:'00000000-0000-4000-8000-000000000001',name:'Fixture',rank:21};
+ assert.equal(names({items:[item],nextCursor:null}),true);
+ for(const rank of [0,-1,'21',undefined]){const invalid={...item,rank};if(rank===undefined)delete invalid.rank;assert.equal(names({items:[invalid],nextCursor:null}),false);}
+});

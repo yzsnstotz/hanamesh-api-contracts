@@ -20,7 +20,7 @@ export interface CatalogQueryPage {
 /** Host supplies an existing SL1 search event ID only for a logged new search; list/anonymous core has no search identity. */
 export type CatalogSemanticNotice='SEMANTIC_FREE_QUOTA_EXHAUSTED'|'SEMANTIC_UNAVAILABLE';
 export interface CatalogLoggedPage {readonly page:CatalogQueryPage;readonly searchId:string|null;readonly semanticNotice:CatalogSemanticNotice|null}
-export interface CatalogQueryNames {readonly items:readonly {readonly hanaId:string;readonly name:string}[];readonly nextCursor:string|null}
+export interface CatalogQueryNames {readonly items:readonly {readonly hanaId:string;readonly name:string;readonly rank:number}[];readonly nextCursor:string|null}
 export declare const CATALOG_QUERY_SCHEMA:Readonly<Record<string,unknown>>;
 export declare const CATALOG_QUERY_SORTS:readonly CatalogQuerySort[];
 export declare const CATALOG_QUERY_MODES:readonly CatalogQueryMode[];
