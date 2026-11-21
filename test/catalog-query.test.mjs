@@ -44,3 +44,9 @@ test('names suggestions retain the provider rank for existing search logs',()=>{
  assert.equal(names({items:[item],nextCursor:null}),true);
  for(const rank of [0,-1,'21',undefined]){const invalid={...item,rank};if(rank===undefined)delete invalid.rank;assert.equal(names({items:[invalid],nextCursor:null}),false);}
 });
+
+test('U1 repoOwner is a bounded multi-login selector for personal accounts and admin organizations',()=>{
+ const query=check('query');
+ for(const repoOwner of [['Owner'],['OWNER','org-a','Managed_CODE'],Array.from({length:20},(_,n)=>'owner-'+n)])assert.equal(query({...base,repoOwner}),true,JSON.stringify(query.errors));
+ for(const repoOwner of [[],Array(21).fill('owner'),'owner',[null],[''],['owner/repo'],['https://github.com/owner'],['a'.repeat(40)],['org name'],['全角'],['x%']])assert.equal(query({...base,repoOwner}),false,JSON.stringify(repoOwner));
+});

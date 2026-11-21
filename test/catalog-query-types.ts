@@ -12,3 +12,8 @@ const names:CatalogQueryNames={items:[{hanaId:'id',name:'Fixture',rank:21}],next
 // @ts-expect-error suggestions expose the same provider rank; callers never invent it
 const missingNamesRank:CatalogQueryNames={items:[{hanaId:'id',name:'Fixture'}],nextCursor:null};
 void [names,missingNamesRank];
+
+const ownershipScope:CatalogQuery={...q,repoOwner:['Personal','Admin-Org','Managed_CODE']};
+// @ts-expect-error owner selectors are a bounded list, not a single repository/string
+const scalarOwner:CatalogQuery={...q,repoOwner:'owner'};
+void [ownershipScope,scalarOwner];
