@@ -3,6 +3,8 @@ export type CatalogQueryMode='keyword'|'hybrid'|'names';
 export interface CatalogQuery {
  readonly ranking?:'plugins';readonly q?:string;readonly searchMode:CatalogQueryMode;readonly sort:CatalogQuerySort;readonly official?:true;
  readonly categories?:readonly string[];readonly source?:string;readonly claim?:'claimed'|'unclaimed';readonly repo?:string;
+ /** Exact case-insensitive GitHub owner logins: a nonempty OR-set of at most20 raw entries. */
+ readonly repoOwner?:readonly string[];
  readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly installable?:true;
  readonly domain?:string;readonly subdivision?:string;readonly includeInsufficient?:boolean;readonly limit:number;readonly after?:string;
 }
