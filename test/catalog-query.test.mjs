@@ -29,3 +29,11 @@ test('U1 hybrid input is a separate bounded ordered canonical-ID queue',()=>{
  assert.equal(candidates({semanticHanaIds:['not-an-id']}),false);
  assert.equal(check('query')({...base,semanticHanaIds:[id(1)]}),false,'internal provider candidates never become a user query override');
 });
+
+test('existing cursor bound and Semantic notices/match labels are the only public variants',()=>{
+ const query=check('query');assert.equal(query({...base,after:'A'.repeat(4096)}),true);assert.equal(query({...base,after:'A'.repeat(4097)}),false);
+ const page={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'fixture',policyVersion:2,searchMode:'keyword',indexReady:true};
+ const logged=check('loggedPage');for(const semanticNotice of [null,'SEMANTIC_FREE_QUOTA_EXHAUSTED','SEMANTIC_UNAVAILABLE'])assert.equal(logged({page,searchId:null,semanticNotice}),true);assert.equal(logged({page,searchId:null,semanticNotice:'invented-notice'}),false);
+ const item={hanaId:'00000000-0000-4000-8000-000000000001',rank:1,tier:1,authority:0,authorityVersion:null,stars:null,npmDownloads30d:null,updatedAt:'2026-11-21T00:00:00Z'};
+ assert.equal(check('item')(item),true);for(const matchKind of ['name','meaning'])assert.equal(check('item')({...item,matchKind}),true);for(const matchKind of ['text','browse'])assert.equal(check('item')({...item,matchKind}),false);
+});

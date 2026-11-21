@@ -5,5 +5,5 @@ const logged:CatalogLoggedPage={page,searchId:null,semanticNotice:null};
 // @ts-expect-error unified selection has no arbitrary old sort alias
 const invalidSort:CatalogQuery={...q,sort:'authority'};
 // @ts-expect-error a rank is part of the public per-result contract
-const invalidItem:CatalogQueryPage['items'][number]={hanaId:'id',tier:1,matchKind:'text',authority:0,authorityVersion:null,stars:null,npmDownloads30d:null,updatedAt:'now'};
+const invalidItem:CatalogQueryPage['items'][number]={hanaId:'id',tier:1,matchKind:'meaning',authority:0,authorityVersion:null,stars:null,npmDownloads30d:null,updatedAt:'now'};
 void [CATALOG_QUERY_SCHEMA,CATALOG_QUERY_SORTS,q,page,logged,invalidSort,invalidItem];

@@ -83,7 +83,8 @@
         },
         "after": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "maxLength": 4096
         },
         "ranking": {
           "const": "plugins"
@@ -184,9 +185,7 @@
         "matchKind": {
           "enum": [
             "name",
-            "meaning",
-            "text",
-            "browse"
+            "meaning"
           ]
         },
         "authority": {
@@ -218,7 +217,6 @@
         "hanaId",
         "rank",
         "tier",
-        "matchKind",
         "authority",
         "authorityVersion",
         "stars",
@@ -306,9 +304,10 @@
           ]
         },
         "semanticNotice": {
-          "type": [
-            "string",
-            "null"
+          "enum": [
+            "SEMANTIC_FREE_QUOTA_EXHAUSTED",
+            "SEMANTIC_UNAVAILABLE",
+            null
           ]
         }
       },
