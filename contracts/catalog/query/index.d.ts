@@ -23,3 +23,11 @@ export interface CatalogQueryNames {readonly items:readonly {readonly hanaId:str
 export declare const CATALOG_QUERY_SCHEMA:Readonly<Record<string,unknown>>;
 export declare const CATALOG_QUERY_SORTS:readonly CatalogQuerySort[];
 export declare const CATALOG_QUERY_MODES:readonly CatalogQueryMode[];
+
+/** Semantic's already-authorized, resolved, canonical public candidates, in retrieval order (at most 50). */
+export interface CatalogQueryCandidates {readonly semanticHanaIds:readonly string[]}
+/** Module read port; no SQL, transaction, billing, log or model execution is delegated to Host. */
+export interface CatalogQueryReadPort {
+ readPage(query:CatalogQuery,candidates?:CatalogQueryCandidates):Promise<CatalogQueryPage>;
+ readNames(query:CatalogQuery):Promise<CatalogQueryNames>;
+}

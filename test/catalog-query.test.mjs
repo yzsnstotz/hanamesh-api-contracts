@@ -20,3 +20,12 @@ test('U1 pages require rank, cap flags, complete facet dimensions and an opaque 
  assert.equal(page({...value,searchId:'cached-personal-id'}),false);
  assert.equal(check('loggedPage')({page:value,searchId:'one-new-search',semanticNotice:null}),true);
 });
+
+test('U1 hybrid input is a separate bounded ordered canonical-ID queue',()=>{
+ const candidates=check('semanticCandidates'),id=n=>'00000000-0000-4000-8000-'+String(n).padStart(12,'0');
+ assert.equal(candidates({semanticHanaIds:Array.from({length:50},(_,n)=>id(n+1))}),true);
+ assert.equal(candidates({semanticHanaIds:Array.from({length:51},(_,n)=>id(n+1))}),false);
+ assert.equal(candidates({semanticHanaIds:[id(1),id(1)]}),false);
+ assert.equal(candidates({semanticHanaIds:['not-an-id']}),false);
+ assert.equal(check('query')({...base,semanticHanaIds:[id(1)]}),false,'internal provider candidates never become a user query override');
+});
