@@ -1,10 +1,10 @@
-export type CatalogQuerySort='relevance'|'popular'|'latest'|'stars'|'downloads';
+export type CatalogQuerySort='relevance'|'popular'|'latest'|'stars'|'downloads'|'id'|'trending';
 export type CatalogQueryMode='keyword'|'hybrid'|'names';
 export interface CatalogQuery {
  readonly ranking?:'plugins';readonly q?:string;readonly searchMode:CatalogQueryMode;readonly sort:CatalogQuerySort;readonly official?:true;
  readonly categories?:readonly string[];readonly source?:string;readonly claim?:'claimed'|'unclaimed';readonly repo?:string;
  readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly installable?:true;
- readonly domain?:string;readonly subdivision?:string;readonly includeInsufficient:boolean;readonly limit:number;readonly after?:string;
+ readonly domain?:string;readonly subdivision?:string;readonly includeInsufficient?:boolean;readonly limit:number;readonly after?:string;
 }
 export interface CatalogQueryItem {
  readonly hanaId:string;readonly rank:number;readonly tier:number;readonly matchKind:'name'|'meaning'|'text'|'browse';

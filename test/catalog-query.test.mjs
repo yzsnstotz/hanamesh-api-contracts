@@ -5,10 +5,10 @@ import {CATALOG_QUERY_SCHEMA as schema,CATALOG_QUERY_SORTS} from '@hanamesh/api-
 const ajv=new Ajv({strict:true});ajv.addSchema(schema);
 const check=name=>ajv.compile({$ref:schema.$id+'#/$defs/'+name});
 const base={sort:'relevance',searchMode:'keyword',includeInsufficient:true,limit:20};
-test('U1 query contract accepts five sorts, three modes and all common dimensions together',()=>{
+test('U1 query contract accepts all seven sorts, three modes and all common dimensions together',()=>{
  const query=check('query');
  for(const sort of CATALOG_QUERY_SORTS)for(const searchMode of ['keyword','hybrid','names'])assert.equal(query({...base,sort,searchMode,q:'git',official:true,categories:['git','office'],source:'awesome',claim:'claimed',repo:'owner/repo',channel:'claude',domain:'code',subdivision:'development',installable:true}),true,JSON.stringify(query.errors));
- for(const invalid of [{...base,sort:'trending'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','git']}])assert.equal(query(invalid),false);
+ for(const invalid of [{...base,sort:'unknown'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','git']}])assert.equal(query(invalid),false);
 });
 test('U1 pages require rank, cap flags, complete facet dimensions and an opaque nullable cursor',()=>{
  const page=check('page'),value={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'snapshot',policyVersion:2,searchMode:'keyword',indexReady:true};

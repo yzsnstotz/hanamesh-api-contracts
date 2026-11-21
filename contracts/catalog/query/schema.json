@@ -23,7 +23,9 @@
             "popular",
             "latest",
             "stars",
-            "downloads"
+            "downloads",
+            "id",
+            "trending"
           ]
         },
         "official": {
@@ -71,7 +73,8 @@
           "minLength": 1
         },
         "includeInsufficient": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         },
         "limit": {
           "type": "integer",
@@ -89,7 +92,6 @@
       "required": [
         "searchMode",
         "sort",
-        "includeInsufficient",
         "limit"
       ],
       "additionalProperties": false
