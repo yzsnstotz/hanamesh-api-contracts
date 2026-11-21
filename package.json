@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.29.0",
+  "version": "0.32.0",
   "description": "Current quote-v2 provider declarations, ABI artifacts and C09 search-miss response schemas.",
   "type": "module",
   "license": "MIT",
@@ -62,7 +62,12 @@
       "types": "./contracts/issuer/read/index.d.ts",
       "default": "./contracts/issuer/read/index.js"
     },
-    "./issuer/read/schema.json": "./contracts/issuer/read/schema.json"
+    "./issuer/read/schema.json": "./contracts/issuer/read/schema.json",
+    "./identity/email": {
+      "types": "./contracts/identity/email/index.d.ts",
+      "default": "./contracts/identity/email/index.js"
+    },
+    "./identity/email/request.schema.json": "./contracts/identity/email/request.schema.json"
   },
   "files": [
     "index.js",
@@ -80,12 +85,15 @@
     "contracts/catalog/localized",
     "docs/catalog-localized.md",
     "contracts/issuer/read",
-    "docs/issuer-read.md"
+    "docs/issuer-read.md",
+    "contracts/identity/email",
+    "docs/identity-email.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",
     "test:localized": "node --test test/catalog-discovery.test.mjs test/catalog-discovery-fixtures.test.mjs test/catalog-localized.test.mjs && tsc -p test/tsconfig.json",
-    "test:issuer-read": "node --test test/issuer-read.test.mjs && tsc -p test/tsconfig.json"
+    "test:issuer-read": "node --test test/issuer-read.test.mjs && tsc -p test/tsconfig.json",
+    "test:identity-email": "node --test test/identity-email.test.mjs && tsc -p test/tsconfig.json"
   },
   "peerDependencies": {
     "viem": "^2.56.9"
