@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.com/contracts/catalog/query-v1",
+  "$defs": {
+    "query": {
+      "type": "object",
+      "properties": {
+        "q": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "searchMode": {
+          "enum": [
+            "keyword",
+            "hybrid",
+            "names"
+          ]
+        },
+        "sort": {
+          "enum": [
+            "relevance",
+            "popular",
+            "latest",
+            "stars",
+            "downloads"
+          ]
+        },
+        "official": {
+          "const": true
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim": {
+          "enum": [
+            "claimed",
+            "unclaimed"
+          ]
+        },
+        "repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "channel": {
+          "enum": [
+            "hanamesh",
+            "claude",
+            "codex",
+            "dsh"
+          ]
+        },
+        "installable": {
+          "const": true
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subdivision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "includeInsufficient": {
+          "type": "boolean"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "after": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ranking": {
+          "const": "plugins"
+        }
+      },
+      "required": [
+        "searchMode",
+        "sort",
+        "includeInsufficient",
+        "limit"
+      ],
+      "additionalProperties": false
+    },
+    "facet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "capped": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "count",
+        "capped"
+      ],
+      "additionalProperties": false
+    },
+    "facets": {
+      "type": "object",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        },
+        "channels": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        },
+        "domains": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        },
+        "subdivisions": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/facet"
+          }
+        }
+      },
+      "required": [
+        "categories",
+        "sources",
+        "channels",
+        "domains",
+        "subdivisions"
+      ],
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "matchKind": {
+          "enum": [
+            "name",
+            "meaning",
+            "text",
+            "browse"
+          ]
+        },
+        "authority": {
+          "type": "number"
+        },
+        "authorityVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stars": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "npmDownloads30d": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hanaId",
+        "rank",
+        "tier",
+        "matchKind",
+        "authority",
+        "authorityVersion",
+        "stars",
+        "npmDownloads30d",
+        "updatedAt"
+      ],
+      "additionalProperties": false
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "capped": {
+          "type": "boolean"
+        },
+        "hiddenInsufficientCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hiddenInsufficientCountCapped": {
+          "type": "boolean"
+        },
+        "facets": {
+          "$ref": "#/$defs/facets"
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "snapshot": {
+          "type": "string"
+        },
+        "policyVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "searchMode": {
+          "enum": [
+            "keyword",
+            "hybrid",
+            "names"
+          ]
+        },
+        "indexReady": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "items",
+        "total",
+        "capped",
+        "hiddenInsufficientCount",
+        "hiddenInsufficientCountCapped",
+        "facets",
+        "nextCursor",
+        "snapshot",
+        "policyVersion",
+        "searchMode",
+        "indexReady"
+      ],
+      "additionalProperties": false
+    },
+    "loggedPage": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "$ref": "#/$defs/page"
+        },
+        "searchId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "semanticNotice": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "page",
+        "searchId",
+        "semanticNotice"
+      ],
+      "additionalProperties": false
+    },
+    "names": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 200,
+          "items": {
+            "type": "object",
+            "properties": {
+              "hanaId": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "hanaId",
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

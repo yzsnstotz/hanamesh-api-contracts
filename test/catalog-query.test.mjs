@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import Ajv from 'ajv/dist/2020.js';
+import {CATALOG_QUERY_SCHEMA as schema,CATALOG_QUERY_SORTS} from '@hanamesh/api-contracts/catalog/query';
+const ajv=new Ajv({strict:true});ajv.addSchema(schema);
+const check=name=>ajv.compile({$ref:schema.$id+'#/$defs/'+name});
+const base={sort:'relevance',searchMode:'keyword',includeInsufficient:true,limit:20};
+test('U1 query contract accepts five sorts, three modes and all common dimensions together',()=>{
+ const query=check('query');
+ for(const sort of CATALOG_QUERY_SORTS)for(const searchMode of ['keyword','hybrid','names'])assert.equal(query({...base,sort,searchMode,q:'git',official:true,categories:['git','office'],source:'awesome',claim:'claimed',repo:'owner/repo',channel:'claude',domain:'code',subdivision:'development',installable:true}),true,JSON.stringify(query.errors));
+ for(const invalid of [{...base,sort:'trending'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','git']}])assert.equal(query(invalid),false);
+});
+test('U1 pages require rank, cap flags, complete facet dimensions and an opaque nullable cursor',()=>{
+ const page=check('page'),value={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'snapshot',policyVersion:2,searchMode:'keyword',indexReady:true};
+ assert.equal(page(value),true,JSON.stringify(page.errors));
+ for(const key of Object.keys(value)){const v={...value};delete v[key];assert.equal(page(v),false,key);}
+ const item={hanaId:'00000000-0000-4000-8000-000000000001',rank:1,tier:3,matchKind:'name',authority:100,authorityVersion:'fixture',stars:null,npmDownloads30d:0,updatedAt:'2026-11-21T00:00:00Z'};
+ assert.equal(page({...value,items:[item],total:1}),true);
+ const {rank,...missingRank}=item;assert.equal(page({...value,items:[missingRank]}),false);
+ assert.equal(page({...value,searchId:'cached-personal-id'}),false);
+ assert.equal(check('loggedPage')({page:value,searchId:'one-new-search',semanticNotice:null}),true);
+});

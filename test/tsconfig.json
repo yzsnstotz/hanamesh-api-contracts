@@ -16,6 +16,7 @@
     "ops-manifest-types.ts",
     "catalog-discovery-types.ts",
     "catalog-localized-types.ts",
-    "issuer-read-types.ts"
+    "issuer-read-types.ts",
+    "catalog-query-types.ts"
   ]
 }
