@@ -12,7 +12,7 @@ Identity内部复用现有GitHub账号lookup，每次命中缓存前也读取当
 
 执行上限：每页100成员关系，最多10页，即最多1000成员关系（普通成员/待处理条目也消耗页限额）；最多1000返回组织，按首次出现去重、不另造排序。达到页上限且上游还有next时truncated=true，不把截断当完整，也不补伪总数。冷读最多11次GitHub GET（user一次+组织10页），串行无自动重试。每个上游body最多1MiB；单项login最多100字符、avatarUrl最多2048字符且HTTPS。最多32账号快照和32在途刷新，缓存对象只留归一化公开展示字段、ETag/next，不留GitHub原始资料；技术边界服务于派单的有界读取/内存目标，不增加认领资格规则。
 
-60秒短TTL，缓存命中0次GitHub GET；TTL后按**相同URL、同账号/同授权上下文**携ETag/If-None-Match。304仅复用该页原表示及next，200替换该页；部分页失败不提交半个快照、不返回陈旧成功。按Link遍历，拒异源、改路径、改变过滤/页大小及倒退页的next，避免带token访问任意URL。最多11个条件GET；无ETag按普通GET，不制造验证器。并发同账号刷新复用同一Promise，其他账号隔离。
+60秒短TTL，缓存命中0次GitHub GET；TTL后按**相同URL、同账号/同授权上下文**携ETag/If-None-Match。304复用该页原表示并合并本次提供的ETag/Link，缺省头沿原缓存；200替换该页；部分页失败不提交半个快照、不返回陈旧成功。按Link遍历，拒异源、改路径、改变过滤/页大小及倒退页的next，避免带token访问任意URL。最多11个条件GET；无ETag按普通GET，不制造验证器。并发同账号刷新复用同一Promise，其他账号隔离。
 
 错误沿既有代码：没有/失效token或GitHub401→401 GITHUB_TOKEN_INVALID；GitHub403（含受限/primary或secondary限流）、429、其他非200/304、网络/格式/字节越界→503 GITHUB_API_UNAVAILABLE，不空列表兜底。GitHub已给出的限流Retry-After/reset以及secondary限流建议在进程内抑制后续调用；不自动sleep/retry，不把限流当未授权状态。返回固定安全错误体。故障后清除旧成功表示，下个实际请求可按现有状态恢复。
 
