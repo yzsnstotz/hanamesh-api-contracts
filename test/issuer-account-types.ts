@@ -1,4 +1,4 @@
-import type {OwnIssuerReward,OwnIssuerRewardsPage,OwnIssuerRewardsQuery,OwnIssuerEntitlementsQuery,OwnIssuedAccountPage,IssuerAccountHttpFailure} from '@hanamesh/api-contracts/issuer/account';
+import type {OwnIssuerReward,OwnIssuerRewardsPage,OwnIssuerRewardsQuery,OwnIssuerEntitlementsQuery,OwnIssuedAccountPage,IssuerAccountHttpFailure,OwnIssuerRewardHistoryPage} from '@hanamesh/api-contracts/issuer/account';
 declare const reward:OwnIssuerReward;declare const page:OwnIssuerRewardsPage;declare const account:OwnIssuedAccountPage;
 const amount:string=reward.amount,total:string=reward.entitlementAmount,count:number=account.totalIssued;
 const q:OwnIssuerRewardsQuery={limit:20},batch:OwnIssuerEntitlementsQuery={issuances:[{hanaId:reward.hanaId,requestKey:reward.requestKey}]};
@@ -12,3 +12,9 @@ const failure:IssuerAccountHttpFailure={statusCode:403,body:{error:{code:'CUSTOD
 // @ts-expect-error code and status remain correlated
 const wrong:IssuerAccountHttpFailure={statusCode:401,body:{error:{code:'CUSTODY_READ_CURSOR_FORBIDDEN',message:'scope'}}};
 void [amount,total,count,q,batch,page,claimable,foreign,wallet,failure,wrong];
+
+declare const history:OwnIssuerRewardHistoryPage;
+const historyAmount:string=history.items[0]!.reward.amount;
+// @ts-expect-error history never invents a current claimable amount
+const historyClaimable=history.items[0]!.reward.claimable;
+void [historyAmount,historyClaimable];

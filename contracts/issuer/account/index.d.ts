@@ -16,3 +16,6 @@ export declare const ISSUER_ACCOUNT_ERRORS:Readonly<{
 }>;
 type Failures<G extends Readonly<Record<string,number>>,Need extends boolean>= {[C in keyof G]:Readonly<{statusCode:G[C];body:{readonly error:Readonly<{code:C;message:string}>&(Need extends true?Readonly<{need?:{readonly input:string;readonly scope:'custody-read-model'}}>:object)}}>}[keyof G];
 export type IssuerAccountHttpFailure=IndexerIssuerHttpFailure|Failures<typeof ISSUER_ACCOUNT_ERRORS.custody,true>|Failures<typeof ISSUER_ACCOUNT_ERRORS.host,false>;
+
+export interface OwnIssuerRewardHistoryItem {reward:OwnIssuerReward;token:import('../read/index.js').IssuerAsset|null;displayName:string|null;assetStatus:'available'|'not-issued'|'unavailable'}
+export interface OwnIssuerRewardHistoryPage extends Omit<OwnIssuerRewardsPage,'schema'|'items'> {readonly schema:'hanamesh-own-issuer-reward-account-v1';readonly deploymentId:string;readonly assetSnapshot:{readonly deploymentId:string;readonly chainId:number;readonly blockNumber:string;readonly blockHash:string}|null;readonly items:OwnIssuerRewardHistoryItem[]}
