@@ -1,0 +1,2426 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.dev/contracts/issuer/account-v1",
+  "$defs": {
+    "address": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{40}$"
+    },
+    "uint": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,77})$"
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "address",
+        "name",
+        "symbol",
+        "decimals"
+      ],
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "symbol": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "decimals": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 255
+        }
+      }
+    },
+    "attachedAddresses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "namespace",
+        "version",
+        "maxWallets",
+        "addresses"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-own-attached-addresses-v1"
+        },
+        "namespace": {
+          "const": "eip155"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "maxWallets": {
+          "const": 10
+        },
+        "addresses": {
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^0x[0-9a-f]{40}$"
+          }
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaKey",
+        "hanaId",
+        "displayName",
+        "status"
+      ],
+      "properties": {
+        "hanaKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "hanaId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "displayName": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "available",
+            "not-found"
+          ]
+        }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "deploymentId",
+        "maxKeys",
+        "items"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-issued-hana-profiles-v1"
+        },
+        "deploymentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "maxKeys": {
+          "const": 50
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "hanaKey",
+              "hanaId",
+              "displayName",
+              "status"
+            ],
+            "properties": {
+              "hanaKey": {
+                "type": "string",
+                "pattern": "^0x[0-9a-f]{64}$"
+              },
+              "hanaId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "displayName": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 512
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "status": {
+                "enum": [
+                  "available",
+                  "not-found"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "chainId",
+        "mode",
+        "evidence",
+        "sourceCommit",
+        "sourceRef",
+        "blockNumber",
+        "blockHash",
+        "blockTimestamp",
+        "confirmations",
+        "requiredConfirmations",
+        "launcher",
+        "fromBlock"
+      ],
+      "properties": {
+        "protocol": {
+          "const": "release-quote-v2"
+        },
+        "chainId": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "mode": {
+          "enum": [
+            "test-only",
+            "production"
+          ]
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "READ_ONLY_RPC"
+          ]
+        },
+        "sourceCommit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "blockNumber": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "blockTimestamp": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "confirmations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requiredConfirmations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "launcher": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "fromBlock": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaKey",
+        "requestId",
+        "issuer",
+        "token",
+        "bond",
+        "pool",
+        "quote",
+        "launchFeeWei",
+        "issuedAt",
+        "issuedTimestamp",
+        "transactionHash",
+        "eventId",
+        "blockNumber",
+        "blockHash",
+        "phase",
+        "sold",
+        "sales",
+        "earlyReleaseAllowed",
+        "releaseStartedAt",
+        "releaseStartSource",
+        "migratedAt",
+        "profile"
+      ],
+      "properties": {
+        "hanaKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "issuer": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "token": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "address",
+            "name",
+            "symbol",
+            "decimals"
+          ],
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "decimals": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "bond": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "pool": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "quote": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "address",
+            "name",
+            "symbol",
+            "decimals"
+          ],
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "decimals": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "launchFeeWei": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "issuedAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "issuedTimestamp": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "transactionHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "blockNumber": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "phase": {
+          "enum": [
+            "bond",
+            "migrated",
+            "inactive"
+          ]
+        },
+        "sold": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "sales": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "earlyReleaseAllowed": {
+          "type": "boolean"
+        },
+        "releaseStartedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "releaseStartSource": {
+          "enum": [
+            "early-release",
+            "migration",
+            null
+          ]
+        },
+        "migratedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hanaKey",
+            "hanaId",
+            "displayName",
+            "status"
+          ],
+          "properties": {
+            "hanaKey": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "hanaId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "displayName": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "enum": [
+                "available",
+                "not-found"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "deploymentId",
+        "snapshot",
+        "order",
+        "limit",
+        "maxLimit",
+        "items",
+        "nextCursor",
+        "totalIssued"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-own-issued-tokens-v1"
+        },
+        "deploymentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "snapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protocol",
+            "chainId",
+            "mode",
+            "evidence",
+            "sourceCommit",
+            "sourceRef",
+            "blockNumber",
+            "blockHash",
+            "blockTimestamp",
+            "confirmations",
+            "requiredConfirmations",
+            "launcher",
+            "fromBlock"
+          ],
+          "properties": {
+            "protocol": {
+              "const": "release-quote-v2"
+            },
+            "chainId": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "mode": {
+              "enum": [
+                "test-only",
+                "production"
+              ]
+            },
+            "evidence": {
+              "enum": [
+                "FIXTURE",
+                "READ_ONLY_RPC"
+              ]
+            },
+            "sourceCommit": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "sourceRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "blockNumber": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            "blockHash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "blockTimestamp": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            "confirmations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "requiredConfirmations": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "launcher": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "fromBlock": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            }
+          }
+        },
+        "order": {
+          "const": "issued-time-token-desc"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxLimit": {
+          "const": 50
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "totalIssued": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "indexerError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "AUTH_REQUIRED",
+                "AUTH_FORBIDDEN",
+                "INDEXER_ISSUER_INPUT_INVALID",
+                "INDEXER_ISSUER_CURSOR_INVALID",
+                "INDEXER_ISSUER_CURSOR_FORBIDDEN",
+                "INDEXER_ISSUER_WALLETS_CHANGED",
+                "INDEXER_ISSUER_ORIGIN_REJECTED",
+                "INDEXER_MARKET_HEAD_CHANGED",
+                "INDEXER_ISSUED_NOT_READY",
+                "INDEXER_ISSUED_SOURCE_REQUIRED",
+                "INDEXER_ISSUED_SOURCE_INVALID",
+                "INDEXER_ISSUER_SOURCE_INVALID",
+                "INDEXER_ISSUER_SOURCE_UNAVAILABLE",
+                "INDEXER_ISSUER_RESPONSE_TOO_LARGE"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "attachedAddressesError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "enum": [
+                "AUTH_REQUIRED",
+                "AUTH_FORBIDDEN",
+                "IDENTITY_INPUT_INVALID",
+                "AUTH_UNAVAILABLE",
+                "IDENTITY_NOT_READY"
+              ]
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "indexerHttpFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUER_INPUT_INVALID",
+                        "INDEXER_ISSUER_CURSOR_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_FORBIDDEN",
+                        "INDEXER_ISSUER_CURSOR_FORBIDDEN",
+                        "INDEXER_ISSUER_ORIGIN_REJECTED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 409
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUER_WALLETS_CHANGED",
+                        "INDEXER_MARKET_HEAD_CHANGED",
+                        "INDEXER_ISSUED_NOT_READY"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "INDEXER_ISSUED_SOURCE_REQUIRED",
+                        "INDEXER_ISSUED_SOURCE_INVALID",
+                        "INDEXER_ISSUER_SOURCE_INVALID",
+                        "INDEXER_ISSUER_SOURCE_UNAVAILABLE",
+                        "INDEXER_ISSUER_RESPONSE_TOO_LARGE"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "attachedAddressesHttpFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_FORBIDDEN"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 413
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 415
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "IDENTITY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "AUTH_UNAVAILABLE",
+                        "IDENTITY_NOT_READY"
+                      ]
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "profilesFailure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "statusCode",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "const": "REGISTRY_INPUT_INVALID"
+            },
+            "statusCode": {
+              "const": 400
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "statusCode",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "const": "REGISTRY_UNAVAILABLE"
+            },
+            "statusCode": {
+              "const": 503
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "configurationFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "statusCode",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "INDEXER_ISSUER_CONFIG_INVALID",
+            "INDEXER_ISSUED_CONFIG_INVALID",
+            "REGISTRY_CONFIG_INVALID"
+          ]
+        },
+        "statusCode": {
+          "const": 500
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "frozenReward": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaId",
+        "requestId",
+        "requestKey",
+        "frozenAt",
+        "snapshotHash",
+        "amount",
+        "entitlementAmount",
+        "route",
+        "status"
+      ],
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "requestKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "frozenAt": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "snapshotHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "amount": {
+          "$ref": "#/$defs/uint"
+        },
+        "entitlementAmount": {
+          "$ref": "#/$defs/uint"
+        },
+        "route": {
+          "enum": [
+            "ordinary",
+            "empty",
+            "no-airdrop"
+          ]
+        },
+        "status": {
+          "enum": [
+            "frozen",
+            "no-reward"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "no-reward"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "const": "0"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "amount": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{0,77}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "notOwned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaId",
+        "requestKey",
+        "status"
+      ],
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "requestKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "status": {
+          "const": "not-owned"
+        }
+      }
+    },
+    "rewardsPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "evidence",
+        "asOf",
+        "limit",
+        "maxLimit",
+        "items",
+        "nextCursor",
+        "coverage"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-own-issuer-rewards-v1"
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "TRUSTED"
+          ]
+        },
+        "asOf": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.[0-9]{3}Z$"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxLimit": {
+          "const": 50
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/frozenReward"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coverage": {
+          "const": "frozen-initiator-role"
+        }
+      }
+    },
+    "entitlements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "evidence",
+        "items"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-own-issuer-entitlements-v1"
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "TRUSTED"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/frozenReward"
+              },
+              {
+                "$ref": "#/$defs/notOwned"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "accountItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaKey",
+        "requestId",
+        "issuer",
+        "token",
+        "bond",
+        "pool",
+        "quote",
+        "launchFeeWei",
+        "issuedAt",
+        "issuedTimestamp",
+        "transactionHash",
+        "eventId",
+        "blockNumber",
+        "blockHash",
+        "phase",
+        "sold",
+        "sales",
+        "earlyReleaseAllowed",
+        "releaseStartedAt",
+        "releaseStartSource",
+        "migratedAt",
+        "profile",
+        "reward"
+      ],
+      "properties": {
+        "hanaKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "issuer": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "token": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "address",
+            "name",
+            "symbol",
+            "decimals"
+          ],
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "decimals": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "bond": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "pool": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$"
+        },
+        "quote": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "address",
+            "name",
+            "symbol",
+            "decimals"
+          ],
+          "properties": {
+            "address": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "symbol": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "decimals": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "launchFeeWei": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "issuedAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "issuedTimestamp": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "transactionHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "blockNumber": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "blockHash": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        },
+        "phase": {
+          "enum": [
+            "bond",
+            "migrated",
+            "inactive"
+          ]
+        },
+        "sold": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "sales": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,77})$"
+        },
+        "earlyReleaseAllowed": {
+          "type": "boolean"
+        },
+        "releaseStartedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "releaseStartSource": {
+          "enum": [
+            "early-release",
+            "migration",
+            null
+          ]
+        },
+        "migratedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hanaKey",
+            "hanaId",
+            "displayName",
+            "status"
+          ],
+          "properties": {
+            "hanaKey": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "hanaId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "displayName": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "status": {
+              "enum": [
+                "available",
+                "not-found"
+              ]
+            }
+          }
+        },
+        "reward": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/frozenReward"
+            },
+            {
+              "$ref": "#/$defs/notOwned"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status",
+                "code"
+              ],
+              "properties": {
+                "status": {
+                  "const": "unavailable"
+                },
+                "code": {
+                  "const": "HOST_ISSUER_PROFILE_REQUIRED"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "accountPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "deploymentId",
+        "snapshot",
+        "order",
+        "limit",
+        "maxLimit",
+        "items",
+        "nextCursor",
+        "totalIssued"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-own-issued-account-v1"
+        },
+        "deploymentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "snapshot": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protocol",
+            "chainId",
+            "mode",
+            "evidence",
+            "sourceCommit",
+            "sourceRef",
+            "blockNumber",
+            "blockHash",
+            "blockTimestamp",
+            "confirmations",
+            "requiredConfirmations",
+            "launcher",
+            "fromBlock"
+          ],
+          "properties": {
+            "protocol": {
+              "const": "release-quote-v2"
+            },
+            "chainId": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "mode": {
+              "enum": [
+                "test-only",
+                "production"
+              ]
+            },
+            "evidence": {
+              "enum": [
+                "FIXTURE",
+                "READ_ONLY_RPC"
+              ]
+            },
+            "sourceCommit": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "sourceRef": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "blockNumber": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            "blockHash": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{64}$"
+            },
+            "blockTimestamp": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            },
+            "confirmations": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "requiredConfirmations": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "launcher": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$"
+            },
+            "fromBlock": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]{0,77})$"
+            }
+          }
+        },
+        "order": {
+          "const": "issued-time-token-desc"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "maxLimit": {
+          "const": 50
+        },
+        "items": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/accountItem"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "totalIssued": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      }
+    },
+    "accountHttpFailure": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_AUTH_REQUIRED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_ORIGIN_REJECTED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_READ_INPUT_INVALID"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_READ_CURSOR_INVALID"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_READ_CURSOR_FORBIDDEN"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "CUSTODY_READ_SOURCE_REQUIRED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    },
+                    "need": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "input",
+                        "scope"
+                      ],
+                      "properties": {
+                        "input": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 256
+                        },
+                        "scope": {
+                          "const": "custody-read-model"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "HOST_ISSUER_ORIGIN_REJECTED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "HOST_ISSUER_SOURCE_REQUIRED"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "HOST_ISSUER_SOURCE_INVALID"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "const": "HOST_ISSUER_RESPONSE_TOO_LARGE"
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2048
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/indexerHttpFailure"
+        }
+      ]
+    },
+    "issuerRewardKey": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaId",
+        "requestKey"
+      ],
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "requestKey": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{64}$"
+        }
+      }
+    },
+    "rewardsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "cursor": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "entitlementsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "issuances"
+      ],
+      "properties": {
+        "issuances": {
+          "type": "array",
+          "maxItems": 50,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/issuerRewardKey"
+          }
+        }
+      }
+    }
+  }
+}

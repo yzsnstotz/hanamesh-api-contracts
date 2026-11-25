@@ -19,6 +19,7 @@
     "issuer-read-types.ts",
     "catalog-query-types.ts",
     "github-namespaces-types.ts",
-    "identity-email-types.ts"
+    "identity-email-types.ts",
+    "issuer-account-types.ts"
   ]
 }

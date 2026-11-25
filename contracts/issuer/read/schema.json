@@ -520,7 +520,7 @@
         "maxLimit",
         "items",
         "nextCursor",
-        "rewards"
+        "totalIssued"
       ],
       "properties": {
         "schema": {
@@ -640,21 +640,10 @@
             }
           ]
         },
-        "rewards": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "status",
-            "code"
-          ],
-          "properties": {
-            "status": {
-              "const": "source-required"
-            },
-            "code": {
-              "const": "ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED"
-            }
-          }
+        "totalIssued": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
         }
       }
     },

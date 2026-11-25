@@ -10,9 +10,9 @@ const asset={address,name:'Token',symbol:'TOK',decimals:18};
 const profile={hanaKey:hash,hanaId:null,displayName:null,status:'not-found'};
 const snapshot={protocol:'release-quote-v2',chainId:97,mode:'test-only',evidence:'READ_ONLY_RPC',sourceCommit:'commit',sourceRef:'chain:canonical',blockNumber:'100',blockHash:hash,blockTimestamp:'1795000000',confirmations:2,requiredConfirmations:1,launcher:address,fromBlock:'1'};
 const item={hanaKey:hash,requestId:hash,issuer:address,token:asset,bond:address,pool:address,quote:asset,launchFeeWei:'50000000000000000',issuedAt:'2026-11-20T00:00:00.000Z',issuedTimestamp:'1795132800',transactionHash:hash,eventId:'1:0:0',blockNumber:'1',blockHash:hash,phase:'bond',sold:'0',sales:'650000000000000000000000000',earlyReleaseAllowed:true,releaseStartedAt:null,releaseStartSource:null,migratedAt:null,profile};
-const page={schema:'hanamesh-own-issued-tokens-v1',deploymentId:'fixture-deployment',snapshot,order,limit:20,maxLimit:50,items:[item],nextCursor:null,rewards:{status:'source-required',code:'ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED'}};
+const page={schema:'hanamesh-own-issued-tokens-v1',deploymentId:'fixture-deployment',snapshot,order,limit:20,maxLimit:50,items:[item],nextCursor:null,totalIssued:1};
 
-test('published contract distinguishes confirmed empty, missing rewards and exact integer money',()=>{
+test('published contract distinguishes exact totals, confirmed empty and exact integer money',()=>{
  assert.deepEqual(published,schema);assert.equal(Object.isFrozen(limits),true);assert.equal(limits.pageMax,50);
  const v=validate('page');assert.equal(v(page),true,JSON.stringify(v.errors));
  assert.equal(v({...page,items:[]}),true);assert.equal(v({...page,rewards:{status:'available',amount:'0'}}),false);
@@ -110,4 +110,10 @@ test('Identity shared HTTP parser 413 and415 retain IDENTITY_INPUT_INVALID, not 
  const v=validate('attachedAddressesHttpFailure');
  for(const statusCode of [400,413,415])assert.equal(v({statusCode,body:{error:{code:'IDENTITY_INPUT_INVALID',message:'Invalid identity request.'}}}),true);
  assert.equal(v({statusCode:413,body:{error:{code:'AUTH_UNAVAILABLE',message:'no'}}}),false);
+});
+
+test('totalIssued is a required exact integer count; old pending success is rejected',()=>{
+ const v=validate('page');for(const n of [-1,1.5,'1',9007199254740992,null])assert.equal(v({...page,totalIssued:n}),false);
+ const {totalIssued,...missing}=page;assert.equal(v(missing),false);assert.equal(v({...missing,rewards:{status:'source-required',code:'ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED'}}),false);
+ assert.equal(v({...page,items:[],totalIssued:0}),true);
 });

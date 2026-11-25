@@ -32,3 +32,5 @@ or token. The host and website consume public contracts; they do not own templat
 
 Authority: orchestrator's I18NE ruling on 2026-11-21; allocated version 0.32.0.
 Translations are drafts pending R's per-language review.
+
+2026-11-25 编排统一版本裁定：本文件所述新增能力随 api-contracts 0.30.0 合批；上文0.32.0为原未发布分配历史，不能当正式tag。

@@ -23,6 +23,6 @@ const wrongStatus:IndexerIssuerHttpFailure={statusCode:400,body:{error:{code:'AU
 const leakedProvider:IndexerIssuerHttpFailure={statusCode:503,body:{error:{code:'REGISTRY_UNAVAILABLE',message:'no'}}};
 // @ts-expect-error The server-only Registry port throws fields, not an invented HTTP envelope.
 const fakeRegistryEnvelope:RegistryIssuedProfilesFailure={error:{code:'REGISTRY_UNAVAILABLE',message:'no'}};
-// @ts-expect-error Reward source-required belongs to success DTO, not errors.
+// @ts-expect-error Removed pending placeholder is neither a success field nor a resource error.
 const rewardFailure:IndexerIssuerHttpFailure={statusCode:503,body:{error:{code:'ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED',message:'no'}}};
 void [authFailure,cursorFailure,parserFailure,registryFailure,configFailure,sourceStatus,wrongStatus,leakedProvider,fakeRegistryEnvelope,rewardFailure];

@@ -58,3 +58,7 @@ Registry新增口只有公开服务方法，没有新增HTTP路由；其输入/�
 Indexer发行HTTP用`IndexerError`的statusCode，body的message实际等于code；未知HTTP异常转`INDEXER_ISSUER_SOURCE_UNAVAILABLE/503`。服务组合只透传Identity的`AUTH_REQUIRED/401`及`AUTH_FORBIDDEN/403`，其他Identity错误（包括AUTH_UNAVAILABLE、IDENTITY_NOT_READY、IDENTITY_INPUT_INVALID）与Registry的两种服务错误均转`INDEXER_ISSUER_SOURCE_UNAVAILABLE/503`；不会在发行HTTP直接透出Registry/Identity内部code。自身`readMarketHead`的`INDEXER_ISSUED_SOURCE_REQUIRED/503`、`INDEXER_ISSUED_NOT_READY/409`及规范快照`INDEXER_ISSUED_SOURCE_INVALID/503`作为IndexerError保留。钱包/head变化需用户重新开始分页，模块不自动重试；来源故障不能显示为空页。该表对应固定原生实现，不为任意自定义adapter承诺任意字符串code。
 
 `ISSUER_REWARDS_BOUNDED_SOURCE_REQUIRED`只在成功页rewards内表达来源待接入，不属于上述错误响应或HTTP失败码。
+
+## 0.30.0 统一列车
+
+成功发行页必须带有有界本人计数投影返回的 `totalIssued` 非负安全整数；不再带 rewards.source-required 占位。旧字段直接移除，不提供兼容。奖励与Host组合的真实DTO见 [本人发行账户](issuer-account.md)。分页条数不能替代总数；loading/失败不提供猜测0。原native错误码与状态保持。
