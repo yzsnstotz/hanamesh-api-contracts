@@ -36,7 +36,7 @@ expiry or failure. Clients should use the top-level allocation only when it is p
 | --- | --- |
 | 404 `CUSTODY_ISSUANCE_QUOTE_REQUIRED` on read, 409 on freeze | Start the quote using POST |
 | 409 `CUSTODY_ISSUANCE_QUOTE_NOT_HELD` | Continue polling while queued or computing |
-| 409 `CUSTODY_ISSUANCE_QUOTE_EXPIRED` or `CUSTODY_ISSUANCE_LEGACY_FREEZE_REQUOTE` | Recalculate with a new request ID when applicable |
+| 409 `CUSTODY_ISSUANCE_QUOTE_EXPIRED` | Recalculate with a new request ID |
 | 409 `CUSTODY_ISSUANCE_QUOTE_CONFLICT` | Keep the request binding or start a new request |
 | 409 `HANA_ADMISSION_PENDING` | Resume the in-flight request identified by `error.need.requestId` |
 | `failed` quote | Present the provider's `failure`, then use a new request ID to recalculate |
@@ -66,9 +66,29 @@ returns 409 `CUSTODY_LAUNCH_SUPPLY_SCOPE_MISMATCH`. A read of a missing frozen a
 409 `CUSTODY_ISSUANCE_ALLOCATION_REQUIRED`. A failed view reaching freeze returns 409 with its stored
 failure code. Legacy requote is a trusted signing refusal.
 
-Known missing inputs produce 503 `CUSTODY_UPSTREAM_REQUIRED` with an owning `need`; launch-supply
-has its own deployment-unavailable 503. An unexpected exception maps to 503
+Known missing inputs produce 503 `CUSTODY_UPSTREAM_REQUIRED` with an owning `need`. An unexpected
+exception maps to 503
 `CUSTODY_ISSUANCE_ALLOCATION_UNAVAILABLE` with
 `need: {input: "custody.issuanceAllocation", scope: "session-h"}`. The status is carried by the HTTP
 response, while the body is `{error: {code, message, need?}}`. Reservation and Chain presenter errors
 retain their actual need shape, including the in-flight request ID when supplied.
+
+### Freeze conflicts
+
+`POST /freeze` returns the following public 409 responses for these freeze decisions.
+
+| Code | Condition and client action | `error.need` |
+| --- | --- | --- |
+| `CUSTODY_EMPTY_ISSUANCE_CONFIRMATION_REQUIRED` | The held or already-frozen allocation uses the empty route and explicit confirmation is missing. Show the empty-allocation confirmation and submit `emptyConfirmation: true` after the issuer confirms. | Absent |
+| `CUSTODY_ISSUANCE_ALLOCATION_CONFLICT` | A frozen request already binds a different Hana, principal, campaign, snapshot, early-release choice or quote asset. Keep the existing freeze and its binding. | Absent |
+| `CUSTODY_ISSUANCE_RESERVATION_LEGACY_REVIEW_REQUIRED` | The matching frozen record lacks a matching deployment reservation or its frozen snapshot. Stop and request manual review of the original operation before proceeding. | `{input: "custody.issuanceReservations", scope: "session-h"}` |
+
+### Launch-supply assembly
+
+During server assembly, `createIssuanceLaunchSupplySource` throws a 503 `PolicyError` if it
+cannot construct the configured source. An invalid deployment ID or service port produces
+`CUSTODY_LAUNCH_SUPPLY_CONFIG_REQUIRED`, with input `custody.issuanceLaunchSupply`.
+Missing or invalid deployment binding produces `CUSTODY_LAUNCH_SUPPLY_DEPLOYMENT_UNAVAILABLE`,
+with input `custody.issuanceReservations`. The HTTP plugin registers `GET /launch-supply`
+when Host supplies a successfully constructed source. Its request handler calls that source's
+`read` method and returns the HTTP failures documented above.
