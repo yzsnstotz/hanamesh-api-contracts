@@ -81,7 +81,8 @@ API0.28.0 replaces discovery's three-key text with `localized-v2`; see
 Own issuer reads: API0.29.0 adds `@hanamesh/api-contracts/issuer/read` and its schema;
 see [issuer-read.md](docs/issuer-read.md). Identity owns current attached-wallet scope,
 Registry owns bounded public Hana names, Indexer owns authenticated time/token pages,
-and Host composes those public ports. Rewards remain `source-required` until a bounded source exists.
+and Host composes those public ports. API 0.30.0 adds an exact issuance total and the
+[independent frozen issuer rewards contract](docs/issuer-account.md).
 
 ## Custody 0.39.0 HTTP candidates
 

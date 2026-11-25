@@ -110,3 +110,30 @@ test('pending-registration pagination can continue across an empty filtered page
   assert(notices.query({cursor: page.nextCursor}));
   assert(!notices.query({cursor: 'a'.repeat(385)}));
 });
+
+test('pending-registration errors pin each status and the owning need for named source failures', () => {
+  const failure = (statusCode, code, more = {}) => ({
+    statusCode, body: {error: {code, message: code, ...more}},
+  });
+  for (const [status, code] of [
+    [400, 'CUSTODY_INPUT_INVALID'], [401, 'CUSTODY_AUTH_REQUIRED'],
+    [403, 'CUSTODY_ORIGIN_REJECTED'], [403, 'CUSTODY_FORBIDDEN'],
+    [413, 'CUSTODY_REQUEST_TOO_LARGE'], [415, 'CUSTODY_CONTENT_TYPE_REQUIRED'],
+    [503, 'CUSTODY_UNAVAILABLE'],
+  ]) {
+    assert(notices.failure(failure(status, code)), JSON.stringify(notices.failure.errors));
+    assert(!notices.failure(failure(418, code)));
+  }
+  for (const need of [
+    {input: 'custody.releaseNotice', scope: 'release-notice'},
+    {input: 'identity.authenticate', scope: 'claim-eligibility'},
+    {input: 'identity.principalLinks', scope: 'claim-eligibility'},
+  ]) {
+    assert(notices.failure(failure(503, 'CUSTODY_UPSTREAM_REQUIRED', {need})));
+    assert(!notices.failure(failure(503, 'CUSTODY_UNAVAILABLE', {need})));
+  }
+  assert(!notices.failure(failure(503, 'CUSTODY_UPSTREAM_REQUIRED')));
+  assert(!notices.failure(failure(503, 'CUSTODY_UPSTREAM_REQUIRED', {
+    need: {input: 'custody.releaseNotice', scope: 'claim-eligibility'},
+  })));
+});

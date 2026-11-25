@@ -8,7 +8,9 @@
         "q": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 512
+          "maxLength": 512,
+          "pattern": "\\S",
+          "description": "Use isCatalogQueryTextWithinBounds for the 512 raw UTF-8 bytes and 32 distinct normalized-term limits."
         },
         "searchMode": {
           "enum": [
@@ -35,13 +37,15 @@
           "type": "array",
           "items": {
             "type": "string",
-            "minLength": 1
+            "minLength": 1,
+            "pattern": "\\S"
           },
-          "uniqueItems": true
+          "description": "Indexer removes identical items and sorts the remaining categories."
         },
         "source": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "\\S"
         },
         "claim": {
           "enum": [
@@ -51,7 +55,8 @@
         },
         "repo": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "\\S"
         },
         "channel": {
           "enum": [
@@ -66,11 +71,13 @@
         },
         "domain": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "\\S"
         },
         "subdivision": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "pattern": "\\S"
         },
         "includeInsufficient": {
           "type": "boolean",
@@ -84,7 +91,8 @@
         "after": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 4096
+          "maxLength": 4096,
+          "pattern": "^[A-Za-z0-9_-]+$"
         },
         "ranking": {
           "const": "plugins"
@@ -106,7 +114,33 @@
         "sort",
         "limit"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "dependentRequired": {
+        "subdivision": [
+          "domain"
+        ]
+      },
+      "if": {
+        "properties": {
+          "searchMode": {
+            "enum": [
+              "hybrid",
+              "names"
+            ]
+          }
+        },
+        "required": [
+          "searchMode"
+        ]
+      },
+      "then": {
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {}
+        }
+      }
     },
     "facet": {
       "type": "object",
@@ -267,7 +301,10 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "minLength": 1,
+          "maxLength": 4096,
+          "pattern": "^[A-Za-z0-9_-]+$"
         },
         "snapshot": {
           "type": "string"
@@ -362,7 +399,10 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "minLength": 1,
+          "maxLength": 4096,
+          "pattern": "^[A-Za-z0-9_-]+$"
         }
       },
       "required": [

@@ -18,3 +18,16 @@ Engineering basis: PostgreSQL 17 parameterized SELECT, deterministic ORDER BY, i
 `repoOwner` is a nonempty array of at most20 GitHub owner logins (raw list bound before case folding/dedup). Selectors are1..39 ASCII letters/digits/hyphen/underscore, including managed-user suffixes; this is a read selector, not account-name creation or availability validation. Values compare case-insensitively, normalize to lowercase, de-duplicate and sort for cursor binding. Owners are ORed; exact `repo` and every other filter still AND. Match the exact owner segment of the canonical card's current normalized GitHub repository, never a prefix, display name or source URL. Repository subdirectories remain separate cards; merged aliases do not duplicate them. Empty/oversized/non-login selectors fail explicitly; a valid absent owner returns zero.
 
 Basis: [GitHub repository owner parameters are not case sensitive](https://docs.github.com/en/rest/repos/repos#get-a-repository) and [managed usernames include an underscore suffix within39 characters](https://docs.github.com/en/enterprise-cloud%40latest/admin/managing-iam/iam-configuration-reference/username-considerations-for-external-authentication). DSC-claim §3 G-B is adopted at Indexer's owned directory layer for U1. The filter grants no claim authority; Claim re-verifies individual repository rights. Legacy global category/source/channel facet scope remains unchanged, while current-cohort domain/subdivision/hidden counts apply repoOwner like exact repo.
+
+## Indexer validation
+
+Indexer 0.5.52 at `594b6d061a811bad04c965f460c948cdb755137c` requires `searchMode`, `sort`
+and `limit`. A nonblank `q` is required for `hybrid` and `names`. A subdivision requires its
+owning domain. Indexer checks the current taxonomy and accepts duplicate categories, which it sorts
+and deduplicates. The raw `q` may occupy at most 512 UTF-8 bytes before normalization. Indexer
+then applies NFKC, trimming, lowercasing and Unicode letter/number/mark tokenization and allows at
+most 32 distinct terms. Use `isCatalogQueryTextWithinBounds(q)` together with the portable Schema.
+The cursor is a nonempty, unpadded Base64URL token, at most 4096 characters. Indexer validates the
+decoded cursor against the query and serving snapshot. Invalid query parameters return HTTP 400
+`INDEXER_INVALID_INPUT`; malformed or stale cursors return HTTP 409
+`INDEXER_SEARCH_CURSOR_INVALID` from the unified query service.

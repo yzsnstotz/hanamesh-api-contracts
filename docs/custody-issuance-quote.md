@@ -50,3 +50,25 @@ observation yields `expired`. A recorded signature is never released solely by t
 Point phases derive from the live or issued frozen cut. Sources with `received_at` strictly after
 `pointsCutoffAt` are post-issuance. Without a live or issued cut the status is `not-issued` and all
 points count as pre-issuance. Custody supplies these facts; Host composes the route and Web consumes it.
+
+### HTTP failure details
+
+Malformed request fields and invalid JSON return 400 `CUSTODY_INPUT_INVALID`; writes with
+unsupported content type return 415 `CUSTODY_CONTENT_TYPE_REQUIRED`. An unauthenticated issuer
+gets 401 `CUSTODY_AUTH_REQUIRED`; disallowed Origin and issuer access use 403
+`CUSTODY_ORIGIN_REJECTED` and `CUSTODY_FORBIDDEN`, respectively.
+
+A missing quote returns `CUSTODY_ISSUANCE_QUOTE_REQUIRED` 404 for quote, recipients and quote-mode
+launch supply. Freeze returns the same code with 409 and
+`need: {input: "custody.issuanceQuote", scope: "session-h"}`. Recipients and quote-mode payment
+return 409 when the quote is expired or unavailable for that step. Launch-supply scope mismatch
+returns 409 `CUSTODY_LAUNCH_SUPPLY_SCOPE_MISMATCH`. A read of a missing frozen allocation returns
+409 `CUSTODY_ISSUANCE_ALLOCATION_REQUIRED`. A failed view reaching freeze returns 409 with its stored
+failure code. Legacy requote is a trusted signing refusal.
+
+Known missing inputs produce 503 `CUSTODY_UPSTREAM_REQUIRED` with an owning `need`; launch-supply
+has its own deployment-unavailable 503. An unexpected exception maps to 503
+`CUSTODY_ISSUANCE_ALLOCATION_UNAVAILABLE` with
+`need: {input: "custody.issuanceAllocation", scope: "session-h"}`. The status is carried by the HTTP
+response, while the body is `{error: {code, message, need?}}`. Reservation and Chain presenter errors
+retain their actual need shape, including the in-flight request ID when supplied.

@@ -1,14 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import Ajv from 'ajv/dist/2020.js';
-import {CATALOG_QUERY_SCHEMA as schema,CATALOG_QUERY_SORTS} from '@hanamesh/api-contracts/catalog/query';
+import {CATALOG_QUERY_SCHEMA as schema,CATALOG_QUERY_SORTS,isCatalogQueryTextWithinBounds} from '@hanamesh/api-contracts/catalog/query';
 const ajv=new Ajv({strict:true});ajv.addSchema(schema);
 const check=name=>ajv.compile({$ref:schema.$id+'#/$defs/'+name});
 const base={sort:'relevance',searchMode:'keyword',includeInsufficient:true,limit:20};
 test('U1 query contract accepts all seven sorts, three modes and all common dimensions together',()=>{
  const query=check('query');
  for(const sort of CATALOG_QUERY_SORTS)for(const searchMode of ['keyword','hybrid','names'])assert.equal(query({...base,sort,searchMode,q:'git',official:true,categories:['git','office'],source:'awesome',claim:'claimed',repo:'owner/repo',channel:'claude',domain:'code',subdivision:'development',installable:true}),true,JSON.stringify(query.errors));
- for(const invalid of [{...base,sort:'unknown'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','git']}])assert.equal(query(invalid),false);
+ for(const invalid of [{...base,sort:'unknown'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','  ']}])assert.equal(query(invalid),false);
 });
 test('U1 pages require rank, cap flags, complete facet dimensions and an opaque nullable cursor',()=>{
  const page=check('page'),value={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'snapshot',policyVersion:2,searchMode:'keyword',indexReady:true};
@@ -49,4 +49,26 @@ test('U1 repoOwner is a bounded multi-login selector for personal accounts and a
  const query=check('query');
  for(const repoOwner of [['Owner'],['OWNER','org-a','Managed_CODE'],Array.from({length:20},(_,n)=>'owner-'+n)])assert.equal(query({...base,repoOwner}),true,JSON.stringify(query.errors));
  for(const repoOwner of [[],Array(21).fill('owner'),'owner',[null],[''],['owner/repo'],['https://github.com/owner'],['a'.repeat(40)],['org name'],['全角'],['x%']])assert.equal(query({...base,repoOwner}),false,JSON.stringify(repoOwner));
+});
+
+test('query schema enforces provider required fields, nonblank input and cursor alphabet',()=>{
+ const query=check('query');
+ for(const input of [
+  {...base,searchMode:'hybrid'}, {...base,searchMode:'names'}, {...base,q:' \t\n '},
+  {...base,subdivision:'development'}, {...base,after:'A+/='}, {...base,after:''},
+  {...base,categories:[' ']}, {...base,source:'\t'}, {...base,repo:' '},
+ ])assert.equal(query(input),false,JSON.stringify(input));
+ assert.equal(query({...base,categories:['git','git'],after:'Aa_9-'}),true,JSON.stringify(query.errors));
+});
+
+test('catalog text counts raw UTF-8 bytes and distinct normalized terms',()=>{
+ assert.equal(isCatalogQueryTextWithinBounds('界'.repeat(170)+'ab'),true);
+ assert.equal(isCatalogQueryTextWithinBounds('界'.repeat(171)),false);
+ assert.equal(isCatalogQueryTextWithinBounds('😀'.repeat(128)),true);
+ assert.equal(isCatalogQueryTextWithinBounds('😀'.repeat(128)+' '),false);
+ const terms=n=>Array.from({length:n},(_,i)=>'term'+i).join(' ');
+ assert.equal(isCatalogQueryTextWithinBounds(terms(32)+' ＴＥＲＭ０'),true);
+ assert.equal(isCatalogQueryTextWithinBounds(terms(33)),false);
+ assert.equal(isCatalogQueryTextWithinBounds('x '.repeat(33)),true);
+ assert.equal(isCatalogQueryTextWithinBounds('  \t '),false);
 });

@@ -30,7 +30,5 @@ Locale only selects the plain-text subject/body and CLDR duration formatting.
 It is never appended to, translated into, or used to rewrite the verification URL
 or token. The host and website consume public contracts; they do not own templates.
 
-Authority: orchestrator's I18NE ruling on 2026-11-21; allocated version 0.32.0.
+Authority: the I18NE ruling on 2026-11-21 and the unified api-contracts 0.30.0 release assignment.
 Translations are drafts pending R's per-language review.
-
-2026-11-25 编排统一版本裁定：本文件所述新增能力随 api-contracts 0.30.0 合批；上文0.32.0为原未发布分配历史，不能当正式tag。

@@ -132,6 +132,334 @@
           "const": false
         }
       }
+    },
+    "upstreamNeed": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "input",
+            "scope"
+          ],
+          "properties": {
+            "input": {
+              "const": "custody.releaseNotice"
+            },
+            "scope": {
+              "const": "release-notice"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "input",
+            "scope"
+          ],
+          "properties": {
+            "input": {
+              "enum": [
+                "identity.authenticate",
+                "identity.principalLinks"
+              ]
+            },
+            "scope": {
+              "const": "claim-eligibility"
+            }
+          }
+        }
+      ]
+    },
+    "failure": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 400
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_INPUT_INVALID"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 401
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_AUTH_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 403
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_ORIGIN_REJECTED",
+                        "CUSTODY_FORBIDDEN"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 413
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_REQUEST_TOO_LARGE"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 415
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_CONTENT_TYPE_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message",
+                    "need"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_UPSTREAM_REQUIRED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "need": {
+                      "$ref": "#/$defs/upstreamNeed"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "statusCode",
+            "body"
+          ],
+          "properties": {
+            "statusCode": {
+              "const": 503
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "error"
+              ],
+              "properties": {
+                "error": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "code",
+                    "message"
+                  ],
+                  "properties": {
+                    "code": {
+                      "enum": [
+                        "CUSTODY_UNAVAILABLE"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

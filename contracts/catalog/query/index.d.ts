@@ -34,3 +34,6 @@ export interface CatalogQueryReadPort {
  readPage(query:CatalogQuery,candidates?:CatalogQueryCandidates):Promise<CatalogQueryPage>;
  readNames(query:CatalogQuery):Promise<CatalogQueryNames>;
 }
+
+/** Checks nonblank text, the 512-byte raw UTF-8 cap and the 32 distinct normalized-term cap. */
+export declare function isCatalogQueryTextWithinBounds(value: unknown): value is string;

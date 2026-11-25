@@ -1,6 +1,6 @@
 # 本人 GitHub namespaces（CLP1 候选）
 
-Identity 0.12.0、api-contracts 0.31.0 的候选接口；当前Identity开发基线按编排批准为v0.10.0，必须在IR1 0.11.0和ID12 0.11.1 tag后变基补证，再独审/merge train。不是已合入/已部署声明。
+Identity 0.12.0、api-contracts 0.30.0 的候选接口；当前Identity开发基线按编排批准为v0.10.0，必须在IR1 0.11.0和ID12 0.11.1 tag后变基补证，再独审/merge train。不是已合入/已部署声明。
 
 `GET /v1/identity/me/github/namespaces`，本人账号Cookie鉴权，不接受query参数，也不接受设备签名代替账号会话。HTTP沿Identity protocol2，成功及错误均no-store/no-cache/nosniff。可选进程内服务 `githubNamespaces.readOwn(actor)` 要求本实例未过期账号actor；不新增跨主体查询、scope或登录方法。
 

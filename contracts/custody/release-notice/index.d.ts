@@ -29,3 +29,30 @@ export interface PendingRegistrationPage {
 }
 
 export const PENDING_REGISTRATION_PATH: '/v1/custody/releases/pending-registration/me';
+
+export type PendingRegistrationUpstreamNeed =
+  | {readonly input: 'custody.releaseNotice'; readonly scope: 'release-notice'}
+  | {readonly input: 'identity.authenticate' | 'identity.principalLinks'; readonly scope: 'claim-eligibility'};
+
+type HttpFailure<Status extends number, Code extends string> = {
+  readonly statusCode: Status;
+  readonly body: {readonly error: {readonly code: Code; readonly message: string}};
+};
+
+export type PendingRegistrationFailure =
+  | HttpFailure<400, 'CUSTODY_INPUT_INVALID'>
+  | HttpFailure<401, 'CUSTODY_AUTH_REQUIRED'>
+  | HttpFailure<403, 'CUSTODY_ORIGIN_REJECTED' | 'CUSTODY_FORBIDDEN'>
+  | HttpFailure<413, 'CUSTODY_REQUEST_TOO_LARGE'>
+  | HttpFailure<415, 'CUSTODY_CONTENT_TYPE_REQUIRED'>
+  | {
+    readonly statusCode: 503;
+    readonly body: {
+      readonly error: {
+        readonly code: 'CUSTODY_UPSTREAM_REQUIRED';
+        readonly message: string;
+        readonly need: PendingRegistrationUpstreamNeed;
+      };
+    };
+  }
+  | HttpFailure<503, 'CUSTODY_UNAVAILABLE'>;

@@ -1,6 +1,6 @@
 # 本人发行账户 / 0.30.0
 
-`@hanamesh/api-contracts/issuer/account` 公开本人冻结权益和Host组合DTO、严格JSON Schema及错误状态目录。保留同一未发布列车的catalog/query、github-namespaces、identity/email能力；包统一版本按编排11-25裁定为0.30.0，不能采用源候选曾写的0.32.0当正式版本。
+`@hanamesh/api-contracts/issuer/account` 公开本人冻结权益和Host组合DTO、严格JSON Schema及错误状态目录。保留同一未发布列车的catalog/query、github-namespaces、identity/email能力；包统一版本按编排11-25裁定为0.30.0。
 
 Custody owns GET `/v1/custody/me/issuer-rewards`，只读冻结principal权益；server-only bulk `readOwnIssuerEntitlements` ≤50 Hana UUID+requestKey输入。冻金额 `amount` 为launch initiator role，`entitlementAmount` 为冻结整项分配，都是精确base-unit字符串；不是可领、已领、当前余额或发币成功证明。不调用会结算/释放的resolveForHost。只返回白名单，不返回principal/cut/rights/proof。
 
