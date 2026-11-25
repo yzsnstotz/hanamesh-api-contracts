@@ -1,6 +1,6 @@
 {
   "name": "@hanamesh/api-contracts",
-  "version": "0.29.0",
+  "version": "0.30.0",
   "description": "Current quote-v2 provider declarations, ABI artifacts and C09 search-miss response schemas.",
   "type": "module",
   "license": "MIT",
@@ -62,7 +62,12 @@
       "types": "./contracts/issuer/read/index.d.ts",
       "default": "./contracts/issuer/read/index.js"
     },
-    "./issuer/read/schema.json": "./contracts/issuer/read/schema.json"
+    "./issuer/read/schema.json": "./contracts/issuer/read/schema.json",
+    "./catalog/query": {
+      "types": "./contracts/catalog/query/index.d.ts",
+      "default": "./contracts/catalog/query/index.js"
+    },
+    "./catalog/query/schema.json": "./contracts/catalog/query/schema.json"
   },
   "files": [
     "index.js",
@@ -80,7 +85,9 @@
     "contracts/catalog/localized",
     "docs/catalog-localized.md",
     "contracts/issuer/read",
-    "docs/issuer-read.md"
+    "docs/issuer-read.md",
+    "contracts/catalog/query",
+    "docs/catalog-query.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",
