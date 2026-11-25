@@ -20,6 +20,7 @@
     "catalog-query-types.ts",
     "github-namespaces-types.ts",
     "identity-email-types.ts",
-    "issuer-account-types.ts"
+    "issuer-account-types.ts",
+    "custody-train-types.ts"
   ]
 }

@@ -1,0 +1,1759 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "quoteRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "campaignId",
+        "quote",
+        "issuerEarlyReleaseOptIn"
+      ],
+      "properties": {
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quote": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "issuerEarlyReleaseOptIn": {
+          "type": "boolean"
+        }
+      }
+    },
+    "freezeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "campaignId",
+        "quote",
+        "issuerEarlyReleaseOptIn",
+        "snapshotHash"
+      ],
+      "properties": {
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quote": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "issuerEarlyReleaseOptIn": {
+          "type": "boolean"
+        },
+        "snapshotHash": {
+          "type": "string",
+          "pattern": "^0x(?!0{64}$)[0-9a-fA-F]{64}$"
+        },
+        "emptyConfirmation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "launchSupplyQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "campaignId",
+        "quote",
+        "issuerEarlyReleaseOptIn",
+        "allocationState"
+      ],
+      "properties": {
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quote": {
+          "type": "string",
+          "pattern": "^0x[0-9a-fA-F]{40}$"
+        },
+        "issuerEarlyReleaseOptIn": {
+          "enum": [
+            "true",
+            "false"
+          ]
+        },
+        "allocationState": {
+          "enum": [
+            "quote",
+            "frozen"
+          ]
+        }
+      }
+    },
+    "recipientsQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "after": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]{0,8})$"
+        },
+        "limit": {
+          "type": "string",
+          "pattern": "^([1-9]|[1-4][0-9]|50)$"
+        }
+      }
+    },
+    "quote": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaId",
+        "requestId",
+        "principalId",
+        "schema",
+        "campaignId",
+        "issuerEarlyReleaseOptIn",
+        "status",
+        "contributorCount",
+        "estimatedSeconds",
+        "queuedAt",
+        "queuePosition",
+        "queueEtaSeconds",
+        "computeStartedAt",
+        "pointsCutoffAt",
+        "heldAt",
+        "expiresAt",
+        "frozenAt",
+        "signatureDeadline",
+        "serverNow",
+        "failure",
+        "summary",
+        "allocation"
+      ],
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "principalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema": {
+          "const": "hanamesh-issuance-quote-v1"
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issuerEarlyReleaseOptIn": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "computing",
+            "held",
+            "signed",
+            "expired",
+            "failed"
+          ]
+        },
+        "contributorCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "estimatedSeconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "queuedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        },
+        "queuePosition": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "queueEtaSeconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "computeStartedAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pointsCutoffAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "heldAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expiresAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frozenAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "signatureDeadline": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "serverNow": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        },
+        "failure": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/summary"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "allocation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/allocation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "held",
+                  "signed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "allocation": {
+                "$ref": "#/$defs/allocation"
+              },
+              "summary": {
+                "$ref": "#/$defs/summary"
+              },
+              "heldAt": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+              },
+              "expiresAt": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "allocation": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "failed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "failure": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "code",
+                  "message"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              },
+              "summary": {
+                "$ref": "#/$defs/summary"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "failure": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "signed"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "frozenAt": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "signatureDeadline": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hanaId",
+        "requestId",
+        "principalId",
+        "schema",
+        "status",
+        "computedAt",
+        "heldAt",
+        "expiresAt",
+        "frozenAt",
+        "failureCode",
+        "contributorCount",
+        "recipientCount",
+        "budget",
+        "categories",
+        "top10Amount",
+        "issuer",
+        "snapshotHash"
+      ],
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "principalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema": {
+          "const": "hanamesh-issuance-quote-summary-v1"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "computing",
+            "held",
+            "signed",
+            "expired",
+            "failed"
+          ]
+        },
+        "computedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        },
+        "heldAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expiresAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frozenAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "failureCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contributorCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recipientCount": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "budget": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "categories": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "contributors",
+                "author",
+                "launchInitiator",
+                "platformWithheld",
+                "roundingDust"
+              ],
+              "properties": {
+                "contributors": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "author": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "launchInitiator": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "platformWithheld": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "roundingDust": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "top10Amount": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issuer": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "amount",
+                "userAmount",
+                "creatorAmount",
+                "launchInitiatorAmount"
+              ],
+              "properties": {
+                "amount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "userAmount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "creatorAmount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                },
+                "launchInitiatorAmount": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "snapshotHash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^0x(?!0{64}$)[0-9a-fA-F]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/allocationDetails"
+        }
+      ],
+      "required": [
+        "issuer"
+      ],
+      "properties": {
+        "issuer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "amount",
+            "userAmount",
+            "creatorAmount",
+            "launchInitiatorAmount",
+            "shareBps",
+            "budget"
+          ],
+          "properties": {
+            "amount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "userAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "creatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "launchInitiatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "shareBps": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "budget": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            }
+          }
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "frozenAllocation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/$defs/allocationDetails"
+        }
+      ],
+      "required": [
+        "issuer",
+        "reservationId",
+        "frozenAt",
+        "quoteExpiresAt",
+        "issuerEarlyReleaseOptIn",
+        "confirmation"
+      ],
+      "properties": {
+        "issuer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "amount",
+            "shareBps",
+            "budget"
+          ],
+          "properties": {
+            "amount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "userAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "creatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "launchInitiatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "shareBps": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "budget": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "reservationId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frozenAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        },
+        "quoteExpiresAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issuerEarlyReleaseOptIn": {
+          "type": "boolean"
+        },
+        "confirmation": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "principalId",
+                "confirmedAt",
+                "copyVersion",
+                "accepted"
+              ],
+              "properties": {
+                "principalId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "confirmedAt": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+                },
+                "copyVersion": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "accepted": {
+                  "const": true
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "zeroQualified": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "known",
+        "active",
+        "severity",
+        "requiresIssuerConfirmation",
+        "copy"
+      ],
+      "properties": {
+        "known": {
+          "const": true
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "severity": {
+          "enum": [
+            "danger",
+            "none"
+          ]
+        },
+        "requiresIssuerConfirmation": {
+          "type": "boolean"
+        },
+        "copy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "version",
+            "heading",
+            "message",
+            "confirmationLabel"
+          ],
+          "properties": {
+            "code": {
+              "const": "ZERO_QUALIFIED_PLATFORM_RESERVE"
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "heading": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "confirmationLabel": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "qualificationSources": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "userPoints",
+            "creatorMirrorPoints",
+            "claimBonusPoints",
+            "totalPoints"
+          ],
+          "properties": {
+            "status": {
+              "const": "available"
+            },
+            "userPoints": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            "creatorMirrorPoints": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            "claimBonusPoints": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            "totalPoints": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "userPoints",
+            "creatorMirrorPoints",
+            "claimBonusPoints",
+            "totalPoints"
+          ],
+          "properties": {
+            "status": {
+              "const": "legacy-unavailable"
+            },
+            "userPoints": {
+              "type": "null"
+            },
+            "creatorMirrorPoints": {
+              "type": "null"
+            },
+            "claimBonusPoints": {
+              "type": "null"
+            },
+            "totalPoints": {
+              "type": "null"
+            }
+          }
+        }
+      ]
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "userAmount",
+        "creatorAmount",
+        "launchInitiatorAmount",
+        "holderId",
+        "isIssuer",
+        "isSelf",
+        "isLaunchInitiator",
+        "qualificationSources"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "userAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "creatorAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "launchInitiatorAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "holderId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "isIssuer": {
+          "type": "boolean"
+        },
+        "isSelf": {
+          "type": "boolean"
+        },
+        "isLaunchInitiator": {
+          "type": "boolean"
+        },
+        "qualificationSources": {
+          "$ref": "#/$defs/qualificationSources"
+        }
+      }
+    },
+    "recipients": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "requestId",
+        "snapshotHash",
+        "total",
+        "items",
+        "next"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-issuance-quote-recipients-v1"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "snapshotHash": {
+          "type": "string",
+          "pattern": "^0x(?!0{64}$)[0-9a-fA-F]{64}$"
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "amount",
+              "userAmount",
+              "creatorAmount",
+              "launchInitiatorAmount",
+              "holderId",
+              "isIssuer",
+              "isSelf",
+              "isLaunchInitiator",
+              "qualificationSources",
+              "rank"
+            ],
+            "properties": {
+              "amount": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              "userAmount": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              "creatorAmount": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              "launchInitiatorAmount": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              },
+              "holderId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "isIssuer": {
+                "type": "boolean"
+              },
+              "isSelf": {
+                "type": "boolean"
+              },
+              "isLaunchInitiator": {
+                "type": "boolean"
+              },
+              "qualificationSources": {
+                "$ref": "#/$defs/qualificationSources"
+              },
+              "rank": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          },
+          "maxItems": 50
+        },
+        "next": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "launchSupply": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "scope",
+        "allocation",
+        "pointsBps",
+        "airdropAmount",
+        "recipientsAmount",
+        "airdropRedirectToPlatform",
+        "redirectIsSubsetOfAirdrop",
+        "route",
+        "zeroQualified",
+        "executed",
+        "source",
+        "unknowns"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-custody-launch-supply-v1"
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "deploymentId",
+            "chainId",
+            "launcher",
+            "hanaId",
+            "requestId",
+            "campaignId",
+            "allocationState",
+            "snapshotHash"
+          ],
+          "properties": {
+            "deploymentId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "chainId": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "launcher": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$"
+            },
+            "hanaId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requestId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "campaignId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "allocationState": {
+              "enum": [
+                "quote",
+                "frozen"
+              ]
+            },
+            "snapshotHash": {
+              "type": "string",
+              "pattern": "^0x(?!0{64}$)[0-9a-fA-F]{64}$"
+            }
+          }
+        },
+        "allocation": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/allocation"
+            },
+            {
+              "$ref": "#/$defs/frozenAllocation"
+            }
+          ]
+        },
+        "pointsBps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "airdropAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "recipientsAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "airdropRedirectToPlatform": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "redirectIsSubsetOfAirdrop": {
+          "const": true
+        },
+        "route": {
+          "enum": [
+            "ordinary",
+            "empty",
+            "no-airdrop"
+          ]
+        },
+        "zeroQualified": {
+          "$ref": "#/$defs/zeroQualified"
+        },
+        "executed": {
+          "const": false
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "schema",
+            "evidence",
+            "policyVersion",
+            "settingsVersion",
+            "asOf",
+            "frozenAt"
+          ],
+          "properties": {
+            "owner": {
+              "const": "custody"
+            },
+            "schema": {
+              "const": "hanamesh-issuance-allocation-preview-v1"
+            },
+            "evidence": {
+              "enum": [
+                "FIXTURE",
+                "TRUSTED"
+              ]
+            },
+            "policyVersion": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "settingsVersion": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "asOf": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            "frozenAt": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "reason"
+                ],
+                "properties": {
+                  "field": {
+                    "const": "execution"
+                  },
+                  "reason": {
+                    "const": "CHAIN_EXECUTION_NOT_OBSERVED"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "field",
+                  "reason"
+                ],
+                "properties": {
+                  "field": {
+                    "const": "walletBalances"
+                  },
+                  "reason": {
+                    "const": "WALLET_BALANCES_NOT_OBSERVED"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ownPointPhases": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "hanaId",
+        "principalId",
+        "status",
+        "requestId",
+        "asOf",
+        "pointsCutoffAt",
+        "preIssuance",
+        "postIssuance"
+      ],
+      "properties": {
+        "schema": {
+          "const": "hanamesh-issuance-point-phase-v1"
+        },
+        "hanaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "principalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "not-issued",
+            "issuing",
+            "issued"
+          ]
+        },
+        "requestId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "asOf": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "pointsCutoffAt": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "preIssuance": {
+          "$ref": "#/$defs/pointTotals"
+        },
+        "postIssuance": {
+          "$ref": "#/$defs/pointTotals"
+        }
+      }
+    },
+    "pointTotals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "points",
+        "sources"
+      ],
+      "properties": {
+        "points": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "sources": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "allocationDetails": {
+      "type": "object",
+      "required": [
+        "budget",
+        "platformAmount",
+        "hanaId",
+        "requestId",
+        "principalId",
+        "schema",
+        "evidence",
+        "campaignId",
+        "asOf",
+        "policyVersion",
+        "settingsVersion",
+        "snapshotHash",
+        "parameters",
+        "route",
+        "qualifiedHolderCount",
+        "holderCountBasis",
+        "qualifiedPoints",
+        "maturing",
+        "topLimit",
+        "topRecipients",
+        "launchInitiator",
+        "top10Amount",
+        "creatorHolderKind",
+        "recipientCount",
+        "reconciliation",
+        "userBudget",
+        "accountCapWithheld",
+        "platformWithheld",
+        "roundingDust",
+        "remainderDestination",
+        "thresholds",
+        "warnings",
+        "zeroQualified"
+      ],
+      "properties": {
+        "budget": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "platformAmount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "hanaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "principalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema": {
+          "const": "hanamesh-issuance-allocation-preview-v1"
+        },
+        "evidence": {
+          "enum": [
+            "FIXTURE",
+            "TRUSTED"
+          ]
+        },
+        "campaignId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "asOf": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+        },
+        "policyVersion": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "snapshotHash": {
+          "type": "string",
+          "pattern": "^0x(?!0{64}$)[0-9a-fA-F]{64}$"
+        },
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pointsBps",
+            "earlyReleaseAllowed",
+            "quote",
+            "launchFeeWei"
+          ],
+          "properties": {
+            "pointsBps": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "earlyReleaseAllowed": {
+              "type": "boolean"
+            },
+            "quote": {
+              "type": "string",
+              "pattern": "^0x[0-9a-fA-F]{40}$"
+            },
+            "launchFeeWei": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "route": {
+          "enum": [
+            "ordinary",
+            "empty",
+            "no-airdrop"
+          ]
+        },
+        "qualifiedHolderCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "holderCountBasis": {
+          "const": "positive-qualified-points"
+        },
+        "qualifiedPoints": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+        },
+        "maturing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "points",
+            "nextMaturesAt"
+          ],
+          "properties": {
+            "points": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            },
+            "nextMaturesAt": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "topLimit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "topRecipients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/recipient"
+          },
+          "maxItems": 200
+        },
+        "launchInitiator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "holderId",
+            "amount"
+          ],
+          "properties": {
+            "holderId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "amount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "top10Amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "creatorHolderKind": {
+          "enum": [
+            "claimed",
+            "unclaimed",
+            "none"
+          ]
+        },
+        "recipientCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reconciliation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "budget",
+            "platformAmount",
+            "recipientsAmount",
+            "topRecipientsAmount",
+            "otherRecipientsAmount",
+            "userAmount",
+            "creatorAmount",
+            "launchInitiatorAmount"
+          ],
+          "properties": {
+            "budget": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "platformAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "recipientsAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "topRecipientsAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "otherRecipientsAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "userAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "creatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            "launchInitiatorAmount": {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            }
+          }
+        },
+        "userBudget": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "accountCapWithheld": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "platformWithheld": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "roundingDust": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "remainderDestination": {
+          "const": "platform"
+        },
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "missing",
+            "lowQualifiedHolders",
+            "highIssuerShareBps"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "configured",
+                "unconfigured"
+              ]
+            },
+            "missing": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "lowQualifiedHolders": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "highIssuerShareBps": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 10000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "warnings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "lowQualifiedHolders",
+            "highIssuerShareBps"
+          ],
+          "properties": {
+            "lowQualifiedHolders": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "highIssuerShareBps": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "zeroQualified": {
+          "$ref": "#/$defs/zeroQualified"
+        }
+      }
+    }
+  }
+}

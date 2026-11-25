@@ -1,5 +1,5 @@
-# 0.31.0 (CLP1 candidate)
+# 0.30.0 candidate
 
-- Add the authenticated, token-visible GitHub namespace DTO and JSON Schema subpath; no OAuth approval field.
-- Development candidate; final rebase/review/train required.
-
+- Retain the unified catalog query, localized verification email, and authenticated token-visible GitHub namespaces.
+- Add frozen issuer account entitlements and independent reward history. Require the exact total in issuer reads.
+- Add Custody issuance quotes and pending-registration notice HTTP contracts.

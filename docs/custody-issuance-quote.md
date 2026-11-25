@@ -1,0 +1,52 @@
+# Custody issuance quote
+
+`@hanamesh/api-contracts/custody/issuance-quote` defines the Custody 0.39.0 HTTP contract from
+`hanamesh-server-custody@95cb664b871ef1d5a015a1e49de3d4606e1bdea4` and ISS2's
+`C-POINTS-ISSUANCE-ALLOCATION` update at docs commit `7fdcbd085ecc070bfdead75c826f59394956c778`.
+The package also exposes `/custody/issuance-quote/schema.json`; select a named schema under `$defs`.
+
+Routes below use `/v1/custody/issuance-allocation/:hanaId/requests/:requestId` except the points route.
+The issuer authenticates by cookie. Writes require a permitted Origin and JSON. Responses use `Cache-Control: no-store`.
+
+| Method and suffix | Request schema | Success schema |
+| --- | --- | --- |
+| POST `/quote` | `quoteRequest` | `quote`, 202 on creation, 200 on same-request re-entry |
+| GET `/quote` | No query | `quote` |
+| GET `/quote/recipients` | `recipientsQuery` | `recipients` |
+| POST `/freeze` | `freezeRequest` | `frozenAllocation` |
+| GET `/frozen` | No defined query fields | `frozenAllocation` |
+| GET `/launch-supply` | `launchSupplyQuery` | `launchSupply` |
+| GET `/v1/custody/issuance-allocation/:hanaId/point-phases/me` | No query | `ownPointPhases` |
+
+A newly created quote is queued or computing. Poll the same request. `queuePosition` and
+`queueEtaSeconds` describe queued work. The 15-minute hold starts at `heldAt` and ends at
+`expiresAt`. Use `serverNow` to reconcile the browser clock. Payment supply with
+`allocationState=quote` requires a held quote; `allocationState=frozen` reads the frozen allocation.
+`GET /preview` and the `allocationState=preview` value are retired. Freeze takes the exact held
+`snapshotHash` and a new freeze only succeeds inside the hold. The public frozen response omits the
+internal cut. Legacy frozen records may have a null `quoteExpiresAt` and predate the issuer role split.
+
+The issuer portion total is the sum of contributor, creator and launch-initiator units.
+`top10Amount` is independent of `topLimit`. Recipients are paged from held or signed quotes, in
+persisted rank order. Pass the previous `next` as `after`; the page limit is 1–50.
+Amounts are decimal strings in token base units. The provider retains an aggregate summary on
+expiry or failure. Clients should use the top-level allocation only when it is present.
+
+| HTTP result | Consumer handling |
+| --- | --- |
+| 404 `CUSTODY_ISSUANCE_QUOTE_REQUIRED` on read, 409 on freeze | Start the quote using POST |
+| 409 `CUSTODY_ISSUANCE_QUOTE_NOT_HELD` | Continue polling while queued or computing |
+| 409 `CUSTODY_ISSUANCE_QUOTE_EXPIRED` or `CUSTODY_ISSUANCE_LEGACY_FREEZE_REQUOTE` | Recalculate with a new request ID when applicable |
+| 409 `CUSTODY_ISSUANCE_QUOTE_CONFLICT` | Keep the request binding or start a new request |
+| 409 `HANA_ADMISSION_PENDING` | Resume the in-flight request identified by `error.need.requestId` |
+| `failed` quote | Present the provider's `failure`, then use a new request ID to recalculate |
+
+The signing service records ordinary signatures inside the signing transaction. Its decision time
+must precede the hold deadline and every chain deadline must be at or before it. The public
+`signatureDeadline` is an ISO UTC timestamp when a signature was recorded. A chain-only issued
+observation can yield `signed` with a null signature deadline. A confirmed not-issued terminal
+observation yields `expired`. A recorded signature is never released solely by the hold clock.
+
+Point phases derive from the live or issued frozen cut. Sources with `received_at` strictly after
+`pointsCutoffAt` are post-issuance. Without a live or issued cut the status is `not-issued` and all
+points count as pre-issuance. Custody supplies these facts; Host composes the route and Web consumes it.

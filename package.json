@@ -82,7 +82,17 @@
       "types": "./contracts/issuer/account/index.d.ts",
       "default": "./contracts/issuer/account/index.js"
     },
-    "./issuer/account/schema.json": "./contracts/issuer/account/schema.json"
+    "./issuer/account/schema.json": "./contracts/issuer/account/schema.json",
+    "./custody/issuance-quote": {
+      "types": "./contracts/custody/issuance-quote/index.d.ts",
+      "default": "./contracts/custody/issuance-quote/index.js"
+    },
+    "./custody/issuance-quote/schema.json": "./contracts/custody/issuance-quote/schema.json",
+    "./custody/release-notice": {
+      "types": "./contracts/custody/release-notice/index.d.ts",
+      "default": "./contracts/custody/release-notice/index.js"
+    },
+    "./custody/release-notice/schema.json": "./contracts/custody/release-notice/schema.json"
   },
   "files": [
     "index.js",
@@ -108,7 +118,11 @@
     "contracts/identity/email",
     "docs/identity-email.md",
     "contracts/issuer/account",
-    "docs/issuer-account.md"
+    "docs/issuer-account.md",
+    "contracts/custody/issuance-quote",
+    "docs/custody-issuance-quote.md",
+    "contracts/custody/release-notice",
+    "docs/custody-release-notice.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",

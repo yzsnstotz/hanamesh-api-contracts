@@ -82,3 +82,8 @@ Own issuer reads: API0.29.0 adds `@hanamesh/api-contracts/issuer/read` and its s
 see [issuer-read.md](docs/issuer-read.md). Identity owns current attached-wallet scope,
 Registry owns bounded public Hana names, Indexer owns authenticated time/token pages,
 and Host composes those public ports. Rewards remain `source-required` until a bounded source exists.
+
+## Custody 0.39.0 HTTP candidates
+
+- [Issuance quotes and point phases](docs/custody-issuance-quote.md)
+- [Pending registration and deadline notices](docs/custody-release-notice.md)
