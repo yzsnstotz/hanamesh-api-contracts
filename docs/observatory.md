@@ -1,6 +1,6 @@
 # 观测台只读数据契约（OB1 候选）
 
-公开子路径：`@hanamesh/api-contracts/ops/observatory`。导出五类 DTO、模块贡献 DTO，及 draft-07 `OBSERVATORY_SCHEMA` / `OBSERVATORY_CONTRIBUTION_SCHEMA`。本包只声明结构，不拥有统计 SQL、任务清单、权限、缓存、作业或写操作。本观测契约沿正式 v0.26.0 基点保留；当前包候选为 **0.29.0**，沿用发现/localized-v2并新增本人发行读口，不改变观测接口。本候选尚未合入/tag/发布，也未成为 Host 现行依赖。
+公开子路径：`@hanamesh/api-contracts/ops/observatory`。导出五类 DTO、模块贡献 DTO，及 draft-07 `OBSERVATORY_SCHEMA` / `OBSERVATORY_CONTRIBUTION_SCHEMA`。本包只声明结构，不拥有统计 SQL、任务清单、权限、缓存、作业或写操作。本观测契约沿正式 v0.26.0 基点保留；当前包候选为 **0.30.0**，沿用发现/localized-v2并新增本人发行读口，不改变观测接口。本候选尚未合入/tag/发布，也未成为 Host 现行依赖。
 
 依据：owner 2026-11-19 通过、按协议费更正后的 ops-v3；OB1 派单与 `questions/OB1-plan.md`。设计区块为收入、开支、人数、健康、关键参数。
 
