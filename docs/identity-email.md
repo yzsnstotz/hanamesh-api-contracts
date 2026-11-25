@@ -30,5 +30,5 @@ Locale only selects the plain-text subject/body and CLDR duration formatting.
 It is never appended to, translated into, or used to rewrite the verification URL
 or token. The host and website consume public contracts; they do not own templates.
 
-Authority: orchestrator's I18NE ruling on 2026-11-21; allocated version 0.32.0.
+Authority: orchestrator's I18NE ruling on 2026-11-21. The original 0.32.0 allocation is superseded by the 2026-11-25 unified contracts 0.30.0 release; query, GitHub namespaces and email exports ship together.
 Translations are drafts pending R's per-language review.
