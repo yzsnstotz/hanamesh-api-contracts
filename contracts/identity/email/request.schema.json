@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.com/contracts/identity/email-verification-request-v1",
+  "description": "Structural request schema. Identity validates email and BCP 47 syntax. Omitted locale defaults to en; canonical supported primary languages match, pt maps to pt-BR, unsupported well-formed tags fall back to en; malformed tags return 400. See docs/identity-email.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["email"],
+  "properties": {
+    "email": {"type": "string"},
+    "locale": {"type": "string"}
+  }
+}

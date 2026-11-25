@@ -72,7 +72,12 @@
       "types": "./contracts/identity/github-namespaces/index.d.ts",
       "default": "./contracts/identity/github-namespaces/index.js"
     },
-    "./identity/github-namespaces/schema.json": "./contracts/identity/github-namespaces/schema.json"
+    "./identity/github-namespaces/schema.json": "./contracts/identity/github-namespaces/schema.json",
+    "./identity/email": {
+      "types": "./contracts/identity/email/index.d.ts",
+      "default": "./contracts/identity/email/index.js"
+    },
+    "./identity/email/request.schema.json": "./contracts/identity/email/request.schema.json"
   },
   "files": [
     "index.js",
@@ -94,12 +99,15 @@
     "contracts/catalog/query",
     "docs/catalog-query.md",
     "contracts/identity/github-namespaces",
-    "docs/github-namespaces.md"
+    "docs/github-namespaces.md",
+    "contracts/identity/email",
+    "docs/identity-email.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",
     "test:localized": "node --test test/catalog-discovery.test.mjs test/catalog-discovery-fixtures.test.mjs test/catalog-localized.test.mjs && tsc -p test/tsconfig.json",
-    "test:issuer-read": "node --test test/issuer-read.test.mjs && tsc -p test/tsconfig.json"
+    "test:issuer-read": "node --test test/issuer-read.test.mjs && tsc -p test/tsconfig.json",
+    "test:identity-email": "node --test test/identity-email.test.mjs && tsc -p test/tsconfig.json"
   },
   "peerDependencies": {
     "viem": "^2.56.9"

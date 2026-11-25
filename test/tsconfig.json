@@ -18,6 +18,7 @@
     "catalog-localized-types.ts",
     "issuer-read-types.ts",
     "catalog-query-types.ts",
-    "github-namespaces-types.ts"
+    "github-namespaces-types.ts",
+    "identity-email-types.ts"
   ]
 }
