@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hanamesh.com/contracts/identity/github-namespaces.v1.schema.json",
+  "title": "Token-visible GitHub namespaces for the current account",
+  "$defs": {
+    "GithubNamespaceDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "login",
+        "avatarUrl"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[A-Za-z0-9-]+$"
+        },
+        "avatarUrl": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 2048,
+          "pattern": "^https://"
+        }
+      }
+    },
+    "GithubNamespacesDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "login",
+        "orgs",
+        "checkedAt",
+        "truncated"
+      ],
+      "properties": {
+        "login": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[A-Za-z0-9-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "orgs": {
+          "type": "array",
+          "maxItems": 1000,
+          "items": {
+            "$ref": "#/$defs/GithubNamespaceDTO"
+          }
+        },
+        "checkedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$"
+        },
+        "truncated": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "login": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "orgs": {
+                "maxItems": 0,
+                "type": "array"
+              },
+              "truncated": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$ref": "#/$defs/GithubNamespacesDTO"
+}

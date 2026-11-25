@@ -17,6 +17,7 @@
     "catalog-discovery-types.ts",
     "catalog-localized-types.ts",
     "issuer-read-types.ts",
-    "catalog-query-types.ts"
+    "catalog-query-types.ts",
+    "github-namespaces-types.ts"
   ]
 }
