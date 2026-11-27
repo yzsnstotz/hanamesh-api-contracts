@@ -730,6 +730,9 @@
         },
         "projection": {
           "$ref": "#/$defs/projection"
+        },
+        "rating": {
+          "$ref": "#/$defs/rating"
         }
       },
       "required": [
@@ -807,7 +810,8 @@
         "reasons": false,
         "projection": {
           "$ref": "#/$defs/projection"
-        }
+        },
+        "rating": false
       },
       "required": [
         "hanaId",
@@ -1089,6 +1093,9 @@
         },
         "projection": {
           "$ref": "#/$defs/projection"
+        },
+        "rating": {
+          "$ref": "#/$defs/rating"
         }
       },
       "required": [
@@ -1335,6 +1342,436 @@
           }
         }
       ]
+    },
+    "ratingDimension": {
+      "type": "object",
+      "properties": {
+        "score": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 10
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        }
+      },
+      "required": [
+        "score",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "ratingSource": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "lines": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24,
+          "pattern": "^[1-9][0-9]*(?:-[1-9][0-9]*)?$"
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://github[.]com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/blob/[a-f0-9]{40}/[^?#\\s]+#L[1-9][0-9]*(?:-L[1-9][0-9]*)?$"
+        }
+      },
+      "required": [
+        "path",
+        "lines",
+        "quote",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "ratingEvidence": {
+      "type": "object",
+      "properties": {
+        "section": {
+          "enum": [
+            "onboarding",
+            "documentation",
+            "maintenance",
+            "safety",
+            "popularity",
+            "copy",
+            "strongest",
+            "weakest"
+          ]
+        },
+        "point": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ratingSource"
+          },
+          "maxItems": 16,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "section",
+        "point",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "rating": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "language": {
+          "const": "zh"
+        },
+        "repository": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        },
+        "directory": {
+          "type": "string",
+          "maxLength": 1024
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "overview": {
+          "type": "object",
+          "properties": {
+            "what": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "helps": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "howToStart": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            },
+            "who": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2400
+            }
+          },
+          "required": [
+            "what",
+            "helps",
+            "howToStart",
+            "who"
+          ],
+          "additionalProperties": false
+        },
+        "oneLiner": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "total": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 10
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unratedReason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 600
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "onboarding": {
+              "$ref": "#/$defs/ratingDimension"
+            },
+            "documentation": {
+              "$ref": "#/$defs/ratingDimension"
+            },
+            "maintenance": {
+              "$ref": "#/$defs/ratingDimension"
+            },
+            "safety": {
+              "$ref": "#/$defs/ratingDimension"
+            },
+            "popularity": {
+              "type": "object",
+              "properties": {
+                "score": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 10
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 600
+                }
+              },
+              "required": [
+                "score",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "onboarding",
+            "documentation",
+            "maintenance",
+            "safety",
+            "popularity"
+          ],
+          "additionalProperties": false
+        },
+        "popularity": {
+          "type": "object",
+          "properties": {
+            "stars": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "downloads30d": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "pushedAt": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 32,
+                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "stars",
+            "downloads30d",
+            "pushedAt"
+          ],
+          "additionalProperties": false
+        },
+        "recommendation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1200
+        },
+        "cautions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 600
+          },
+          "maxItems": 3
+        },
+        "verdict": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ratingEvidence"
+          },
+          "maxItems": 128
+        },
+        "basisNote": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 600
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "version",
+        "language",
+        "repository",
+        "directory",
+        "revision",
+        "overview",
+        "oneLiner",
+        "total",
+        "unratedReason",
+        "dimensions",
+        "popularity",
+        "recommendation",
+        "cautions",
+        "verdict",
+        "evidence",
+        "basisNote"
+      ],
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "total": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "unratedReason": {
+            "type": "string"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "unratedReason": {
+            "type": "null"
+          },
+          "dimensions": {
+            "properties": {
+              "onboarding": {
+                "properties": {
+                  "score": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "documentation": {
+                "properties": {
+                  "score": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              },
+              "maintenance": {
+                "properties": {
+                  "score": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        }
+      }
+    },
+    "ratingBatch": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "hanaId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 36,
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+              },
+              "rating": {
+                "$ref": "#/$defs/rating"
+              }
+            },
+            "required": [
+              "hanaId",
+              "rating"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 50,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "key",
+        "items"
+      ],
+      "additionalProperties": false
     }
   }
 }
