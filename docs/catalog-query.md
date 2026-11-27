@@ -87,3 +87,25 @@ the observed snapshot and Indexer sees a published popularity snapshot. `snapsho
 the catalog search epoch. `watermark` is the committed board-feed horizon read in the
 same PostgreSQL snapshot. Consumers compare feed positions and confirm their own merge
 acknowledgements before switching writers or readers.
+
+### Public sitemap projection
+
+`GET /v1/host/catalog/query?view=sitemap` returns
+`{kind:"sitemap-manifest",generation,segmentCount,segmentSize}` for the latest
+complete publication. `generation` is a sitemap publication identifier. It binds all
+child reads to the same committed set of listed canonical Hana IDs. An empty
+directory has zero plugin segments. `segmentSize` is at most 2,000 URLs.
+
+`GET /v1/host/catalog/query?view=sitemap&generation=<generation>&segment=<n>&limit=200`
+returns `{kind:"sitemap-segment",generation,segment,items:[{hanaId}],nextCursor}`.
+Segments are one-based. IDs within and across segments are ordered ascending. Use
+`after=<nextCursor>` on the same generation and segment until `nextCursor` is
+`null`. Both responses use the same GET as the directory. This view rejects
+search, sort, filters, page numbers, repeated parameters and limits above 200.
+Publication deliberately omits `lastmod` while no trustworthy public-content
+last-modification field is available.
+
+HTTP 400 `INDEXER_INVALID_INPUT` denotes invalid parameters. HTTP 404
+`INDEXER_SITEMAP_NOT_FOUND` denotes an unavailable generation or segment. HTTP 503
+`INDEXER_SITEMAP_UNAVAILABLE` denotes absent initial publication or upstream
+failure. A caller starts over from the manifest for an unavailable generation.
