@@ -3,6 +3,8 @@ export const CATALOG_QUERY_SCHEMA=schema;
 export const CATALOG_QUERY_SORTS=Object.freeze(["relevance", "popular", "latest", "stars", "downloads", "id", "trending"]);
 export const CATALOG_QUERY_MODES=Object.freeze(['keyword','hybrid','names']);
 export const CATALOG_QUERY_HTTP_PATH = '/v1/host/catalog/query';
+export const CATALOG_READINESS_HTTP_PATH = '/v1/host/catalog/readiness';
+export const CATALOG_BOARD_CHANGES_HTTP_PATH = '/v1/indexer/community/board-changes';
 
 const queryProperties = schema.$defs.query.properties;
 const repeated = new Set(['categories', 'repoOwner']);

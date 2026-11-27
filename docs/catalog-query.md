@@ -67,3 +67,23 @@ Only successful, anonymous, unlogged GETs without search terms are eligible for 
 for 60 seconds. Authenticated requests and every search or logged envelope use `no-store`.
 The cache key includes all query selectors and pagination state. Delisting becomes visible
 once a previously cached response expires.
+
+## Board facts and cutover watermarks (C0)
+
+`GET /v1/indexer/community/board-changes` returns `boardChangePage`. The first request
+omits `after`. Each later request passes the prior page's opaque `cursor` as `after`.
+`limit` is at most 200. `more: false` marks the read horizon for the completed batch. Use
+the returned cursor even when no board changed. Responses use `no-store`.
+
+Each item is the latest fact at the feed snapshot for its Hana ID. It carries the display
+name, listed/delisted state, canonical Hana ID for a merged alias and nullable current
+owner principal ID. Listed boards have no canonical target. A merged alias has a different
+canonical ID. An event version may advance on an ownership transfer even when both old and
+new states are claimed. The feed does not include posts, votes or their data model.
+
+`GET /v1/host/catalog/readiness` returns `cutoverReadiness` with `no-store`. `ready` is
+true when claims initialization has completed, there are no pending Registry claims at
+the observed snapshot and Indexer sees a published popularity snapshot. `snapshot` is
+the catalog search epoch. `watermark` is the committed board-feed horizon read in the
+same PostgreSQL snapshot. Consumers compare feed positions and confirm their own merge
+acknowledgements before switching writers or readers.

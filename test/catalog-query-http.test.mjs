@@ -4,7 +4,9 @@ import Ajv from 'ajv/dist/2020.js';
 import {DISCOVERY_SCHEMA} from '@hanamesh/api-contracts/catalog/discovery';
 import {LOCALIZED_SCHEMA} from '@hanamesh/api-contracts/catalog/localized';
 import {
+  CATALOG_BOARD_CHANGES_HTTP_PATH,
   CATALOG_QUERY_HTTP_PATH,
+  CATALOG_READINESS_HTTP_PATH,
   CATALOG_QUERY_SCHEMA,
   decodeCatalogQueryParams,
   encodeCatalogQueryParams,
@@ -61,4 +63,27 @@ test('HTTP envelopes validate reset pages and carry search ID on both response v
   assert.equal(validate({ ...page, paginationReset: true, pageNumber: 1 }), true, JSON.stringify(validate.errors));
   const { searchId, ...unbound } = page;
   assert.equal(validate(unbound), false, searchId);
+});
+
+test('board changes and readiness use the same opaque watermark format and require explicit nulls', () => {
+  assert.equal(CATALOG_BOARD_CHANGES_HTTP_PATH, '/v1/indexer/community/board-changes');
+  assert.equal(CATALOG_READINESS_HTTP_PATH, '/v1/host/catalog/readiness');
+  const ajv = new Ajv({ strict: true }).addSchema(CATALOG_QUERY_SCHEMA);
+  const board = ajv.compile({ $ref: `${CATALOG_QUERY_SCHEMA.$id}#/$defs/boardChangePage` });
+  const readiness = ajv.compile({ $ref: `${CATALOG_QUERY_SCHEMA.$id}#/$defs/cutoverReadiness` });
+  const cursor = 'a_c-72';
+  const fact = {
+    hanaId: '0192c7e8-0410-4000-8000-000000000001', displayName: 'Merged board',
+    listingStatus: 'delisted', canonicalHanaId: '0192c7e8-0410-4000-8000-000000000002', ownerPrincipalId: null,
+  };
+  assert.equal(board({ items: [fact], cursor, more: false }), true, JSON.stringify(board.errors));
+  assert.equal(board({ items: [{ ...fact, listingStatus: 'listed' }], cursor, more: false }), false);
+  assert.equal(board({ items: [{ ...fact, ownerPrincipalId: undefined }], cursor, more: false }), false);
+  assert.equal(board({ items: [], cursor, more: false }), true);
+  assert.equal(board({ items: [], cursor: 'not.a.cursor', more: false }), false);
+  const ready = { ready: true, claimsReady: true, popularityAsOf: '2026-11-27T00:00:00.000Z', snapshot: '12', watermark: cursor };
+  assert.equal(readiness(ready), true, JSON.stringify(readiness.errors));
+  assert.equal(readiness({ ...ready, popularityAsOf: null }), false);
+  assert.equal(readiness({ ...ready, claimsReady: false }), false);
+  assert.equal(readiness({ ...ready, claimsReady: false, ready: false }), true);
 });

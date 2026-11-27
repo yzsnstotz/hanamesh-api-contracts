@@ -29,6 +29,30 @@ export declare const CATALOG_QUERY_SCHEMA:Readonly<Record<string,unknown>>;
 export declare const CATALOG_QUERY_SORTS:readonly CatalogQuerySort[];
 export declare const CATALOG_QUERY_MODES:readonly CatalogQueryMode[];
 export declare const CATALOG_QUERY_HTTP_PATH: '/v1/host/catalog/query';
+export declare const CATALOG_READINESS_HTTP_PATH: '/v1/host/catalog/readiness';
+export declare const CATALOG_BOARD_CHANGES_HTTP_PATH: '/v1/indexer/community/board-changes';
+
+export interface CatalogBoardChange {
+  readonly hanaId: string;
+  readonly displayName: string;
+  readonly listingStatus: 'listed' | 'delisted';
+  readonly canonicalHanaId: string | null;
+  readonly ownerPrincipalId: string | null;
+}
+
+export interface CatalogBoardChangePage {
+  readonly items: readonly CatalogBoardChange[];
+  readonly cursor: string;
+  readonly more: boolean;
+}
+
+export interface CatalogCutoverReadiness {
+  readonly ready: boolean;
+  readonly claimsReady: boolean;
+  readonly popularityAsOf: string | null;
+  readonly snapshot: string;
+  readonly watermark: string;
+}
 
 export interface CatalogHttpQuery {
   readonly query: CatalogQuery;
