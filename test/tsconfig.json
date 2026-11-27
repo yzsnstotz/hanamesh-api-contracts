@@ -14,6 +14,7 @@
     "search-miss-export-types.ts",
     "observatory-types.ts",
     "ops-manifest-types.ts",
+    "ops-companion-types.ts",
     "catalog-discovery-types.ts",
     "catalog-localized-types.ts",
     "issuer-read-types.ts",

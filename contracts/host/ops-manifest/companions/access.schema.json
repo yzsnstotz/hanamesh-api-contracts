@@ -1,0 +1,200 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "items",
+    "nextAfter",
+    "complete",
+    "missing"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hanamesh-ops-access-v1"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pageId",
+          "actionId",
+          "scope",
+          "policyRevision",
+          "status",
+          "reason"
+        ],
+        "properties": {
+          "pageId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "\\S"
+          },
+          "actionId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "\\S"
+          },
+          "policyRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "status": {
+            "enum": [
+              "allowed",
+              "denied",
+              "unavailable"
+            ]
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "allowed"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "reason": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "allowed",
+                    "denied"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "policyRevision": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    },
+    "nextAfter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "\\S"
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    }
+  },
+  "if": {
+    "properties": {
+      "complete": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "missing": {
+        "maxItems": 0,
+        "type": "array"
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "missing": {
+        "minItems": 1,
+        "type": "array"
+      }
+    }
+  }
+}

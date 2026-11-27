@@ -26,6 +26,8 @@
 
 以上名称仅为契约示例，不是 Host 内置模块/分组/权限名单。类型导出为 `OpsManifest`、`OpsPageContribution`、`OpsPageGroup`、`OpsPagePermission`。运行时只导出 `OPS_MANIFEST_SCHEMA` 与 `OPS_PAGE_CONTRIBUTION_SCHEMA`，没有权限计算或菜单生成器。两个 schema 均可通过公开 `.json` 子路径单独导入。
 
+独立的认证文本、访问、路由和快照形状见 [观测台伴随契约](ops-companions.md)。
+
 ## 模块自己声明，Host 组合，Web 渲染
 
 - 每个拥有页面的模块导出自己的 `OpsPageContribution`。`group`、`order`、`permission` 及其嵌套字段全部必填，无默认值。Host 自有页面也走相同声明；Host 不按模块名或路径复制分组、排序、权限细则或页面清单。
