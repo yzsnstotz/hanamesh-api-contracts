@@ -428,6 +428,548 @@
         "semanticHanaIds"
       ],
       "additionalProperties": false
+    },
+    "httpCard": {
+      "type": "object",
+      "properties": {
+        "hanaId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "githubRepo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repoSubdirectory": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "npmPackageName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "summary": {
+          "type": "object",
+          "properties": {
+            "en": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "zh": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "en",
+            "zh"
+          ],
+          "additionalProperties": false
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publisher": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "url"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ownerPrincipalId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourceLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "sourceRef": {
+                "type": "string"
+              },
+              "sourceUrl": {
+                "type": "string"
+              },
+              "lastSeenAt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sourceId",
+              "sourceRef",
+              "sourceUrl",
+              "lastSeenAt"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "channels": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "hanamesh",
+              "claude",
+              "codex",
+              "dsh"
+            ]
+          }
+        },
+        "installMethods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "channel": {
+                "enum": [
+                  "hanamesh",
+                  "claude",
+                  "codex",
+                  "dsh"
+                ]
+              },
+              "kind": {
+                "enum": [
+                  "npm",
+                  "github",
+                  "agent"
+                ]
+              },
+              "spec": {
+                "type": "string"
+              },
+              "command": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "allowBuild": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceId": {
+                "type": "string"
+              },
+              "sourceRef": {
+                "type": "string"
+              },
+              "target": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "const": "npm"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      },
+                      "allowBuild": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "source",
+                      "name",
+                      "version",
+                      "allowBuild"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "const": "github"
+                      },
+                      "repo": {
+                        "type": "string"
+                      },
+                      "ref": {
+                        "type": "string"
+                      },
+                      "path": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "packageName": {
+                        "type": "string"
+                      },
+                      "allowBuild": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "source",
+                      "repo",
+                      "ref",
+                      "path",
+                      "packageName",
+                      "allowBuild"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "targetUnavailableReason": {
+                "type": "string"
+              },
+              "npmOwnership": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "matched",
+                      "mismatch",
+                      "missing-repository",
+                      "not-found",
+                      "unchecked"
+                    ]
+                  },
+                  "repository": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "status",
+                  "repository"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "channel",
+              "kind",
+              "spec",
+              "command",
+              "allowBuild",
+              "sourceId",
+              "sourceRef"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "oneClickInstall": {
+          "type": "object",
+          "properties": {
+            "allowed": {
+              "type": "boolean"
+            },
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "allowed",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        "npmOwnership": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "enum": [
+                    "matched",
+                    "mismatch",
+                    "missing-repository",
+                    "not-found",
+                    "unchecked"
+                  ]
+                },
+                "repository": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "status",
+                "repository"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "browseOnlyReason": {
+          "enum": [
+            null,
+            "no-install-method",
+            "unrecognized-install-command"
+          ]
+        },
+        "official": {
+          "type": "boolean"
+        },
+        "suite": {
+          "type": "object"
+        },
+        "claimStatus": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "enum": [
+                "unclaimed",
+                "claiming",
+                "claimed",
+                "on_chain",
+                "withdrawable"
+              ]
+            },
+            "claimedByPrincipalId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "firstClaimedAt": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "state",
+            "claimedByPrincipalId"
+          ],
+          "additionalProperties": false
+        },
+        "claimStatusError": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]+$"
+        },
+        "discovery": {
+          "$ref": "https://hanamesh.com/contracts/catalog/discovery-v1#/$defs/listFields"
+        }
+      },
+      "required": [
+        "hanaId",
+        "displayName",
+        "githubRepo",
+        "repoSubdirectory",
+        "npmPackageName",
+        "summary",
+        "categories",
+        "keywords",
+        "publisher",
+        "ownerPrincipalId",
+        "sourceLinks",
+        "channels",
+        "installMethods",
+        "oneClickInstall",
+        "npmOwnership",
+        "browseOnlyReason"
+      ],
+      "additionalProperties": false
+    },
+    "httpResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "page"
+            },
+            "searchId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "semanticNotice": {
+              "enum": [
+                "SEMANTIC_FREE_QUOTA_EXHAUSTED",
+                "SEMANTIC_UNAVAILABLE",
+                null
+              ]
+            },
+            "paginationReset": {
+              "type": "boolean"
+            },
+            "pageNumber": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/httpCard"
+              },
+              "maxItems": 200
+            },
+            "popularityAsOf": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "page": {
+              "$ref": "#/$defs/page"
+            }
+          },
+          "required": [
+            "kind",
+            "searchId",
+            "semanticNotice",
+            "paginationReset",
+            "pageNumber",
+            "limit",
+            "cards",
+            "popularityAsOf",
+            "page"
+          ],
+          "additionalProperties": false,
+          "if": {
+            "properties": {
+              "paginationReset": {
+                "const": true
+              }
+            },
+            "required": [
+              "paginationReset"
+            ]
+          },
+          "then": {
+            "properties": {
+              "pageNumber": {
+                "const": 1
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "names"
+            },
+            "searchId": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "semanticNotice": {
+              "enum": [
+                "SEMANTIC_FREE_QUOTA_EXHAUSTED",
+                "SEMANTIC_UNAVAILABLE",
+                null
+              ]
+            },
+            "paginationReset": {
+              "type": "boolean"
+            },
+            "page": {
+              "$ref": "#/$defs/names"
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/httpCard"
+              },
+              "maxItems": 200
+            }
+          },
+          "required": [
+            "kind",
+            "searchId",
+            "semanticNotice",
+            "paginationReset",
+            "page",
+            "cards"
+          ],
+          "additionalProperties": false
+        }
+      ]
     }
   }
 }
