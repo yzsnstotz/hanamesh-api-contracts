@@ -72,3 +72,25 @@ test('catalog text counts raw UTF-8 bytes and distinct normalized terms',()=>{
  assert.equal(isCatalogQueryTextWithinBounds('x '.repeat(33)),true);
  assert.equal(isCatalogQueryTextWithinBounds('  \t '),false);
 });
+
+test('exact-ID detail signals keep real zero, optional repository scope and the reason for every unknown',()=>{
+ const checkSignals=check('detailSignals');
+ const signal={stars:7,repositoryStars:123,npmDownloads30d:28,storeInstalls30d:0,checkedAt:'2026-11-27T07:20:00.123Z'};
+ assert.equal(checkSignals(signal),true,JSON.stringify(checkSignals.errors));
+ const {repositoryStars,...item}=signal;
+ assert.equal(checkSignals(item),true);
+ const unknown={stars:null,repositoryStars:123,npmDownloads30d:null,storeInstalls30d:null,checkedAt:null,
+  unknownReasons:{stars:'not_applicable',npmDownloads30d:'not_observed',storeInstalls30d:'history_unavailable',checkedAt:'not_observed'}};
+ assert.equal(checkSignals(unknown),true,JSON.stringify(checkSignals.errors));
+ assert.equal(checkSignals({...signal,repositoryStars:null,unknownReasons:{repositoryStars:'source_unavailable'}}),true);
+ for(const field of ['stars','npmDownloads30d','storeInstalls30d','checkedAt']){
+  const {unknownReasons,...metrics}=unknown;
+  const incomplete={...unknownReasons};delete incomplete[field];
+  assert.equal(checkSignals({...metrics,unknownReasons:incomplete}),false,field);
+ }
+ for(const invalid of [
+  {...signal,checkedAt:'updated just now'}, {...signal,stars:-1}, {...signal,npmDownloads30d:1.25},
+  {...signal,repositoryStars:null}, {...signal,unknownReasons:{storeInstalls30d:'source_unavailable'}},
+  {...item,unknownReasons:{repositoryStars:'source_unavailable'}}, {...unknown,unknownReasons:{...unknown.unknownReasons,checkedAt:'other'}},
+ ]) assert.equal(checkSignals(invalid),false,JSON.stringify(invalid));
+});

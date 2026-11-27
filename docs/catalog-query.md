@@ -109,3 +109,18 @@ HTTP 400 `INDEXER_INVALID_INPUT` denotes invalid parameters. HTTP 404
 `INDEXER_SITEMAP_NOT_FOUND` denotes an unavailable generation or segment. HTTP 503
 `INDEXER_SITEMAP_UNAVAILABLE` denotes absent initial publication or upstream
 failure. A caller starts over from the manifest for an unavailable generation.
+
+
+## Exact-ID detail signals
+
+Web and Market use `CatalogDetailSignals` for the `signals` member on an exact-ID Hana detail. The runtime schema is `CATALOG_QUERY_SCHEMA.$defs.detailSignals`.
+
+| Field | Source and meaning |
+| --- | --- |
+| `stars` | The individual Hana's star count from the Indexer public signal projection. |
+| `repositoryStars` | The repository's star count from a separately attributed Indexer source. Include this field only when there is repository provenance. |
+| `npmDownloads30d` | The same 30-day npm download count used in the Indexer rank row. |
+| `storeInstalls30d` | Store installations in the previous 30 days. Usage owns this statistic and Host composes it. T1 carries forward the historical D1 evidence with the original counting rules. |
+| `checkedAt` | The Indexer `observedAt` for the signal group, as a UTC timestamp. |
+
+An unavailable field carries `null` and a matching `unknownReasons` entry. Web and Market show `—` for an unavailable value. A zero is a measured count. `not_observed` indicates a missing observation, `not_applicable` a signal that does not apply to the Hana, `source_unavailable` an unavailable provider, and `history_unavailable` an incomplete historical window. A known value has no unknown reason. Exact-ID alias and installation behavior, discovery rating, and list rank fields keep their existing contracts.

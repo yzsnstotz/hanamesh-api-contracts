@@ -2,6 +2,59 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hanamesh.com/contracts/catalog/query-v1",
   "$defs": {
+    "catalogDetailCount": {"type": ["integer", "null"], "minimum": 0, "maximum": 9007199254740991},
+    "catalogDetailUnknownReason": {"enum": ["not_observed", "not_applicable", "source_unavailable", "history_unavailable"]},
+    "detailSignals": {
+      "type": "object",
+      "required": ["stars", "npmDownloads30d", "storeInstalls30d", "checkedAt"],
+      "properties": {
+        "stars": {"$ref": "#/$defs/catalogDetailCount"},
+        "repositoryStars": {"$ref": "#/$defs/catalogDetailCount"},
+        "npmDownloads30d": {"$ref": "#/$defs/catalogDetailCount"},
+        "storeInstalls30d": {"$ref": "#/$defs/catalogDetailCount"},
+        "checkedAt": {"type": ["string", "null"], "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?Z$"},
+        "unknownReasons": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "stars": {"$ref": "#/$defs/catalogDetailUnknownReason"},
+            "repositoryStars": {"$ref": "#/$defs/catalogDetailUnknownReason"},
+            "npmDownloads30d": {"$ref": "#/$defs/catalogDetailUnknownReason"},
+            "storeInstalls30d": {"$ref": "#/$defs/catalogDetailUnknownReason"},
+            "checkedAt": {"$ref": "#/$defs/catalogDetailUnknownReason"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {"required": ["stars"], "properties": {"stars": {"type": "null"}}},
+          "then": {"required": ["unknownReasons"], "properties": {"unknownReasons": {"type": "object", "required": ["stars"], "properties": {"stars": true}}}},
+          "else": {"properties": {"unknownReasons": {"not": {"type": "object", "required": ["stars"], "properties": {"stars": true}}}}}
+        },
+        {
+          "if": {"required": ["repositoryStars"], "properties": {"repositoryStars": {"type": "null"}}},
+          "then": {"required": ["unknownReasons"], "properties": {"unknownReasons": {"type": "object", "required": ["repositoryStars"], "properties": {"repositoryStars": true}}}},
+          "else": {"properties": {"unknownReasons": {"not": {"type": "object", "required": ["repositoryStars"], "properties": {"repositoryStars": true}}}}}
+        },
+        {
+          "if": {"required": ["npmDownloads30d"], "properties": {"npmDownloads30d": {"type": "null"}}},
+          "then": {"required": ["unknownReasons"], "properties": {"unknownReasons": {"type": "object", "required": ["npmDownloads30d"], "properties": {"npmDownloads30d": true}}}},
+          "else": {"properties": {"unknownReasons": {"not": {"type": "object", "required": ["npmDownloads30d"], "properties": {"npmDownloads30d": true}}}}}
+        },
+        {
+          "if": {"required": ["storeInstalls30d"], "properties": {"storeInstalls30d": {"type": "null"}}},
+          "then": {"required": ["unknownReasons"], "properties": {"unknownReasons": {"type": "object", "required": ["storeInstalls30d"], "properties": {"storeInstalls30d": true}}}},
+          "else": {"properties": {"unknownReasons": {"not": {"type": "object", "required": ["storeInstalls30d"], "properties": {"storeInstalls30d": true}}}}}
+        },
+        {
+          "if": {"required": ["checkedAt"], "properties": {"checkedAt": {"type": "null"}}},
+          "then": {"required": ["unknownReasons"], "properties": {"unknownReasons": {"type": "object", "required": ["checkedAt"], "properties": {"checkedAt": true}}}},
+          "else": {"properties": {"unknownReasons": {"not": {"type": "object", "required": ["checkedAt"], "properties": {"checkedAt": true}}}}}
+        }
+      ],
+      "additionalProperties": false
+    },
     "sitemapResponse": {
       "oneOf": [
         {

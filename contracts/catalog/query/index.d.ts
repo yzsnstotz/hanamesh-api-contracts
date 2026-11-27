@@ -14,6 +14,18 @@ export interface CatalogQueryItem {
  readonly hanaId:string;readonly rank:number;readonly tier:number;readonly matchKind?:'name'|'meaning';
  readonly authority:number;readonly authorityVersion:string|null;readonly stars:number|null;readonly npmDownloads30d:number|null;readonly updatedAt:string;
 }
+/** Public signals on the exact-ID Hana detail, shared by Web and Market. */
+export interface CatalogDetailSignals {
+  readonly stars: number | null;
+  readonly repositoryStars?: number | null;
+  readonly npmDownloads30d: number | null;
+  readonly storeInstalls30d: number | null;
+  readonly checkedAt: string | null;
+  readonly unknownReasons?: Readonly<Partial<Record<CatalogDetailSignalName, CatalogDetailUnknownReason>>>;
+}
+export type CatalogDetailSignalName = 'stars' | 'repositoryStars' | 'npmDownloads30d' | 'storeInstalls30d' | 'checkedAt';
+export type CatalogDetailUnknownReason = 'not_observed' | 'not_applicable' | 'source_unavailable' | 'history_unavailable';
+
 export interface CatalogQueryFacet {readonly id:string;readonly count:number;readonly capped:boolean}
 export interface CatalogQueryPage {
  readonly items:readonly CatalogQueryItem[];readonly total:number;readonly capped:boolean;

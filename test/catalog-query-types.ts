@@ -17,3 +17,6 @@ const ownershipScope:CatalogQuery={...q,repoOwner:['Personal','Admin-Org','Manag
 // @ts-expect-error owner selectors are a bounded list, not a single repository/string
 const scalarOwner:CatalogQuery={...q,repoOwner:'owner'};
 void [ownershipScope,scalarOwner];
+
+const detailSignals:import('@hanamesh/api-contracts/catalog/query').CatalogDetailSignals={stars:null,npmDownloads30d:100,storeInstalls30d:null,checkedAt:'2026-11-27T07:20:00Z',unknownReasons:{stars:'not_observed',storeInstalls30d:'history_unavailable'}};
+void detailSignals;
