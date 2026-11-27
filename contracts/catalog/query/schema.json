@@ -2,6 +2,53 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hanamesh.com/contracts/catalog/query-v1",
   "$defs": {
+    "boardHanaId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "boardWatermark": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,512}$"
+    },
+    "boardChange": {
+      "type": "object",
+      "required": ["hanaId", "displayName", "listingStatus", "canonicalHanaId", "ownerPrincipalId"],
+      "properties": {
+        "hanaId": {"$ref": "#/$defs/boardHanaId"},
+        "displayName": {"type": "string", "minLength": 1},
+        "listingStatus": {"enum": ["listed", "delisted"]},
+        "canonicalHanaId": {"anyOf": [{"$ref": "#/$defs/boardHanaId"}, {"type": "null"}]},
+        "ownerPrincipalId": {"anyOf": [{"$ref": "#/$defs/boardHanaId"}, {"type": "null"}]}
+      },
+      "if": {"properties": {"listingStatus": {"const": "listed"}}, "required": ["listingStatus"]},
+      "then": {"properties": {"canonicalHanaId": {"type": "null"}}},
+      "additionalProperties": false
+    },
+    "boardChangePage": {
+      "type": "object",
+      "required": ["items", "cursor", "more"],
+      "properties": {
+        "items": {"type": "array", "maxItems": 200, "items": {"$ref": "#/$defs/boardChange"}},
+        "cursor": {"$ref": "#/$defs/boardWatermark"},
+        "more": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "cutoverReadiness": {
+      "type": "object",
+      "required": ["ready", "claimsReady", "popularityAsOf", "snapshot", "watermark"],
+      "properties": {
+        "ready": {"type": "boolean"},
+        "claimsReady": {"type": "boolean"},
+        "popularityAsOf": {"type": ["string", "null"]},
+        "snapshot": {"type": "string", "pattern": "^[0-9]+$"},
+        "watermark": {"$ref": "#/$defs/boardWatermark"}
+      },
+      "if": {"properties": {"claimsReady": {"const": true}, "popularityAsOf": {"type": "string"}}, "required": ["claimsReady", "popularityAsOf"]},
+      "then": {"properties": {"ready": {"const": true}}},
+      "else": {"properties": {"ready": {"const": false}}},
+      "additionalProperties": false
+    },
     "query": {
       "type": "object",
       "properties": {
