@@ -11,8 +11,14 @@ test('U1 query contract accepts all seven sorts, three modes and all common dime
  for(const invalid of [{...base,sort:'unknown'},{...base,official:false},{...base,limit:201},{...base,unknown:true},{...base,searchMode:'semantic'},{...base,categories:['git','  ']}])assert.equal(query(invalid),false);
 });
 test('U1 pages require rank, cap flags, complete facet dimensions and an opaque nullable cursor',()=>{
- const page=check('page'),value={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'snapshot',policyVersion:2,searchMode:'keyword',indexReady:true};
+ const page=check('page'),value={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{all:0,categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'snapshot',policyVersion:2,searchMode:'keyword',indexReady:true};
  assert.equal(page(value),true,JSON.stringify(page.errors));
+ const {all,...otherFacets}=value.facets;
+ assert.equal(page({...value,facets:otherFacets}),false,'All is required');
+ assert.equal(page({...value,facets:{...otherFacets,all:101}}),true,'a filtered empty page can have a nonzero All count');
+ for(const invalidAll of [null,'3',-1,2.5,Number.MAX_SAFE_INTEGER+1]){
+  assert.equal(page({...value,facets:{...otherFacets,all:invalidAll}}),false,String(invalidAll));
+ }
  for(const key of Object.keys(value)){const v={...value};delete v[key];assert.equal(page(v),false,key);}
  const item={hanaId:'00000000-0000-4000-8000-000000000001',rank:1,tier:3,matchKind:'name',authority:100,authorityVersion:'fixture',stars:null,npmDownloads30d:0,updatedAt:'2026-11-21T00:00:00Z'};
  assert.equal(page({...value,items:[item],total:1}),true);
@@ -32,7 +38,7 @@ test('U1 hybrid input is a separate bounded ordered canonical-ID queue',()=>{
 
 test('existing cursor bound and Semantic notices/match labels are the only public variants',()=>{
  const query=check('query');assert.equal(query({...base,after:'A'.repeat(4096)}),true);assert.equal(query({...base,after:'A'.repeat(4097)}),false);
- const page={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'fixture',policyVersion:2,searchMode:'keyword',indexReady:true};
+ const page={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{all:0,categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'fixture',policyVersion:2,searchMode:'keyword',indexReady:true};
  const logged=check('loggedPage');for(const semanticNotice of [null,'SEMANTIC_FREE_QUOTA_EXHAUSTED','SEMANTIC_UNAVAILABLE'])assert.equal(logged({page,searchId:null,semanticNotice}),true);assert.equal(logged({page,searchId:null,semanticNotice:'invented-notice'}),false);
  const item={hanaId:'00000000-0000-4000-8000-000000000001',rank:1,tier:1,authority:0,authorityVersion:null,stars:null,npmDownloads30d:null,updatedAt:'2026-11-21T00:00:00Z'};
  assert.equal(check('item')(item),true);for(const matchKind of ['name','meaning'])assert.equal(check('item')({...item,matchKind}),true);for(const matchKind of ['text','browse'])assert.equal(check('item')({...item,matchKind}),false);

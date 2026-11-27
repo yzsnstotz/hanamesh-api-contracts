@@ -30,7 +30,10 @@ export interface CatalogQueryFacet {readonly id:string;readonly count:number;rea
 export interface CatalogQueryPage {
  readonly items:readonly CatalogQueryItem[];readonly total:number;readonly capped:boolean;
  readonly hiddenInsufficientCount:number;readonly hiddenInsufficientCountCapped:boolean;
- readonly facets:Readonly<Record<'categories'|'sources'|'channels'|'domains'|'subdivisions',readonly CatalogQueryFacet[]>>;
+ readonly facets:Readonly<{
+  /** Same-snapshot total for the selected mode before applying channel and category selectors. */
+  all:number;
+ }&Record<'categories'|'sources'|'channels'|'domains'|'subdivisions',readonly CatalogQueryFacet[]>>;
  readonly nextCursor:string|null;readonly snapshot:string;readonly policyVersion:number;readonly searchMode:CatalogQueryMode;readonly indexReady:boolean;
 }
 /** Host supplies an existing SL1 search event ID only for a logged new search; list/anonymous core has no search identity. */

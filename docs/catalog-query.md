@@ -50,6 +50,9 @@ Successful responses use `$defs/httpResponse`. `kind: page` carries the provider
 `pageNumber`, `limit`, `popularityAsOf` (the publication used by applicable sorts) and `cards`.
 Card and ranked item IDs match one-to-one and in order. Optional `discovery` on result cards
 uses the existing list-fields schema and is read in the same snapshot as the selected cards.
+The required `page.facets.all` is a nonnegative safe integer from the same snapshot and
+selected query mode. It excludes the channel and category selectors. `page.total` remains
+the filtered total for pagination. An empty filtered page can have a nonzero `facets.all`.
 `kind: names` uses the same endpoint and
 carries the names result. Both envelopes have nullable `searchId` and `semanticNotice`, and a
 `paginationReset` flag. A stale well-formed continuation, or a Hybrid fallback that changes

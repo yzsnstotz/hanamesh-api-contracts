@@ -54,7 +54,7 @@ test('HTTP envelopes validate reset pages and carry search ID on both response v
     kind: 'page', ...metadata, pageNumber: 2, limit: 24, popularityAsOf: null, cards: [],
     page: {
       items: [], total: 25, capped: false, hiddenInsufficientCount: 0, hiddenInsufficientCountCapped: false,
-      facets: { categories: [], sources: [], channels: [], domains: [], subdivisions: [] },
+      facets: { all: 101, categories: [], sources: [], channels: [], domains: [], subdivisions: [] },
       nextCursor: null, snapshot: 's', policyVersion: 2, searchMode: 'keyword', indexReady: true,
     },
   };
