@@ -31,6 +31,39 @@ export declare const CATALOG_QUERY_MODES:readonly CatalogQueryMode[];
 export declare const CATALOG_QUERY_HTTP_PATH: '/v1/host/catalog/query';
 export declare const CATALOG_READINESS_HTTP_PATH: '/v1/host/catalog/readiness';
 export declare const CATALOG_BOARD_CHANGES_HTTP_PATH: '/v1/indexer/community/board-changes';
+export declare const CATALOG_SITEMAP_PAGE_LIMIT: 200;
+export declare const CATALOG_SITEMAP_SEGMENT_SIZE: 2000;
+
+export interface CatalogSitemapSegmentQuery {
+  readonly view: 'sitemap';
+  readonly generation: string;
+  readonly segment: number;
+  readonly limit: number;
+  readonly after?: string;
+}
+
+export type CatalogSitemapQuery =
+  | {readonly view: 'sitemap'; readonly generation?: never}
+  | CatalogSitemapSegmentQuery;
+
+export interface CatalogSitemapManifest {
+  readonly kind: 'sitemap-manifest';
+  readonly generation: string;
+  readonly segmentCount: number;
+  readonly segmentSize: number;
+}
+
+export interface CatalogSitemapSegment {
+  readonly kind: 'sitemap-segment';
+  readonly generation: string;
+  readonly segment: number;
+  readonly items: readonly {readonly hanaId: string}[];
+  readonly nextCursor: string | null;
+}
+
+export type CatalogSitemapResponse = CatalogSitemapManifest | CatalogSitemapSegment;
+export declare function decodeCatalogSitemapParams(params: URLSearchParams): CatalogSitemapQuery | null;
+export declare function encodeCatalogSitemapParams(query: CatalogSitemapQuery): URLSearchParams;
 
 export interface CatalogBoardChange {
   readonly hanaId: string;

@@ -5,6 +5,8 @@ export const CATALOG_QUERY_MODES=Object.freeze(['keyword','hybrid','names']);
 export const CATALOG_QUERY_HTTP_PATH = '/v1/host/catalog/query';
 export const CATALOG_READINESS_HTTP_PATH = '/v1/host/catalog/readiness';
 export const CATALOG_BOARD_CHANGES_HTTP_PATH = '/v1/indexer/community/board-changes';
+export const CATALOG_SITEMAP_PAGE_LIMIT = 200;
+export const CATALOG_SITEMAP_SEGMENT_SIZE = 2000;
 
 const queryProperties = schema.$defs.query.properties;
 const repeated = new Set(['categories', 'repoOwner']);
@@ -15,6 +17,35 @@ function positiveInteger(value, name) {
     throw new RangeError(`Invalid catalog ${name}`);
   }
   return Number(value);
+}
+
+const sitemapId = new RegExp(schema.$defs.boardHanaId.pattern, 'u');
+
+export function decodeCatalogSitemapParams(params) {
+  if (!params.has('view')) return null;
+  const query = Object.fromEntries(params);
+  if (params.size !== Object.keys(query).length || query.view !== 'sitemap') {
+    throw new RangeError('Invalid catalog sitemap view');
+  }
+  if (params.size === 1) return { view: 'sitemap' };
+  if (Object.keys(query).some(key => !['view', 'generation', 'segment', 'limit', 'after'].includes(key))
+      || !sitemapId.test(query.generation ?? '')
+      || (query.after !== undefined && !sitemapId.test(query.after))) {
+    throw new RangeError('Invalid catalog sitemap segment');
+  }
+  const segment = positiveInteger(query.segment, 'sitemap segment');
+  const limit = positiveInteger(query.limit, 'sitemap limit');
+  if (segment > 49_999 || limit > CATALOG_SITEMAP_PAGE_LIMIT) throw new RangeError('Invalid catalog sitemap limit');
+  return { ...query, segment, limit };
+}
+
+export function encodeCatalogSitemapParams(query) {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined) params.set(key, String(value));
+  }
+  if (!decodeCatalogSitemapParams(params)) throw new RangeError('Invalid catalog sitemap query');
+  return params;
 }
 
 /** Decode the wire syntax. The provider still validates taxonomy, filters and cursor binding. */

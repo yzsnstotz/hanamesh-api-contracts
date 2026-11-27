@@ -87,3 +87,23 @@ test('board changes and readiness use the same opaque watermark format and requi
   assert.equal(readiness({ ...ready, claimsReady: false }), false);
   assert.equal(readiness({ ...ready, claimsReady: false, ready: false }), true);
 });
+
+test('sitemap reads a closed manifest or a generation-bound segment at the same public GET', async () => {
+  const { decodeCatalogSitemapParams, encodeCatalogSitemapParams } = await import('@hanamesh/api-contracts/catalog/query');
+  const generation = '0192c7e8-0410-4000-8000-000000000001';
+  const after = '0192c7e8-0410-4000-8000-000000000002';
+  const manifest = { view: 'sitemap' };
+  const segment = { view: 'sitemap', generation, segment: 2, limit: 200, after };
+  assert.equal(decodeCatalogSitemapParams(new URLSearchParams('sort=id')), null);
+  assert.deepEqual(decodeCatalogSitemapParams(encodeCatalogSitemapParams(manifest)), manifest);
+  assert.deepEqual(decodeCatalogSitemapParams(encodeCatalogSitemapParams(segment)), segment);
+  for (const tail of [`generation=${generation}`, 'q=hello', 'limit=1', 'view=sitemap', `generation=${generation}&segment=0&limit=1`, `generation=${generation}&segment=1&limit=201`, `generation=${generation}&segment=1&limit=2&after=other`]) {
+    assert.throws(() => decodeCatalogSitemapParams(new URLSearchParams(`view=sitemap&${tail}`)), RangeError, tail);
+  }
+  const ajv = new Ajv({ strict: true }).addSchema(CATALOG_QUERY_SCHEMA);
+  const valid = ajv.compile({ $ref: `${CATALOG_QUERY_SCHEMA.$id}#/$defs/sitemapResponse` });
+  assert.equal(valid({ kind: 'sitemap-manifest', generation, segmentCount: 0, segmentSize: 2000 }), true, JSON.stringify(valid.errors));
+  const page = { kind: 'sitemap-segment', generation, segment: 2, items: [{ hanaId: after }], nextCursor: null };
+  assert.equal(valid(page), true, JSON.stringify(valid.errors));
+  assert.equal(valid({ ...page, items: [{ hanaId: after, lastmod: 'guessed' }] }), false);
+});

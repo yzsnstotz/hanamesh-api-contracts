@@ -2,6 +2,38 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://hanamesh.com/contracts/catalog/query-v1",
   "$defs": {
+    "sitemapResponse": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["kind", "generation", "segmentCount", "segmentSize"],
+          "properties": {
+            "kind": {"const": "sitemap-manifest"},
+            "generation": {"$ref": "#/$defs/boardHanaId"},
+            "segmentCount": {"type": "integer", "minimum": 0, "maximum": 49999},
+            "segmentSize": {"type": "integer", "minimum": 1, "maximum": 2000}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "generation", "segment", "items", "nextCursor"],
+          "properties": {
+            "kind": {"const": "sitemap-segment"},
+            "generation": {"$ref": "#/$defs/boardHanaId"},
+            "segment": {"type": "integer", "minimum": 1, "maximum": 49999},
+            "items": {"type": "array", "maxItems": 200, "items": {
+              "type": "object",
+              "required": ["hanaId"],
+              "properties": {"hanaId": {"$ref": "#/$defs/boardHanaId"}},
+              "additionalProperties": false
+            }},
+            "nextCursor": {"anyOf": [{"$ref": "#/$defs/boardHanaId"}, {"type": "null"}]}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "boardHanaId": {
       "type": "string",
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
