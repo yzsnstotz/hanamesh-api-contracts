@@ -485,7 +485,10 @@
         "snapshot",
         "policyVersion",
         "searchMode",
-        "indexReady"
+        "indexReady",
+        "directoryReady",
+        "rankingReady",
+        "rankingVersion"
       ],
       "additionalProperties": false
     },

@@ -56,6 +56,7 @@ test('HTTP envelopes validate reset pages and carry search ID on both response v
       items: [], total: 25, capped: false, hiddenInsufficientCount: 0, hiddenInsufficientCountCapped: false,
       facets: { all: 101, categories: [], sources: [], channels: [], domains: [], subdivisions: [] },
       nextCursor: null, snapshot: 's', policyVersion: 2, searchMode: 'keyword', indexReady: true,
+      directoryReady: true, rankingReady: true, rankingVersion: '12',
     },
   };
   assert.equal(validate(page), true, JSON.stringify(validate.errors));
@@ -63,6 +64,16 @@ test('HTTP envelopes validate reset pages and carry search ID on both response v
   assert.equal(validate({ ...page, paginationReset: true, pageNumber: 1 }), true, JSON.stringify(validate.errors));
   const { searchId, ...unbound } = page;
   assert.equal(validate(unbound), false, searchId);
+
+  const rebuildingPage = { ...page.page, rankingReady: false, rankingVersion: null };
+  assert.equal(validate({ ...page, page: rebuildingPage }), true, JSON.stringify(validate.errors));
+  for (const field of ['directoryReady', 'rankingReady', 'rankingVersion']) {
+    const incompletePage = { ...rebuildingPage };
+    delete incompletePage[field];
+    assert.equal(validate({ ...page, page: incompletePage }), false, field);
+    assert.ok(validate.errors.some(error =>
+      error.instancePath === '/page' && error.keyword === 'required' && error.params.missingProperty === field), field);
+  }
 });
 
 test('board changes and readiness use the same opaque watermark format and require explicit nulls', () => {
