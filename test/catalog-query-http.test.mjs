@@ -41,6 +41,18 @@ test('HTTP parser rejects duplicate scalars, unknown selectors and ambiguous pag
   }
 });
 
+test('live Claim is a Host transport option and does not change the provider query', () => {
+  const page = 2;
+  const params = encodeCatalogQueryParams(query, { page, claimStatus: 'live' });
+  assert.deepEqual(params.getAll('claimStatus'), ['live']);
+  assert.deepEqual(decodeCatalogQueryParams(params), { query, page, claimStatus: 'live' });
+  assert.deepEqual(decodeCatalogQueryParams(encodeCatalogQueryParams(query)), { query });
+  assert.throws(() => encodeCatalogQueryParams(query, { claimStatus: 'cached' }), RangeError);
+  for (const suffix of ['claimStatus=', 'claimStatus=cached', 'claimStatus=live&claimStatus=live']) {
+    assert.throws(() => decodeCatalogQueryParams(new URLSearchParams(`sort=latest&searchMode=keyword&limit=24&${suffix}`)), RangeError);
+  }
+});
+
 test('HTTP envelopes validate reset pages and carry search ID on both response variants', () => {
   const ajv = new Ajv({ strict: true });
   ajv.addSchema(LOCALIZED_SCHEMA);

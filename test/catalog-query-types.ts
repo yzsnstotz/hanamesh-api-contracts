@@ -1,4 +1,4 @@
-import {CATALOG_QUERY_SCHEMA,CATALOG_QUERY_SORTS,type CatalogQuery,type CatalogQueryPage,type CatalogLoggedPage,type CatalogQueryNames} from '@hanamesh/api-contracts/catalog/query';
+import {CATALOG_QUERY_SCHEMA,CATALOG_QUERY_SORTS,decodeCatalogQueryParams,encodeCatalogQueryParams,type CatalogQuery,type CatalogQueryPage,type CatalogLoggedPage,type CatalogQueryNames} from '@hanamesh/api-contracts/catalog/query';
 const q:CatalogQuery={q:'git',searchMode:'hybrid',sort:'relevance',official:true,categories:['git','office'],claim:'claimed',source:'awesome',channel:'claude',repo:'owner/repo',domain:'code',includeInsufficient:true,limit:20};
 const page:CatalogQueryPage={items:[],total:0,capped:false,hiddenInsufficientCount:0,hiddenInsufficientCountCapped:false,facets:{all:0,categories:[],sources:[],channels:[],domains:[],subdivisions:[]},nextCursor:null,snapshot:'fixture',policyVersion:2,searchMode:'keyword',indexReady:true,directoryReady:true,rankingReady:false,rankingVersion:null};
 const {directoryReady, ...withoutDirectoryReady}=page;
@@ -27,6 +27,14 @@ const ownershipScope:CatalogQuery={...q,repoOwner:['Personal','Admin-Org','Manag
 // @ts-expect-error owner selectors are a bounded list, not a single repository/string
 const scalarOwner:CatalogQuery={...q,repoOwner:'owner'};
 void [ownershipScope,scalarOwner];
+
+const liveRequest=decodeCatalogQueryParams(encodeCatalogQueryParams(q,{claimStatus:'live'}));
+const liveClaimMode:'live'|undefined=liveRequest.claimStatus;
+// @ts-expect-error only live is accepted as an explicit transport mode
+encodeCatalogQueryParams(q,{claimStatus:'cached'});
+// @ts-expect-error provider queries cannot select live Claim
+const providerClaimStatus:CatalogQuery={...q,claimStatus:'live'};
+void [liveClaimMode,providerClaimStatus];
 
 const detailSignals:import('@hanamesh/api-contracts/catalog/query').CatalogDetailSignals={stars:null,npmDownloads30d:100,storeInstalls30d:null,checkedAt:'2026-11-27T07:20:00Z',unknownReasons:{stars:'not_observed',storeInstalls30d:'history_unavailable'}};
 void detailSignals;

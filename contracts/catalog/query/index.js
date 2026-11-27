@@ -51,7 +51,7 @@ export function encodeCatalogSitemapParams(query) {
 /** Decode the wire syntax. The provider still validates taxonomy, filters and cursor binding. */
 export function decodeCatalogQueryParams(params) {
   const query = {};
-  let page;
+  let page, claimStatus;
   for (const [key, value] of params) {
     if (repeated.has(key)) {
       (query[key] ??= []).push(value);
@@ -59,6 +59,13 @@ export function decodeCatalogQueryParams(params) {
     }
     if (key === 'page' && page === undefined) {
       page = positiveInteger(value, key);
+      continue;
+    }
+    if (key === 'claimStatus') {
+      if (claimStatus !== undefined || value !== 'live') {
+        throw new RangeError('Invalid catalog claimStatus');
+      }
+      claimStatus = value;
       continue;
     }
     if (!Object.hasOwn(queryProperties, key) || Object.hasOwn(query, key)) {
@@ -79,11 +86,15 @@ export function decodeCatalogQueryParams(params) {
       || (query.searchMode === 'names' && page !== undefined && page !== 1)) {
     throw new RangeError('Invalid catalog query or pagination');
   }
-  return page === undefined ? { query } : { query, page };
+  return {
+    query,
+    ...(page === undefined ? {} : { page }),
+    ...(claimStatus === undefined ? {} : { claimStatus }),
+  };
 }
 
 /** Encode a deterministic URL for Web, Market and the public GET cache. */
-export function encodeCatalogQueryParams(query, { page } = {}) {
+export function encodeCatalogQueryParams(query, { page, claimStatus } = {}) {
   const params = new URLSearchParams();
   for (const key of Object.keys(query).sort()) {
     const value = query[key];
@@ -99,6 +110,7 @@ export function encodeCatalogQueryParams(query, { page } = {}) {
     }
   }
   if (page !== undefined) params.set('page', String(page));
+  if (claimStatus !== undefined) params.append('claimStatus', String(claimStatus));
   decodeCatalogQueryParams(params);
   return params;
 }

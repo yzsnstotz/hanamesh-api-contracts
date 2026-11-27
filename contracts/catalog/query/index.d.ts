@@ -107,10 +107,12 @@ export interface CatalogHttpQuery {
   readonly query: CatalogQuery;
   /** One-based direct navigation when no opaque cursor is available. */
   readonly page?: number;
+  /** Select live Claim enrichment for result cards. */
+  readonly claimStatus?: 'live';
 }
 
 export declare function decodeCatalogQueryParams(params: URLSearchParams): CatalogHttpQuery;
-export declare function encodeCatalogQueryParams(query: CatalogQuery, options?: { readonly page?: number }): URLSearchParams;
+export declare function encodeCatalogQueryParams(query: CatalogQuery, options?: Omit<CatalogHttpQuery, 'query'>): URLSearchParams;
 
 type CatalogChannel = NonNullable<CatalogQuery['channel']>;
 interface CatalogNpmOwnership {
