@@ -114,9 +114,11 @@ HTTP 400 `INDEXER_INVALID_INPUT` denotes invalid parameters. HTTP 404
 failure. A caller starts over from the manifest for an unavailable generation.
 
 
-## Exact-ID detail signals
+## Detail and page signals
 
-Web and Market use `CatalogDetailSignals` for the `signals` member on an exact-ID Hana detail. The runtime schema is `CATALOG_QUERY_SCHEMA.$defs.detailSignals`.
+Web and Market use `CatalogDetailSignals` for the `signals` member on an exact-ID Hana detail and on Host catalog page cards. The runtime schema is `CATALOG_QUERY_SCHEMA.$defs.detailSignals`. Host reads store installations once for the selected page, up to 200 IDs, using one cutoff time. Empty pages and names responses skip this read. If Usage cannot provide the count, Host preserves the other signals and returns `null` with the Usage reason.
+
+The Host page can carry `directoryReady`, `rankingReady`, and `rankingVersion` from the selection snapshot. `rankingVersion` is the actual ranking settings version, or `null` when unavailable. `policyVersion` continues to identify the ordering policy. `indexReady` continues to describe document coverage.
 
 | Field | Source and meaning |
 | --- | --- |

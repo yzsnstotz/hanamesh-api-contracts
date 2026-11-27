@@ -35,6 +35,7 @@ export interface CatalogQueryPage {
   all:number;
  }&Record<'categories'|'sources'|'channels'|'domains'|'subdivisions',readonly CatalogQueryFacet[]>>;
  readonly nextCursor:string|null;readonly snapshot:string;readonly policyVersion:number;readonly searchMode:CatalogQueryMode;readonly indexReady:boolean;
+ readonly directoryReady?:boolean;readonly rankingReady?:boolean;readonly rankingVersion?:string|null;
 }
 /** Host supplies an existing SL1 search event ID only for a logged new search; list/anonymous core has no search identity. */
 export type CatalogSemanticNotice='SEMANTIC_FREE_QUOTA_EXHAUSTED'|'SEMANTIC_UNAVAILABLE';
@@ -154,6 +155,7 @@ export interface CatalogHttpCard {
   readonly claimStatus?: { readonly state: 'unclaimed' | 'claiming' | 'claimed' | 'on_chain' | 'withdrawable'; readonly claimedByPrincipalId: string | null; readonly firstClaimedAt?: string | null };
   readonly claimStatusError?: string;
   readonly discovery?: DiscoveryListFields;
+  readonly signals?: CatalogDetailSignals;
 }
 
 interface CatalogHttpSearchContext {

@@ -460,6 +460,18 @@
         },
         "indexReady": {
           "type": "boolean"
+        },
+        "directoryReady": {
+          "type": "boolean"
+        },
+        "rankingReady": {
+          "type": "boolean"
+        },
+        "rankingVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "required": [
@@ -951,6 +963,9 @@
         },
         "discovery": {
           "$ref": "https://hanamesh.com/contracts/catalog/discovery-v1#/$defs/listFields"
+        },
+        "signals": {
+          "$ref": "#/$defs/detailSignals"
         }
       },
       "required": [
