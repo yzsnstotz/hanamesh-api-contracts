@@ -46,3 +46,26 @@ The old `DiscoveryLocalizedText` declaration and top-level `{zh,en,ja}` schemas 
 There is no union, adapter, dual write or legacy payload reader. Taxonomy IDs and scoring rules
 remain owned by Indexer. Summary and other provider-owned text fields adopt `LocalizedText`
 at their public ports in the corresponding consumer tasks, not through an invented discovery summary field.
+
+## Published rating card v1
+
+A detail response may include `rating` alongside the existing discovery fields. The
+rating includes the reviewed source repository, plugin directory and exact Git
+revision, the Chinese overview and one-line summary, five dimensions with reasons,
+verified evidence, a recommendation, up to three cautions, and a verdict. Evidence
+links target lines at the same source revision. The rating is absent on list items
+and on detail items without a published card.
+
+The four quality weights are onboarding 25, documentation 20, maintenance 20,
+and safety 15. The total is normalized by the sum of available quality weights
+and displayed out of ten. A missing optional safety dimension remains null.
+Popularity has a separate dimension, stars, recent downloads and last push
+observation. It has no weight in the total. A card with insufficient material
+has a null total and a reason. The prior assessment continues to power ranking.
+
+The trusted batch input `ratingBatch` carries one key and 1–50 distinct Hana IDs.
+The writer verifies the exact repository and directory of each listed canonical Hana.
+It records a payload SHA-256 and a per-Hana status in a durable receipt. A replay
+with the same key and payload returns that receipt. A different payload for the
+same key fails, and a failure rolls back the complete batch. The public discovery
+HTTP interface only exposes the projected rating on the existing detail read.
