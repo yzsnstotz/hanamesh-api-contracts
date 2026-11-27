@@ -1,3 +1,5 @@
+import type {DiscoveryListFields} from '../discovery/index.js';
+
 export type CatalogQuerySort='relevance'|'popular'|'latest'|'stars'|'downloads'|'id'|'trending';
 export type CatalogQueryMode='keyword'|'hybrid'|'names';
 export interface CatalogQuery {
@@ -26,6 +28,84 @@ export interface CatalogQueryNames {readonly items:readonly {readonly hanaId:str
 export declare const CATALOG_QUERY_SCHEMA:Readonly<Record<string,unknown>>;
 export declare const CATALOG_QUERY_SORTS:readonly CatalogQuerySort[];
 export declare const CATALOG_QUERY_MODES:readonly CatalogQueryMode[];
+export declare const CATALOG_QUERY_HTTP_PATH: '/v1/host/catalog/query';
+
+export interface CatalogHttpQuery {
+  readonly query: CatalogQuery;
+  /** One-based direct navigation when no opaque cursor is available. */
+  readonly page?: number;
+}
+
+export declare function decodeCatalogQueryParams(params: URLSearchParams): CatalogHttpQuery;
+export declare function encodeCatalogQueryParams(query: CatalogQuery, options?: { readonly page?: number }): URLSearchParams;
+
+type CatalogChannel = NonNullable<CatalogQuery['channel']>;
+interface CatalogNpmOwnership {
+  readonly status: 'matched' | 'mismatch' | 'missing-repository' | 'not-found' | 'unchecked';
+  readonly repository: string | null;
+}
+type CatalogInstallTarget =
+  | { readonly source: 'npm'; readonly name: string; readonly version: string; readonly allowBuild: readonly string[] }
+  | { readonly source: 'github'; readonly repo: string; readonly ref: string; readonly path: string | null; readonly packageName: string; readonly allowBuild: readonly string[] };
+export interface CatalogHttpInstallMethod {
+  readonly channel: CatalogChannel;
+  readonly kind: 'npm' | 'github' | 'agent';
+  readonly spec: string;
+  readonly command: string | null;
+  readonly allowBuild: readonly string[];
+  readonly sourceId: string;
+  readonly sourceRef: string;
+  readonly target?: CatalogInstallTarget;
+  readonly targetUnavailableReason?: string;
+  readonly npmOwnership?: CatalogNpmOwnership;
+}
+
+export interface CatalogHttpCard {
+  readonly hanaId: string;
+  readonly displayName: string;
+  readonly githubRepo: string | null;
+  readonly repoSubdirectory: string | null;
+  readonly npmPackageName: string | null;
+  readonly summary: { readonly en: string | null; readonly zh: string | null };
+  readonly categories: readonly string[];
+  readonly keywords: readonly string[];
+  readonly publisher: { readonly name: string; readonly url: string | null } | null;
+  readonly ownerPrincipalId: string | null;
+  readonly sourceLinks: readonly { readonly sourceId: string; readonly sourceRef: string; readonly sourceUrl: string; readonly lastSeenAt: string }[];
+  readonly official?: boolean;
+  readonly channels: readonly CatalogChannel[];
+  readonly installMethods: readonly CatalogHttpInstallMethod[];
+  readonly oneClickInstall: { readonly allowed: boolean; readonly reason: string | null };
+  readonly npmOwnership: CatalogNpmOwnership | null;
+  readonly browseOnlyReason: 'no-install-method' | 'unrecognized-install-command' | null;
+  readonly suite?: Readonly<Record<string, unknown>>;
+  readonly claimStatus?: { readonly state: 'unclaimed' | 'claiming' | 'claimed' | 'on_chain' | 'withdrawable'; readonly claimedByPrincipalId: string | null; readonly firstClaimedAt?: string | null };
+  readonly claimStatusError?: string;
+  readonly discovery?: DiscoveryListFields;
+}
+
+interface CatalogHttpSearchContext {
+  readonly searchId: string | null;
+  readonly semanticNotice: CatalogSemanticNotice | null;
+  readonly paginationReset: boolean;
+}
+
+export interface CatalogHttpPage extends CatalogHttpSearchContext {
+  readonly kind: 'page';
+  readonly page: CatalogQueryPage;
+  readonly pageNumber: number;
+  readonly limit: number;
+  readonly cards: readonly CatalogHttpCard[];
+  readonly popularityAsOf: string | null;
+}
+
+export interface CatalogHttpNames extends CatalogHttpSearchContext {
+  readonly kind: 'names';
+  readonly page: CatalogQueryNames;
+  readonly cards: readonly CatalogHttpCard[];
+}
+
+export type CatalogHttpResponse = CatalogHttpPage | CatalogHttpNames;
 
 /** Semantic's already-authorized candidate IDs in retrieval order (at most50); Indexer resolves stored canonical identities in SQL. */
 export interface CatalogQueryCandidates {readonly semanticHanaIds:readonly string[]}

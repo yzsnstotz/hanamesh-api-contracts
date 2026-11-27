@@ -31,3 +31,39 @@ The cursor is a nonempty, unpadded Base64URL token, at most 4096 characters. Ind
 decoded cursor against the query and serving snapshot. Invalid query parameters return HTTP 400
 `INDEXER_INVALID_INPUT`; malformed or stale cursors return HTTP 409
 `INDEXER_SEARCH_CURSOR_INVALID` from the unified query service.
+
+## Host HTTP transport (U2)
+
+Web and Market use `GET /v1/host/catalog/query`. The Web same-origin proxy exposes it at
+`GET /hm/v1/host/catalog/query`. Pass `sort`, `searchMode` and `limit` as query parameters.
+Other `CatalogQuery` fields are optional. Encode `categories` and `repoOwner` as repeated
+parameters, and booleans as `true` or `false` where allowed by the query schema. Unknown
+parameters, duplicate scalar parameters and malformed wire values return HTTP 400.
+
+Use `after` for a continuation. When navigating directly from a numbered URL, send its one-based
+`page` instead. Omit both for the first page. Hosts resolve numbered navigation on the provider
+within a single catalog snapshot. A page past the end resolves to the last page, or to page 1
+for an empty catalog. An unavailable provider or exhausted read budget returns HTTP 503.
+The Host makes one provider read for numbered navigation.
+
+Successful responses use `$defs/httpResponse`. `kind: page` carries the provider page plus
+`pageNumber`, `limit`, `popularityAsOf` (the publication used by applicable sorts) and `cards`.
+Card and ranked item IDs match one-to-one and in order. Optional `discovery` on result cards
+uses the existing list-fields schema and is read in the same snapshot as the selected cards.
+`kind: names` uses the same endpoint and
+carries the names result. Both envelopes have nullable `searchId` and `semanticNotice`, and a
+`paginationReset` flag. A stale well-formed continuation, or a Hybrid fallback that changes
+the continuation mode, returns the first page and sets `paginationReset: true`. Malformed
+cursor syntax returns HTTP 409 `INDEXER_SEARCH_CURSOR_INVALID`.
+
+Existing `x-hm-search-surface`, `x-hm-ui-lang` and `x-hm-search-session` carry the SL1 context.
+Host allocates a fresh `searchId` on a logged first search, and clients echo it as
+`x-hm-search-id` with the same session on an `after` request. Only an accepted continuation
+echoes that ID. A reset starts a new first search when valid log context is present.
+Hybrid resolves the actor and enforces the existing Semantic rate limit before invoking the
+service. Existing non-fallback refusals (including rate limits) keep their status and `Retry-After`.
+
+Only successful, anonymous, unlogged GETs without search terms are eligible for public caching
+for 60 seconds. Authenticated requests and every search or logged envelope use `no-store`.
+The cache key includes all query selectors and pagination state. Delisting becomes visible
+once a previously cached response expires.
