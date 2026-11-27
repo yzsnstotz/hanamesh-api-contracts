@@ -92,7 +92,20 @@
       "types": "./contracts/custody/release-notice/index.d.ts",
       "default": "./contracts/custody/release-notice/index.js"
     },
-    "./custody/release-notice/schema.json": "./contracts/custody/release-notice/schema.json"
+    "./custody/release-notice/schema.json": "./contracts/custody/release-notice/schema.json",
+    "./host/ops-manifest/companions": {
+      "types": "./contracts/host/ops-manifest/companions/index.d.ts",
+      "default": "./contracts/host/ops-manifest/companions/index.js"
+    },
+    "./host/ops-manifest/companions/texts.schema.json": "./contracts/host/ops-manifest/companions/texts.schema.json",
+    "./host/ops-manifest/companions/access.schema.json": "./contracts/host/ops-manifest/companions/access.schema.json",
+    "./host/ops-manifest/companions/routes.schema.json": "./contracts/host/ops-manifest/companions/routes.schema.json",
+    "./ops/observatory/snapshots": {
+      "types": "./contracts/ops/observatory/snapshots/index.d.ts",
+      "default": "./contracts/ops/observatory/snapshots/index.js"
+    },
+    "./ops/observatory/snapshots/coverage.schema.json": "./contracts/ops/observatory/snapshots/coverage.schema.json",
+    "./ops/observatory/snapshots/settlement.schema.json": "./contracts/ops/observatory/snapshots/settlement.schema.json"
   },
   "files": [
     "index.js",
@@ -122,7 +135,8 @@
     "contracts/custody/issuance-quote",
     "docs/custody-issuance-quote.md",
     "contracts/custody/release-notice",
-    "docs/custody-release-notice.md"
+    "docs/custody-release-notice.md",
+    "docs/ops-companions.md"
   ],
   "scripts": {
     "test": "node --test test/*.test.mjs && tsc -p test/tsconfig.json",

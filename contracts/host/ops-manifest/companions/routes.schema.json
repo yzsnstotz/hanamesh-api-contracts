@@ -1,0 +1,138 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "items",
+    "nextAfter",
+    "complete",
+    "missing"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hanamesh-ops-routes-v1"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pageId",
+              "kind",
+              "href"
+            ],
+            "properties": {
+              "pageId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "\\S"
+              },
+              "kind": {
+                "const": "web-route"
+              },
+              "href": {
+                "type": "string",
+                "maxLength": 256,
+                "pattern": "^/ops/[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$(?![\\s\\S])"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pageId",
+              "kind",
+              "hostPath",
+              "href"
+            ],
+            "properties": {
+              "pageId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256,
+                "pattern": "\\S"
+              },
+              "kind": {
+                "const": "host-html"
+              },
+              "hostPath": {
+                "type": "string",
+                "maxLength": 256,
+                "pattern": "^/ops/[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$(?![\\s\\S])"
+              },
+              "href": {
+                "type": "string",
+                "maxLength": 259,
+                "pattern": "^/hm/ops/[A-Za-z0-9_-][A-Za-z0-9._-]*(/[A-Za-z0-9_-][A-Za-z0-9._-]*)*$(?![\\s\\S])"
+              }
+            }
+          }
+        ]
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    },
+    "nextAfter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "\\S"
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    }
+  },
+  "if": {
+    "properties": {
+      "complete": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "missing": {
+        "maxItems": 0,
+        "type": "array"
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "missing": {
+        "minItems": 1,
+        "type": "array"
+      }
+    }
+  }
+}

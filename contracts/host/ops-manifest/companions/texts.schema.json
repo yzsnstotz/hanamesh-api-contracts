@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "revision",
+    "items",
+    "nextAfter",
+    "complete",
+    "missing"
+  ],
+  "properties": {
+    "schema": {
+      "const": "hanamesh-ops-texts-v1"
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "\\S"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pageId",
+          "texts"
+        ],
+        "properties": {
+          "pageId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "pattern": "\\S"
+          },
+          "texts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key",
+                "zh",
+                "en",
+                "ja"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 256,
+                  "pattern": "\\S"
+                },
+                "zh": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "en": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "ja": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            },
+            "maxItems": 3,
+            "uniqueItems": true,
+            "minItems": 1
+          }
+        }
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    },
+    "nextAfter": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256,
+        "pattern": "\\S"
+      },
+      "maxItems": 200,
+      "uniqueItems": true
+    }
+  },
+  "if": {
+    "properties": {
+      "complete": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "missing": {
+        "maxItems": 0,
+        "type": "array"
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "missing": {
+        "minItems": 1,
+        "type": "array"
+      }
+    }
+  }
+}
