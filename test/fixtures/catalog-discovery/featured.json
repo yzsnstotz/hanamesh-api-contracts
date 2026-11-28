@@ -3767,7 +3767,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -3889,8 +3888,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "code": {
       "items": [
@@ -7636,7 +7634,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -7758,8 +7755,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "design": {
       "items": [
@@ -11495,7 +11491,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -11617,8 +11612,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "data": {
       "items": [
@@ -15354,7 +15348,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -15476,8 +15469,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "marketing": {
       "items": [
@@ -19213,7 +19205,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -19335,8 +19326,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "research": {
       "items": [
@@ -23072,7 +23062,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -23194,8 +23183,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "finance": {
       "items": [
@@ -26931,7 +26919,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -27053,8 +27040,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "life": {
       "items": [
@@ -30790,7 +30776,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -30912,8 +30897,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "automation": {
       "items": [
@@ -34649,7 +34633,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -34771,8 +34754,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     },
     "setup": {
       "items": [
@@ -38508,7 +38490,6 @@
       ],
       "next": null,
       "total": 11,
-      "hiddenInsufficientCount": 0,
       "domains": [
         {
           "id": "office",
@@ -38630,8 +38611,7 @@
         "rulesVersion": "hanamesh-initial-v1",
         "projectionAt": "2026-11-19T00:00:01.000Z"
       },
-      "capped": false,
-      "hiddenInsufficientCountCapped": false
+      "capped": false
     }
   }
 }

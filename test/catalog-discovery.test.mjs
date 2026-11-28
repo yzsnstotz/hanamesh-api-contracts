@@ -14,7 +14,7 @@ test('list, search and detail share one discovery DTO; reasons are detail only',
  assert.equal(validate('item',{hanaId:'fixture',displayName:'existing catalog field',...sparse}),true);
  assert.equal(validate('item',{hanaId:'fixture',...sparse,reasons:[]}),false);
  assert.equal(validate('detailItem',{hanaId:'fixture',displayName:'existing catalog field',...sparse,reasons:[]}),true);
- assert.equal(validate('page',{items:[{hanaId:'00000000-0000-4000-8000-000000000001',...sparse}],next:null,total:1,capped:false,hiddenInsufficientCount:1,hiddenInsufficientCountCapped:false,projection,domains:[],subdivisions:[],phase:'early'}),true);
+ assert.equal(validate('page',{items:[{hanaId:'00000000-0000-4000-8000-000000000001',...sparse}],next:null,total:1,capped:false,projection,domains:[],subdivisions:[],phase:'early'}),true);
 });
 test('unknown score is null, never zero; a scored result requires an actual total',()=>{
  assert.equal(validate('listFields',{...sparse,score:{...sparse.score,total:0}}),false);

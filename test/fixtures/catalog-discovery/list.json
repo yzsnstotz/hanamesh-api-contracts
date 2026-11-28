@@ -3927,7 +3927,6 @@
   ],
   "next": null,
   "total": 12,
-  "hiddenInsufficientCount": 1,
   "domains": [
     {
       "id": "office",
@@ -4049,6 +4048,5 @@
     "rulesVersion": "hanamesh-initial-v1",
     "projectionAt": "2026-11-19T00:00:01.000Z"
   },
-  "capped": false,
-  "hiddenInsufficientCountCapped": false
+  "capped": false
 }

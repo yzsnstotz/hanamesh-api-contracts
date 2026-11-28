@@ -18,7 +18,7 @@ test('Web and Market share one GET resource with byte-stable query parameters', 
   assert.equal(CATALOG_QUERY_HTTP_PATH, '/v1/host/catalog/query');
   const inputs = {
     ...query, q: '分面', categories: ['device', 'Business & Operations'], repoOwner: ['author', 'org'],
-    domain: 'office', subdivision: 'documents', includeInsufficient: false,
+    domain: 'office', subdivision: 'documents',
   };
   const params = encodeCatalogQueryParams(inputs, { page: 1875 });
   assert.deepEqual(decodeCatalogQueryParams(params), {
@@ -34,7 +34,7 @@ test('HTTP parser rejects duplicate scalars, unknown selectors and ambiguous pag
   const base = 'sort=latest&searchMode=keyword';
   for (const tail of [
     'sort=id', 'after=x&page=2', 'page=01', 'page=0', 'page=9007199254740992',
-    'limit=201', 'official=false', 'category=app', 'includeInsufficient=1', 'semanticHanaIds=forged',
+    'limit=201', 'official=false', 'category=app', 'includeInsufficient=1', 'includeInsufficient=true', 'includeInsufficient=false', 'semanticHanaIds=forged',
   ]) {
     const limit = tail.startsWith('limit=') ? '' : '&limit=24';
     assert.throws(() => decodeCatalogQueryParams(new URLSearchParams(`${base}${limit}&${tail}`)), RangeError, tail);
@@ -65,7 +65,7 @@ test('HTTP envelopes validate reset pages and carry search ID on both response v
   const page = {
     kind: 'page', ...metadata, pageNumber: 2, limit: 24, popularityAsOf: null, cards: [],
     page: {
-      items: [], total: 25, capped: false, hiddenInsufficientCount: 0, hiddenInsufficientCountCapped: false,
+      items: [], total: 25, capped: false,
       facets: { all: 101, categories: [], sources: [], channels: [], domains: [], subdivisions: [] },
       nextCursor: null, snapshot: 's', policyVersion: 2, searchMode: 'keyword', indexReady: true,
       directoryReady: true, rankingReady: true, rankingVersion: '12',

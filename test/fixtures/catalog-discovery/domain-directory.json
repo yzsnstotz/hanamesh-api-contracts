@@ -9,7 +9,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "session",
@@ -32,7 +31,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "git",
@@ -55,7 +53,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "design",
@@ -78,7 +75,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "database",
@@ -101,7 +97,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "business-operations",
@@ -124,7 +119,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "agi",
@@ -147,7 +141,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "finance",
@@ -170,7 +163,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "remote",
@@ -193,7 +185,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "identity",
@@ -216,7 +207,6 @@
         }
       },
       "count": 11,
-      "hiddenInsufficientCount": 1,
       "subdivisions": [
         {
           "id": "model",
