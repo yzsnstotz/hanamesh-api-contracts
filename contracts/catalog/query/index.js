@@ -10,7 +10,7 @@ export const CATALOG_SITEMAP_SEGMENT_SIZE = 2000;
 
 const queryProperties = schema.$defs.query.properties;
 const repeated = new Set(['categories', 'repoOwner']);
-const booleans = new Set(['official', 'installable', 'includeInsufficient']);
+const booleans = new Set(['official', 'installable']);
 
 function positiveInteger(value, name) {
   if (!/^[1-9][0-9]*$/u.test(value) || !Number.isSafeInteger(Number(value))) {
@@ -72,10 +72,10 @@ export function decodeCatalogQueryParams(params) {
       throw new RangeError(`Invalid catalog parameter ${key}`);
     }
     if (booleans.has(key)) {
-      if (value !== 'true' && !(key === 'includeInsufficient' && value === 'false')) {
+      if (value !== 'true') {
         throw new RangeError(`Invalid catalog ${key}`);
       }
-      query[key] = value === 'true';
+      query[key] = true;
       continue;
     }
     query[key] = key === 'limit' ? positiveInteger(value, key) : value;

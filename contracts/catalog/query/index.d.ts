@@ -8,7 +8,7 @@ export interface CatalogQuery {
  /** Exact case-insensitive GitHub owner logins: a nonempty OR-set of at most20 raw entries. */
  readonly repoOwner?:readonly string[];
  readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly installable?:true;
- readonly domain?:string;readonly subdivision?:string;readonly includeInsufficient?:boolean;readonly limit:number;readonly after?:string;
+ readonly domain?:string;readonly subdivision?:string;readonly limit:number;readonly after?:string;
 }
 export interface CatalogQueryItem {
  readonly hanaId:string;readonly rank:number;readonly tier:number;readonly matchKind?:'name'|'meaning';
@@ -29,7 +29,6 @@ export type CatalogDetailUnknownReason = 'not_observed' | 'not_applicable' | 'so
 export interface CatalogQueryFacet {readonly id:string;readonly count:number;readonly capped:boolean}
 export interface CatalogQueryPage {
  readonly items:readonly CatalogQueryItem[];readonly total:number;readonly capped:boolean;
- readonly hiddenInsufficientCount:number;readonly hiddenInsufficientCountCapped:boolean;
  readonly facets:Readonly<{
   /** Same-snapshot total for the selected mode before applying channel and category selectors. */
   all:number;

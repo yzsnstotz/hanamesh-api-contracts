@@ -1,7 +1,7 @@
 
 ## R423 最新契约增量（编排已裁定，待追认；实现/门尚在继续）
 
-普通浏览按总分降序、hanaId升序keyset；未评分排在有评分之后。最新F01澄清：关键词先GIN有界召回1001个匹配，再只在前1000候选中按score降序、hanaId升序排序和分页。关键词页 `total` 最多1000，超过时 `capped=true`，展示 `1000+`；`window.capped`仍指候选窗，`window.countsCapped`指任何计数截断。`hiddenInsufficientCountCapped`标隐藏数的独立下界。每个facet新增`capped`：关键词facet来自同一有界前1000匹配集合，截断时是下界（含可能的0），不应当作精确全量数；无关键词的目录/领域/细分均精确、capped=false。SQL先LIMIT1001，再计数/标cap并截取前1000候选，不读取全命中payload后再截断。
+普通浏览按总分降序、hanaId升序keyset；未评分排在有评分之后。最新F01澄清：关键词先GIN有界召回1001个匹配，再只在前1000候选中按score降序、hanaId升序排序和分页。关键词页 `total` 最多1000，超过时 `capped=true`，展示 `1000+`；`window.capped`仍指候选窗，`window.countsCapped`指任何计数截断。每个facet新增`capped`：关键词facet来自同一有界前1000匹配集合，截断时是下界（含可能的0），不应当作精确全量数；无关键词的目录/领域/细分均精确、capped=false。SQL先LIMIT1001，再计数/标cap并截取前1000候选，不读取全命中payload后再截断。
 
 列表/搜索/详情的每项，以及页和领域目录都增加`projection`：`{watermark:string|null,assessedAt:string|null,rulesVersion:'hanamesh-initial-v1',projectionAt:string|null}`。每项指该插件已完成的行投影版本；页/目录水位为本SQL快照内最大已发布行版本，不保证全目录同时新鲜，不能单独当全目录ETag。`assessedAt`是评估业务时点，`projectionAt`是写成投影的UTC时间。`score.assessedAt`不再每次读伪装成当前时刻；无投影时间保持null，资料不足总分仍null。读请求不重算。Indexer作业按due/变更队列每批最多200插件追平；Host后续采用单需调度该公开作业端口，前端直接呈现缓存值/水位。
 
@@ -9,7 +9,7 @@
 
 # Shared discovery DTO (SC1 candidate)
 
-List/search/detail share `DiscoveryListFields`, with `reasons` only in `DiscoveryDetailFields`. Compose these fields into the existing catalog item DTO without replacing identity/install fields. `DiscoveryPage` owns the filtered `total`, matching insufficient rows in `hiddenInsufficientCount` (including when expanded), their cap flags, bounded facets, phase and cursor. Non-keyword counts are exact; keyword counts stop at1000 with explicit1000+ flags. JSON Schema `$defs.item`/`detailItem` validate the discovery extension plus Hana ID, preserve existing catalog fields, and forbid detail-only reasons on list/search items. Validate the existing catalog metadata with its owning provider contract. `$defs.listFields`/`detailFields` are closed extension-only schemas.
+List/search/detail share `DiscoveryListFields`, with `reasons` only in `DiscoveryDetailFields`. Compose these fields into the existing catalog item DTO without replacing identity/install fields. `DiscoveryPage` owns the filtered `total`, its cap flag, bounded facets, phase and cursor. Listed plugins with insufficient assessments contribute to the same totals and facets. Non-keyword counts are exact; keyword counts stop at1000 with explicit1000+ flags. JSON Schema `$defs.item`/`detailItem` validate the discovery extension plus Hana ID, preserve existing catalog fields, and forbid detail-only reasons on list/search items. Validate the existing catalog metadata with its owning provider contract. `$defs.listFields`/`detailFields` are closed extension-only schemas.
 
 AI18 `hanamesh-initial-v1`: 0–100, weights README10/license10/Scorecard10/npm weekly20/GitHub stars15/pushed_at35; unknown excludes numerator/denominator, >=60 coverage AND all three dimensions before total. Indexer supplies `/10` `displayTotal` and featured ranks; consumers render, never recompute. Score observations expire after30 days; missing reasons and evidence remain visible. The approved design's five-dimension/65%/12-month **demo** policy is not the real rule named in SC1's brief.
 

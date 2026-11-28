@@ -211,10 +211,6 @@
           "minLength": 1,
           "pattern": "\\S"
         },
-        "includeInsufficient": {
-          "type": "boolean",
-          "default": true
-        },
         "limit": {
           "type": "integer",
           "minimum": 1,
@@ -425,13 +421,6 @@
         "capped": {
           "type": "boolean"
         },
-        "hiddenInsufficientCount": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "hiddenInsufficientCountCapped": {
-          "type": "boolean"
-        },
         "facets": {
           "$ref": "#/$defs/facets"
         },
@@ -478,8 +467,6 @@
         "items",
         "total",
         "capped",
-        "hiddenInsufficientCount",
-        "hiddenInsufficientCountCapped",
         "facets",
         "nextCursor",
         "snapshot",

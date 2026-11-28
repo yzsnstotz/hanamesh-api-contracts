@@ -20,11 +20,11 @@ export interface DiscoveryReason {readonly text:LocalizedText;readonly evidence:
 /** Recommendation reasons never appear in list/search DTOs. */
 export interface DiscoveryDetailFields extends DiscoveryListFields {readonly reasons:readonly DiscoveryReason[];readonly rating?:CatalogRatingV1}
 export interface DiscoveryFacet {readonly id:string;readonly name:LocalizedText;readonly count:number;readonly capped:boolean}
-export interface DiscoveryPage<T extends {readonly hanaId:string}={readonly hanaId:string}> {readonly projection:DiscoveryProjection;readonly capped:boolean;readonly hiddenInsufficientCountCapped:boolean;readonly items:readonly (T & DiscoveryListFields)[];readonly next:string|null;readonly total:number;readonly hiddenInsufficientCount:number;readonly domains:readonly DiscoveryFacet[];readonly subdivisions:readonly DiscoveryFacet[];readonly phase:'early'|'growth';readonly window?:{readonly capped:boolean;readonly countsCapped:boolean;readonly indexReady:boolean}}
+export interface DiscoveryPage<T extends {readonly hanaId:string}={readonly hanaId:string}> {readonly projection:DiscoveryProjection;readonly capped:boolean;readonly items:readonly (T & DiscoveryListFields)[];readonly next:string|null;readonly total:number;readonly domains:readonly DiscoveryFacet[];readonly subdivisions:readonly DiscoveryFacet[];readonly phase:'early'|'growth';readonly window?:{readonly capped:boolean;readonly countsCapped:boolean;readonly indexReady:boolean}}
 
-export interface DiscoveryQuery {readonly domain?:string;readonly subdivision?:string;readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly search?:string;readonly sort?:'authority';readonly limit:number;readonly after?:string;readonly includeInsufficient?:boolean}
+export interface DiscoveryQuery {readonly domain?:string;readonly subdivision?:string;readonly channel?:'hanamesh'|'claude'|'codex'|'dsh';readonly search?:string;readonly sort?:'authority';readonly limit:number;readonly after?:string}
 
-export interface DiscoveryDomainDirectory {readonly projection:DiscoveryProjection;readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly domains:readonly (DiscoveryFacet & {readonly hiddenInsufficientCount:number;readonly subdivisions:readonly DiscoveryFacet[]})[]}
+export interface DiscoveryDomainDirectory {readonly projection:DiscoveryProjection;readonly taxonomyVersion:'hanamesh-discovery-taxonomy-v1';readonly domains:readonly (DiscoveryFacet & {readonly subdivisions:readonly DiscoveryFacet[]})[]}
 export interface DiscoveryStageConfig {readonly phase:'early'|'growth';readonly showPlatformData:boolean}
 
 export type CatalogRatingDimensionId = 'onboarding' | 'documentation' | 'maintenance' | 'safety' | 'popularity';

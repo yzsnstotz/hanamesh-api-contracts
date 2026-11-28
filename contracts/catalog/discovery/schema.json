@@ -847,10 +847,6 @@
           "type": "integer",
           "minimum": 0
         },
-        "hiddenInsufficientCount": {
-          "type": "integer",
-          "minimum": 0
-        },
         "domains": {
           "type": "array",
           "items": {
@@ -940,22 +936,17 @@
         },
         "capped": {
           "type": "boolean"
-        },
-        "hiddenInsufficientCountCapped": {
-          "type": "boolean"
         }
       },
       "required": [
         "items",
         "next",
         "total",
-        "hiddenInsufficientCount",
         "domains",
         "subdivisions",
         "phase",
         "projection",
-        "capped",
-        "hiddenInsufficientCountCapped"
+        "capped"
       ],
       "additionalProperties": false,
       "allOf": [
@@ -1143,9 +1134,6 @@
         },
         "after": {
           "type": "string"
-        },
-        "includeInsufficient": {
-          "type": "boolean"
         }
       },
       "required": [
@@ -1172,10 +1160,6 @@
                 "$ref": "https://hanamesh.com/contracts/catalog/localized-v2"
               },
               "count": {
-                "type": "integer",
-                "minimum": 0
-              },
-              "hiddenInsufficientCount": {
                 "type": "integer",
                 "minimum": 0
               },
@@ -1216,7 +1200,6 @@
               "id",
               "name",
               "count",
-              "hiddenInsufficientCount",
               "subdivisions",
               "capped"
             ],
